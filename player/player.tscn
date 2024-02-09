@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://ooji3r34hew2"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_gj2uo"]
+[ext_resource type="Texture2D" uid="uid://flk7sq5qmf7t" path="res://addons/kenney_prototype_textures/light/texture_01.png" id="1_p8s6m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d8prq"]
+size = Vector2(32, 52)
+
+[node name="Player" type="Area2D"]
+script = ExtResource("1_gj2uo")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.03, 0.05)
+texture = ExtResource("1_p8s6m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_d8prq")

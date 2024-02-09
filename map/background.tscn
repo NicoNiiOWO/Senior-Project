@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxgguarwa8exu"]
+
+[ext_resource type="Texture2D" uid="uid://cp36lau6gxpva" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_wpwg1"]
+
+[node name="Background" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+scale = Vector2(0.25, 0.25)
+motion_mirroring = Vector2(4096, 4096)
+
+[node name="Texture08" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2(4, 4)
+texture = ExtResource("1_wpwg1")
+centered = false
