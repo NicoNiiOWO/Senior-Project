@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://v1608s5lvo0j"]
+[gd_scene load_steps=8 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Texture2D" uid="uid://cp36lau6gxpva" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_3s6u4"]
-[ext_resource type="PackedScene" uid="uid://ooji3r34hew2" path="res://player/player.tscn" id="2_3gksx"]
+[ext_resource type="Script" path="res://map/main.gd" id="1_v6nxb"]
+[ext_resource type="PackedScene" uid="uid://ooji3r34hew2" path="res://entity/player.tscn" id="2_3gksx"]
 [ext_resource type="Texture2D" uid="uid://dllbsvhha7o5b" path="res://addons/kenney_prototype_textures/green/texture_02.png" id="3_oddc2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1xuvy"]
@@ -4103,23 +4104,30 @@ texture = ExtResource("3_oddc2")
 62:63/0 = 0
 63:63/0 = 0
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_byear"]
+
 [sub_resource type="TileSet" id="TileSet_opdrw"]
 sources/0 = SubResource("TileSetAtlasSource_1xuvy")
+sources/1 = SubResource("TileSetScenesCollectionSource_byear")
 
 [node name="Main" type="Node"]
-metadata/_edit_horizontal_guides_ = [648.0, 0.0, 324.0]
-metadata/_edit_vertical_guides_ = [1152.0]
+script = ExtResource("1_v6nxb")
+map_length = 5120
+metadata/_edit_horizontal_guides_ = [2512.0, -2504.0, 0.0, 0.0]
+metadata/_edit_vertical_guides_ = [2500.0, -2500.0]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Background" type="CanvasLayer" parent="."]
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Background"]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground"]
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Background/ParallaxBackground"]
 scale = Vector2(0.25, 0.25)
 
-[node name="Texture08" type="Sprite2D" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
-scale = Vector2(10, 10)
+[node name="Texture08" type="Sprite2D" parent="Background/ParallaxBackground/ParallaxLayer"]
+position = Vector2(-10240, -10240)
+scale = Vector2(20, 20)
 texture = ExtResource("1_3s6u4")
+centered = false
 
 [node name="Player" parent="." instance=ExtResource("2_3gksx")]
 position = Vector2(575, 323)
