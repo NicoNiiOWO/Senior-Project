@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://v1608s5lvo0j"]
+[gd_scene load_steps=9 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Texture2D" uid="uid://cp36lau6gxpva" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_3s6u4"]
 [ext_resource type="Script" path="res://map/main.gd" id="1_v6nxb"]
@@ -4110,6 +4110,8 @@ texture = ExtResource("3_oddc2")
 sources/0 = SubResource("TileSetAtlasSource_1xuvy")
 sources/1 = SubResource("TileSetScenesCollectionSource_byear")
 
+[sub_resource type="Curve2D" id="Curve2D_i03nr"]
+
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
 map_length = 5120
@@ -4130,10 +4132,10 @@ texture = ExtResource("1_3s6u4")
 centered = false
 
 [node name="Player" parent="." instance=ExtResource("2_3gksx")]
-position = Vector2(575, 323)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_opdrw")
 format = 2
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_i03nr")

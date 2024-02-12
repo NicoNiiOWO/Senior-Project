@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Area2D
 
 @export var speed = 400 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window.
@@ -11,6 +11,12 @@ func setMap(size):
 	map_length = size
 	map_size = Vector2(map_length/2,map_length/2)
 	print_debug(map_size)
+	
+	# Camera limit
+	$Camera2D.set("limit_top", -map_length/2)
+	$Camera2D.set("limit_left", -map_length/2)
+	$Camera2D.set("limit_right", map_length/2)
+	$Camera2D.set("limit_bottom", map_length/2)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
