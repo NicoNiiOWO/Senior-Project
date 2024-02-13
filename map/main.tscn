@@ -4114,7 +4114,7 @@ sources/1 = SubResource("TileSetScenesCollectionSource_byear")
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
-map_length = 5120
+latitude = 0.0
 metadata/_edit_horizontal_guides_ = [2512.0, -2504.0, 0.0, 0.0]
 metadata/_edit_vertical_guides_ = [2500.0, -2500.0]
 
@@ -4139,3 +4139,7 @@ format = 2
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_i03nr")
+
+[node name="API" type="HTTPRequest" parent="."]
+
+[connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]

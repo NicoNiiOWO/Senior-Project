@@ -12,7 +12,7 @@ func setMap(size):
 	map_size = Vector2(map_length/2,map_length/2)
 	print_debug(map_size)
 	
-	# Camera limit
+	# Set camera limit
 	$Camera2D.set("limit_top", -map_length/2)
 	$Camera2D.set("limit_left", -map_length/2)
 	$Camera2D.set("limit_right", map_length/2)
