@@ -6,9 +6,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d8prq"]
 size = Vector2(32, 52)
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
+slide_on_ceiling = false
 script = ExtResource("1_gj2uo")
-metadata/_edit_group_ = true
+speed = 350
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.03, 0.05)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://v1608s5lvo0j"]
+[gd_scene load_steps=10 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Texture2D" uid="uid://cp36lau6gxpva" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_3s6u4"]
 [ext_resource type="Script" path="res://map/main.gd" id="1_v6nxb"]
 [ext_resource type="PackedScene" uid="uid://ooji3r34hew2" path="res://entity/player.tscn" id="2_3gksx"]
 [ext_resource type="Texture2D" uid="uid://dllbsvhha7o5b" path="res://addons/kenney_prototype_textures/green/texture_02.png" id="3_oddc2"]
+[ext_resource type="PackedScene" uid="uid://be830e3wn8jb4" path="res://entity/enemy.tscn" id="5_skrvc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1xuvy"]
 texture = ExtResource("3_oddc2")
@@ -4111,10 +4112,13 @@ sources/0 = SubResource("TileSetAtlasSource_1xuvy")
 sources/1 = SubResource("TileSetScenesCollectionSource_byear")
 
 [sub_resource type="Curve2D" id="Curve2D_i03nr"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -648, -368, 0, 0, 0, 0, 648, -368, 0, 0, 0, 0, 648, 368, 0, 0, 0, 0, -648, 368, 0, 0, 0, 0, -648, -368)
+}
+point_count = 5
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
-latitude = 0.0
 metadata/_edit_horizontal_guides_ = [2512.0, -2504.0, 0.0, 0.0]
 metadata/_edit_vertical_guides_ = [2500.0, -2500.0]
 
@@ -4137,9 +4141,16 @@ centered = false
 tile_set = SubResource("TileSet_opdrw")
 format = 2
 
-[node name="Path2D" type="Path2D" parent="."]
+[node name="EnemySpawnPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_i03nr")
 
+[node name="EnemySpawnLocation" type="PathFollow2D" parent="EnemySpawnPath"]
+unique_name_in_owner = true
+position = Vector2(-648, -368)
+
 [node name="API" type="HTTPRequest" parent="."]
+
+[node name="Enemy" parent="." instance=ExtResource("5_skrvc")]
+position = Vector2(-648, -368)
 
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]

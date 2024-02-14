@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://be830e3wn8jb4"]
+
+[ext_resource type="Texture2D" uid="uid://c3t30j8u5hkka" path="res://addons/kenney_prototype_textures/red/texture_03.png" id="1_lmape"]
+[ext_resource type="Script" path="res://entity/enemy.gd" id="1_yhqql"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_utgbx"]
+radius = 15.0
+height = 42.0
+
+[node name="Enemy" type="CharacterBody2D"]
+motion_mode = 1
+slide_on_ceiling = false
+script = ExtResource("1_yhqql")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_utgbx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.03, 0.04)
+texture = ExtResource("1_lmape")

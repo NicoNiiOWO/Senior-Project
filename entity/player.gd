@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 
 @export var speed = 400 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window.
@@ -26,21 +26,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var velocity = Vector2.ZERO # The player's movement vector.
-	if Input.is_action_pressed("move_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("move_left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("move_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("move_up"):
-		velocity.y -= 1
-
-	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
+	velocity = Input.get_vector("move_left","move_right","move_up","move_down") # The player's movement vector.
+	velocity = velocity * speed
+	move_and_slide()
 	
-	position += velocity * delta
-	position = position.clamp(-map_size, map_size)
-
-	#print_debug(position)
-
+	var collision_count = get_slide_collision_count()
+	if(collision_count > 0):
+		print("Collisions: ", collision_count)
+		for i in collision_count:
+			var collision = get_slide_collision(i)
+			print(collision.get_collider().name, " ", collision.get_collider_id())
