@@ -7,3 +7,5 @@ Project for CISC 4900, Spring 2024
 
 ## Assets Used
 [Kenney's Prototype Textures](https://github.com/Calinou/kenney-prototype-textures)
+
+[Pixel Art Top Down by Cainos](https://cainos.itch.io/pixel-art-top-down-basic)
