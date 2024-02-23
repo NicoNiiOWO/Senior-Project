@@ -14,6 +14,7 @@ var response
 
 
 var enemy = preload("res://entity/enemy.tscn")
+@export var spawn_time = 4
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,7 +31,9 @@ func _ready():
 	else:
 		print("a")
 		
-	($EnemySpawnPath/SpawnTimer).start()
+	var spawn_timer = $EnemySpawnPath/SpawnTimer
+	spawn_timer.wait_time = spawn_time
+	spawn_timer.start()
 
 
 
@@ -44,7 +47,7 @@ func _process(_delta):
 	#print(player.position, " ", player.get_position_delta())
 	#
 	#print(enemy_spawn.position)
-	enemy_spawn.position += player.get_position_delta() # Adjust spawn path based on player movement
+	#enemy_spawn.position += player.get_position_delta() # Adjust spawn path based on player movement
 
 
 func _on_player_ready():
@@ -65,17 +68,20 @@ func _on_api_request_completed(result, response_code, _headers, body):
 	else:
 		print(response.message)
 
-func enemy_spawn():
-	var enemyInstance = enemy.instantiate()
-
-	var spawn_location = %EnemySpawnLocation
-	spawn_location.set_progress_ratio(randf())
-	
-	print("spawn", spawn_location.position)
-	enemyInstance.position = spawn_location.position
-	
-	#add_child(enemyInstance)
+func enemy_spawn(n): # Spawn n enemies
+	for i in n:
+		var enemyInstance = enemy.instantiate()
+		var spawn_location = %EnemySpawnLocation
+		
+		spawn_location.set_progress_ratio(randf()) # Select random location on path
+		
+		print("spawn", spawn_location.position)
+		print(($EnemySpawnPath).position)
+		enemyInstance.position = spawn_location.position + ($Player).position
+		
+		add_child(enemyInstance)
 
 
 func _on_spawn_timer_timeout():
-	enemy_spawn()
+	enemy_spawn(1)
+	#($EnemySpawnPath/SpawnTimer).wait_time = 1

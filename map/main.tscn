@@ -9,7 +9,7 @@
 
 [sub_resource type="Curve2D" id="Curve2D_i03nr"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -648, -368, 0, 0, 0, 0, 648, -368, 0, 0, 0, 0, 648, 368, 0, 0, 0, 0, -648, 368, 0, 0, 0, 0, -648, -368)
+"points": PackedVector2Array(0, 0, 0, 0, -672, -416, 0, 0, 0, 0, 672, -416, 0, 0, 0, 0, 672, 416, 0, 0, 0, 0, -672, 416, 0, 0, 0, 0, -672, -416)
 }
 point_count = 5
 
@@ -1588,7 +1588,7 @@ curve = SubResource("Curve2D_i03nr")
 
 [node name="EnemySpawnLocation" type="PathFollow2D" parent="EnemySpawnPath"]
 unique_name_in_owner = true
-position = Vector2(-648, -368)
+position = Vector2(-672, -416)
 
 [node name="SpawnTimer" type="Timer" parent="EnemySpawnPath"]
 process_callback = 0
