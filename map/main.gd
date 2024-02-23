@@ -13,7 +13,7 @@ var api_url
 var response
 
 
-var enemy_scene = "res://entity/enemy.tscn"
+var enemy = preload("res://entity/enemy.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -29,12 +29,22 @@ func _ready():
 		print(":(")
 	else:
 		print("a")
+		
+	($EnemySpawnPath/SpawnTimer).start()
 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	pass
+	var player = $Player
+	var camera = $Player/Camera2D
+	
+	var enemy_spawn = $EnemySpawnPath
+	
+	#print(player.position, " ", player.get_position_delta())
+	#
+	#print(enemy_spawn.position)
+	enemy_spawn.position += player.get_position_delta() # Adjust spawn path based on player movement
 
 
 func _on_player_ready():
@@ -56,5 +66,16 @@ func _on_api_request_completed(result, response_code, _headers, body):
 		print(response.message)
 
 func enemy_spawn():
-	var enemy = enemy_scene.instantiate()
-	var spawn_location = $EnemySpawnLocation
+	var enemyInstance = enemy.instantiate()
+
+	var spawn_location = %EnemySpawnLocation
+	spawn_location.set_progress_ratio(randf())
+	
+	print("spawn", spawn_location.position)
+	enemyInstance.position = spawn_location.position
+	
+	#add_child(enemyInstance)
+
+
+func _on_spawn_timer_timeout():
+	enemy_spawn()
