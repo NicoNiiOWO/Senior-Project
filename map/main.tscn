@@ -1562,6 +1562,7 @@ sources/1 = SubResource("TileSetAtlasSource_rdg0h")
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
+spawn_time = 1000
 metadata/_edit_horizontal_guides_ = [2560.0, -2504.0, 0.0, 0.0]
 metadata/_edit_vertical_guides_ = [2560.0, -2500.0]
 
@@ -1573,6 +1574,7 @@ metadata/_edit_vertical_guides_ = [2560.0, -2500.0]
 scale = Vector2(0.25, 0.25)
 
 [node name="Texture08" type="Sprite2D" parent="Background/ParallaxBackground/ParallaxLayer"]
+texture_filter = 1
 position = Vector2(-10240, -10240)
 scale = Vector2(20, 20)
 texture = ExtResource("1_3s6u4")
@@ -1593,6 +1595,7 @@ position = Vector2(-672, -416)
 [node name="SpawnTimer" type="Timer" parent="EnemySpawnPath"]
 process_callback = 0
 wait_time = 4.0
+one_shot = true
 
 [node name="API" type="HTTPRequest" parent="."]
 

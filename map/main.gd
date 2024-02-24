@@ -39,10 +39,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	var player = $Player
-	var camera = $Player/Camera2D
-	
-	var enemy_spawn = $EnemySpawnPath
+	pass
+	#var player = $Player
+	#var camera = $Player/Camera2D
+	#
+	#var enemy_spawn = $EnemySpawnPath
 	
 	#print(player.position, " ", player.get_position_delta())
 	#
@@ -75,8 +76,9 @@ func enemy_spawn(n): # Spawn n enemies
 		
 		spawn_location.set_progress_ratio(randf()) # Select random location on path
 		
-		print("spawn", spawn_location.position)
-		print(($EnemySpawnPath).position)
+		print("spawn ", spawn_location.position)
+		
+		# offset location based on player position
 		enemyInstance.position = spawn_location.position + ($Player).position
 		
 		add_child(enemyInstance)

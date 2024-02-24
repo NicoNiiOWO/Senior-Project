@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3 uid="uid://bwf68iwi80gxa"]
+
+[ext_resource type="Script" path="res://entity/attack.gd" id="1_p4drw"]
+[ext_resource type="Texture2D" uid="uid://dlihnmtapnej8" path="res://assets/sword.png" id="2_stadj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3pk5"]
+atlas = ExtResource("2_stadj")
+region = Rect2(0, 0, 65, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bmetg"]
+atlas = ExtResource("2_stadj")
+region = Rect2(65, 0, 65, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_01hv2"]
+atlas = ExtResource("2_stadj")
+region = Rect2(130, 0, 65, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kmowk"]
+atlas = ExtResource("2_stadj")
+region = Rect2(195, 0, 65, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcyhe"]
+atlas = ExtResource("2_stadj")
+region = Rect2(0, 50, 65, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ck0wg"]
+atlas = ExtResource("2_stadj")
+region = Rect2(65, 50, 65, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3j8g7"]
+atlas = ExtResource("2_stadj")
+region = Rect2(130, 50, 65, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_alpob"]
+animations = [{
+"frames": [{
+"duration": 0.4,
+"texture": SubResource("AtlasTexture_q3pk5")
+}, {
+"duration": 0.4,
+"texture": SubResource("AtlasTexture_bmetg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_01hv2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kmowk")
+}, {
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_qcyhe")
+}, {
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_ck0wg")
+}, {
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_3j8g7")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Attack" type="Area2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_p4drw")
+metadata/_edit_horizontal_guides_ = [17.0]
+metadata/_edit_vertical_guides_ = [-32.0, -26.0]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.26
+autostart = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-26, -24, 16, -24, 32, -8, 32, 8, 16, 24, -26, 24, -32, 17, 0, 7, 0, -8, -32, -19)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_alpob")
+autoplay = "default"
+frame_progress = 0.77129
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
