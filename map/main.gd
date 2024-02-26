@@ -15,6 +15,8 @@ var response
 var enemy = preload("res://entity/enemy.tscn")
 @export var spawn_time = 4
 
+@onready var hud = $HUD
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Player.call("setMap", map_length)
@@ -24,6 +26,8 @@ func _ready():
 	var spawn_timer = $EnemySpawnPath/SpawnTimer
 	spawn_timer.wait_time = spawn_time
 	spawn_timer.start()
+	
+	($HUD).update()
 
 
 

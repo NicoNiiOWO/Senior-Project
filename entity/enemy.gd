@@ -1,24 +1,18 @@
 extends Character
 
-var player
+@onready var player = $/root/Main/Player
 
 func _init():
-	type = types.ENEMY
-	speed = 100
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	player = $/root/Main/Player
+	init(Global.char_type.ENEMY) # initialize stats
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	# move towards player
 	var direction = global_position.direction_to(player.global_position)
-	#print(direction)
-	
-	velocity = direction * speed
+	velocity = direction * stats.speed
 	move_and_slide()
 
-# When HP reaches 0
+# When HP reaches 0, give player exp and delete
 func _on_defeated():
+	player.gain_exp(stats.exp)
 	queue_free()

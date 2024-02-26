@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var duration = 0.25 # How long attack lasts
+@export var damage = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,4 +22,4 @@ func _on_timer_timeout():
 func _on_body_entered(body):
 	#print(body)
 	if(body.has_method("take_damage")):
-		body.take_damage(10)
+		body.take_damage(damage)

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://d8e3lfaeglcx"]
+
+[ext_resource type="Script" path="res://gui/hud.gd" id="1_4siop"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_4siop")
+
+[node name="HP" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "HP: 100/100"
+
+[node name="Level" type="Label" parent="."]
+offset_top = 23.0
+offset_right = 40.0
+offset_bottom = 46.0
+text = "AAA"

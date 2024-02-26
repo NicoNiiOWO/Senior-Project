@@ -4,51 +4,68 @@ extends CharacterBody2D
 
 signal defeated()
 
-enum types {PLAYER, ENEMY}
 var type
 
 # Stats
 
 @export var base_stats = {
 	player = {
-		max_exp = 100,
-		max_health = 50,
+		max_hp = 100,
 		atk = 10,
-		speed = 300
+		speed = 300,
+		max_exp = 100
 	},
 	enemy = {
-		max_exp = 50,
-		max_health = 50,
+		max_hp = 50,
 		atk = 10,
-		speed = 100
+		speed = 100,
+		exp = 20
 	}
 }
-@export var level = 1
-@export var max_exp = 100
-@export var exp = 0
-@export var max_health = 50
-@export var atk = 10
-@export var speed = 300
+# Stat increase per level
+@export var stat_growth = {
+	player = {
+		max_hp = 5,
+		atk = 2,
+		max_exp = 10
+	}
+}
 
-var health = max_health
+# Current stats
+@export var stats = {
+	level = 1,
+	max_exp = 0,
+	exp = 0,
+	max_hp = 0,
+	hp = 0,
+	atk = 0,
+	speed = 0
+} 
 
-func _init():
-	print(self.get_name())
+# set stats based on character type
+func init(char_type):
+	type = char_type
+	if(char_type == Global.char_type.PLAYER):
+		base_stats = base_stats.player
+		stat_growth = stat_growth.player
+		
+		stats.max_hp = base_stats.max_hp
+		stats.atk = base_stats.atk
+		stats.speed = base_stats.speed
+		stats.max_exp = base_stats.max_exp
+	else:
+		base_stats = base_stats.enemy
+		
+		stats.max_hp = base_stats.max_hp
+		stats.atk = base_stats.atk
+		stats.speed = base_stats.speed
+		stats.exp = base_stats.exp
+	stats.hp = stats.max_hp
 
 # Take damage
 func take_damage(n):
-	health -= n;
-	if health <= 0:
-		health = 0
+	stats.hp -= n;
+	if stats.hp <= 0:
+		stats.hp = 0
 		defeated.emit()
-	print("HP: ", health)
-
-# Gain exp and level
-func gain_exp(n):
-	exp += n
-	while exp >= max_exp:
-		level+=1
-		exp -= max_exp
-		
-func update_stats():
-	pass
+	print("HP: ", stats.hp)
