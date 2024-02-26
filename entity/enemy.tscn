@@ -20,3 +20,5 @@ shape = SubResource("CapsuleShape2D_utgbx")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.03, 0.04)
 texture = ExtResource("1_lmape")
+
+[connection signal="defeated" from="." to="." method="_on_defeated"]

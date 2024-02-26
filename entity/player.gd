@@ -1,20 +1,24 @@
-extends CharacterBody2D
+extends Character
 
-@export var speed = 400 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window.
 
 var map_length # Size of map
-var map_size
+#var map_size
 
 var direction = Vector2(1,0) # player's direction, start facing right
+var flip = false # player sprite direction
 
 @onready var sprite = $AnimatedSprite2D
 var attack_scn = preload("res://entity/attack.tscn")
+
+func _init():
+	type = types.PLAYER
+
 # Set size of map
 func setMap(size):
 	map_length = size
-	map_size = Vector2(map_length/2,map_length/2)
-	print_debug(map_size)
+	#map_size = Vector2(map_length/2,map_length/2)
+	#print_debug(map_size)
 	
 	# Set camera limit
 	$Camera2D.set("limit_top", -map_length/2)
@@ -29,7 +33,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 	velocity = Input.get_vector("move_left","move_right","move_up","move_down") # The player's movement vector.
 	
 	
@@ -41,8 +45,8 @@ func _process(delta):
 	move_and_slide()
 	#print(direction)
 	
-	# Flip sprite if facing left
-	var flip = false
+	# Flip sprite based on direction
+	if(direction.x > 0): flip = false
 	if(direction.x < 0): flip = true
 	sprite.flip_h = flip
 	
@@ -71,17 +75,20 @@ func _process(delta):
 			print(collision.get_collider().name, " ", collision.get_collider_id())
 
 func attack(flipped):
-	var atk = attack_scn.instantiate()
+	var new_attack = attack_scn.instantiate()
 	
 	# Change attack position and rotate based on player direction
-	atk.position += direction*30 + Vector2(0, -5)
-	atk.global_rotation = Vector2.ZERO.angle_to_point(direction)
+	new_attack.position += direction*30 + Vector2(0, -5)
+	new_attack.global_rotation = Vector2.ZERO.angle_to_point(direction)
 	if(flipped):
-		atk.get_node("AnimatedSprite2D").flip_v = true
-	#if()
-	add_child(atk)
-	pass
+		new_attack.get_node("AnimatedSprite2D").flip_v = true
+
+	add_child(new_attack)
 
 
 func _on_animated_sprite_2d_animation_finished():
 	sprite.set_animation("idle")
+
+
+func _on_defeated():
+	print("AAA")

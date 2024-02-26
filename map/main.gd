@@ -12,7 +12,6 @@ var map_size = Vector2(map_length/2,map_length/2)
 var api_url
 var response
 
-
 var enemy = preload("res://entity/enemy.tscn")
 @export var spawn_time = 4
 
@@ -20,16 +19,7 @@ var enemy = preload("res://entity/enemy.tscn")
 func _ready():
 	$Player.call("setMap", map_length)
 	
-	api_url = str("https://api.openweathermap.org/data/2.5/forecast?lat=",latitude,"&lon=",longitude,"&appid=",api_key)
-	print(api_url)
-	
-	# Call API
-	var API = $API
-	var request = API.request(api_url)
-	if request != OK:
-		print(":(")
-	else:
-		print("a")
+	#api_call()
 		
 	var spawn_timer = $EnemySpawnPath/SpawnTimer
 	spawn_timer.wait_time = spawn_time
@@ -54,6 +44,18 @@ func _process(_delta):
 func _on_player_ready():
 	pass # Replace with function body.
 
+
+# Call API
+func api_call():
+	api_url = str("https://api.openweathermap.org/data/2.5/forecast?lat=",latitude,"&lon=",longitude,"&appid=",api_key)
+	print(api_url)
+	
+	var API = $API
+	var request = API.request(api_url)
+	if request != OK:
+		print(":(")
+	else:
+		print("a")
 
 func _on_api_request_completed(result, response_code, _headers, body):
 	print("API response: ", result, " ", response_code)

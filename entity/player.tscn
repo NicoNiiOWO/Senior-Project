@@ -228,10 +228,10 @@ animations = [{
 radius = 19.1253
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 5
 motion_mode = 1
 slide_on_ceiling = false
 script = ExtResource("1_gj2uo")
-speed = 350
 
 [node name="AttackCooldown" type="Timer" parent="."]
 process_callback = 0
@@ -240,18 +240,19 @@ one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_smoothed = true
-position_smoothing_enabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 position = Vector2(-5, -20)
 scale = Vector2(1.8, 1.8)
 sprite_frames = SubResource("SpriteFrames_hjt81")
-animation = &"attack"
+animation = &"walk"
 autoplay = "idle"
+frame_progress = 0.366083
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1.78178, -0.668175)
+position = Vector2(0.887894, -1.00188)
 shape = SubResource("CircleShape2D_ov5h2")
 
+[connection signal="defeated" from="." to="." method="_on_defeated"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

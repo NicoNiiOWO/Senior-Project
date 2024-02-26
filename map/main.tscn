@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://v1608s5lvo0j"]
+[gd_scene load_steps=10 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Texture2D" uid="uid://cp36lau6gxpva" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_3s6u4"]
 [ext_resource type="Script" path="res://map/main.gd" id="1_v6nxb"]
 [ext_resource type="PackedScene" uid="uid://ooji3r34hew2" path="res://entity/player.tscn" id="2_3gksx"]
 [ext_resource type="Texture2D" uid="uid://baxaxqc2ifdem" path="res://assets/TX Tileset Wall.png" id="5_2uw5q"]
-[ext_resource type="PackedScene" uid="uid://be830e3wn8jb4" path="res://entity/enemy.tscn" id="5_skrvc"]
 [ext_resource type="Texture2D" uid="uid://bs2k6yubf8yl3" path="res://assets/TX Tileset Grass.png" id="6_xtu6b"]
 
 [sub_resource type="Curve2D" id="Curve2D_i03nr"]
@@ -1556,13 +1555,14 @@ texture = ExtResource("6_xtu6b")
 15:15/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSet" id="TileSet_v4inm"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 4
+physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_fqmvk")
 sources/1 = SubResource("TileSetAtlasSource_rdg0h")
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
-spawn_time = 1000
+spawn_time = 1
 metadata/_edit_horizontal_guides_ = [2560.0, -2504.0, 0.0, 0.0]
 metadata/_edit_vertical_guides_ = [2560.0, -2500.0]
 
@@ -1584,6 +1584,7 @@ centered = false
 light_mask = 3
 visibility_layer = 3
 z_index = 1
+speed = 300
 
 [node name="EnemySpawnPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_i03nr")
@@ -1594,14 +1595,9 @@ position = Vector2(-672, -416)
 
 [node name="SpawnTimer" type="Timer" parent="EnemySpawnPath"]
 process_callback = 0
-wait_time = 4.0
-one_shot = true
+autostart = true
 
 [node name="API" type="HTTPRequest" parent="."]
-
-[node name="Enemy" parent="." instance=ExtResource("5_skrvc")]
-position = Vector2(-648, -368)
-collision_layer = 0
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -1
