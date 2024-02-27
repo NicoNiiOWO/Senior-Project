@@ -1,0 +1,89 @@
+[gd_scene load_steps=2 format=3 uid="uid://d8e3lfaeglcx"]
+
+[ext_resource type="Script" path="res://gui/gui.gd" id="1_xmdei"]
+
+[node name="GUI" type="CanvasLayer"]
+script = ExtResource("1_xmdei")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HP" type="Label" parent="HUD"]
+offset_right = 92.0
+offset_bottom = 23.0
+text = "HP: 100/100"
+
+[node name="Level" type="Label" parent="HUD"]
+offset_top = 23.0
+offset_right = 40.0
+offset_bottom = 46.0
+text = "AAA"
+
+[node name="Weather" type="RichTextLabel" parent="HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 984.0
+offset_right = 1240.0
+offset_bottom = 320.0
+grow_horizontal = 0
+text = "EEEE"
+
+[node name="GameOver" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DimScreen" type="ColorRect" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.152941)
+
+[node name="Label" type="Label" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.0
+offset_top = -88.0
+offset_right = -1.0
+offset_bottom = -65.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = 48.0
+offset_right = 25.0
+offset_bottom = 79.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.2, 1.2)
+disabled = true
+text = "Restart"
+
+[connection signal="pressed" from="GameOver/RestartButton" to="." method="_on_restart_button_pressed"]

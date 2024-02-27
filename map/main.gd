@@ -13,15 +13,19 @@ var map_size = Vector2(map_length/2,map_length/2)
 var api_url
 var response = Global.api_response
 
-var enemy = preload("res://entity/enemy.tscn")
+var player_scn = preload("res://entity/player.tscn")
+var enemy_scn = preload("res://entity/enemy.tscn")
 @export var spawn_time = 4
 @export var enable_spawn = true
 
-@onready var hud = $HUD
+@onready var gui = $GUI
+var player
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Player.call("setMap", map_length)
+	player = player_scn.instantiate()
+	add_child(player)
+	player.call("setMap", map_length)
 	
 	if(use_api): api_call()
 	
@@ -29,7 +33,7 @@ func _ready():
 	spawn_timer.wait_time = spawn_time
 	spawn_timer.start()
 	
-	($HUD).update()
+	gui.update_hud()
 
 # Call API
 func api_call():
@@ -48,35 +52,35 @@ func _on_api_request_completed(result, response_code, _headers, body):
 	
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
-		
+	
 	Global.api_response_code = response_code
 	Global.api_response = json.get_data()
-	#response = Global.api_response
 	
-	($HUD).weather_update()
-
-	#if response_code == 200: # Response successful
-		#print("Response Count: ",response.cnt)
-		#print(response.list[0])
-		#
-	#else:
-		#print(response.message)
+	gui.weather_update()
 
 func enemy_spawn(n): # Spawn n enemies
-	for i in n:
-		var enemyInstance = enemy.instantiate()
-		var spawn_location = %EnemySpawnLocation
-		
-		spawn_location.set_progress_ratio(randf()) # Select random location on path
-		
-		print("spawn ", spawn_location.position)
-		
-		# offset location based on player position
-		enemyInstance.position = spawn_location.position + ($Player).position
-		
-		add_child(enemyInstance)
+	if(player != null):
+		for i in n:
+			var enemyInstance = enemy_scn.instantiate()
+			var spawn_location = %EnemySpawnLocation
+			
+			spawn_location.set_progress_ratio(randf()) # Select random location on path
+			
+			print("spawn ", spawn_location.position)
+			
+			# offset location based on player position
+			enemyInstance.position = spawn_location.position + ($Player).position
+			
+			add_child(enemyInstance)
 
 
 func _on_spawn_timer_timeout():
 	if(enable_spawn): enemy_spawn(spawn_time)
-	#($EnemySpawnPath/SpawnTimer).wait_time = 1
+
+func game_over():
+	player.queue_free()
+	get_tree().call_group("enemies", "queue_free")
+	gui.game_over()
+
+func _on_restart():
+	_ready()

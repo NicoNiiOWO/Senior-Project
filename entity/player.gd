@@ -10,7 +10,6 @@ var flip = false # player sprite direction
 
 @onready var sprite = $AnimatedSprite2D
 var attack_scn = preload("res://entity/attack.tscn")
-@onready var hud = $/root/Main/HUD
 #var hud = preload("res://gui/hud.tscn")
 
 func _init():
@@ -37,19 +36,16 @@ func update_stats():
 	stats.hp += stats.max_hp - current_max_hp
 	
 	Global.player_stats = stats
-	hud.update()
+	gui.update_hud()
 
 # Set size of map
-func setMap(size):
-	map_length = size
-	#map_size = Vector2(map_length/2,map_length/2)
-	#print_debug(map_size)
-	
+func setMap(map_size):
+
 	# Set camera limit
-	$Camera2D.set("limit_top", -map_length/2)
-	$Camera2D.set("limit_left", -map_length/2)
-	$Camera2D.set("limit_right", map_length/2)
-	$Camera2D.set("limit_bottom", map_length/2)
+	$Camera2D.set("limit_top", -map_size/2)
+	$Camera2D.set("limit_left", -map_size/2)
+	$Camera2D.set("limit_right", map_size/2)
+	$Camera2D.set("limit_bottom", map_size/2)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -59,6 +55,10 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	if(stats.iframes > 0):
+		stats.iframes -= delta # reduce iframes by frametime
+		if stats.iframes <= 0: stats.iframes = 0
+	
 	# Player movement
 	velocity = Input.get_vector("move_left","move_right","move_up","move_down") # The player's movement vector.
 	
@@ -98,15 +98,6 @@ func _physics_process(delta):
 			attack()
 			($AttackCooldown).start()
 			sprite.play("attack")
-			
-			
-	# get collision info
-	var collision_count = get_slide_collision_count()
-	if(collision_count > 0):
-		print("Collisions: ", collision_count)
-		for i in collision_count:
-			var collision = get_slide_collision(i)
-			print(collision.get_collider().name, " ", collision.get_collider_id())
 
 
 func attack():
@@ -128,4 +119,6 @@ func _on_animated_sprite_2d_animation_finished():
 
 
 func _on_defeated():
+	#queue_free()
+	main.game_over()
 	print("AAA")

@@ -1,16 +1,17 @@
 extends CanvasLayer
 
+signal restart()
 
-func update():
-	var HP = $HP
+func update_hud():
+	var HP = $HUD/HP
 	var stats = Global.player_stats
 	
 	HP.text = str("HP: ", stats.hp,"/", stats.max_hp)
-	($Level).text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
+	($HUD/Level).text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
 	
 
 func weather_update():
-	var weather = $Weather
+	var weather = $HUD/Weather
 	var response = Global.api_response
 	
 	var text = ""
@@ -23,3 +24,13 @@ func weather_update():
 		text = str(Global.api_response_code, " ", response.message)
 	
 	weather.text = text
+
+func game_over():
+	$GameOver.set_visible(true)
+	$GameOver/RestartButton.disabled = false
+
+
+func _on_restart_button_pressed():
+	$GameOver.set_visible(false)
+	$GameOver/RestartButton.disabled = true
+	restart.emit()
