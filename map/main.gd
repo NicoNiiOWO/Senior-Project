@@ -49,15 +49,18 @@ func _on_api_request_completed(result, response_code, _headers, body):
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
 		
+	Global.api_response_code = response_code
 	Global.api_response = json.get_data()
-	response = Global.api_response
+	#response = Global.api_response
+	
+	($HUD).weather_update()
 
-	if response_code == 200: # Response successful
-		print("Response Count: ",response.cnt)
-		print(response.list[0])
-		($HUD).weather_update()
-	else:
-		print(response.message)
+	#if response_code == 200: # Response successful
+		#print("Response Count: ",response.cnt)
+		#print(response.list[0])
+		#
+	#else:
+		#print(response.message)
 
 func enemy_spawn(n): # Spawn n enemies
 	for i in n:

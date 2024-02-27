@@ -11,4 +11,15 @@ func update():
 
 func weather_update():
 	var weather = $Weather
-	weather.text = str(Global.api_response.list[0])
+	var response = Global.api_response
+	
+	var text = ""
+	if Global.api_response_code == 200: # Response successful
+		print("Response Count: ",response.cnt)
+		print(response.list[0])
+		text = str(Global.api_response.list[0])
+	else:
+		print(response.message)
+		text = str(Global.api_response_code, " ", response.message)
+	
+	weather.text = text

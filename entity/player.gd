@@ -77,7 +77,11 @@ func _physics_process(delta):
 	# Flip sprite based on velocity
 	if(velocity.x > 0): flip = false
 	if(velocity.x < 0): flip = true
-	sprite.flip_h = flip
+	
+	if(sprite.flip_h != flip):
+		sprite.flip_h = flip
+		sprite.position.x = -sprite.position.x  # Keep offset for hitbox
+	
 	
 	# Set walk animation when moving
 	if(sprite.animation != "attack"):

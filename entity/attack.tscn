@@ -49,10 +49,10 @@ animations = [{
 "duration": 0.2,
 "texture": SubResource("AtlasTexture_qcyhe")
 }, {
-"duration": 0.2,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_ck0wg")
 }, {
-"duration": 0.2,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_3j8g7")
 }],
 "loop": true,
@@ -74,13 +74,12 @@ wait_time = 0.26
 autostart = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-26, -24, 16, -24, 32, -8, 32, 8, 16, 24, -26, 24, -32, 17, 0, 7, 0, -8, -32, -19)
+polygon = PackedVector2Array(-16, -24, 16, -24, 32, -8, 32, 8, 16, 24, -16, 24, 0, 7, 0, -8)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_alpob")
 autoplay = "default"
-frame_progress = 0.77129
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
