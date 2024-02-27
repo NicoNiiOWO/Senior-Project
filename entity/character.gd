@@ -27,19 +27,19 @@ var type
 	player = {
 		max_hp = 5,
 		atk = 2,
-		max_exp = 10
+		max_exp = 1.1
 	}
 }
 
 # Current stats
 @export var stats = {
 	level = 1,
-	max_exp = 0,
+	max_exp = 100,
 	exp = 0,
-	max_hp = 0,
-	hp = 0,
-	atk = 0,
-	speed = 0
+	max_hp = 100,
+	hp = 100,
+	atk = 10,
+	speed = 300
 } 
 
 # set stats based on character type

@@ -14,3 +14,6 @@ var player_stats = {
 	speed = 0
 }
 
+var api_response = {
+	list = []
+}

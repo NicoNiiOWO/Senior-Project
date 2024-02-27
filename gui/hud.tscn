@@ -15,3 +15,12 @@ offset_top = 23.0
 offset_right = 40.0
 offset_bottom = 46.0
 text = "AAA"
+
+[node name="Weather" type="RichTextLabel" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_bottom = 320.0
+grow_horizontal = 0
+text = "EEEE"

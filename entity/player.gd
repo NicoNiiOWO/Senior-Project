@@ -5,7 +5,7 @@ var screen_size # Size of the game window.
 var map_length # Size of map
 #var map_size
 
-var direction = Vector2(1,0) # player's direction, start facing right
+@export var direction = Vector2(1,0) # player's direction, start facing right
 var flip = false # player sprite direction
 
 @onready var sprite = $AnimatedSprite2D
@@ -32,7 +32,7 @@ func update_stats():
 	var current_max_hp = stats.max_hp
 	stats.max_hp = base_stats.max_hp + (stats.level-1) * stat_growth.max_hp
 	stats.atk = base_stats.atk + (stats.level-1) * stat_growth.atk
-	stats.max_exp = base_stats.max_exp + (stats.level-1) * stat_growth.max_exp
+	stats.max_exp = floor(base_stats.max_exp * pow(stat_growth.max_exp, (stats.level-1))) # exponential growth
 	
 	stats.hp += stats.max_hp - current_max_hp
 	
@@ -63,15 +63,20 @@ func _physics_process(delta):
 	velocity = Input.get_vector("move_left","move_right","move_up","move_down") # The player's movement vector.
 	
 	# Update direction facing when moving
-	if(velocity.x != 0 || velocity.y != 0): 
-		direction = Vector2(round(velocity.x), round(velocity.y)) 
+	if(velocity.x != 0 || velocity.y != 0):
+		var x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
+		var y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
+		
+		if(x != 0 || y != 0): direction = Vector2(x,y)
+		#if(round(velocity.x) != 0 && round(velocity.y) != 0):
+			#direction = velocity.round() 
 	
 	velocity = velocity * stats.speed
 	move_and_slide()
 
-	# Flip sprite based on direction
-	if(direction.x > 0): flip = false
-	if(direction.x < 0): flip = true
+	# Flip sprite based on velocity
+	if(velocity.x > 0): flip = false
+	if(velocity.x < 0): flip = true
 	sprite.flip_h = flip
 	
 	# Set walk animation when moving
@@ -80,6 +85,7 @@ func _physics_process(delta):
 			sprite.play("walk")
 		else:
 			sprite.play("idle")
+			sprite.set_frame_progress(randf()) # Randomize idle
 	
 	# Attack when key is pressed
 	if(Input.is_action_pressed("attack")):

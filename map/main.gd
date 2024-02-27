@@ -8,12 +8,14 @@ var map_size = Vector2(map_length/2,map_length/2)
 @export var latitude = 40.6500
 @export var longitude = -73.9499
 @export var api_key = "key"
+@export var use_api = true  # Enable/disable api call
 
 var api_url
-var response
+var response = Global.api_response
 
 var enemy = preload("res://entity/enemy.tscn")
 @export var spawn_time = 4
+@export var enable_spawn = true
 
 @onready var hud = $HUD
 
@@ -21,33 +23,13 @@ var enemy = preload("res://entity/enemy.tscn")
 func _ready():
 	$Player.call("setMap", map_length)
 	
-	#api_call()
-		
+	if(use_api): api_call()
+	
 	var spawn_timer = $EnemySpawnPath/SpawnTimer
 	spawn_timer.wait_time = spawn_time
 	spawn_timer.start()
 	
 	($HUD).update()
-
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
-	#var player = $Player
-	#var camera = $Player/Camera2D
-	#
-	#var enemy_spawn = $EnemySpawnPath
-	
-	#print(player.position, " ", player.get_position_delta())
-	#
-	#print(enemy_spawn.position)
-	#enemy_spawn.position += player.get_position_delta() # Adjust spawn path based on player movement
-
-
-func _on_player_ready():
-	pass # Replace with function body.
-
 
 # Call API
 func api_call():
@@ -67,11 +49,13 @@ func _on_api_request_completed(result, response_code, _headers, body):
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
 		
-	response = json.get_data()
+	Global.api_response = json.get_data()
+	response = Global.api_response
 
 	if response_code == 200: # Response successful
 		print("Response Count: ",response.cnt)
 		print(response.list[0])
+		($HUD).weather_update()
 	else:
 		print(response.message)
 
@@ -91,5 +75,5 @@ func enemy_spawn(n): # Spawn n enemies
 
 
 func _on_spawn_timer_timeout():
-	enemy_spawn(1)
+	if(enable_spawn): enemy_spawn(spawn_time)
 	#($EnemySpawnPath/SpawnTimer).wait_time = 1
