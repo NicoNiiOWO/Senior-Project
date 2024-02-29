@@ -16,10 +16,11 @@ var player_stats = {
 
 var api_response_code = 0
 var api_response = {
-	list = []
+	list = [],
 }
+var index = 0 # current index in list
 
-var current_weather = {
+var weather = {
 	weather = "",
 	temp = 0,
 	datetime = ""

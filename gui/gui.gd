@@ -13,27 +13,34 @@ func update_stats():
 
 func weather_update():
 	var response = Global.api_response
-	var weather = Global.current_weather
 	
 	var text = ""
 	if Global.api_response_code == 200: # Response successful
-		
+		Global.weather = response.list[Global.index]
+		var weather = Global.weather.duplicate()
+	
 		# Display weather
 		print("Response Count: ",response.cnt)
 		print(response.list[0])
-		weather.weather = response.list[0].weather[0].main
-		weather.datetime = response.list[0].dt_txt.replace(" ", "\n")
+		weather.weather = Global.weather.weather[0].main
+
+		# Convert UTC to local time in unix
+		var local_time = Global.weather.dt + Time.get_time_zone_from_system().bias*60
+		#print(Time.get_datetime_string_from_unix_time(local_time))
+		#print(Time.get_datetime_dict_from_unix_time(local_time))
+		var local_time_str = Time.get_datetime_string_from_unix_time(local_time).replace("T", "\n")
 		
-		text = str(weather.weather, "\n", weather.datetime, " UTC")
-		print(Global.current_weather.weather)
 		
+		text = str(weather.weather, "\n", local_time_str)
+		print()
+		print(weather)
 		# Load weather icon
-		var icon_code = response.list[0].weather[0].icon
+		var icon_code = Global.weather.weather[0].icon
 		var icon_path = icon_path_format % icon_code
 		
 		var icon = Image.load_from_file(icon_path)
 		var texture = ImageTexture.create_from_image(icon)
-		($HUD/Weather/Icon).set_texture(texture)
+		(%Icon).set_texture(texture)
 		
 		(%WeatherText).text = text
 		
@@ -41,6 +48,7 @@ func weather_update():
 		if(response.message != null):
 			print(response.message)
 			(%ErrorMessage).text = str(Global.api_response_code, " ", response.message)
+			(%Icon).visible = false
 	
 	($HUD/Weather).visible = true
 

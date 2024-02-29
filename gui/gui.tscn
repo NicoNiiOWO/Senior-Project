@@ -41,27 +41,35 @@ offset_bottom = 23.0
 grow_horizontal = 2
 text = "AAAAAAAA"
 
-[node name="Weather" type="CenterContainer" parent="HUD"]
+[node name="Weather" type="HFlowContainer" parent="HUD"]
 visible = false
-layout_mode = 0
-offset_left = 1168.0
-offset_top = 8.0
-offset_right = 1268.0
-offset_bottom = 208.0
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_right = -20.0
+offset_bottom = 131.0
+grow_horizontal = 0
+alignment = 1
 
-[node name="ErrorMessage" type="RichTextLabel" parent="HUD/Weather"]
+[node name="Icon" type="TextureRect" parent="HUD/Weather"]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="Icon" type="Sprite2D" parent="HUD/Weather"]
-position = Vector2(50, 56)
 texture = ExtResource("2_kghc5")
 
 [node name="WeatherText" type="Label" parent="HUD/Weather"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ErrorMessage" type="RichTextLabel" parent="HUD/Weather"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 100)
+layout_mode = 2
 
 [node name="GameOver" type="Control" parent="."]
 unique_name_in_owner = true
