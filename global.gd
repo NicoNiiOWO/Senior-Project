@@ -18,3 +18,9 @@ var api_response_code = 0
 var api_response = {
 	list = []
 }
+
+var current_weather = {
+	weather = "",
+	temp = 0,
+	datetime = ""
+}

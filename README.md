@@ -11,3 +11,5 @@ Project for CISC 4900, Spring 2024
 [Pixel Art Top Down by Cainos](https://cainos.itch.io/pixel-art-top-down-basic)
 
 Player sprites from Kirby Squeak Squad by Nintendo
+
+Weather icons from OpenWeather

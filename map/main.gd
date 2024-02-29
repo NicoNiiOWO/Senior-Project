@@ -9,6 +9,7 @@ var map_size = Vector2(map_length/2,map_length/2)
 @export var longitude = -73.9499
 @export var api_key = "key"
 @export var use_api = true  # Enable/disable api call
+var api_url_format = "https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&appid=%s"
 
 var api_url
 var response = Global.api_response
@@ -33,11 +34,11 @@ func _ready():
 	spawn_timer.wait_time = spawn_time
 	spawn_timer.start()
 	
-	gui.update_hud()
+	gui.update_stats()
 
 # Call API
 func api_call():
-	api_url = str("https://api.openweathermap.org/data/2.5/forecast?lat=",latitude,"&lon=",longitude,"&appid=",api_key)
+	api_url = api_url_format % [latitude, longitude, api_key]
 	print(api_url)
 	
 	var API = $API

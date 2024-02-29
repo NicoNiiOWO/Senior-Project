@@ -73,6 +73,6 @@ func take_damage(n):
 	# update hud if player
 	if isPlayer: 
 		Global.player_stats.hp = stats.hp
-		gui.update_hud()
+		gui.update_stats()
 		
 	print("HP: ", stats.hp)

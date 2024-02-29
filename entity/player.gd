@@ -36,7 +36,7 @@ func update_stats():
 	stats.hp += stats.max_hp - current_max_hp
 	
 	Global.player_stats = stats
-	gui.update_hud()
+	gui.update_stats()
 
 # Set size of map
 func setMap(map_size):
