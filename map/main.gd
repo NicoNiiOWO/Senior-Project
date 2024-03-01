@@ -4,6 +4,8 @@ extends Node
 @warning_ignore("integer_division")
 var map_size = Vector2(map_length/2,map_length/2)
 
+@export var weather_interval = 45 # time between weather change in seconds
+
 # API variables
 @export var latitude = 40.6500
 @export var longitude = -73.9499
@@ -24,17 +26,20 @@ var player
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Global.weather_interval = weather_interval
+	
 	player = player_scn.instantiate()
 	add_child(player)
 	player.call("setMap", map_length)
 	
 	if(use_api): api_call()
+	use_api = false # don't call api again
 	
 	var spawn_timer = $EnemySpawnPath/SpawnTimer
 	spawn_timer.wait_time = spawn_time
 	spawn_timer.start()
 	
-	gui.update_stats()
+	gui.start()
 
 # Call API
 func api_call():
@@ -56,6 +61,10 @@ func _on_api_request_completed(result, response_code, _headers, body):
 	
 	Global.api_response_code = response_code
 	Global.api_response = json.get_data()
+	
+	if(response_code == 200):
+		# datetime difference between responses
+		Global.api_interval = (Global.api_response.list[1].dt - Global.api_response.list[0].dt)
 	
 	gui.weather_update()
 

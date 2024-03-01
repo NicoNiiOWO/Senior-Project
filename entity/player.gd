@@ -38,9 +38,8 @@ func update_stats():
 	Global.player_stats = stats
 	gui.update_stats()
 
-# Set size of map
+# Set size of map for camera
 func setMap(map_size):
-
 	# Set camera limit
 	$Camera2D.set("limit_top", -map_size/2)
 	$Camera2D.set("limit_left", -map_size/2)

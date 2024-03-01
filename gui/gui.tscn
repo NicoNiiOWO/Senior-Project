@@ -9,6 +9,8 @@ script = ExtResource("1_xmdei")
 [node name="Center" type="Marker2D" parent="."]
 position = Vector2(640, 360)
 
+[node name="GameTimer" type="Timer" parent="."]
+
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -17,17 +19,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HP" type="Label" parent="HUD"]
+[node name="Player" type="HFlowContainer" parent="HUD"]
 layout_mode = 0
-offset_right = 92.0
-offset_bottom = 23.0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HP" type="Label" parent="HUD/Player"]
+unique_name_in_owner = true
+layout_mode = 2
 text = "HP: 100/100"
 
-[node name="Level" type="Label" parent="HUD"]
-layout_mode = 0
-offset_top = 23.0
-offset_right = 40.0
-offset_bottom = 46.0
+[node name="Level" type="Label" parent="HUD/Player"]
+unique_name_in_owner = true
+layout_mode = 2
 text = "AAA"
 
 [node name="Timer" type="Label" parent="HUD"]
@@ -39,7 +43,7 @@ offset_left = -20.0
 offset_right = 20.0
 offset_bottom = 23.0
 grow_horizontal = 2
-text = "AAAAAAAA"
+text = "00:00"
 
 [node name="Weather" type="HFlowContainer" parent="HUD"]
 visible = false
@@ -63,6 +67,7 @@ texture = ExtResource("2_kghc5")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -90,40 +95,39 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.152941)
 
-[node name="Label" type="Label" parent="GameOver"]
-texture_filter = 1
+[node name="VFlowContainer" type="VFlowContainer" parent="GameOver"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 13
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -120.0
-offset_top = -96.0
-offset_right = 120.0
-offset_bottom = -41.0
+anchor_bottom = 1.0
+offset_left = -107.5
+offset_right = 107.5
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
+
+[node name="Text" type="Label" parent="GameOver/VFlowContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 40
 text = "Game Over"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RestartButton" type="Button" parent="GameOver"]
-top_level = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = 24.0
-offset_right = 33.0
-offset_bottom = 55.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Padding" type="Control" parent="GameOver/VFlowContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="GameOver/VFlowContainer"]
+layout_mode = 2
+
+[node name="RestartButton" type="Button" parent="GameOver/VFlowContainer/AspectRatioContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 disabled = true
 text = "Restart"
 
-[connection signal="pressed" from="GameOver/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
+[connection signal="pressed" from="GameOver/VFlowContainer/AspectRatioContainer/RestartButton" to="." method="_on_restart_button_pressed"]
