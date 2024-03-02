@@ -8,16 +8,9 @@ func _ready():
 	var timer = $Timer
 	timer.wait_time = duration
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
-	pass
-
-
 func _on_timer_timeout():
 	queue_free() # Remove from memory 
 	pass
-
 
 func _on_body_entered(body):
 	#print(body)

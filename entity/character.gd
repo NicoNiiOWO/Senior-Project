@@ -62,9 +62,10 @@ func take_damage(n):
 		if(stats.iframes == 0):
 			stats.hp -= n
 			stats.iframes = base_stats.iframes
-			print(stats.iframes," ", base_stats.iframes)
+			print("Player HP: ", stats.hp)
 	else: 
 		stats.hp -= n
+		print("Enemy HP: ", stats.hp)
 	
 	if stats.hp <= 0:
 		stats.hp = 0
@@ -75,4 +76,4 @@ func take_damage(n):
 		Global.player_stats.hp = stats.hp
 		gui.update_stats()
 		
-	print("HP: ", stats.hp)
+	

@@ -1,6 +1,8 @@
 extends Node
 
-enum char_type {PLAYER, ENEMY}
+enum char_type {PLAYER, ENEMY} # use to initialize character
+
+var map_size
 
 var level_timer = {
 	minutes = 0,
@@ -18,15 +20,17 @@ var player_stats = {
 	speed = 0
 }
 
-var api_response_code = 0
+var timezone = Time.get_time_zone_from_system()
+
+# API variables
+var api_success = false
+var api_response_code
 var api_response = {
 	list = [],
 }
 var index = 0 # current index in list
 
 var weather = {}
-
-var timezone = Time.get_time_zone_from_system()
 
 var weather_interval # time between game weather change in seconds
 var api_interval # time between api response entries

@@ -16,6 +16,7 @@ func _init():
 	init(Global.char_type.PLAYER)
 	
 	Global.player_stats = stats
+	
 
 # Gain exp and level
 func gain_exp(n):
@@ -38,18 +39,17 @@ func update_stats():
 	Global.player_stats = stats
 	gui.update_stats()
 
-# Set size of map for camera
-func setMap(map_size):
+# Called when the node enters the scene tree for the first time.
+func _ready():
 	# Set camera limit
+	var map_size = Global.map_size
 	$Camera2D.set("limit_top", -map_size/2)
 	$Camera2D.set("limit_left", -map_size/2)
 	$Camera2D.set("limit_right", map_size/2)
 	$Camera2D.set("limit_bottom", map_size/2)
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
+	
 	screen_size = get_viewport_rect().size
-	print_debug("Screen size:", screen_size)
+	print_debug("Window size:", screen_size)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -59,7 +59,7 @@ func _physics_process(delta):
 		if stats.iframes <= 0: stats.iframes = 0
 	
 	# Player movement
-	velocity = Input.get_vector("move_left","move_right","move_up","move_down") # The player's movement vector.
+	velocity = Input.get_vector("move_left","move_right","move_up","move_down")
 	
 	# Update direction facing when moving
 	if(velocity.x != 0 || velocity.y != 0):
@@ -67,8 +67,6 @@ func _physics_process(delta):
 		var y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
 		
 		if(x != 0 || y != 0): direction = Vector2(x,y)
-		#if(round(velocity.x) != 0 && round(velocity.y) != 0):
-			#direction = velocity.round() 
 	
 	velocity = velocity * stats.speed
 	move_and_slide()
@@ -79,7 +77,7 @@ func _physics_process(delta):
 	
 	if(sprite.flip_h != flip):
 		sprite.flip_h = flip
-		sprite.position.x = -sprite.position.x  # Keep offset for hitbox
+		sprite.position.x = -sprite.position.x  # Flip offset to match hitbox
 	
 	
 	# Set walk animation when moving
@@ -107,8 +105,8 @@ func attack():
 	new_attack.position += direction*30 + Vector2(0, -5)
 	new_attack.global_rotation = Vector2.ZERO.angle_to_point(direction)
 	
-	if(flip): # Flip sprite if player is flipped
-		new_attack.get_node("AnimatedSprite2D").flip_v = true
+	# Flip sprite if player is flipped
+	new_attack.get_node("AnimatedSprite2D").flip_v = flip
 
 	add_child(new_attack)
 

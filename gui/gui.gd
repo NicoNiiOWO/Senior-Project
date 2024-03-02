@@ -8,7 +8,7 @@ var datetime_f = "{year}/{month}/{day} {hour}:{minute}"
 var time_f = "%02d:%02d"
 var text_format = "{Temp_C}°C/{Temp_F}°F\n{Weather}\n{Time}\n{Timezone}"
 
-var prev_index # most recent index used
+var prev_index # most recent index used on weather list
 
 var weather_data = { # data displayed in hud
 	temp_c = 0,
@@ -36,10 +36,9 @@ func update_stats():
 
 func weather_update():
 	var response = Global.api_response
-	print("Index: ",Global.index,"/", response.cnt-1)
 	
-	if Global.api_response_code == 200: # Response successful
-		
+	if Global.api_success: # Response successful
+		print("Index: ",Global.index,"/", response.cnt-1)
 		if(prev_index != Global.index): # call once per weather change
 			Global.weather = response.list[Global.index]
 
@@ -53,9 +52,8 @@ func weather_update():
 			var icon_code = Global.weather.weather[0].icon
 			var icon_path = icon_path_format % icon_code
 			
-			var icon = Image.load_from_file(icon_path)
-			var texture = ImageTexture.create_from_image(icon)
-			%Icon.set_texture(texture)
+			var icon = load(icon_path)
+			%Icon.set_texture(icon)
 			
 			set_weather_text()
 			prev_index = Global.index
@@ -69,12 +67,16 @@ func weather_update():
 	$HUD/Weather.visible = true
 
 func set_weather_text():
+	# ignore on api response error
+	if(!Global.api_success):
+		return
+	
 	# offset game clock proportionally to weather interval and api interval
-	var offset = Global.api_interval/Global.weather_interval * (Global.level_timer.total_seconds % Global.weather_interval)
+	var time_offset = Global.api_interval/Global.weather_interval * (Global.level_timer.total_seconds % Global.weather_interval)
 	
 	# Convert UTC to local time
 	var local_unix = Global.weather.dt + Global.timezone.bias*60
-	var time = Time.get_datetime_dict_from_unix_time(local_unix + offset)
+	var time = Time.get_datetime_dict_from_unix_time(local_unix + time_offset)
 	if(time.minute < 10):
 		time.minute = str(0, time.minute)
 
@@ -110,7 +112,7 @@ func _on_game_timer_timeout():
 		time.minutes += 1
 	
 	# increment weather on interval
-	if(time.seconds > 0 && time.total_seconds % Global.weather_interval == 0):
+	if(Global.api_success && time.seconds > 0 && time.total_seconds % Global.weather_interval == 0):
 		print("e")
 		
 		# loop if reached end
