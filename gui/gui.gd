@@ -59,7 +59,7 @@ func weather_update():
 			prev_index = Global.index
 		
 	else:
-		if(response.message != null):
+		if(response != null && response.message != null):
 			print(response.message)
 			%ErrorMessage.text = str(Global.api_response_code, " ", response.message)
 			%Icon.visible = false

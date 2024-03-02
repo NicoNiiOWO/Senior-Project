@@ -39,6 +39,13 @@ func _init():
 	for setting in config.get_section_keys("API"):
 		api_settings[setting] = config.get_value("API", setting)
 	
+	# set default api key if not in config
+	if (api_settings.api_key == null):
+		var file = FileAccess.open("res://api_key.txt", FileAccess.READ)
+		var key = file.get_as_text().replace("\n","")
+		api_settings.api_key = key
+	print(api_settings)
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Global.weather_interval = weather_interval
@@ -109,6 +116,7 @@ func _on_spawn_timer_timeout():
 	if(enable_spawn): enemy_spawn(spawn_time)
 
 func game_over():
+	# delete player and enemies
 	player.queue_free()
 	get_tree().call_group("enemies", "queue_free")
 	gui.game_over()

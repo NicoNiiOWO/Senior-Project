@@ -99,6 +99,7 @@ func _physics_process(delta):
 
 func attack():
 	var new_attack = attack_scn.instantiate()
+	new_attack.source = Global.char_type.PLAYER
 	new_attack.damage = stats.atk # change attack damage based on player atk stat
 	
 	# Change attack position and rotate based on player direction
@@ -116,6 +117,5 @@ func _on_animated_sprite_2d_animation_finished():
 
 
 func _on_defeated():
-	#queue_free()
 	main.game_over()
 	print("AAA")
