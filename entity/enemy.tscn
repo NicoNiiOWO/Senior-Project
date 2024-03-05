@@ -21,4 +21,27 @@ shape = SubResource("CapsuleShape2D_utgbx")
 scale = Vector2(0.03, 0.04)
 texture = ExtResource("1_lmape")
 
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -20.0
+offset_right = 38.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+
+[node name="Label" type="Label" parent="CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "LVL 1
+50/50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="damage_taken" from="." to="." method="_on_damage_taken"]
 [connection signal="defeated" from="." to="." method="_on_defeated"]

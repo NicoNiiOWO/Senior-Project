@@ -43,6 +43,7 @@ grow_horizontal = 2
 text = "00:00"
 
 [node name="Weather" type="HFlowContainer" parent="HUD"]
+visible = false
 custom_minimum_size = Vector2(100, 20)
 layout_mode = 1
 anchors_preset = 1

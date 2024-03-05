@@ -1562,8 +1562,7 @@ sources/1 = SubResource("TileSetAtlasSource_rdg0h")
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
-weather_interval = 10
-spawn_time = 1
+enemy_spawn_time = 2
 metadata/_edit_horizontal_guides_ = [2560.0, -2504.0, 0.0, 0.0]
 metadata/_edit_vertical_guides_ = [2560.0, -2500.0]
 
@@ -1605,3 +1604,4 @@ layer_0/tile_data = PackedInt32Array(10485600, 589824, 8, 10485601, 1572864, 2, 
 [connection signal="timeout" from="EnemySpawnPath/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]
 [connection signal="restart" from="GUI" to="." method="_on_restart"]
+[connection signal="time_update" from="GUI" to="." method="_on_gui_time_update"]

@@ -5,6 +5,9 @@ extends Character
 func _init():
 	init(Global.char_type.ENEMY) # initialize stats
 
+func _ready():
+	update_text()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
 	# move towards player
@@ -30,7 +33,17 @@ func _physics_process(_delta):
 				#print(str("E ", collision.get_collider().stats))
 				if(player != null): player.take_damage(stats.atk)
 
+# Display level and hp
+func update_text():
+	var text = str("LVL ", stats.level, "\n")
+	text += "%d/%d" % [stats.hp, stats.max_hp]
+	%Label.text = text
+
 # When HP reaches 0, give player exp and delete
 func _on_defeated():
 	player.gain_exp(stats.exp)
 	queue_free()
+
+func _on_damage_taken():
+	update_text()
+

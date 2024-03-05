@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 signal restart()
+signal time_update() # called every second when game timer updates
 
 @export var icon_path_format = "res://assets/Icons/%s@2x.png"
 
@@ -103,6 +104,7 @@ func _on_restart_button_pressed():
 
 # Call every second
 func _on_game_timer_timeout():
+	time_update.emit()
 	var time = Global.level_timer
 	print(time)
 	time.total_seconds += 1

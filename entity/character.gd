@@ -2,12 +2,12 @@ class_name Character
 extends CharacterBody2D
 # Shared script for player and enemies
 
+signal damage_taken()
 signal defeated()
 
-var type
+var type # player or enemy
 
 # Stats
-
 @export var base_stats = {
 	player = {
 		level = 1,
@@ -30,8 +30,15 @@ var type
 @export var stat_growth = {
 	player = {
 		max_hp = 5,
+		atk = 1.5,
+		max_exp = 1.15,
+		speed = 1
+	},
+	enemy = {
+		max_hp = 5,
 		atk = 2,
-		max_exp = 1.1
+		exp = 2,
+		speed = 2
 	}
 }
 
@@ -42,21 +49,24 @@ var type
 @onready var gui = $/root/Main/GUI
 
 # set stats based on character type
+var isPlayer = (type == 0)
 func init(char_type):
 	type = char_type
+	isPlayer = (type == 0)
+	
 	if(char_type == Global.char_type.PLAYER):
 		base_stats = base_stats.player
 		stat_growth = stat_growth.player
 		stats.iframes = 0
 	else:
 		base_stats = base_stats.enemy
+		stat_growth = stat_growth.enemy
+	
 	stats = base_stats.duplicate()
 	stats.hp = stats.max_hp
 
 # Take damage
 func take_damage(n):
-	var isPlayer = (type == 0)
-	
 	# player takes damage if iframes is 0
 	if(isPlayer):
 		if(stats.iframes == 0):
@@ -76,4 +86,27 @@ func take_damage(n):
 		Global.player_stats.hp = stats.hp
 		gui.update_stats()
 		
+	damage_taken.emit()
 	
+
+# Add levels and update stats
+func gain_level(n):
+	stats.level += n;
+	update_stats()
+
+# Calculate stats and update hud
+func update_stats():
+	var current_max_hp = stats.max_hp
+	
+	for stat in ["max_hp", "atk", "speed"]:
+		stats[stat] = base_stats[stat] + stat_growth[stat] * (stats.level-1)
+	stats.hp += stats.max_hp - current_max_hp
+	
+	if(isPlayer):
+		stats.max_exp = floor(base_stats.max_exp * pow(stat_growth.max_exp, (stats.level-1))) # exponential growth
+		Global.player_stats = stats
+		gui.update_stats()
+	else:
+		stats.exp = base_stats.exp + stat_growth.exp * (stats.level-1)
+		
+	print(stats)

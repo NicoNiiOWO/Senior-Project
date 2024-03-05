@@ -18,26 +18,16 @@ func _init():
 	Global.player_stats = stats
 	
 
-# Gain exp and level
+# Gain exp and levels
 func gain_exp(n):
 	stats.exp += n
+	
+	var levels = 0
 	while stats.exp >= stats.max_exp:
-		stats.level+=1
+		levels+=1
 		stats.exp -= stats.max_exp
 	
-	update_stats()
-
-# Calculate stats and update hud
-func update_stats():
-	var current_max_hp = stats.max_hp
-	stats.max_hp = base_stats.max_hp + (stats.level-1) * stat_growth.max_hp
-	stats.atk = base_stats.atk + (stats.level-1) * stat_growth.atk
-	stats.max_exp = floor(base_stats.max_exp * pow(stat_growth.max_exp, (stats.level-1))) # exponential growth
-	
-	stats.hp += stats.max_hp - current_max_hp
-	
-	Global.player_stats = stats
-	gui.update_stats()
+	gain_level(levels)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
