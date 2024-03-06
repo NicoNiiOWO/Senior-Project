@@ -21,12 +21,15 @@ var player
 var player_scn = preload("res://entity/player.tscn")
 var enemy_scn = preload("res://entity/enemy.tscn")
 
+# Initialz level
+@export var player_level = 1
+@export var enemy_level = 1
+
 # Enemy variables
 @export var enable_spawn = true
 @export var enemy_spawn_time = 1	# Time between enemy spawns (s)
 @export var enemy_spawn_count = 2	# Amount spawned
 @export var enemy_level_interval = 15	# Time between incrementing enemy level (s)
-var enemy_level = 0
 
 @onready var gui = $GUI
 @onready var spawn_timer = $EnemySpawnPath/SpawnTimer
@@ -51,11 +54,12 @@ func _init():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Global.weather_interval = weather_interval
-	enemy_level = 0
+	
 	
 	# add new player
 	player = player_scn.instantiate()
 	add_child(player)
+	player.gain_level(player_level-1)
 	
 	if(use_api): api_call()
 	use_api = false # don't call api again
@@ -99,6 +103,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	gui.weather_update()
 
 func enemy_spawn(n, level): # Spawn n enemies
+	print(level)
 	if(player != null):
 		for i in n:
 			var enemyInstance = enemy_scn.instantiate()
@@ -115,9 +120,10 @@ func enemy_spawn(n, level): # Spawn n enemies
 			
 			add_child(enemyInstance)
 
+var timer = Global.level_timer
 func _on_gui_time_update(): # Call every second when timer is running
 	# Increase enemy level on interval
-	if(Global.level_timer.total_seconds % enemy_level_interval == 0):
+	if(timer.total_seconds != 0 && timer.total_seconds % enemy_level_interval == 0):
 		enemy_level += 1
 		print("enemy level ", enemy_level)
 
@@ -131,4 +137,6 @@ func game_over():
 	gui.game_over()
 
 func _on_restart():
+	player_level = 0
+	enemy_level = 0
 	_ready()

@@ -41,7 +41,7 @@ func update_text():
 
 # When HP reaches 0, give player exp and delete
 func _on_defeated():
-	player.gain_exp(stats.exp)
+	player.gain_exp(stats.max_exp)
 	queue_free()
 
 func _on_damage_taken():

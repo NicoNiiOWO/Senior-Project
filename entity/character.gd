@@ -16,11 +16,12 @@ var type # player or enemy
 		max_hp = 100,
 		atk = 10,
 		speed = 250,
-		iframes = 0.25 # invincibility frames in seconds
+		iframes = 0.25, # invincibility frames in seconds
+		atk_size = 1, # attack size multiplier
 	},
 	enemy = {
 		level = 1,
-		exp = 20,
+		max_exp = 20, # exp given to player
 		max_hp = 50,
 		atk = 10,
 		speed = 100,
@@ -30,17 +31,19 @@ var type # player or enemy
 @export var stat_growth = {
 	player = {
 		max_hp = 5,
-		atk = 1.5,
-		max_exp = 1.15,
-		speed = 1
+		atk = 1.25,
+		max_exp = 1.2, # multiply
+		speed = 1,
+		atk_size = 0.05
 	},
 	enemy = {
 		max_hp = 5,
 		atk = 2,
-		exp = 2,
+		max_exp = 1.1, # multiply
 		speed = 2
 	}
 }
+var effects = []
 
 # Current stats
 @export var stats = {} 
@@ -99,14 +102,19 @@ func update_stats():
 	var current_max_hp = stats.max_hp
 	
 	for stat in ["max_hp", "atk", "speed"]:
-		stats[stat] = base_stats[stat] + stat_growth[stat] * (stats.level-1)
+		stats[stat] = stats_additive(stat)
 	stats.hp += stats.max_hp - current_max_hp
+	stats.max_exp = stats_multiplicative("max_exp")
 	
 	if(isPlayer):
-		stats.max_exp = floor(base_stats.max_exp * pow(stat_growth.max_exp, (stats.level-1))) # exponential growth
+		stats.atk_size = stats_additive("atk_size")
 		Global.player_stats = stats
 		gui.update_stats()
-	else:
-		stats.exp = base_stats.exp + stat_growth.exp * (stats.level-1)
 		
 	print(stats)
+
+func stats_additive(stat):
+	return base_stats[stat] + stat_growth[stat] * (stats.level-1)
+
+func stats_multiplicative(stat):
+	return floor(base_stats[stat] * pow(stat_growth[stat], (stats.level-1)))

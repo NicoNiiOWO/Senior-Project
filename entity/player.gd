@@ -89,10 +89,10 @@ func _physics_process(delta):
 
 func attack():
 	var new_attack = attack_scn.instantiate()
-	new_attack.source = Global.char_type.PLAYER
-	new_attack.damage = stats.atk # change attack damage based on player atk stat
+	# change damage/size based on player atk stat
+	new_attack.init(Global.char_type.PLAYER, stats.atk, stats.atk_size)
 	
-	# Change attack position and rotate based on player direction
+	# Offset attack position and rotate based on player direction
 	new_attack.position += direction*30 + Vector2(0, -5)
 	new_attack.global_rotation = Vector2.ZERO.angle_to_point(direction)
 	

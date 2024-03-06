@@ -18,6 +18,7 @@ var weather_data = { # data displayed in hud
 	timezone = Global.timezone.name
 }
 
+# start timer
 func start():
 	var timer = $GameTimer
 	timer.wait_time = 1
@@ -29,12 +30,14 @@ func start():
 	timer.start()
 	update_stats()
 
+# Display player stats
 func update_stats():
 	var stats = Global.player_stats
 	
 	%HP.text = str("HP: ", stats.hp,"/", stats.max_hp)
 	%Level.text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
 
+# update weather info
 func weather_update():
 	var response = Global.api_response
 	
@@ -67,6 +70,7 @@ func weather_update():
 	
 	$HUD/Weather.visible = true
 
+# display weather info and update clock
 func set_weather_text():
 	# ignore on api response error
 	if(!Global.api_success):
@@ -88,6 +92,7 @@ func set_weather_text():
 		Time = datetime_f.format(time), 
 		Timezone = Global.timezone.name
 	})
+
 	%WeatherText.text = text
 
 func game_over():
@@ -95,14 +100,13 @@ func game_over():
 	%RestartButton.disabled = false
 	$GameTimer.stop()
 
-
 func _on_restart_button_pressed():
 	$GameOver.set_visible(false)
 	%RestartButton.disabled = true
 	restart.emit()
 
 
-# Call every second
+# Call every second, update timer
 func _on_game_timer_timeout():
 	time_update.emit()
 	var time = Global.level_timer
@@ -117,7 +121,7 @@ func _on_game_timer_timeout():
 	if(Global.api_success && time.seconds > 0 && time.total_seconds % Global.weather_interval == 0):
 		print("e")
 		
-		# loop if reached end
+		# loop weather at end of array
 		if(Global.index < Global.api_response.cnt):
 			Global.index += 1
 		else: Global.index = 0
