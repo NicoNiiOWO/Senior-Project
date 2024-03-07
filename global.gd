@@ -2,7 +2,7 @@ extends Node
 
 enum char_type {PLAYER, ENEMY} # use to initialize character
 
-enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
+#enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 
 var map_size
 
@@ -62,8 +62,8 @@ func setWeatherData(index): # simplify response at index
 		
 		weather_data.local_dt = weather_data.dt + timezone.bias*60
 		
-		setType()
 		print(weather_data)
+		return setType()
 
 # set weather type based on weather code: https://openweathermap.org/weather-conditions
 func setType():
@@ -73,21 +73,25 @@ func setType():
 	
 	match group:
 		2: # Thunderstorm
-			type.append(weather_type.STORM)
+			type.append("storm")
 		3: # Drizzle/Rain
-			type.append(weather_type.RAIN)
+			type.append("rain")
 		5: # Rain
-			type.append(weather_type.RAIN)
+			type.append("rain")
 		6: # Snow
-			type.append(weather_type.SNOW)
+			type.append("snow")
 			if(code == 615 || code == 616):
-				type.append(weather_type.RAIN)
+				type.append("rain")
 		7: # Atmosphere
-			type.append(weather_type.CLOUDS)
+			type.append("clouds")
 		8: # Clear/Cloudy
-			if(code==800): type.append(weather_type.CLEAR)
-			else: type.append(weather_type.CLOUDS)
+			if(code==800): type.append("clear")
+			else: type.append("clouds")
 	
-	if(weather_data.wind.speed > 9): type.append(weather_type.WIND)
+	type.append("wind")
 	
-	weather_data.type = type
+	# return true if types changed
+	if(!weather_data.has("type") || weather_data.type != type): 
+		weather_data.type = type
+		return true
+	return false

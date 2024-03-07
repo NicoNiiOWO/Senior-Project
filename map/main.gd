@@ -132,6 +132,7 @@ func _on_spawn_timer_timeout():
 	if(enable_spawn): enemy_spawn(enemy_spawn_count, enemy_level)
 
 func game_over():
+	spawn_timer.stop()
 	# delete player and enemies
 	player.queue_free()
 	get_tree().call_group("enemies", "queue_free")
@@ -141,3 +142,10 @@ func _on_restart():
 	player_level = 0
 	enemy_level = 0
 	_ready()
+
+
+func _on_gui_weather_changed():
+	# update stats
+	if(player != null):
+		player.update_stats()
+	get_tree().call_group("enemies", "update_stats")

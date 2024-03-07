@@ -2,6 +2,7 @@ extends CanvasLayer
 
 signal restart()
 signal time_update() # called every second when game timer updates
+signal weather_changed()
 
 @export var icon_path_format = "res://assets/Icons/%s@2x.png"
 
@@ -44,8 +45,7 @@ func weather_update():
 	if Global.api_success: # Response successful
 		print("Index: ",Global.index,"/", response.cnt-1)
 		if(prev_index != Global.index): # call once per weather change
-			
-			Global.setWeatherData(Global.index)
+			var type_changed = Global.setWeatherData(Global.index)
 
 			# Load weather icon
 			var icon_code = Global.weather_data.icon
@@ -56,6 +56,8 @@ func weather_update():
 			
 			set_weather_text()
 			prev_index = Global.index
+			
+			if(type_changed): weather_changed.emit()
 		
 	else:
 		if(response != null && response.message != null):

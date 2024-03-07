@@ -1605,3 +1605,4 @@ layer_0/tile_data = PackedInt32Array(10485600, 589824, 8, 10485601, 1572864, 2, 
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]
 [connection signal="restart" from="GUI" to="." method="_on_restart"]
 [connection signal="time_update" from="GUI" to="." method="_on_gui_time_update"]
+[connection signal="weather_changed" from="GUI" to="." method="_on_gui_weather_changed"]
