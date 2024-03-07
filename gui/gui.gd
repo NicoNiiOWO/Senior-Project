@@ -7,16 +7,16 @@ signal time_update() # called every second when game timer updates
 
 var datetime_f = "{year}/{month}/{day} {hour}:{minute}"
 var time_f = "%02d:%02d"
-var text_format = "{Temp_C}°C/{Temp_F}°F\n{Weather}\n{Time}\n{Timezone}"
+var text_format = "{Time} {Timezone}\n{Description}\n{Temp_C}°C/{Temp_F}°F"
 
 var prev_index # most recent index used on weather list
 
-var weather_data = { # data displayed in hud
-	temp_c = 0,
-	temp_f = 0,
-	weather_str = "", 
-	timezone = Global.timezone.name
-}
+#var weather_data = { # data displayed in hud
+	#temp_c = 0,
+	#temp_f = 0,
+	#weather_str = "", 
+	#timezone = Global.timezone.name
+#}
 
 # start timer
 func start():
@@ -44,16 +44,11 @@ func weather_update():
 	if Global.api_success: # Response successful
 		print("Index: ",Global.index,"/", response.cnt-1)
 		if(prev_index != Global.index): # call once per weather change
-			Global.weather = response.list[Global.index]
-
-			# Set weather data
-			weather_data.weather_str = Global.weather.weather[0].main
-			# Calculate temperature
-			weather_data.temp_c = Global.weather.main.temp-273.15
-			weather_data.temp_f = weather_data.temp_c * 1.8 + 32
+			
+			Global.setWeatherData(Global.index)
 
 			# Load weather icon
-			var icon_code = Global.weather.weather[0].icon
+			var icon_code = Global.weather_data.icon
 			var icon_path = icon_path_format % icon_code
 			
 			var icon = load(icon_path)
@@ -80,17 +75,17 @@ func set_weather_text():
 	var time_offset = Global.api_interval/Global.weather_interval * (Global.level_timer.total_seconds % Global.weather_interval)
 	
 	# Convert UTC to local time
-	var local_unix = Global.weather.dt + Global.timezone.bias*60
-	var time = Time.get_datetime_dict_from_unix_time(local_unix + time_offset)
+	var time = Time.get_datetime_dict_from_unix_time(Global.weather_data.local_dt + time_offset)
 	if(time.minute < 10):
 		time.minute = str(0, time.minute)
 
 	var text = text_format.format({
-		Temp_C = "%0.2f" % weather_data.temp_c,
-		Temp_F = "%0.2f" % weather_data.temp_f,
-		Weather = weather_data.weather_str, 
+		Temp_C = "%0.2f" % Global.weather_data.temp_c,
+		Temp_F = "%0.2f" % Global.weather_data.temp_f,
+		Weather = Global.weather_data.main, 
+		Description = Global.weather_data.description,
 		Time = datetime_f.format(time), 
-		Timezone = Global.timezone.name
+		Timezone = Global.timezone.acronym
 	})
 
 	%WeatherText.text = text
@@ -111,6 +106,7 @@ func _on_game_timer_timeout():
 	time_update.emit()
 	var time = Global.level_timer
 	print(time)
+
 	time.total_seconds += 1
 	time.seconds += 1
 	if(time.seconds >= 60):

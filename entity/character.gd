@@ -34,15 +34,16 @@ var type # player or enemy
 		atk = 1.25,
 		max_exp = 1.2, # multiply
 		speed = 1,
-		atk_size = 0.05
+		atk_size = 0.02
 	},
 	enemy = {
 		max_hp = 5,
 		atk = 2,
-		max_exp = 1.1, # multiply
+		max_exp = 1.05, # multiply
 		speed = 2
 	}
 }
+
 var effects = []
 
 # Current stats
@@ -113,8 +114,9 @@ func update_stats():
 		
 	print(stats)
 
-func stats_additive(stat):
-	return base_stats[stat] + stat_growth[stat] * (stats.level-1)
+# calculate stat based on level
+func stats_additive(stat, base=base_stats, growth=stat_growth, level=stats.level):
+	return base[stat] + growth[stat] * (level-1)
 
-func stats_multiplicative(stat):
-	return floor(base_stats[stat] * pow(stat_growth[stat], (stats.level-1)))
+func stats_multiplicative(stat, base=base_stats, growth=stat_growth, level=stats.level):
+	return floor(base[stat] * pow(growth[stat], level-1))

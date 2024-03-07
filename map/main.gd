@@ -93,6 +93,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	Global.api_response_code = response_code
 	Global.api_response = json.get_data()
 	
+	# if successful
 	if(response_code == 200):
 		Global.api_success = true
 		print(Global.api_response)
