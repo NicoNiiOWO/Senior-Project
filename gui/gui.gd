@@ -4,20 +4,34 @@ signal restart()
 signal time_update() # called every second when game timer updates
 signal weather_changed()
 
-@export var icon_path_format = "res://assets/Icons/%s@2x.png"
+@export var icon_path_format : String = "res://assets/Icons/%s@2x.png"
 
-var datetime_f = "{year}/{month}/{day} {hour}:{minute}"
-var time_f = "%02d:%02d"
-var text_format = "{Time} {Timezone}\n{Description}\n{Temp_C}°C/{Temp_F}°F"
+var datetime_f : String = "{year}/{month}/{day} {hour}:{minute}"
+var time_f : String = "%02d:%02d"
+var text_format : String = "{Time} {Timezone}\n{Description}\n{Temp_C}°C/{Temp_F}°F"
 
-var prev_index # most recent index used on weather list
+var prev_index : int = -1 # most recent index used on weather list
 
-#var weather_data = { # data displayed in hud
-	#temp_c = 0,
-	#temp_f = 0,
-	#weather_str = "", 
-	#timezone = Global.timezone.name
-#}
+
+func _input(event):
+	# pause game when running
+	if Global.game_ongoing && event.is_action_pressed("pause"):
+		pause()
+	
+	# restart when pressing button
+	if $GameOver.visible && event.is_action_pressed("attack"):
+		_on_restart_button_pressed()
+		#if released && event.is_action_released("attack"):
+			#released = false
+			#_on_restart_button_pressed()
+		#else: if event.is_action_released("attack"):
+			#released = true
+			
+
+func pause():
+	print("pause")
+	$PauseMenu.show()
+	get_tree().paused = true
 
 # start timer
 func start():
@@ -41,12 +55,14 @@ func update_stats():
 # update weather info
 func weather_update():
 	var response = Global.api_response
+	print("IOKFSJAMD")
+	print(Global.api_success, Global.api_response_code)
 	
 	if Global.api_success: # Response successful
 		print("Index: ",Global.index,"/", response.cnt-1)
 		if(prev_index != Global.index): # call once per weather change
 			var type_changed = Global.setWeatherData(Global.index)
-
+			print("QQQ", type_changed)
 			# Load weather icon
 			var icon_code = Global.weather_data.icon
 			var icon_path = icon_path_format % icon_code
@@ -77,6 +93,8 @@ func set_weather_text():
 	var time_offset = Global.api_interval/Global.weather_interval * (Global.level_timer.total_seconds % Global.weather_interval)
 	
 	# Convert UTC to local time
+	print()
+	print(Global.weather_data)
 	var time = Time.get_datetime_dict_from_unix_time(Global.weather_data.local_dt + time_offset)
 	if(time.minute < 10):
 		time.minute = str(0, time.minute)
@@ -124,6 +142,8 @@ func _on_game_timer_timeout():
 			Global.index += 1
 		else: Global.index = 0
 		weather_update()
-
+	
+	print(Global.weather_data)
 	set_weather_text()
 	$HUD/Timer.text = time_f % [time.minutes, time.seconds]
+

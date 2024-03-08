@@ -1,9 +1,9 @@
 extends Area2D
 
-@export var duration = 0.25 # How long attack lasts
-@export var damage = 10
-@export var size = 1 # size multiplier
-var source # source of attack (player/enemy)
+@export var duration : float = 0.25 # How long attack lasts
+@export var damage : float = 10
+@export var size : float = 1 # size multiplier
+var source : int # source of attack (player/enemy)
 
 func init(atk_source, dmg, size_m):
 	source = atk_source

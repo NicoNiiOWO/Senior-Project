@@ -1,15 +1,15 @@
 extends Character
 
-var screen_size # Size of the game window.
+#var screen_size # Size of the game window.
 
-var map_length # Size of map
+#var map_length # Size of map
 #var map_size
 
-@export var direction = Vector2(1,0) # player's direction, start facing right
-var flip = false # player sprite direction
+@export var direction : Vector2 = Vector2(1,0) # player's direction, start facing right
+var flip : bool = false # player sprite direction
 
-@onready var sprite = $AnimatedSprite2D
-var attack_scn = preload("res://entity/attack.tscn")
+@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
+var attack_scn : PackedScene = preload("res://entity/attack.tscn")
 #var hud = preload("res://gui/hud.tscn")
 
 func _init():
@@ -39,8 +39,7 @@ func _ready():
 	$Camera2D.set("limit_right", map_size/2)
 	$Camera2D.set("limit_bottom", map_size/2)
 	
-	screen_size = get_viewport_rect().size
-	print_debug("Window size:", screen_size)
+	print_debug("Window size:", get_viewport_rect().size)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

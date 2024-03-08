@@ -5,10 +5,10 @@ extends CharacterBody2D
 signal damage_taken()
 signal defeated()
 
-var type # player or enemy
+var type : int # player or enemy
 
 # Stats
-@export var base_stats = {
+@export var base_stats : Dictionary = {
 	player = {
 		level = 1,
 		max_exp = 100,
@@ -30,7 +30,7 @@ var type # player or enemy
 	}
 }
 # Stat increase per level
-@export var stat_growth = {
+@export var stat_growth : Dictionary = {
 	player = {
 		max_hp = 5,
 		atk = 1.25,
@@ -41,13 +41,13 @@ var type # player or enemy
 	enemy = {
 		max_hp = 5,
 		atk = 2,
-		max_exp = 1.05, # multiply
+		max_exp = 1.1, # multiply
 		speed = 2
 	}
 }
 
 enum calc {ADD,MULT} # stat calculation type
-@export var weather_effects = { # multiply stats
+@export var weather_effects : Dictionary = { # multiply stats
 	clear = {
 		"atk": 1.2,
 	},
@@ -72,16 +72,16 @@ enum calc {ADD,MULT} # stat calculation type
 }
 
 # Current stats
-@export var stats = {} 
-@export var effects = {
+@export var stats : Dictionary = {} 
+@export var effects : Dictionary = {
 	weather = [],
 }
 
-@onready var main = $/root/Main
-@onready var gui = $/root/Main/GUI
+@onready var main : Node = $/root/Main
+@onready var gui : CanvasLayer = $/root/Main/GUI
 
 # set stats based on character type
-var isPlayer = (type == 0)
+var isPlayer : bool = (type == 0)
 func init(char_type):
 	type = char_type
 	isPlayer = (type == 0)
@@ -98,17 +98,23 @@ func init(char_type):
 	stats.hp = stats.max_hp
 
 # Take damage
+var dmg_format : String = "{type} HP: {hp} (-{dmg})"
 func take_damage(n):
-	# player takes damage if iframes is 0
-	if(isPlayer):
-		if(stats.iframes == 0):
-			stats.hp -= n * stats.dmg_taken
-			stats.iframes = base_stats.iframes
-			print("Player HP: ", stats.hp)
+	var dmg = 0
+	var round # round to nearest 1 or 0.1
+	
+	if(!isPlayer):
+		dmg = snapped(n * stats.dmg_taken, 1)
+		round = 1
 	else: 
-		stats.hp -= n * stats.dmg_taken
-		if(stats.hp < 1 && stats.hp > 0): stats.hp = 0
-		print("Enemy HP: ", stats.hp)
+		# player takes damage if iframes is 0
+		if isPlayer && stats.iframes==0: 
+			dmg = snapped(n * stats.dmg_taken, 0.1)
+			round = 0.1
+			stats.iframes = base_stats.iframes
+	
+	stats.hp -= dmg
+	#print(dmg_format.format({type = Global.char_type_str[type], hp=stats.hp, dmg=dmg}))
 	
 	if stats.hp <= 0:
 		stats.hp = 0
@@ -147,10 +153,10 @@ func update_stats():
 
 # calculate stat based on level
 func stats_additive(stat, base=base_stats, growth=stat_growth, level=stats.level):
-	return base[stat] + growth[stat] * (level-1)
+	return snapped(base[stat] + growth[stat] * (level-1), 1) # nearest int
 
 func stats_multiplicative(stat, base=base_stats, growth=stat_growth, level=stats.level):
-	return floor(base[stat] * pow(growth[stat], level-1))
+	return snapped(floor(base[stat] * pow(growth[stat], level-1)), 1) # nearest int
 
 func update_effects():
 	effects.weather = []

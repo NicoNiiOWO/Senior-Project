@@ -1,10 +1,14 @@
 extends Node
 
 enum char_type {PLAYER, ENEMY} # use to initialize character
+var char_type_str : Array = ["Player", "Enemy"]
 
 #enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 
-var map_size
+var game_ongoing : bool = false # if game is started and not over
+var game_paused : bool = false
+
+var map_size : int = 5120 # size of map
 
 var level_timer = {
 	minutes = 0,
@@ -24,16 +28,16 @@ var player_stats = {
 
 
 # API variables
-var api_success = false
+var api_success
 var api_response_code
 var api_response = {
 	list = [],
 }
-var index = 0 # current index in list
+var index : int = 0 # current index in list
 
-var weather_data = { } # info used
+var weather_data : Dictionary = { } # info used
 
-var weather_interval # time between game weather change in seconds
+var weather_interval# time between game weather change in seconds
 var api_interval # time between api response entries
 
 var timezone = Time.get_time_zone_from_system()
@@ -47,8 +51,10 @@ func _init():
 	print(timezone)
 	
 func setWeatherData(index): # simplify response at index
+	print("EE")
 	if(api_success):
 		var entry = api_response.list[index]
+		print("AAA",entry)
 		weather_data = entry.weather[0].duplicate()
 		weather_data.description = weather_data.description.capitalize()
 		weather_data.index = index

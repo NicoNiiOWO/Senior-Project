@@ -1,6 +1,6 @@
 extends Character
 
-@onready var player = $/root/Main/Player
+@onready var player : Character = $/root/Main/Player
 
 func _init():
 	init(Global.char_type.ENEMY) # initialize stats
