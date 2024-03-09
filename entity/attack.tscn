@@ -61,6 +61,7 @@ animations = [{
 }]
 
 [node name="Attack" type="Area2D"]
+visibility_layer = 3
 scale = Vector2(2, 2)
 collision_layer = 2
 collision_mask = 2

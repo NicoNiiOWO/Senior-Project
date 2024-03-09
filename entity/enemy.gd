@@ -1,12 +1,15 @@
 extends Character
 
+var flip : bool = false
 @onready var player : Character = $/root/Main/Player
+@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 
 func _init():
 	init(Global.char_type.ENEMY) # initialize stats
 
 func _ready():
 	update_text()
+	sprite.play("walk")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
@@ -32,6 +35,14 @@ func _physics_process(_delta):
 			if isPlayer:
 				#print(str("E ", collision.get_collider().stats))
 				if(player != null): player.take_damage(stats.atk)
+				
+	# Flip sprite based on velocity
+	if(velocity.x > 0): flip = false
+	if(velocity.x < 0): flip = true
+	
+	if(sprite.flip_h != flip):
+		sprite.flip_h = flip
+		sprite.position.x = -sprite.position.x  # Flip offset to match hitbox
 
 # Display level and hp
 func update_text():

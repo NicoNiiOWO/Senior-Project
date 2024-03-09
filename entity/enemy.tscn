@@ -1,11 +1,63 @@
-[gd_scene load_steps=4 format=3 uid="uid://be830e3wn8jb4"]
+[gd_scene load_steps=10 format=3 uid="uid://be830e3wn8jb4"]
 
-[ext_resource type="Texture2D" uid="uid://c3t30j8u5hkka" path="res://addons/kenney_prototype_textures/red/texture_03.png" id="1_lmape"]
 [ext_resource type="Script" path="res://entity/enemy.gd" id="1_yhqql"]
+[ext_resource type="Texture2D" uid="uid://c6pw3sf6d6hpb" path="res://assets/Waddle Dee.png" id="3_toglo"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_utgbx"]
-radius = 15.0
-height = 42.0
+radius = 20.0
+height = 40.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1jpe"]
+atlas = ExtResource("3_toglo")
+region = Rect2(8, 8, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3upkw"]
+atlas = ExtResource("3_toglo")
+region = Rect2(34, 8, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drrj1"]
+atlas = ExtResource("3_toglo")
+region = Rect2(60, 8, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dr7se"]
+atlas = ExtResource("3_toglo")
+region = Rect2(86, 8, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jm17j"]
+atlas = ExtResource("3_toglo")
+region = Rect2(112, 8, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w77g1"]
+animations = [{
+"frames": [{
+"duration": 1.1,
+"texture": SubResource("AtlasTexture_d1jpe")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_3upkw")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_drrj1")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_dr7se")
+}, {
+"duration": 1.1,
+"texture": SubResource("AtlasTexture_jm17j")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_dr7se")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_drrj1")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_3upkw")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
@@ -17,27 +69,36 @@ script = ExtResource("1_yhqql")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_utgbx")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.03, 0.04)
-texture = ExtResource("1_lmape")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(4, -5)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_w77g1")
+animation = &"walk"
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="Node2D" type="Node2D" parent="."]
+visibility_layer = 3
+z_index = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Node2D"]
+visibility_layer = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -24.0
-offset_top = -20.0
+offset_top = -54.5
 offset_right = 38.0
-offset_bottom = 20.0
+offset_bottom = -5.5
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.8, 0.8)
 
-[node name="Label" type="Label" parent="CenterContainer"]
+[node name="Label" type="Label" parent="Node2D/CenterContainer"]
 unique_name_in_owner = true
+visibility_layer = 3
 layout_mode = 2
+theme_override_constants/line_spacing = -5
 text = "LVL 1
 50/50"
 horizontal_alignment = 1

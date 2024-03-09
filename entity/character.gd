@@ -47,27 +47,27 @@ var type : int # player or enemy
 }
 
 enum calc {ADD,MULT} # stat calculation type
-@export var weather_effects : Dictionary = { # multiply stats
+@export var weather_effects : Dictionary = { # stats
 	clear = {
-		"atk": 1.2,
+		"atk": 0.2,
 	},
 	clouds = {},
 	rain = {
-		"atk": 0.9,
-		"speed": 0.8,
+		"atk": -0.1,
+		"speed": -0.2,
 	},
 	snow = {
-		"speed": 0.8,
-		"dmg_taken": 0.8
+		"speed": -0.2,
+		"dmg_taken": -0.2
 	},
 	storm = {
-		"max_hp": 0.9,
-		"atk": 1.3,
-		"speed": 1.1
+		"max_hp": -0.1,
+		"atk": 0.3,
+		"speed": 0.1
 	},
 	wind = {
-		"atk": 0.8,
-		"speed": 1.3
+		"atk": -0.2,
+		"speed": 0.3
 	}
 }
 
@@ -172,13 +172,13 @@ func update_effects():
 		if(effects.weather.size() > 0):
 			for effect in effects.weather:
 				for key in effect.keys():
-					if(total.has(key)): total[key] += (effect[key]-1)
+					if(total.has(key)): total[key] += (effect[key])
 					else: total[key] = effect[key]
 		
 		effects.total=total
 		
 		# update stats
 		for stat in total.keys():
-			stats[stat] *= total[stat]
+			stats[stat] *= 1+total[stat]
 		
 		print(effects)

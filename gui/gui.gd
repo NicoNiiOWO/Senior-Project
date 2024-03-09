@@ -107,6 +107,8 @@ func set_weather_text():
 		Time = datetime_f.format(time), 
 		Timezone = Global.timezone.acronym
 	})
+	if(Global.weather_data.type.has("wind")):
+		text += "\nWindy"
 
 	%WeatherText.text = text
 
