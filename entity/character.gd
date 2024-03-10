@@ -113,8 +113,9 @@ func take_damage(n):
 			round = 0.1
 			stats.iframes = base_stats.iframes
 	
-	stats.hp -= dmg
-	#print(dmg_format.format({type = Global.char_type_str[type], hp=stats.hp, dmg=dmg}))
+	
+	stats.hp = snapped(stats.hp-dmg, 0.1) 
+	print_debug(dmg_format.format({type = Global.char_type_str[type], hp=stats.hp, dmg=dmg}))
 	
 	if stats.hp <= 0:
 		stats.hp = 0
@@ -149,7 +150,7 @@ func update_stats():
 		Global.player_stats = stats
 		gui.update_stats()
 		
-	print(stats, effects)
+	#print_debug(stats, effects)
 
 # calculate stat based on level
 func stats_additive(stat, base=base_stats, growth=stat_growth, level=stats.level):
@@ -161,7 +162,7 @@ func stats_multiplicative(stat, base=base_stats, growth=stat_growth, level=stats
 func update_effects():
 	effects.weather = []
 	effects.total = {}
-	print(Global.weather_data)
+	#print_debug(Global.weather_data)
 	if(Global.api_success && Global.weather_data.has("type")):
 		# add effects based on weather type
 		for type in Global.weather_data.type:
@@ -181,4 +182,4 @@ func update_effects():
 		for stat in total.keys():
 			stats[stat] *= 1+total[stat]
 		
-		print(effects)
+		#print_debug(effects)

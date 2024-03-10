@@ -14,8 +14,9 @@ var api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?
 var response = Global.api_response
 
 var player : Character = null
-var player_scn : PackedScene = preload("res://entity/player.tscn")
-var enemy_scn : PackedScene = preload("res://entity/enemy.tscn")
+const player_scn : PackedScene = preload("res://entity/player.tscn")
+const enemy_scn : PackedScene = preload("res://entity/enemy.tscn")
+const item_scn : PackedScene = preload("res://entity/item.tscn")
 
 # Initialz level
 @export var player_level : int = 1
@@ -77,12 +78,12 @@ func api_call():
 	var API = $API
 	var request = API.request(api_url)
 	if request != OK:
-		print(":(")
+		print_debug(":(")
 	else:
-		print("a")
+		print_debug("a")
 
 func _on_api_request_completed(_result, response_code, _headers, body):
-	print("API response: ", response_code)
+	print_debug("API response: ", response_code)
 	
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
@@ -93,7 +94,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	# if successful
 	if(response_code == 200):
 		Global.api_success = true
-		print(Global.api_response.list[0])
+		print_debug(Global.api_response.list[0])
 		
 		# datetime difference between responses
 		Global.api_interval = (Global.api_response.list[1].dt - Global.api_response.list[0].dt)
@@ -101,7 +102,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	gui.weather_update()
 
 func enemy_spawn(n, level): # Spawn n enemies
-	#print(level)
+	#print_debug(level)
 	if(player != null):
 		for i in n:
 			var enemyInstance = enemy_scn.instantiate()
@@ -111,7 +112,7 @@ func enemy_spawn(n, level): # Spawn n enemies
 			
 			spawn_location.set_progress_ratio(randf()) # Select random location on path
 			
-			#print("spawn ", spawn_location.position)
+			#print_debug("spawn ", spawn_location.position)
 			
 			# offset location based on player position
 			enemyInstance.position = spawn_location.position + ($Player).position
@@ -123,7 +124,7 @@ func _on_gui_time_update(): # Call every second when timer is running
 	# Increase enemy level on interval
 	if(timer.total_seconds != 0 && timer.total_seconds % enemy_level_interval == 0):
 		enemy_level += 1
-		print("enemy level ", enemy_level)
+		print_debug("enemy level ", enemy_level)
 
 func _on_spawn_timer_timeout():
 	if(enable_spawn): enemy_spawn(enemy_spawn_count, enemy_level)
@@ -142,9 +143,14 @@ func _on_restart():
 	enemy_level = 1
 	_ready()
 
-
 func _on_gui_weather_changed():
 	# update stats
 	if(player != null):
 		player.update_stats()
 	get_tree().call_group("enemies", "update_stats")
+
+# make item at position
+func addItem(position):
+	var item = item_scn.instantiate()
+	item.global_position = position
+	add_child(item)

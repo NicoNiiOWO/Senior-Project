@@ -13,6 +13,6 @@ func _input(event):
 
 # hide menu and unpause
 func unpause():
-	print("unpause")
+	print_debug("unpause")
 	hide()
 	get_tree().paused = false

@@ -30,6 +30,12 @@ func gain_exp(n):
 	
 	gain_level(levels)
 
+func heal(n):
+	stats.hp += n;
+	if(stats.hp > stats.max_hp):
+		stats.hp = stats.max_hp
+	update_stats()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Set camera limit
@@ -108,4 +114,4 @@ func _on_animated_sprite_2d_animation_finished():
 
 func _on_defeated():
 	main.game_over()
-	print("AAA")
+	print_debug("AAA")

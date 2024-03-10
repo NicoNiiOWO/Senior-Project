@@ -22,7 +22,7 @@ func _physics_process(_delta):
 	
 	var collision_count = get_slide_collision_count()
 	if(collision_count > 0):
-		#print("Collisions: ", collision_count)
+		#print_debug("Collisions: ", collision_count)
 		for i in collision_count:
 			var collision = get_slide_collision(i)
 
@@ -33,7 +33,7 @@ func _physics_process(_delta):
 					isPlayer = true
 			
 			if isPlayer:
-				#print(str("E ", collision.get_collider().stats))
+				#print_debug(str("E ", collision.get_collider().stats))
 				if(player != null): player.take_damage(stats.atk)
 				
 	# Flip sprite based on velocity
@@ -53,6 +53,7 @@ func update_text():
 # When HP reaches 0, give player exp and delete
 func _on_defeated():
 	player.gain_exp(stats.max_exp)
+	get_node("/root/Main").addItem(global_position)
 	queue_free()
 
 func _on_damage_taken():

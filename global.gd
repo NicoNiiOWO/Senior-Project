@@ -48,13 +48,13 @@ func _init():
 	for word in timezone.name.split(" "):
 		acronym += word[0]
 	timezone.acronym = acronym
-	print(timezone)
+	print_debug(timezone)
 	
 func setWeatherData(index): # simplify response at index
-	print("EE")
+	#print_debug("EE")
 	if(api_success):
 		var entry = api_response.list[index]
-		print("AAA",entry)
+		#print_debug("AAA",entry)
 		weather_data = entry.weather[0].duplicate()
 		weather_data.description = weather_data.description.capitalize()
 		weather_data.index = index
@@ -68,7 +68,7 @@ func setWeatherData(index): # simplify response at index
 		
 		weather_data.local_dt = weather_data.dt + timezone.bias*60
 		
-		print(weather_data)
+		print_debug(weather_data)
 		return setType()
 
 # set weather type based on weather code: https://openweathermap.org/weather-conditions
