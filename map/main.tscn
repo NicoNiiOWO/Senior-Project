@@ -1,16 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://v1608s5lvo0j"]
+[gd_scene load_steps=8 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Texture2D" uid="uid://cp36lau6gxpva" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_3s6u4"]
 [ext_resource type="Script" path="res://map/main.gd" id="1_v6nxb"]
 [ext_resource type="TileSet" uid="uid://cextsrgifdaoi" path="res://assets/wall.tres" id="3_o07od"]
+[ext_resource type="Script" path="res://map/EnemySpawnPath.gd" id="3_wsknh"]
 [ext_resource type="PackedScene" uid="uid://c6ckirvpcwsi8" path="res://entity/item.tscn" id="5_2nl8k"]
 [ext_resource type="PackedScene" uid="uid://d8e3lfaeglcx" path="res://gui/gui.tscn" id="6_85ohw"]
 
 [sub_resource type="Curve2D" id="Curve2D_i03nr"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, -672, -416, 0, 0, 0, 0, 672, -416, 0, 0, 0, 0, 672, 416, 0, 0, 0, 0, -672, 416, 0, 0, 0, 0, -672, -416)
-}
-point_count = 5
+bake_interval = 10.0
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
@@ -34,10 +32,14 @@ centered = false
 
 [node name="EnemySpawnPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_i03nr")
+script = ExtResource("3_wsknh")
+
+[node name="Line2D" type="Line2D" parent="EnemySpawnPath"]
+points = PackedVector2Array(-113.191, 138.522, -50.8277, -33.4218)
 
 [node name="EnemySpawnLocation" type="PathFollow2D" parent="EnemySpawnPath"]
 unique_name_in_owner = true
-position = Vector2(-672, -416)
+rotation = -1.5708
 
 [node name="SpawnTimer" type="Timer" parent="EnemySpawnPath"]
 process_callback = 0

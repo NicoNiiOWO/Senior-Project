@@ -75,11 +75,7 @@ scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_w77g1")
 animation = &"walk"
 
-[node name="Node2D" type="Node2D" parent="."]
-visibility_layer = 3
-z_index = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="Node2D"]
+[node name="CenterContainer" type="CenterContainer" parent="."]
 visibility_layer = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -94,7 +90,7 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.8, 0.8)
 
-[node name="Label" type="Label" parent="Node2D/CenterContainer"]
+[node name="Label" type="Label" parent="CenterContainer"]
 unique_name_in_owner = true
 visibility_layer = 3
 layout_mode = 2

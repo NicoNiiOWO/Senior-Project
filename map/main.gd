@@ -30,6 +30,7 @@ const item_scn : PackedScene = preload("res://entity/item.tscn")
 
 @onready var gui : CanvasLayer = $GUI
 @onready var spawn_timer : Timer = $EnemySpawnPath/SpawnTimer
+@onready var window_size = $EnemySpawnPath.get_viewport_rect().size
 
 func _init():
 	# set api settings from config
@@ -58,6 +59,13 @@ func _ready():
 	
 	if(use_api): api_call()
 	use_api = false # don't call api again
+	
+	# scale enemy spawn path with window resolution
+	#$EnemySpawnPath.global_scale = window_size/(Vector2(1280,720))
+	print(window_size)
+	#print(%EnemySpawnLocation.v_offset)
+	#%EnemySpawnLocation.h_offset = window_size.y-720
+	#%EnemySpawnLocation.v_offset = window_size.y
 	
 	# set enemy spawn
 	spawn_timer.wait_time = enemy_spawn_time
@@ -115,7 +123,7 @@ func enemy_spawn(n, level): # Spawn n enemies
 			#print_debug("spawn ", spawn_location.position)
 			
 			# offset location based on player position
-			enemyInstance.position = spawn_location.position + ($Player).position
+			enemyInstance.set_deferred("position", spawn_location.position + ($Player).position)
 			
 			add_child(enemyInstance)
 
@@ -133,12 +141,13 @@ func game_over():
 	Global.game_ongoing = false
 	spawn_timer.stop()
 	
-	# delete player and enemies
-	player.queue_free()
+	# delete enemies
 	get_tree().call_group("enemies", "queue_free")
 	gui.game_over()
 
 func _on_restart():
+	player.queue_free() # delete player
+	
 	player_level = 1
 	enemy_level = 1
 	_ready()
@@ -152,5 +161,5 @@ func _on_gui_weather_changed():
 # make item at position
 func addItem(position):
 	var item = item_scn.instantiate()
-	item.global_position = position
+	item.set_deferred("global_position", position)
 	add_child(item)

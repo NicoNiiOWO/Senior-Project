@@ -1,12 +1,8 @@
 extends Character
 
-#var screen_size # Size of the game window.
-
-#var map_length # Size of map
-#var map_size
-
-@export var direction : Vector2 = Vector2(1,0) # player's direction, start facing right
+var direction : Vector2 = Vector2(1,0) # player's direction, start facing right
 var flip : bool = false # player sprite direction
+var disabled : bool = false # allow movement
 
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 var attack_scn : PackedScene = preload("res://entity/attack.tscn")
@@ -50,47 +46,48 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	if(stats.iframes > 0):
-		stats.iframes -= delta # reduce iframes by frametime
-		if stats.iframes <= 0: stats.iframes = 0
-	
-	# Player movement
-	velocity = Input.get_vector("move_left","move_right","move_up","move_down")
-	
-	# Update direction facing when moving
-	if(velocity.x != 0 || velocity.y != 0):
-		var x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
-		var y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
+	if(!disabled):
+		if(stats.iframes > 0):
+			stats.iframes -= delta # reduce iframes by frametime
+			if stats.iframes <= 0: stats.iframes = 0
 		
-		if(x != 0 || y != 0): direction = Vector2(x,y)
-	
-	velocity = velocity * stats.speed
-	move_and_slide()
+		# Player movement
+		velocity = Input.get_vector("move_left","move_right","move_up","move_down")
+		
+		# Update direction facing when moving
+		if(velocity.x != 0 || velocity.y != 0):
+			var x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
+			var y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
+			
+			if(x != 0 || y != 0): direction = Vector2(x,y)
+		
+		velocity = velocity * stats.speed
+		move_and_slide()
 
-	# Flip sprite based on velocity
-	if(velocity.x > 0): flip = false
-	if(velocity.x < 0): flip = true
-	
-	if(sprite.flip_h != flip):
-		sprite.flip_h = flip
-		sprite.position.x = -sprite.position.x  # Flip offset to match hitbox
-	
-	
-	# Set walk animation when moving
-	if(sprite.animation != "attack"):
-		if(velocity != Vector2.ZERO):
-			sprite.play("walk")
-		else:
-			sprite.play("idle")
-			sprite.set_frame_progress(randf()) # Randomize idle
-	
-	# Attack when key is pressed
-	if(Input.is_action_pressed("attack")):
-		# attack if not on cooldown
-		if(($AttackCooldown).is_stopped()):
-			attack()
-			($AttackCooldown).start()
-			sprite.play("attack")
+		# Flip sprite based on velocity
+		if(velocity.x > 0): flip = false
+		if(velocity.x < 0): flip = true
+		
+		if(sprite.flip_h != flip):
+			sprite.flip_h = flip
+			sprite.position.x = -sprite.position.x  # Flip offset to match hitbox
+		
+		
+		# Set walk animation when moving
+		if(sprite.animation != "attack"):
+			if(velocity != Vector2.ZERO):
+				sprite.play("walk")
+			else:
+				sprite.play("idle")
+				sprite.set_frame_progress(randf()) # Randomize idle
+		
+		# Attack when key is pressed
+		if(Input.is_action_pressed("attack")):
+			# attack if not on cooldown
+			if(($AttackCooldown).is_stopped()):
+				attack()
+				($AttackCooldown).start()
+				sprite.play("attack")
 
 
 func attack():
@@ -111,7 +108,13 @@ func attack():
 func _on_animated_sprite_2d_animation_finished():
 	sprite.set_animation("idle")
 
+# disable movement, visibility, and collision
+func disable():
+	disabled = true
+	visible = false
+	$CollisionShape2D.disabled = true
 
 func _on_defeated():
+	disable()
 	main.game_over()
 	print_debug("AAA")
