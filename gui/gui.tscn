@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d8e3lfaeglcx"]
+[gd_scene load_steps=5 format=3 uid="uid://d8e3lfaeglcx"]
 
 [ext_resource type="Script" path="res://gui/gui.gd" id="1_xmdei"]
 [ext_resource type="Texture2D" uid="uid://dwus57414541e" path="res://assets/Icons/01d@2x.png" id="2_kghc5"]
 [ext_resource type="Script" path="res://gui/PauseMenu.gd" id="3_pt86q"]
+[ext_resource type="PackedScene" uid="uid://cs4jvv78l7rkq" path="res://gui/settings.tscn" id="4_5x61j"]
 
 [node name="GUI" type="CanvasLayer"]
 script = ExtResource("1_xmdei")
@@ -95,36 +96,46 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.615686)
 
-[node name="FlowContainer" type="FlowContainer" parent="PauseMenu"]
+[node name="CenterContainer" type="CenterContainer" parent="PauseMenu"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -52.5
+offset_top = -90.5
+offset_right = 52.5
+offset_bottom = 90.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="PauseMenu/FlowContainer"]
+[node name="FlowContainer" type="FlowContainer" parent="PauseMenu/CenterContainer"]
+layout_mode = 2
+theme_override_constants/v_separation = 60
+alignment = 1
+
+[node name="Label" type="Label" parent="PauseMenu/CenterContainer/FlowContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Paused"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Control" type="Control" parent="PauseMenu/FlowContainer"]
-custom_minimum_size = Vector2(100, 100)
+[node name="Buttons" type="FlowContainer" parent="PauseMenu/CenterContainer/FlowContainer"]
 layout_mode = 2
+theme_override_constants/v_separation = 15
+alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="PauseMenu/FlowContainer"]
-custom_minimum_size = Vector2(100, 0)
+[node name="RestartButton" type="Button" parent="PauseMenu/CenterContainer/FlowContainer/Buttons"]
+custom_minimum_size = Vector2(80, 35)
 layout_mode = 2
+text = "Restart"
 
-[node name="Button" type="Button" parent="PauseMenu/FlowContainer/CenterContainer"]
+[node name="SettingsButton" type="Button" parent="PauseMenu/CenterContainer/FlowContainer/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 35)
 layout_mode = 2
 text = "Settings"
 
@@ -162,19 +173,23 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.152941)
 
-[node name="VFlowContainer" type="VFlowContainer" parent="GameOver"]
+[node name="FlowContainer" type="FlowContainer" parent="GameOver"]
 layout_mode = 1
-anchors_preset = 13
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 offset_left = -107.5
+offset_top = -45.0
 offset_right = 107.5
+offset_bottom = 45.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/v_separation = 60
 alignment = 1
 
-[node name="Text" type="Label" parent="GameOver/VFlowContainer"]
+[node name="Text" type="Label" parent="GameOver/FlowContainer"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
@@ -183,25 +198,19 @@ text = "Game Over"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Padding" type="Control" parent="GameOver/VFlowContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="GameOver/VFlowContainer"]
-layout_mode = 2
-
-[node name="RestartButton" type="Button" parent="GameOver/VFlowContainer/AspectRatioContainer"]
+[node name="RestartButton" type="Button" parent="GameOver/FlowContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/h_separation = 20
 disabled = true
 text = "Restart"
 
-[node name="Settings" type="Control" parent="."]
+[node name="Settings" parent="." instance=ExtResource("4_5x61j")]
 visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
+[connection signal="pause" from="." to="PauseMenu" method="_on_gui_pause"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
-[connection signal="pressed" from="GameOver/VFlowContainer/AspectRatioContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="PauseMenu" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="GameOver/FlowContainer/RestartButton" to="." method="_on_restart_button_pressed"]

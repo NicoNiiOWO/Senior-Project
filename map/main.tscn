@@ -35,6 +35,7 @@ curve = SubResource("Curve2D_i03nr")
 script = ExtResource("3_wsknh")
 
 [node name="Line2D" type="Line2D" parent="EnemySpawnPath"]
+visible = false
 points = PackedVector2Array(-113.191, 138.522, -50.8277, -33.4218)
 
 [node name="EnemySpawnLocation" type="PathFollow2D" parent="EnemySpawnPath"]

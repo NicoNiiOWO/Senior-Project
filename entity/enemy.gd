@@ -1,11 +1,14 @@
 extends Character
 
 var flip : bool = false
-@onready var player : Character = $/root/Main/Player
+var target = null
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 
 func _init():
 	init(Global.char_type.ENEMY) # initialize stats
+
+func set_target(x):
+	target = x
 
 func _ready():
 	update_text()
@@ -13,9 +16,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
-	# move towards player
-	if(player != null):
-		var direction = global_position.direction_to(player.global_position)
+	# move towards target
+	if(target != null):
+		var direction = global_position.direction_to(target.global_position)
 		velocity = direction * stats.speed
 	else: velocity = Vector2.ZERO
 	move_and_slide()
@@ -27,14 +30,14 @@ func _physics_process(_delta):
 			var collision = get_slide_collision(i)
 
 			# check if player
-			var isPlayer = false
+			var touchPlayer = false
 			if("type" in collision.get_property_list()[0]):
 				if collision.get_collider().type == Global.char_type.PLAYER:
-					isPlayer = true
+					touchPlayer = true
 			
-			if isPlayer:
+			if touchPlayer:
 				#print_debug(str("E ", collision.get_collider().stats))
-				if(player != null): player.take_damage(stats.atk)
+				collision.get_collider().take_damage(stats.atk)
 				
 	# Flip sprite based on velocity
 	if(velocity.x > 0): flip = false
@@ -52,7 +55,8 @@ func update_text():
 
 # When HP reaches 0, give player exp and delete
 func _on_defeated():
-	player.gain_exp(stats.max_exp)
+	get_tree().call_group("player", "gain_exp", stats.max_exp)
+	#player.gain_exp(stats.max_exp)
 	get_node("/root/Main").addItem(global_position) # drop heal item
 	queue_free()
 

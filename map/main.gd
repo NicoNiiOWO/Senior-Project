@@ -4,11 +4,7 @@ extends Node
 
 # API variables
 @export var use_api: bool = true  # Enable/disable api call
-var api_settings : Dictionary = {
-	latitude=null,
-	longitude=null,
-	api_key=null
-}
+var api_settings : Dictionary
 var api_url : String = ""
 var api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={api_key}"
 var response = Global.api_response
@@ -18,7 +14,7 @@ const player_scn : PackedScene = preload("res://entity/player.tscn")
 const enemy_scn : PackedScene = preload("res://entity/enemy.tscn")
 const item_scn : PackedScene = preload("res://entity/item.tscn")
 
-# Initialz level
+# Initialze level
 @export var player_level : int = 1
 @export var enemy_level : int = 1
 
@@ -37,6 +33,7 @@ func _init():
 	var config = ConfigFile.new()
 	config.load("res://config.cfg")
 	
+	api_settings = Global.api_settings
 	for setting in config.get_section_keys("API"):
 		api_settings[setting] = config.get_value("API", setting)
 	
@@ -56,6 +53,7 @@ func _ready():
 	player = player_scn.instantiate()
 	add_child(player)
 	player.gain_level(player_level-1)
+	print(player.global_position)
 	
 	if(use_api): api_call()
 	use_api = false # don't call api again
@@ -75,6 +73,7 @@ func _ready():
 	gui.start()
 	Global.game_ongoing = true
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+
 
 # Call API
 func api_call():
@@ -123,7 +122,11 @@ func enemy_spawn(n, level): # Spawn n enemies
 			#print_debug("spawn ", spawn_location.position)
 			
 			# offset location based on player position
-			enemyInstance.set_deferred("position", spawn_location.position + ($Player).position)
+			print(spawn_location)
+			print(spawn_location.position)
+			
+			enemyInstance.set_target(player)
+			enemyInstance.set_deferred("position", spawn_location.position + player.global_position)
 			
 			add_child(enemyInstance)
 
@@ -141,15 +144,18 @@ func game_over():
 	Global.game_ongoing = false
 	spawn_timer.stop()
 	
-	# delete enemies
-	get_tree().call_group("enemies", "queue_free")
+	# disable player and enemies
+	get_tree().call_group("character", "disable")
+	
 	gui.game_over()
 
 func _on_restart():
-	player.queue_free() # delete player
+	# delete player and enemies
+	get_tree().call_group("character", "queue_free")
 	
 	player_level = 1
 	enemy_level = 1
+	
 	_ready()
 
 func _on_gui_weather_changed():

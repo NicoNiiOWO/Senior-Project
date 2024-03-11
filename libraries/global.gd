@@ -28,9 +28,14 @@ var player_stats = {
 
 
 # API variables
-var api_success
+var api_settings : Dictionary = {
+	latitude=null,
+	longitude=null,
+	api_key=null
+}
+var api_success : bool = false
 var api_response_code
-var api_response = {
+var api_response : Dictionary = {
 	list = [],
 }
 var index : int = 0 # current index in list
@@ -50,14 +55,14 @@ func _init():
 	timezone.acronym = acronym
 	print_debug(timezone)
 	
-func setWeatherData(index): # simplify response at index
+func setWeatherData(i): # simplify response at index
 	#print_debug("EE")
 	if(api_success):
-		var entry = api_response.list[index]
+		var entry = api_response.list[i]
 		#print_debug("AAA",entry)
 		weather_data = entry.weather[0].duplicate()
 		weather_data.description = weather_data.description.capitalize()
-		weather_data.index = index
+		weather_data.index = i
 		weather_data.wind = entry.wind.duplicate()
 
 		# Calculate temperature

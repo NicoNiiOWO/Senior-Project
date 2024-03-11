@@ -80,21 +80,21 @@ func init(char_type):
 var dmg_format : String = "{type} HP: {hp} (-{dmg})"
 func take_damage(n):
 	var dmg = 0
-	var round # round to nearest 1 or 0.1
+	var round_to # round to nearest 1 or 0.1
 	
 	if(!isPlayer):
-		dmg = snapped(n * stats.dmg_taken, 1)
-		round = 1
+		round_to = 1
 	else: 
-		# player takes damage if iframes is 0
-		if isPlayer && stats.iframes==0: 
-			dmg = snapped(n * stats.dmg_taken, 0.1)
-			round = 0.1
+		round_to = 0.1
+		
+		# if player iframes is not 0, set damage to 0
+		if stats.iframes==0: 
 			stats.iframes = base_stats.iframes
+		else: n=0
 	
-	
-	stats.hp = snapped(stats.hp-dmg, 0.1) 
-	print_debug(dmg_format.format({type = Global.char_type_str[type], hp=stats.hp, dmg=dmg}))
+	dmg = snapped(n * stats.dmg_taken, 1)
+	stats.hp = snapped(stats.hp-dmg, round_to) 
+	#print_debug(dmg_format.format({type = Global.char_type_str[type], hp=stats.hp, dmg=dmg}))
 	
 	if stats.hp <= 0:
 		stats.hp = 0
@@ -104,7 +104,7 @@ func take_damage(n):
 	if isPlayer: 
 		Global.player_stats.hp = stats.hp
 		gui.update_stats()
-		
+	
 	damage_taken.emit()
 	
 
@@ -140,3 +140,8 @@ func stats_multiplicative(stat, base=base_stats, growth=stat_growth, level=stats
 
 func update_effects():
 	effects_lib.update_effects(effects, stats)
+
+# make invisible and disable processing
+func disable():
+	visible = false
+	set_process_mode(PROCESS_MODE_DISABLED)
