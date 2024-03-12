@@ -32,6 +32,134 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mi8gs")
 
+[node name="APISettings" type="BoxContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+vertical = true
+
+[node name="Label" type="Label" parent="PanelContainer/APISettings"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Location"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="PanelContainer/APISettings"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+item_count = 3
+selected = 0
+popup/item_0/text = "Enter City"
+popup/item_0/id = 0
+popup/item_1/text = "Manual"
+popup/item_1/id = 1
+popup/item_2/text = ""
+popup/item_2/id = 2
+popup/item_2/disabled = true
+popup/item_2/separator = true
+
+[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/APISettings"]
+layout_mode = 2
+alignment = 1
+
+[node name="CityEdit" type="VFlowContainer" parent="PanelContainer/APISettings/FlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="CityText" type="LineEdit" parent="PanelContainer/APISettings/FlowContainer/CityEdit"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+tooltip_text = "Enter city, state name, and/or country code, separated by commas."
+placeholder_text = "Brooklyn, New York, US"
+alignment = 1
+
+[node name="CityButton" type="Button" parent="PanelContainer/APISettings/FlowContainer/CityEdit"]
+layout_mode = 2
+text = "aaaa"
+
+[node name="CityList" type="OptionButton" parent="PanelContainer/APISettings"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+item_count = 1
+fit_to_longest_item = false
+popup/item_0/text = "Select"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+
+[node name="APIErrorText" type="Label" parent="PanelContainer/APISettings"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "aaaaaaaaaaaaaaaaaaaaaaaa"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/APISettings"]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="Latitude" type="Label" parent="PanelContainer/APISettings/GridContainer"]
+layout_mode = 2
+text = "Latitude"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LatEdit" type="LineEdit" parent="PanelContainer/APISettings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "eeee"
+alignment = 1
+editable = false
+
+[node name="Longitude" type="Label" parent="PanelContainer/APISettings/GridContainer"]
+layout_mode = 2
+text = "Longitude"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LonEdit" type="LineEdit" parent="PanelContainer/APISettings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "aaaaaaa"
+alignment = 1
+editable = false
+caret_blink = true
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/APISettings"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/APISettings/CenterContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 20
+vertical = true
+
+[node name="CloseButton" type="Button" parent="PanelContainer/APISettings/CenterContainer/FlowContainer"]
+layout_mode = 2
+text = "Close"
+
+[node name="ApplyButton" type="Button" parent="PanelContainer/APISettings/CenterContainer/FlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Apply"
+
+[node name="SaveText" type="Label" parent="PanelContainer/APISettings"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "aaaaa"
+horizontal_alignment = 1
+
 [node name="CenterContainer" type="CenterContainer" parent="PanelContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -43,57 +171,12 @@ layout_mode = 2
 theme_override_constants/v_separation = 5
 alignment = 1
 
-[node name="Label" type="Label" parent="PanelContainer/CenterContainer/FlowContainer"]
-layout_mode = 2
-text = "Location"
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
 
-[node name="OptionButton" type="OptionButton" parent="PanelContainer/CenterContainer/FlowContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 1
-item_count = 3
-popup/item_0/text = "qqqqqq"
-popup/item_0/id = 0
-popup/item_1/text = ""
-popup/item_1/id = 1
-popup/item_1/separator = true
-popup/item_2/text = "www"
-popup/item_2/id = 2
-
-[node name="LineEdit" type="LineEdit" parent="PanelContainer/CenterContainer/FlowContainer"]
-layout_mode = 2
-
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/CenterContainer/FlowContainer"]
-layout_mode = 2
-columns = 2
-
-[node name="Longitude" type="Label" parent="PanelContainer/CenterContainer/FlowContainer/GridContainer"]
-layout_mode = 2
-text = "Longitude"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LongitudeEdit" type="LineEdit" parent="PanelContainer/CenterContainer/FlowContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-placeholder_text = "aaaaaaa"
-alignment = 1
-
-[node name="Latitude" type="Label" parent="PanelContainer/CenterContainer/FlowContainer/GridContainer"]
-layout_mode = 2
-text = "Latitude"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LatitudeEdit" type="LineEdit" parent="PanelContainer/CenterContainer/FlowContainer/GridContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-placeholder_text = "eeee"
-alignment = 1
-
-[node name="CloseButton" type="Button" parent="PanelContainer/CenterContainer/FlowContainer"]
-layout_mode = 2
-text = "Close"
-
-[connection signal="item_selected" from="PanelContainer/CenterContainer/FlowContainer/OptionButton" to="." method="_on_option_button_item_selected"]
-[connection signal="pressed" from="PanelContainer/CenterContainer/FlowContainer/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="item_selected" from="PanelContainer/APISettings/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="text_submitted" from="PanelContainer/APISettings/FlowContainer/CityEdit/CityText" to="." method="geocode_request"]
+[connection signal="pressed" from="PanelContainer/APISettings/FlowContainer/CityEdit/CityButton" to="." method="_on_city_button_pressed"]
+[connection signal="item_selected" from="PanelContainer/APISettings/CityList" to="." method="_on_city_list_item_selected"]
+[connection signal="pressed" from="PanelContainer/APISettings/CenterContainer/FlowContainer/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="PanelContainer/APISettings/CenterContainer/FlowContainer/ApplyButton" to="." method="_on_apply_button_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

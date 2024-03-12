@@ -6,7 +6,7 @@ extends Node
 @export var use_api: bool = true  # Enable/disable api call
 var api_settings : Dictionary
 var api_url : String = ""
-var api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={api_key}"
+var api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}"
 var response = Global.api_response
 
 var player : Character = null
@@ -37,12 +37,19 @@ func _init():
 	for setting in config.get_section_keys("API"):
 		api_settings[setting] = config.get_value("API", setting)
 	
+	print(str(api_settings))
+	print(api_settings.has("key"))
+	print(api_settings.key == null)
+	
 	# set default api key if not in config
-	if (api_settings.api_key == null):
+	if (api_settings.key == null):
 		var file = FileAccess.open("res://api_key.txt", FileAccess.READ)
 		var key = file.get_as_text().replace("\n","")
-		api_settings.api_key = key
+		api_settings.key = key
 		file.close()
+	
+	Global.api_settings = api_settings
+	print(api_settings)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -77,10 +84,11 @@ func _ready():
 
 # Call API
 func api_call():
-	if(api_settings.api_key == null):
+	if(api_settings.key == null):
 		return
 	
 	api_url = api_url_format.format(api_settings)
+	print(api_url)
 	
 	var API = $API
 	var request = API.request(api_url)

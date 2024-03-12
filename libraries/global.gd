@@ -31,7 +31,7 @@ var player_stats = {
 var api_settings : Dictionary = {
 	latitude=null,
 	longitude=null,
-	api_key=null
+	key=null
 }
 var api_success : bool = false
 var api_response_code
