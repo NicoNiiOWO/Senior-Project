@@ -38,15 +38,25 @@ var api_response_code
 var api_response : Dictionary = {
 	list = [],
 }
+var api_ready = false # if variables are set up
 var index : int = 0 # current index in list
 
 var weather_data : Dictionary = { } # info used
 
-var weather_interval# time between game weather change in seconds
+var weather_interval # time between game weather change in seconds
 var api_interval # time between api response entries
 
 var timezone = Time.get_time_zone_from_system()
 
+# clear api variables
+func clear():
+	api_settings = {latitude=null,longitude=null,key=null}
+	api_success = false
+	api_response_code = null
+	api_response = {}
+	index = 0
+	weather_data = {}
+	api_ready = false
 
 func _init():
 	var acronym = ""
@@ -73,6 +83,7 @@ func setWeatherData(i): # simplify response at index
 		
 		weather_data.local_dt = weather_data.dt + timezone.bias*60
 		
+		api_ready = true
 		print_debug(weather_data)
 		return setType()
 

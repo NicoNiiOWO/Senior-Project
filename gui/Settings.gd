@@ -79,16 +79,14 @@ func coords_enable(enable=true):
 	%LonEdit.editable = enable
 	%LatEdit.editable = enable
 
-func _on_city_button_pressed(): 
-	geocode_request(%CityText.text)
-
 func geocode_request(text):
+	# disable editing until request is complete
 	%CityText.editable = false
 	%CityList.hide()
 	%APIErrorText.hide()
 	geocode_success = false
 	
-	var url = geocode_url.format({City=text,Limit="5",Key=Global.api_settings["api_key"]})
+	var url = geocode_url.format({City=(%CityText.text),Limit="5",Key=Global.api_settings["key"]})
 	var request = $HTTPRequest.request(url)
 	if request != OK:
 		print_debug("geocode error")
@@ -103,6 +101,7 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 	var response = json.get_data()
 	
 	print_debug(str(response))
+	# check for error
 	if(response_code != 200):
 		print_debug(response_code)
 		%APIErrorText.text = str("API error ", response_code, ":\n", response.message)
@@ -119,6 +118,7 @@ func geocode_list():
 	%CityList.add_item("Select City:")
 	%CityList.set_item_disabled(0,true)
 	
+	# add each response as an option
 	for city in geocode_response:
 		var format = city_format
 		var state = ""
@@ -142,10 +142,7 @@ func _on_city_list_item_selected(index):
 	print(str(selected))
 	set_coords(selected.lat,selected.lon)
 
-
-func _on_apply_button_pressed():
-	save_settings()
-	
+# Save settings when apply button is pressed
 func save_settings():
 	if(%OptionButton.selected == 1):
 		set_coords(%LatEdit.text, %LonEdit.text)
@@ -154,9 +151,11 @@ func save_settings():
 	var config = ConfigFile.new()
 	config.load("res://config.cfg")
 	
+	# use selected longitude/latitude
 	config.set_value("API", "latitude", selected.lat)
 	config.set_value("API", "longitude", selected.lon)
 	
+	# copy api key setting
 	print(config.get_value("API","key"))
 	config.set_value("API", "key", config.get_value("API","key"))
 	
@@ -168,4 +167,5 @@ func save_settings():
 		%SaveText.text = "Settings saved"
 		print_debug("settings saved")
 		settings_changed.emit()
+	%SaveText.show()
 	

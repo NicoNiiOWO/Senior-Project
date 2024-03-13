@@ -35,7 +35,7 @@ var type : int # player or enemy
 @export var stat_growth : Dictionary = {
 	player = {
 		max_hp = 5,
-		atk = 1.25,
+		atk = 1.5,
 		max_exp = 1.2, # multiply
 		speed = 1,
 		atk_size = 0.02

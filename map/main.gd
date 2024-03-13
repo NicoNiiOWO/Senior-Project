@@ -4,6 +4,7 @@ extends Node
 
 # API variables
 @export var use_api: bool = true  # Enable/disable api call
+var api_called: bool = false # if api has been called with current settings
 var api_settings : Dictionary
 var api_url : String = ""
 var api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}"
@@ -29,6 +30,11 @@ const item_scn : PackedScene = preload("res://entity/item.tscn")
 @onready var window_size = $EnemySpawnPath.get_viewport_rect().size
 
 func _init():
+	load_config()
+
+func load_config():
+	api_called = false # api not called with new settings
+	
 	# set api settings from config
 	var config = ConfigFile.new()
 	config.load("res://config.cfg")
@@ -55,23 +61,15 @@ func _init():
 func _ready():
 	Global.weather_interval = weather_interval
 	
-	
 	# add new player
 	player = player_scn.instantiate()
 	add_child(player)
 	player.gain_level(player_level-1)
 	print(player.global_position)
 	
-	if(use_api): api_call()
-	use_api = false # don't call api again
-	
-	# scale enemy spawn path with window resolution
-	#$EnemySpawnPath.global_scale = window_size/(Vector2(1280,720))
-	print(window_size)
-	#print(%EnemySpawnLocation.v_offset)
-	#%EnemySpawnLocation.h_offset = window_size.y-720
-	#%EnemySpawnLocation.v_offset = window_size.y
-	
+	if(!api_called): api_call()
+	api_called = true # don't call api again
+
 	# set enemy spawn
 	spawn_timer.wait_time = enemy_spawn_time
 	spawn_timer.start()
@@ -129,12 +127,12 @@ func enemy_spawn(n, level): # Spawn n enemies
 			
 			#print_debug("spawn ", spawn_location.position)
 			
-			# offset location based on player position
-			print(spawn_location)
+			# offset location based on camera
+
 			print(spawn_location.position)
 			
 			enemyInstance.set_target(player)
-			enemyInstance.set_deferred("position", spawn_location.position + player.global_position)
+			enemyInstance.set_deferred("position", spawn_location.position + player.get_screen_center())
 			
 			add_child(enemyInstance)
 
@@ -148,6 +146,18 @@ func _on_gui_time_update(): # Call every second when timer is running
 func _on_spawn_timer_timeout():
 	if(enable_spawn): enemy_spawn(enemy_spawn_count, enemy_level)
 
+func _on_gui_weather_changed():
+	# update stats
+	if(player != null):
+		player.update_stats()
+	get_tree().call_group("enemies", "update_stats")
+	
+# make item at position
+func addItem(position):
+	var item = item_scn.instantiate()
+	item.set_deferred("global_position", position)
+	add_child(item)
+
 func game_over():
 	Global.game_ongoing = false
 	spawn_timer.stop()
@@ -157,23 +167,17 @@ func game_over():
 	
 	gui.game_over()
 
-func _on_restart():
+# restart and optionally reload settings
+func _on_restart(load_settings:bool = false):
 	# delete player and enemies
 	get_tree().call_group("character", "queue_free")
 	
 	player_level = 1
 	enemy_level = 1
 	
+	# clear api response and reload settings
+	if load_settings: 
+		Global.clear()
+		load_config()
+	
 	_ready()
-
-func _on_gui_weather_changed():
-	# update stats
-	if(player != null):
-		player.update_stats()
-	get_tree().call_group("enemies", "update_stats")
-
-# make item at position
-func addItem(position):
-	var item = item_scn.instantiate()
-	item.set_deferred("global_position", position)
-	add_child(item)

@@ -13,9 +13,11 @@ var text_format : String = "{Time} {Timezone}\n{Description}\n{Temp_C}°C/{Temp_
 
 var prev_index : int = -1 # most recent index used on weather list
 
-@onready var parent = get_tree()
-func _ready():
-	print(parent.root)
+var reload_settings : bool = false # reload settings on restart
+
+#@onready var parent = get_tree()
+#func _ready():
+	#print(parent.root)
 
 func _input(event):
 	# pause game when running
@@ -86,7 +88,7 @@ func set_weather_text():
 	
 	# Convert UTC to local time
 	#print_debug()
-	#print_debug(Global.weather_data)
+	print_debug(Global.weather_data)
 	var time = Time.get_datetime_dict_from_unix_time(Global.weather_data.local_dt + time_offset)
 	if(time.minute < 10):
 		time.minute = str(0, time.minute)
@@ -106,13 +108,16 @@ func set_weather_text():
 
 func game_over():
 	$GameOver.set_visible(true)
-	#%RestartButton.disabled = false
 	$GameTimer.stop()
 
+# call restart 
+# reset settings and hide weather ui if changed
 func _on_restart_button_pressed():
 	$GameOver.set_visible(false)
-	#%RestartButton.disabled = true
-	restart.emit()
+	restart.emit(reload_settings)
+	
+	if(reload_settings): $HUD/Weather.hide()
+	reload_settings = false
 
 
 # Call every second, update timer
@@ -138,6 +143,8 @@ func _on_game_timer_timeout():
 		weather_update()
 	
 	#print_debug(Global.weather_data)
-	set_weather_text()
+	if Global.api_ready: set_weather_text()
 	$HUD/Timer.text = time_f % [time.minutes, time.seconds]
 
+func _on_settings_changed():
+	reload_settings = true

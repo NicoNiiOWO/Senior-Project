@@ -110,3 +110,7 @@ func _on_defeated():
 	disable()
 	main.game_over()
 	print_debug("AAA")
+
+# return center of screen
+func get_screen_center() -> Vector2:
+	return $Camera2D.get_screen_center_position()
