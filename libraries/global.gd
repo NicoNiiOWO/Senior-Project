@@ -111,7 +111,7 @@ func setType() -> bool:
 			else: type.append(weather_type.CLOUDS)
 	
 	print(weather_data)
-	if(weather_data["wind"]["speed"] > 8 || weather_data["wind"]["guse"] > 8):
+	if(weather_data["wind"]["speed"] > 8 || weather_data["wind"]["gust"] > 8):
 		type.append(weather_type.WIND)
 	
 	# return true if types changed

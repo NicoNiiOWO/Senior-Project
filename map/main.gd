@@ -151,7 +151,7 @@ func _on_gui_weather_changed():
 func addItem(position):
 	var item = item_scn.instantiate()
 	item.set_deferred("global_position", position)
-	add_child(item)
+	call_deferred("add_child", item)
 
 func game_over():
 	Global.game_ongoing = false

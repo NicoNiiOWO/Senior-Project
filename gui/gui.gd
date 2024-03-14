@@ -88,17 +88,21 @@ func weather_update():
 # make text from current weather stat modifier
 func get_weather_stats():
 	weather_stat_mod.mods = effects_lib.get_total(Global.weather_data.type)
-	var text = ""
-	for stat in weather_stat_mod.mods.keys():
-		text += stat.capitalize() + " "
-		
-		var mod = weather_stat_mod.mods[stat]*100
-		if mod > 0: text += "+"
-		
-		text += "%d%%\n" % mod
+	weather_stat_mod.text = ""
 	
-	weather_stat_mod.text = text
-	print(text)
+	if(weather_stat_mod.mods.size() > 0):
+		var text = ""
+		for stat in weather_stat_mod.mods.keys():
+			var mod = weather_stat_mod.mods[stat]*100
+			if(mod != 0):
+				text += stat.capitalize() + " "
+
+				if mod > 0: text += "+"
+				
+				text += "%d%%\n" % mod
+
+		weather_stat_mod.text = text.left(text.length()-1) # remove last newline
+		print(text)
 
 # display weather info and update clock
 func set_weather_text():
