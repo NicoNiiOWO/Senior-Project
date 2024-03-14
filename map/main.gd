@@ -115,22 +115,17 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	gui.weather_update()
 
 func enemy_spawn(n, level): # Spawn n enemies
-	#print_debug(level)
 	if(player != null):
 		for i in n:
 			var enemyInstance = enemy_scn.instantiate()
 			var spawn_location = %EnemySpawnLocation
 			
-			enemyInstance.gain_level(level-1)
+			enemyInstance.gain_level(level-1) # increase level
 			
 			spawn_location.set_progress_ratio(randf()) # Select random location on path
-			
-			#print_debug("spawn ", spawn_location.position)
-			
-			# offset location based on camera
 
+			# offset location based on camera
 			print(spawn_location.position)
-			
 			enemyInstance.set_target(player)
 			enemyInstance.set_deferred("position", spawn_location.position + player.get_screen_center())
 			

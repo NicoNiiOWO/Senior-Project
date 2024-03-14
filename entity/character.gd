@@ -43,7 +43,7 @@ var type : int # player or enemy
 	enemy = {
 		max_hp = 5,
 		atk = 2,
-		max_exp = 1.1, # multiply
+		max_exp = 1.15, # multiply
 		speed = 2
 	}
 }

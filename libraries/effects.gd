@@ -1,29 +1,44 @@
 extends Resource
 
+enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 const weather_effects : Dictionary = { # stats
-	clear = {
+	weather_type.CLEAR : {
 		"atk": 0.2,
 	},
-	clouds = {},
-	rain = {
+	weather_type.CLOUDS : {},
+	weather_type.RAIN : {
 		"atk": -0.1,
 		"speed": -0.2,
 	},
-	snow = {
+	weather_type.SNOW : {
 		"speed": -0.2,
 		"dmg_taken": -0.2
 	},
-	storm = {
+	weather_type.STORM : {
 		"max_hp": -0.1,
 		"atk": 0.3,
 		"speed": 0.1
 	},
-	wind = {
+	weather_type.WIND : {
 		"atk": -0.2,
 		"speed": 0.3
 	}
 }
 
+# return total stat mod from array of weather effect
+static func get_total(weather : Array) -> Dictionary:
+	var total = {}
+	for i in weather:
+		for stat in weather_effects[i].keys():
+			if(!total.has(stat)):
+				total[stat] = weather_effects[i][stat]
+			else:
+				total[stat] += weather_effects[i][stat]
+	print(total)
+	return total
+
+# input character effects and stats
+# modify stats for each effect
 static func update_effects(effects, stats):
 	effects.weather = []
 	effects.total = {}

@@ -5,19 +5,23 @@ signal time_update() # called every second when game timer updates
 signal weather_changed()
 signal pause()
 
+
+
 @export var icon_path_format : String = "res://assets/Icons/%s@2x.png"
 
 var datetime_f : String = "{year}/{month}/{day} {hour}:{minute}"
 var time_f : String = "%02d:%02d"
-var text_format : String = "{Time} {Timezone}\n{Description}\n{Temp_C}°C/{Temp_F}°F"
+var text_format : String = "{Time} {Timezone}\n{Description}\n{Temp_C}°C/{Temp_F}°F\n{Stats}"
 
 var prev_index : int = -1 # most recent index used on weather list
 
 var reload_settings : bool = false # reload settings on restart
 
-#@onready var parent = get_tree()
-#func _ready():
-	#print(parent.root)
+const effects_lib = preload("res://libraries/effects.gd")
+var weather_stat_mod : Dictionary = { # changes to stats from current weather
+	mods = {},
+	text = ""
+} 
 
 func _input(event):
 	# pause game when running
@@ -56,7 +60,7 @@ func weather_update():
 		#print_debug("Index: ",Global.index,"/", response.cnt-1)
 		if(prev_index != Global.index): # call once per weather change
 			var type_changed = Global.setWeatherData(Global.index)
-			#print_debug("QQQ", type_changed)
+
 			# Load weather icon
 			var icon_code = Global.weather_data.icon
 			var icon_path = icon_path_format % icon_code
@@ -64,10 +68,14 @@ func weather_update():
 			var icon = load(icon_path)
 			%Icon.set_texture(icon)
 			
-			set_weather_text()
+			
 			prev_index = Global.index
 			
-			if(type_changed): weather_changed.emit()
+			if(type_changed): 
+				get_weather_stats()
+				weather_changed.emit()
+				
+			set_weather_text()
 		
 	else:
 		if(response != null && response.message != null):
@@ -77,17 +85,30 @@ func weather_update():
 	
 	$HUD/Weather.visible = true
 
+# make text from current weather stat modifier
+func get_weather_stats():
+	weather_stat_mod.mods = effects_lib.get_total(Global.weather_data.type)
+	var text = ""
+	for stat in weather_stat_mod.mods.keys():
+		text += stat.capitalize() + " "
+		
+		var mod = weather_stat_mod.mods[stat]*100
+		if mod > 0: text += "+"
+		
+		text += "%d%%\n" % mod
+	
+	weather_stat_mod.text = text
+	print(text)
+
 # display weather info and update clock
 func set_weather_text():
 	# ignore on api response error
-	if(!Global.api_success):
-		return
+	if(!Global.api_success): return
 	
 	# offset game clock proportionally to weather interval and api interval
 	var time_offset = Global.api_interval/Global.weather_interval * (Global.level_timer.total_seconds % Global.weather_interval)
 	
 	# Convert UTC to local time
-	#print_debug()
 	print_debug(Global.weather_data)
 	var time = Time.get_datetime_dict_from_unix_time(Global.weather_data.local_dt + time_offset)
 	if(time.minute < 10):
@@ -99,9 +120,10 @@ func set_weather_text():
 		Weather = Global.weather_data.main, 
 		Description = Global.weather_data.description,
 		Time = datetime_f.format(time), 
-		Timezone = Global.timezone.acronym
+		Timezone = Global.timezone.acronym,
+		Stats = weather_stat_mod.text
 	})
-	if(Global.weather_data.type.has("wind")):
+	if(Global.weather_data.type.has(Global.weather_type.WIND)):
 		text += "\nWindy"
 
 	%WeatherText.text = text
