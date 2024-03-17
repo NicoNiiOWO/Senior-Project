@@ -19,6 +19,11 @@ const locations = [
 		city = "Los Angeles, California",
 		lat = 34.0536909,
 		lon = -118.242766,
+	},
+	{
+		city = "Tokyo, JP",
+		lat = 35.6828387,
+		lon = 139.7594549,
 	}
 ]
 
@@ -47,6 +52,8 @@ func open():
 	visible = true
 	
 func _on_close_button_pressed():
+	%SaveText.text = ""
+	%SaveText.hide()
 	hide()
 
 func _on_option_button_item_selected(index):
@@ -69,24 +76,24 @@ func _on_option_button_item_selected(index):
 			
 			set_coords(locations[index-3].lat, locations[index-3].lon)
 
-func set_coords(lat, lon):
+func set_coords(lat:float, lon:float):
 	selected.lat = lat
 	selected.lon = lon
 	%LatEdit.text = str(lat)
 	%LonEdit.text = str(lon)
 
-func coords_enable(enable=true):
+func coords_enable(enable:bool=true):
 	%LonEdit.editable = enable
 	%LatEdit.editable = enable
 
-func geocode_request(text):
+func geocode_request(text:String = %CityText.text):
 	# disable editing until request is complete
 	%CityText.editable = false
 	%CityList.hide()
 	%APIErrorText.hide()
 	geocode_success = false
 	
-	var url = geocode_url.format({City=(%CityText.text),Limit="5",Key=Global.api_settings["key"]})
+	var url = geocode_url.format({City=text,Limit="5",Key=Global.api_settings["key"]})
 	var request = $HTTPRequest.request(url)
 	if request != OK:
 		print_debug("geocode error")
@@ -95,7 +102,7 @@ func geocode_request(text):
 	else:
 		print_debug("a")
 
-func _on_http_request_request_completed(result, response_code, headers, body):
+func _on_http_request_request_completed(_result, response_code, _headers, body):
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
 	var response = json.get_data()
@@ -130,17 +137,17 @@ func geocode_list():
 			"name":city.name,
 			"state":state,
 			"country":city.country,
-			"lat": "%.3f" % city.lat,
-			"lon": "%.3f" % city.lon,
+			"lat": "%.4f" % city.lat,
+			"lon": "%.4f" % city.lon,
 			})
 		%CityList.add_item(string)
 	%CityList.select(0)
 	%CityList.show()
 
-func _on_city_list_item_selected(index):
-	var selected = geocode_response[index-1]
-	print(str(selected))
-	set_coords(selected.lat,selected.lon)
+func _on_city_list_item_selected(index:int):
+	var select = geocode_response[index-1]
+	print(str(select))
+	set_coords(select.lat,select.lon)
 
 # Save settings when apply button is pressed
 func save_settings():

@@ -5,7 +5,7 @@ extends Area2D
 @export var size : float = 1 # size multiplier
 var source : int # source of attack (player/enemy)
 
-func init(atk_source, dmg, size_m):
+func init(atk_source:int, dmg:float, size_m:float):
 	source = atk_source
 	damage = dmg
 	size = size_m

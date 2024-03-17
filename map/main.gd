@@ -1,21 +1,19 @@
 extends Node
 
+@export var use_api: bool = true  # Enable/disable api call
 @export var weather_interval : int = 10 # time between weather change in seconds
 
 # API variables
-@export var use_api: bool = true  # Enable/disable api call
+var api_settings : Dictionary # settings loaded from config
 var api_called: bool = false # if api has been called with current settings
-var api_settings : Dictionary
-var api_url : String = ""
-var api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}"
-var response = Global.api_response
+const api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}"
 
-var player : Character = null
+var player : Character = null # current player object
 const player_scn : PackedScene = preload("res://entity/player.tscn")
 const enemy_scn : PackedScene = preload("res://entity/enemy.tscn")
 const item_scn : PackedScene = preload("res://entity/item.tscn")
 
-# Initialze level
+# Initial level
 @export var player_level : int = 1
 @export var enemy_level : int = 1
 
@@ -35,11 +33,15 @@ func _init():
 func load_config():
 	api_called = false # api not called with new settings
 	
+	api_settings = {
+		latitude=null,
+		longitude=null,
+		key=null
+	} 
 	# set api settings from config
 	var config = ConfigFile.new()
 	config.load("res://config.cfg")
 	
-	api_settings = Global.api_settings
 	for setting in config.get_section_keys("API"):
 		api_settings[setting] = config.get_value("API", setting)
 	
@@ -85,7 +87,7 @@ func api_call():
 	if(api_settings.key == null):
 		return
 	
-	api_url = api_url_format.format(api_settings)
+	var api_url = api_url_format.format(api_settings)
 	print(api_url)
 	
 	var API = $API
@@ -114,7 +116,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	
 	gui.weather_update()
 
-func enemy_spawn(n, level): # Spawn n enemies
+func enemy_spawn(n:int, level:int): # Spawn n enemies
 	if(player != null):
 		for i in n:
 			var enemyInstance = enemy_scn.instantiate()
@@ -146,24 +148,26 @@ func _on_gui_weather_changed():
 	if(player != null):
 		player.update_stats()
 	get_tree().call_group("enemies", "update_stats")
-	
+
 # make item at position
 func addItem(position):
 	var item = item_scn.instantiate()
 	item.set_deferred("global_position", position)
 	call_deferred("add_child", item)
 
+
 func game_over():
 	Global.game_ongoing = false
 	spawn_timer.stop()
 	
-	# disable player and enemies
+	# disable player and enemies, delete items
 	get_tree().call_group("character", "disable")
+	get_tree().call_group("items", "queue_free")
 	
 	gui.game_over()
 
-# restart and optionally reload settings
-func _on_restart(load_settings:bool = false):
+# restart
+func _on_restart(reload_settings:bool = false):
 	# delete player and enemies
 	get_tree().call_group("character", "queue_free")
 	
@@ -171,7 +175,7 @@ func _on_restart(load_settings:bool = false):
 	enemy_level = 1
 	
 	# clear api response and reload settings
-	if load_settings: 
+	if reload_settings: 
 		Global.clear()
 		load_config()
 	

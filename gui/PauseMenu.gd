@@ -4,7 +4,7 @@ extends Control
 var unpause_disable : bool = false
 
 # if paused with key, disable unpausing until released
-func _on_gui_pause(disable=false):
+func _on_gui_pause(disable:bool=false):
 	print("eeeee")
 	pause()
 	if(disable):

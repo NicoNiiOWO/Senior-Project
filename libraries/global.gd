@@ -64,8 +64,8 @@ func _init():
 		acronym += word[0]
 	timezone.acronym = acronym
 	print_debug(timezone)
-	
-func setWeatherData(i): # simplify response at index
+
+func setWeatherData(i:int): # simplify response at index
 	if(api_success):
 		var entry = api_response.list[i]
 		#print_debug("AAA",entry)

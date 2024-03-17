@@ -198,11 +198,20 @@ text = "Game Over"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RestartButton" type="Button" parent="GameOver/FlowContainer"]
-unique_name_in_owner = true
+[node name="Buttons" type="FlowContainer" parent="GameOver/FlowContainer"]
 layout_mode = 2
-theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 15
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameOver/FlowContainer/Buttons"]
+custom_minimum_size = Vector2(80, 35)
+layout_mode = 2
 text = "Restart"
+
+[node name="SettingsButton" type="Button" parent="GameOver/FlowContainer/Buttons"]
+custom_minimum_size = Vector2(80, 35)
+layout_mode = 2
+text = "Settings"
 
 [node name="Settings" parent="." instance=ExtResource("4_5x61j")]
 visible = false
@@ -212,5 +221,7 @@ visible = false
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="PauseMenu" method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]
-[connection signal="pressed" from="GameOver/FlowContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameOver/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameOver/FlowContainer/Buttons/RestartButton" to="PauseMenu" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameOver/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]
 [connection signal="settings_changed" from="Settings" to="." method="_on_settings_changed"]

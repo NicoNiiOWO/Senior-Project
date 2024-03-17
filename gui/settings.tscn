@@ -77,10 +77,11 @@ layout_mode = 2
 tooltip_text = "Enter city, state name, and/or country code, separated by commas."
 placeholder_text = "Brooklyn, New York, US"
 alignment = 1
+caret_blink = true
 
 [node name="RequestButton" type="Button" parent="PanelContainer/APISettings/FlowContainer/CityEdit"]
 layout_mode = 2
-text = "aaaa"
+text = "Enter"
 
 [node name="CityList" type="OptionButton" parent="PanelContainer/APISettings"]
 unique_name_in_owner = true

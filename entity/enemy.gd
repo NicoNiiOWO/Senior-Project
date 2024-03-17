@@ -7,7 +7,7 @@ var target = null
 func _init():
 	init(Global.char_type.ENEMY) # initialize stats
 
-func set_target(x):
+func set_target(x:Node2D):
 	target = x
 
 func _ready():

@@ -14,7 +14,7 @@ func _init():
 	
 
 # Gain exp and levels
-func gain_exp(n):
+func gain_exp(n:float):
 	stats.exp += n
 	
 	var levels = 0

@@ -39,7 +39,7 @@ static func get_total(weather : Array) -> Dictionary:
 
 # input character effects and stats
 # modify stats for each effect
-static func update_effects(effects, stats):
+static func update_effects(effects:Dictionary, stats:Dictionary):
 	effects.weather = []
 	effects.total = {}
 	#print_debug(Global.weather_data)

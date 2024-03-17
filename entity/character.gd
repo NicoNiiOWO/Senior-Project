@@ -48,7 +48,7 @@ var type : int # player or enemy
 	}
 }
 
-enum calc {ADD,MULT} # stat calculation type
+#enum calc {ADD,MULT} # stat calculation type
 
 # Current stats
 @export var stats : Dictionary = {} 
@@ -61,7 +61,7 @@ enum calc {ADD,MULT} # stat calculation type
 
 # set stats based on character type
 var isPlayer : bool = (type == 0)
-func init(char_type):
+func init(char_type:int):
 	type = char_type
 	isPlayer = (type == 0)
 	
@@ -78,7 +78,7 @@ func init(char_type):
 
 # Take damage
 var dmg_format : String = "{type} HP: {hp} (-{dmg})"
-func take_damage(n):
+func take_damage(n:float):
 	var dmg = 0
 	var round_to # round to nearest 1 or 0.1
 	
@@ -109,7 +109,7 @@ func take_damage(n):
 	
 
 # Add levels and update stats
-func gain_level(n):
+func gain_level(n:int):
 	stats.level += n;
 	update_stats()
 
@@ -132,10 +132,10 @@ func update_stats():
 	#print_debug(stats, effects)
 
 # calculate stat based on level
-func stats_additive(stat, base=base_stats, growth=stat_growth, level=stats.level):
+func stats_additive(stat:String, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
 	return snapped(base[stat] + growth[stat] * (level-1), 1) # nearest int
 
-func stats_multiplicative(stat, base=base_stats, growth=stat_growth, level=stats.level):
+func stats_multiplicative(stat:String, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
 	return snapped(floor(base[stat] * pow(growth[stat], level-1)), 1) # nearest int
 
 func update_effects():

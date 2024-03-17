@@ -11,7 +11,7 @@ signal pause()
 
 var datetime_f : String = "{year}/{month}/{day} {hour}:{minute}"
 var time_f : String = "%02d:%02d"
-var text_format : String = "{Time} {Timezone}\n{Description}\n{Temp_C}°C/{Temp_F}°F\n{Stats}"
+var text_format : String = "{Time} {Timezone}\n{Description}\n{Temp_C}°C/{Temp_F}°F\n"
 
 var prev_index : int = -1 # most recent index used on weather list
 
@@ -125,11 +125,10 @@ func set_weather_text():
 		Description = Global.weather_data.description,
 		Time = datetime_f.format(time), 
 		Timezone = Global.timezone.acronym,
-		Stats = weather_stat_mod.text
 	})
 	if(Global.weather_data.type.has(Global.weather_type.WIND)):
-		text += "\nWindy"
-
+		text += "Windy\n"
+	text += weather_stat_mod.text
 	%WeatherText.text = text
 
 func game_over():
