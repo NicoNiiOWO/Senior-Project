@@ -25,7 +25,7 @@ func gain_exp(n:float):
 	
 	gain_level(levels)
 
-func heal(n):
+func heal(n:int):
 	stats.hp += n;
 	if(stats.hp > stats.max_hp):
 		stats.hp = stats.max_hp

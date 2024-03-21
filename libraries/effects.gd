@@ -1,65 +1,109 @@
 extends Resource
 
+enum category {WEATHER,UPGRADE,TOTAL}
 enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
-const weather_effects : Dictionary = { # stats
-	weather_type.CLEAR : {
-		"atk": 0.2,
+enum upgrade_type {}
+
+const stat_list = ["max_hp", "atk", "speed", "dmg_taken", "atk_size"]
+
+const effect_list : Dictionary = {
+	category.WEATHER : { # stats
+		weather_type.CLEAR : {
+			"atk": 0.2,
+		},
+		weather_type.CLOUDS : {
+			"speed":0.1
+		},
+		weather_type.RAIN : {
+			"atk": -0.1,
+			"speed": -0.2,
+		},
+		weather_type.SNOW : {
+			"speed": -0.2,
+			"dmg_taken": -0.2
+		},
+		weather_type.STORM : {
+			"max_hp": -0.1,
+			"atk": 0.3,
+			"speed": 0.1
+		},
+		weather_type.WIND : {
+			"atk": -0.2,
+			"speed": 0.3
+		}
 	},
-	weather_type.CLOUDS : {},
-	weather_type.RAIN : {
-		"atk": -0.1,
-		"speed": -0.2,
-	},
-	weather_type.SNOW : {
-		"speed": -0.2,
-		"dmg_taken": -0.2
-	},
-	weather_type.STORM : {
-		"max_hp": -0.1,
-		"atk": 0.3,
-		"speed": 0.1
-	},
-	weather_type.WIND : {
-		"atk": -0.2,
-		"speed": 0.3
-	}
+	category.UPGRADE : {}
 }
 
-# return total stat mod from array of weather effect
-static func get_total(weather : Array) -> Dictionary:
+
+static func init_effects() -> Dictionary:
+	var effects = {
+		# list of individual effects
+		category.WEATHER: {},
+		category.UPGRADE: {},
+		category.TOTAL: {} # total stat changes
+	}
+	return effects
+
+static func add_effect(effects:Dictionary, eff_category:int, eff_type:int) -> void:
+	if !effects[eff_category].has(eff_type):
+		effects[eff_category][eff_type] = effect_list[eff_category][eff_type]
+		#print(effects)
+
+
+# return total stat mod from dictionary
+static func get_total(effects:Dictionary) -> Dictionary:
 	var total = {}
-	for i in weather:
-		for stat in weather_effects[i].keys():
-			if(!total.has(stat)):
-				total[stat] = weather_effects[i][stat]
-			else:
-				total[stat] += weather_effects[i][stat]
-	print(total)
+	
+	# loop through weather and upgrade categories
+	for category in range(0,1): 
+		for effect in effects[category]:
+			#print_debug(effect)
+			for stat in effects[category][effect]:
+				if(!total.has(stat)):
+					total[stat] = effects[category][effect][stat]
+				else:
+					total[stat] += effects[category][effect][stat]
+	
 	return total
 
-# input character effects and stats
-# modify stats for each effect
-static func update_effects(effects:Dictionary, stats:Dictionary):
-	effects.weather = []
-	effects.total = {}
-	#print_debug(Global.weather_data)
+# total stats from weather array
+static func get_total_w(weather:Array) -> Dictionary:
+	var total = {}
+	for i in weather:
+		var stats = get_weather_stats(i)
+		#print("aaa",stats)
+		for stat in stats:
+			#print("a",stat)
+			if(!total.has(stat)):
+				total[stat] = stats[stat]
+			else:
+				total[stat] += stats[stat]
+	#print(total)
+	return total
+
+# return stat mods for weather type
+static func get_weather_stats(weather:int) -> Dictionary:
+	if(weather < weather_type.size()):
+		return effect_list[category.WEATHER][weather]
+	else:
+		return {}
+
+
+# adds effect based on weather
+static func update_weather_eff(effects:Dictionary):
 	if(Global.api_success && Global.weather_data.has("type")):
-		# add effects based on weather type
+		#print("aaa", effects, Global.weather_data.type)
 		for type in Global.weather_data.type:
-			effects.weather.append(weather_effects[type])
-		
-		# calculate total modifier
-		var total = {}
-		if(effects.weather.size() > 0):
-			for effect in effects.weather:
-				for key in effect.keys():
-					if(total.has(key)): total[key] += (effect[key])
-					else: total[key] = effect[key]
-		
-		effects.total=total
-		
-		# update stats
-		for stat in total.keys():
-			stats[stat] *= 1+total[stat]
-		
-		#print_debug(effects)
+			add_effect(effects, category.WEATHER, type)
+
+# remove weather and set stat mods
+static func clear_weather(effects:Dictionary):
+	effects[category.WEATHER] = {}
+	effects.total_mod = get_total(effects)
+
+# update weather effect and set stat mods
+static func set_stat_mod(effects:Dictionary):
+	update_weather_eff(effects)
+	effects.total_mod = get_total(effects)
+	

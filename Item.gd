@@ -4,8 +4,18 @@ extends Area2D
 
 @onready var sprite = $AnimatedSprite2D
 
+var item_type : String;
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#var type = randi_range(0,1)
+	#match type:
+		#0: item_type = "heal"
+		#1: item_type = "upgrade"
+		#
+	#sprite.animation = item_type
+	#sprite.frame = randi_range(0, sprite.sprite_frames.get_frame_count(item_type) - 1) #set random sprite
+	
 	$AnimatedSprite2D.frame = randi_range(3,12) # set random sprite
 	$Timer.wait_time = duration-5
 	$Timer.start()

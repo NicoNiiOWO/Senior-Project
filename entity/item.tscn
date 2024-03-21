@@ -98,7 +98,15 @@ animations = [{
 "texture": SubResource("AtlasTexture_46g55")
 }],
 "loop": false,
-"name": &"default",
+"name": &"heal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cvav5")
+}],
+"loop": true,
+"name": &"upgrade",
 "speed": 5.0
 }]
 
@@ -110,6 +118,7 @@ script = ExtResource("1_aj6l0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xfmw8")
+animation = &"heal"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

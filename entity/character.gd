@@ -52,9 +52,7 @@ var type : int # player or enemy
 
 # Current stats
 @export var stats : Dictionary = {} 
-@export var effects : Dictionary = {
-	weather = [],
-}
+@onready var effects : Dictionary = effects_lib.init_effects()
 
 @onready var main : Node = $/root/Main
 @onready var gui : CanvasLayer = $/root/Main/GUI
@@ -75,6 +73,10 @@ func init(char_type:int):
 	
 	stats = base_stats.duplicate()
 	stats.hp = stats.max_hp
+	
+	effects = effects_lib.init_effects()
+	#print("eeeeee",effects)
+	
 
 # Take damage
 var dmg_format : String = "{type} HP: {hp} (-{dmg})"
@@ -122,6 +124,10 @@ func update_stats():
 	stats.max_exp = stats_multiplicative("max_exp")
 	
 	update_effects()
+	# update stats
+	for stat in effects.total_mod.keys():
+		stats[stat] *= 1+effects.total_mod[stat]
+	
 	stats.hp += stats.max_hp - current_max_hp
 	
 	if(isPlayer):
@@ -139,7 +145,7 @@ func stats_multiplicative(stat:String, base:Dictionary=base_stats, growth:Dictio
 	return snapped(floor(base[stat] * pow(growth[stat], level-1)), 1) # nearest int
 
 func update_effects():
-	effects_lib.update_effects(effects, stats)
+	effects_lib.set_stat_mod(effects)
 
 # make invisible and disable processing
 func disable():

@@ -87,8 +87,10 @@ func weather_update():
 
 # make text from current weather stat modifier
 func get_weather_stats():
-	weather_stat_mod.mods = effects_lib.get_total(Global.weather_data.type)
+	weather_stat_mod.mods = effects_lib.get_total_w(Global.weather_data.type)
 	weather_stat_mod.text = ""
+	
+	#print("e",weather_stat_mod.mods)
 	
 	if(weather_stat_mod.mods.size() > 0):
 		var text = ""
@@ -102,7 +104,7 @@ func get_weather_stats():
 				text += "%d%%\n" % mod
 
 		weather_stat_mod.text = text.left(text.length()-1) # remove last newline
-		print(text)
+		#print(text)
 
 # display weather info and update clock
 func set_weather_text():
@@ -111,9 +113,10 @@ func set_weather_text():
 	
 	# offset game clock proportionally to weather interval and api interval
 	var time_offset = Global.api_interval/Global.weather_interval * (Global.level_timer.total_seconds % Global.weather_interval)
+	#print(time_offset/60," ", Global.api_interval/Global.weather_interval/60," ", (Global.level_timer.total_seconds % Global.weather_interval))
 	
 	# Convert UTC to local time
-	print_debug(Global.weather_data)
+	#print_debug(Global.weather_data)
 	var time = Time.get_datetime_dict_from_unix_time(Global.weather_data.local_dt + time_offset)
 	if(time.minute < 10):
 		time.minute = str(0, time.minute)
