@@ -1,28 +1,68 @@
+class_name Enemy
 extends Character
+
+var ability=0
 
 var flip : bool = false
 var target = null
+
+enum states {WALK, ATTACK}
+var state : Node
+
+const enemy_lib = preload("res://libraries/enemy_lib.gd")
+@onready var state_node : Dictionary = {
+	states.WALK : $State/Walk,
+	states.ATTACK : $State/Attack,
+}
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 
 func _init():
 	init(Global.char_type.ENEMY) # initialize stats
 
+# set current state (walk/attack)
+func set_state(s:int):
+	state = state_node[s]
+
+# set target for movement
 func set_target(x:Node2D):
 	target = x
 
+# set ability and sprites
+func set_ability(a:int):
+	ability = a
+	sprite.set_sprite_frames(enemy_lib.get_sprite(a))
+
 func _ready():
+	# set ability type based on current weather
+	var a = [0]
+	if(Global.api_ready):
+		a = enemy_lib.random_enemy_type(Global.weather_data.type)
+	else:
+		a = enemy_lib.random_enemy_type([0])
+	set_ability(a)
+	#sprite.set_sprite_frames(enemy_lib.get_sprite(ability))
+	
 	update_text()
+	set_state(states.WALK)
 	sprite.play("walk")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
-	# move towards target
-	if(target != null):
-		var direction = global_position.direction_to(target.global_position)
-		velocity = direction * stats.speed
-	else: velocity = Vector2.ZERO
+	state.physics_process() # movement based on current state
 	move_and_slide()
 	
+	handle_collision()
+	
+	
+	# Flip sprite based on velocity
+	if(velocity.x > 0): flip = false
+	if(velocity.x < 0): flip = true
+	
+	if(sprite.flip_h != flip):
+		sprite.flip_h = flip
+		sprite.position.x = -sprite.position.x  # Flip offset to match hitbox
+
+func handle_collision():
 	var collision_count = get_slide_collision_count()
 	if(collision_count > 0):
 		#print_debug("Collisions: ", collision_count)
@@ -38,15 +78,7 @@ func _physics_process(_delta):
 			if touchPlayer:
 				#print_debug(str("E ", collision.get_collider().stats))
 				collision.get_collider().take_damage(stats.atk)
-				
-	# Flip sprite based on velocity
-	if(velocity.x > 0): flip = false
-	if(velocity.x < 0): flip = true
 	
-	if(sprite.flip_h != flip):
-		sprite.flip_h = flip
-		sprite.position.x = -sprite.position.x  # Flip offset to match hitbox
-
 # Display level and hp
 func update_text():
 	var text = str("LVL ", stats.level, "\n")

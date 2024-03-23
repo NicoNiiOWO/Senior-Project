@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://be830e3wn8jb4"]
+
+[ext_resource type="Script" path="res://entity/enemy/enemy.gd" id="1_uudwa"]
+[ext_resource type="Script" path="res://entity/enemy/e_state_walk.gd" id="3_n7r15"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_utgbx"]
+radius = 20.0
+height = 40.0
+
+[node name="Enemy" type="CharacterBody2D" groups=["character", "enemies"]]
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+slide_on_ceiling = false
+script = ExtResource("1_uudwa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_utgbx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(4, -5)
+scale = Vector2(2, 2)
+animation = &"attack"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+visibility_layer = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -54.5
+offset_right = 38.0
+offset_bottom = -5.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+
+[node name="Label" type="Label" parent="CenterContainer"]
+unique_name_in_owner = true
+visibility_layer = 3
+layout_mode = 2
+theme_override_constants/line_spacing = -5
+text = "LVL 1
+50/50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="State" type="Node" parent="."]
+
+[node name="Walk" type="Node" parent="State"]
+script = ExtResource("3_n7r15")
+
+[node name="Attack" type="Node" parent="State"]
+
+[connection signal="damage_taken" from="." to="." method="_on_damage_taken"]
+[connection signal="defeated" from="." to="." method="_on_defeated"]

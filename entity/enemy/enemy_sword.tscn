@@ -1,30 +1,30 @@
-[gd_scene load_steps=10 format=3 uid="uid://be830e3wn8jb4"]
+[gd_scene load_steps=10 format=3 uid="uid://cl3g0tmd7yhfd"]
 
-[ext_resource type="Script" path="res://entity/enemy.gd" id="1_yhqql"]
-[ext_resource type="Texture2D" uid="uid://c6pw3sf6d6hpb" path="res://assets/Waddle Dee.png" id="3_toglo"]
+[ext_resource type="Script" path="res://entity/enemy/enemy.gd" id="1_srufq"]
+[ext_resource type="Texture2D" uid="uid://c6pw3sf6d6hpb" path="res://assets/Waddle Dee.png" id="2_bn66t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_utgbx"]
 radius = 20.0
 height = 40.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d1jpe"]
-atlas = ExtResource("3_toglo")
+atlas = ExtResource("2_bn66t")
 region = Rect2(8, 8, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3upkw"]
-atlas = ExtResource("3_toglo")
+atlas = ExtResource("2_bn66t")
 region = Rect2(34, 8, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_drrj1"]
-atlas = ExtResource("3_toglo")
+atlas = ExtResource("2_bn66t")
 region = Rect2(60, 8, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dr7se"]
-atlas = ExtResource("3_toglo")
+atlas = ExtResource("2_bn66t")
 region = Rect2(86, 8, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jm17j"]
-atlas = ExtResource("3_toglo")
+atlas = ExtResource("2_bn66t")
 region = Rect2(112, 8, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_w77g1"]
@@ -64,7 +64,7 @@ collision_layer = 2
 collision_mask = 3
 motion_mode = 1
 slide_on_ceiling = false
-script = ExtResource("1_yhqql")
+script = ExtResource("1_srufq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_utgbx")

@@ -1,0 +1,55 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://ee2fe8kftrgn"]
+
+[ext_resource type="Texture2D" uid="uid://c6pw3sf6d6hpb" path="res://assets/Waddle Dee.png" id="1_q0wll"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1jpe"]
+atlas = ExtResource("1_q0wll")
+region = Rect2(8, 8, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3upkw"]
+atlas = ExtResource("1_q0wll")
+region = Rect2(34, 8, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drrj1"]
+atlas = ExtResource("1_q0wll")
+region = Rect2(60, 8, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dr7se"]
+atlas = ExtResource("1_q0wll")
+region = Rect2(86, 8, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jm17j"]
+atlas = ExtResource("1_q0wll")
+region = Rect2(112, 8, 24, 24)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.1,
+"texture": SubResource("AtlasTexture_d1jpe")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_3upkw")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_drrj1")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_dr7se")
+}, {
+"duration": 1.1,
+"texture": SubResource("AtlasTexture_jm17j")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_dr7se")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_drrj1")
+}, {
+"duration": 0.8,
+"texture": SubResource("AtlasTexture_3upkw")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]

@@ -35,7 +35,6 @@ const effect_list : Dictionary = {
 	category.UPGRADE : {}
 }
 
-
 static func init_effects() -> Dictionary:
 	var effects = {
 		# list of individual effects

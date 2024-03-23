@@ -10,8 +10,9 @@ const api_url_format : String = "https://api.openweathermap.org/data/2.5/forecas
 
 var player : Character = null # current player object
 const player_scn : PackedScene = preload("res://entity/player.tscn")
-const enemy_scn : PackedScene = preload("res://entity/enemy.tscn")
+const enemy_scn : PackedScene = preload("res://entity/enemy/enemy.tscn")
 const item_scn : PackedScene = preload("res://entity/item.tscn")
+const enemy_lib : Resource = preload("res://libraries/enemy_lib.gd")
 
 # Initial level
 @export var player_level : int = 1
@@ -66,6 +67,7 @@ func _ready():
 	# add new player
 	player = player_scn.instantiate()
 	add_child(player)
+	
 	player.gain_level(player_level-1)
 	print(player.global_position)
 	
@@ -116,7 +118,8 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	
 	gui.weather_update()
 
-func enemy_spawn(n:int, level:int): # Spawn n enemies
+# Spawn n enemies
+func enemy_spawn(n:int, level:int): 
 	if(player != null):
 		for i in n:
 			var enemyInstance = enemy_scn.instantiate()
@@ -127,7 +130,7 @@ func enemy_spawn(n:int, level:int): # Spawn n enemies
 			spawn_location.set_progress_ratio(randf()) # Select random location on path
 
 			# offset location based on camera
-			print(spawn_location.position)
+			#print(spawn_location.position)
 			enemyInstance.set_target(player)
 			enemyInstance.set_deferred("position", spawn_location.position + player.get_screen_center())
 			
