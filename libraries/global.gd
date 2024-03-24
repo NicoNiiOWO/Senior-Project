@@ -31,7 +31,8 @@ var player_stats = {
 var api_settings : Dictionary = {
 	latitude=null,
 	longitude=null,
-	key=null
+	key=null,
+	custom_key=false
 }
 var api_success : bool = false
 var api_response_code
@@ -58,11 +59,12 @@ func clear():
 	weather_data = {}
 	api_ready = false
 
+# timezone abbreviation
 func _init():
-	var acronym = ""
+	var abbrev = ""
 	for word in timezone.name.split(" "):
-		acronym += word[0]
-	timezone.acronym = acronym
+		abbrev += word[0]
+	timezone.abbrev = abbrev
 	print_debug(timezone)
 
 func setWeatherData(i:int): # simplify response at index

@@ -45,7 +45,32 @@ text = "Location"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="PanelContainer/APISettings"]
+[node name="API Key" type="CenterContainer" parent="PanelContainer/APISettings"]
+layout_mode = 2
+
+[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/APISettings/API Key"]
+layout_mode = 2
+alignment = 1
+
+[node name="KeyToggle" type="CheckButton" parent="PanelContainer/APISettings/API Key/FlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Custom API Key"
+
+[node name="KeyEdit" type="LineEdit" parent="PanelContainer/APISettings/API Key/FlowContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+placeholder_text = "Enter API Key"
+caret_blink = true
+
+[node name="Geolocation" type="BoxContainer" parent="PanelContainer/APISettings"]
+layout_mode = 2
+alignment = 1
+vertical = true
+
+[node name="OptionButton" type="OptionButton" parent="PanelContainer/APISettings/Geolocation"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -61,16 +86,16 @@ popup/item_2/id = 2
 popup/item_2/disabled = true
 popup/item_2/separator = true
 
-[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/APISettings"]
+[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/APISettings/Geolocation"]
 layout_mode = 2
 alignment = 1
 
-[node name="CityEdit" type="VFlowContainer" parent="PanelContainer/APISettings/FlowContainer"]
+[node name="CityEdit" type="VFlowContainer" parent="PanelContainer/APISettings/Geolocation/FlowContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="CityText" type="LineEdit" parent="PanelContainer/APISettings/FlowContainer/CityEdit"]
+[node name="CityText" type="LineEdit" parent="PanelContainer/APISettings/Geolocation/FlowContainer/CityEdit"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
@@ -79,11 +104,11 @@ placeholder_text = "Brooklyn, New York, US"
 alignment = 1
 caret_blink = true
 
-[node name="RequestButton" type="Button" parent="PanelContainer/APISettings/FlowContainer/CityEdit"]
+[node name="RequestButton" type="Button" parent="PanelContainer/APISettings/Geolocation/FlowContainer/CityEdit"]
 layout_mode = 2
 text = "Enter"
 
-[node name="CityList" type="OptionButton" parent="PanelContainer/APISettings"]
+[node name="CityList" type="OptionButton" parent="PanelContainer/APISettings/Geolocation"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -95,7 +120,7 @@ popup/item_0/text = "Select"
 popup/item_0/id = 0
 popup/item_0/disabled = true
 
-[node name="APIErrorText" type="Label" parent="PanelContainer/APISettings"]
+[node name="APIErrorText" type="Label" parent="PanelContainer/APISettings/Geolocation"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(300, 0)
@@ -104,31 +129,31 @@ text = "aaaaaaaaaaaaaaaaaaaaaaaa"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/APISettings"]
+[node name="Coordinates" type="GridContainer" parent="PanelContainer/APISettings"]
 layout_mode = 2
 size_flags_horizontal = 4
 columns = 2
 
-[node name="Latitude" type="Label" parent="PanelContainer/APISettings/GridContainer"]
+[node name="Latitude" type="Label" parent="PanelContainer/APISettings/Coordinates"]
 layout_mode = 2
 text = "Latitude"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LatEdit" type="LineEdit" parent="PanelContainer/APISettings/GridContainer"]
+[node name="LatEdit" type="LineEdit" parent="PanelContainer/APISettings/Coordinates"]
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "eeee"
 alignment = 1
 editable = false
 
-[node name="Longitude" type="Label" parent="PanelContainer/APISettings/GridContainer"]
+[node name="Longitude" type="Label" parent="PanelContainer/APISettings/Coordinates"]
 layout_mode = 2
 text = "Longitude"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LonEdit" type="LineEdit" parent="PanelContainer/APISettings/GridContainer"]
+[node name="LonEdit" type="LineEdit" parent="PanelContainer/APISettings/Coordinates"]
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "aaaaaaa"
@@ -136,20 +161,20 @@ alignment = 1
 editable = false
 caret_blink = true
 
-[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/APISettings"]
+[node name="Buttons" type="CenterContainer" parent="PanelContainer/APISettings"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 
-[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/APISettings/CenterContainer"]
+[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/APISettings/Buttons"]
 layout_mode = 2
 theme_override_constants/h_separation = 20
 vertical = true
 
-[node name="CloseButton" type="Button" parent="PanelContainer/APISettings/CenterContainer/FlowContainer"]
+[node name="CloseButton" type="Button" parent="PanelContainer/APISettings/Buttons/FlowContainer"]
 layout_mode = 2
 text = "Close"
 
-[node name="ApplyButton" type="Button" parent="PanelContainer/APISettings/CenterContainer/FlowContainer"]
+[node name="ApplyButton" type="Button" parent="PanelContainer/APISettings/Buttons/FlowContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Apply"
@@ -161,23 +186,13 @@ layout_mode = 2
 text = "aaaaa"
 horizontal_alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/CenterContainer"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-theme_override_constants/v_separation = 5
-alignment = 1
-
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
-[connection signal="item_selected" from="PanelContainer/APISettings/OptionButton" to="." method="_on_option_button_item_selected"]
-[connection signal="text_submitted" from="PanelContainer/APISettings/FlowContainer/CityEdit/CityText" to="." method="geocode_request"]
-[connection signal="pressed" from="PanelContainer/APISettings/FlowContainer/CityEdit/RequestButton" to="." method="geocode_request"]
-[connection signal="item_selected" from="PanelContainer/APISettings/CityList" to="." method="_on_city_list_item_selected"]
-[connection signal="pressed" from="PanelContainer/APISettings/CenterContainer/FlowContainer/CloseButton" to="." method="_on_close_button_pressed"]
-[connection signal="pressed" from="PanelContainer/APISettings/CenterContainer/FlowContainer/ApplyButton" to="." method="save_settings"]
+[connection signal="toggled" from="PanelContainer/APISettings/API Key/FlowContainer/KeyToggle" to="." method="_on_api_key_check_button_toggled"]
+[connection signal="item_selected" from="PanelContainer/APISettings/Geolocation/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="text_submitted" from="PanelContainer/APISettings/Geolocation/FlowContainer/CityEdit/CityText" to="." method="geocode_request"]
+[connection signal="pressed" from="PanelContainer/APISettings/Geolocation/FlowContainer/CityEdit/RequestButton" to="." method="geocode_request"]
+[connection signal="item_selected" from="PanelContainer/APISettings/Geolocation/CityList" to="." method="_on_city_list_item_selected"]
+[connection signal="pressed" from="PanelContainer/APISettings/Buttons/FlowContainer/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="PanelContainer/APISettings/Buttons/FlowContainer/ApplyButton" to="." method="save_settings"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

@@ -14,7 +14,6 @@ static var spawn_rate = {
 		ability_type.NORMAL : 50,
 		ability_type.SWORD : 30,
 	}
-	
 }
 
 static func get_sprite(ability):

@@ -37,14 +37,19 @@ var geocode_response : Array
 var selected = {
 	lat = 0,
 	lon = 0,
+	key = null,
 }
 
 func _ready():
 	for i in locations:
 		%OptionButton.add_item(i.city)
+	
+	print(Global.api_settings)
+	if Global.api_settings.custom_key:
+		%KeyToggle.set_pressed(true)
 
 func open():
-	if(Global.api_success):
+	if(Global.api_settings.latitude != null && Global.api_settings.longitude != null):
 		selected.lat = Global.api_settings.latitude
 		selected.lon = Global.api_settings.longitude
 		set_coords(selected.lat, selected.lon)
@@ -82,6 +87,15 @@ func set_coords(lat:float, lon:float):
 	%LatEdit.text = str(lat)
 	%LonEdit.text = str(lon)
 
+# if key setting is enabled, use input key, else use default
+func set_key():
+	var key
+	if %KeyToggle.button_pressed: 
+		key = %KeyEdit.text
+	else: 
+		key = null
+	selected.key = key
+
 func coords_enable(enable:bool=true):
 	%LonEdit.editable = enable
 	%LatEdit.editable = enable
@@ -93,7 +107,9 @@ func geocode_request(text:String = %CityText.text):
 	%APIErrorText.hide()
 	geocode_success = false
 	
-	var url = geocode_url.format({City=text,Limit="5",Key=Global.api_settings["key"]})
+	set_key()
+	
+	var url = geocode_url.format({City=text,Limit="5",Key=selected.key})
 	var request = $HTTPRequest.request(url)
 	if request != OK:
 		print_debug("geocode error")
@@ -150,21 +166,20 @@ func _on_city_list_item_selected(index:int):
 	set_coords(select.lat,select.lon)
 
 # Save settings when apply button is pressed
-func save_settings():
+func save_settings(change_key:bool = false):
 	if(%OptionButton.selected == 1):
 		set_coords(%LatEdit.text, %LonEdit.text)
+	set_key()
 	
 	# save settings to config
 	var config = ConfigFile.new()
 	config.load("res://config.cfg")
 	
-	# use selected longitude/latitude
+	# use selected longitude/latitude and key
 	config.set_value("API", "latitude", selected.lat)
 	config.set_value("API", "longitude", selected.lon)
-	
-	# copy api key setting
-	print(config.get_value("API","key"))
-	config.set_value("API", "key", config.get_value("API","key"))
+	config.set_value("API", "key", selected.key)
+	config.set_value("API", "custom_key", (selected.key != null))
 	
 	var error = config.save("res://config.cfg")
 	if error != OK:
@@ -176,3 +191,9 @@ func save_settings():
 		settings_changed.emit()
 	%SaveText.show()
 	
+
+func _on_api_key_check_button_toggled(toggled_on):
+	%KeyEdit.visible = toggled_on
+
+func _on_api_key_button_pressed():
+	Global.api_settings["key"] = %KeyEdit.text

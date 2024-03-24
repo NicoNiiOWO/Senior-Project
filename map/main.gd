@@ -37,8 +37,10 @@ func load_config():
 	api_settings = {
 		latitude=null,
 		longitude=null,
-		key=null
-	} 
+		key=null,
+		custom_key=false,
+	}
+	
 	# set api settings from config
 	var config = ConfigFile.new()
 	config.load("res://config.cfg")
@@ -46,9 +48,9 @@ func load_config():
 	for setting in config.get_section_keys("API"):
 		api_settings[setting] = config.get_value("API", setting)
 	
-	print(str(api_settings))
-	print(api_settings.has("key"))
-	print(api_settings.key == null)
+	#print(str(api_settings))
+	#print(api_settings.has("key"))
+	#print(api_settings.key == null)
 	
 	# set default api key if not in config
 	if (api_settings.key == null):
@@ -56,6 +58,8 @@ func load_config():
 		var key = file.get_as_text().replace("\n","")
 		api_settings.key = key
 		file.close()
+	else:
+		api_settings.custom_key = true
 	
 	Global.api_settings = api_settings
 	print(api_settings)
@@ -69,7 +73,7 @@ func _ready():
 	add_child(player)
 	
 	player.gain_level(player_level-1)
-	print(player.global_position)
+	#print(player.global_position)
 	
 	if(!api_called): api_call()
 	api_called = true # don't call api again

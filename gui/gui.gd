@@ -5,8 +5,6 @@ signal time_update() # called every second when game timer updates
 signal weather_changed()
 signal pause()
 
-
-
 @export var icon_path_format : String = "res://assets/Icons/%s@2x.png"
 
 var datetime_f : String = "{year}/{month}/{day} {hour}:{minute}"
@@ -51,6 +49,17 @@ func update_stats():
 	%HP.text = str("HP: ", stats.hp,"/", stats.max_hp)
 	%Level.text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
 
+func show_weather(success:bool):
+	if(success):
+		%ErrorMessage.hide()
+		%Icon.show()
+		%WeatherText.show()
+	else:
+		%ErrorMessage.show()
+		%Icon.hide()
+		%WeatherText.hide()
+	$HUD/Weather.show()
+
 # update weather info
 func weather_update():
 	var response = Global.api_response
@@ -81,9 +90,8 @@ func weather_update():
 		if(response != null && response.message != null):
 			#print_debug(response.message)
 			%ErrorMessage.text = str(Global.api_response_code, " ", response.message)
-			%Icon.visible = false
 	
-	$HUD/Weather.visible = true
+	show_weather(Global.api_success)
 
 # make text from current weather stat modifier
 func get_weather_stats():
@@ -127,7 +135,7 @@ func set_weather_text():
 		Weather = Global.weather_data.main, 
 		Description = Global.weather_data.description,
 		Time = datetime_f.format(time), 
-		Timezone = Global.timezone.acronym,
+		Timezone = Global.timezone.abbrev,
 	})
 	if(Global.weather_data.type.has(Global.weather_type.WIND)):
 		text += "Windy\n"
