@@ -91,14 +91,12 @@ func _physics_process(delta):
 func attack():
 	var new_attack = attack_scn.instantiate()
 	# change damage/size based on player atk stat
-	new_attack.init(Global.char_type.PLAYER, stats.atk, stats.atk_size)
+	new_attack.init(direction, Global.char_type.PLAYER, stats.atk, stats.atk_size)
 	
 	# Offset attack position and rotate based on player direction
-	new_attack.position += direction*30 + Vector2(0, -5)
-	new_attack.global_rotation = Vector2.ZERO.angle_to_point(direction)
 	
-	# Flip sprite if player is flipped
-	new_attack.get_node("AnimatedSprite2D").flip_v = flip
+	## Flip sprite if player is flipped
+	#new_attack.get_node("AnimatedSprite2D").flip_v = flip
 
 	add_child(new_attack)
 

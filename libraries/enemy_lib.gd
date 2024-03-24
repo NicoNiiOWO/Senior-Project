@@ -12,7 +12,7 @@ static var enemy_sprite = {
 static var spawn_rate = {
 	weather_type.CLEAR: {
 		ability_type.NORMAL : 50,
-		ability_type.SWORD : 20,
+		ability_type.SWORD : 30,
 	}
 	
 }

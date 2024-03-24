@@ -4,17 +4,20 @@ extends Character
 var ability=0
 
 var flip : bool = false
-var target = null
+var target : Node2D = null # node to move towards
+var direction : Vector2 # direction towards node
 
 enum states {WALK, ATTACK}
 var state : Node
 
 const enemy_lib = preload("res://libraries/enemy_lib.gd")
+
 @onready var state_node : Dictionary = {
 	states.WALK : $State/Walk,
 	states.ATTACK : $State/Attack,
 }
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
+
 
 func _init():
 	init(Global.char_type.ENEMY) # initialize stats
@@ -52,6 +55,8 @@ func _physics_process(_delta):
 	move_and_slide()
 	
 	handle_collision()
+	
+	
 	
 	
 	# Flip sprite based on velocity
@@ -94,4 +99,5 @@ func _on_defeated():
 
 func _on_damage_taken():
 	update_text()
-
+	
+	

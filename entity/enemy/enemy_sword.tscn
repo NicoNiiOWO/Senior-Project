@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cl3g0tmd7yhfd"]
+[gd_scene load_steps=10 format=3 uid="uid://bllnlui8lx8d1"]
 
 [ext_resource type="Script" path="res://entity/enemy/enemy.gd" id="1_srufq"]
 [ext_resource type="Texture2D" uid="uid://c6pw3sf6d6hpb" path="res://assets/Waddle Dee.png" id="2_bn66t"]
