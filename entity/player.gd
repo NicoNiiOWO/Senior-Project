@@ -4,7 +4,7 @@ var direction : Vector2 = Vector2(1,0) # player's direction, start facing right
 var flip : bool = false # player sprite direction
 
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
-var attack_scn : PackedScene = preload("res://entity/attack.tscn")
+var attack_scn : PackedScene = preload("res://entity/attacks/sword.tscn")
 #var hud = preload("res://gui/hud.tscn")
 
 func _init():
@@ -92,14 +92,7 @@ func attack():
 	var new_attack = attack_scn.instantiate()
 	# change damage/size based on player atk stat
 	new_attack.init(direction, Global.char_type.PLAYER, stats.atk, stats.atk_size)
-	
-	# Offset attack position and rotate based on player direction
-	
-	## Flip sprite if player is flipped
-	#new_attack.get_node("AnimatedSprite2D").flip_v = flip
-
 	add_child(new_attack)
-
 
 func _on_animated_sprite_2d_animation_finished():
 	sprite.set_animation("idle")

@@ -1,39 +1,39 @@
 [gd_scene load_steps=13 format=3 uid="uid://bwf68iwi80gxa"]
 
-[ext_resource type="Script" path="res://entity/attack.gd" id="1_p4drw"]
-[ext_resource type="Texture2D" uid="uid://dlihnmtapnej8" path="res://assets/sword.png" id="2_stadj"]
-[ext_resource type="Texture2D" uid="uid://b82bbxr0bp0mv" path="res://assets/Blade Knight.png" id="3_krec3"]
+[ext_resource type="Script" path="res://entity/attacks/attack_sword.gd" id="1_s2os4"]
+[ext_resource type="Texture2D" uid="uid://b82bbxr0bp0mv" path="res://assets/Blade Knight.png" id="2_gbjry"]
+[ext_resource type="Texture2D" uid="uid://dlihnmtapnej8" path="res://assets/sword.png" id="3_0y5yg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t4njm"]
-atlas = ExtResource("3_krec3")
+atlas = ExtResource("2_gbjry")
 region = Rect2(364, 40, 52, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q3pk5"]
-atlas = ExtResource("2_stadj")
+atlas = ExtResource("3_0y5yg")
 region = Rect2(0, 0, 65, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bmetg"]
-atlas = ExtResource("2_stadj")
+atlas = ExtResource("3_0y5yg")
 region = Rect2(65, 0, 65, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_01hv2"]
-atlas = ExtResource("2_stadj")
+atlas = ExtResource("3_0y5yg")
 region = Rect2(130, 0, 65, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kmowk"]
-atlas = ExtResource("2_stadj")
+atlas = ExtResource("3_0y5yg")
 region = Rect2(195, 0, 65, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qcyhe"]
-atlas = ExtResource("2_stadj")
+atlas = ExtResource("3_0y5yg")
 region = Rect2(0, 50, 65, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ck0wg"]
-atlas = ExtResource("2_stadj")
+atlas = ExtResource("3_0y5yg")
 region = Rect2(65, 50, 65, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3j8g7"]
-atlas = ExtResource("2_stadj")
+atlas = ExtResource("3_0y5yg")
 region = Rect2(130, 50, 65, 50)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_alpob"]
@@ -73,13 +73,13 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Attack" type="Area2D"]
+[node name="Sword" type="Area2D"]
 visibility_layer = 3
 scale = Vector2(2, 2)
 collision_layer = 2
 collision_mask = 2
 input_pickable = false
-script = ExtResource("1_p4drw")
+script = ExtResource("1_s2os4")
 metadata/_edit_horizontal_guides_ = [17.0]
 metadata/_edit_vertical_guides_ = [-32.0, -26.0]
 

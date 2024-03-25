@@ -15,7 +15,7 @@ func _on_enemy_damage_taken():
 		enemy_lib.ability_type.SWORD: attack()
 
 func attack():
-	# if has attack animation
-	if("attack" in owner.sprite.sprite_frames.get_animation_names()):
+	# if has attack state
+	if(owner.states.ATTACK != null):
 		owner.set_state(owner.states.ATTACK)
 		owner.state.attack()

@@ -3,6 +3,51 @@ extends Resource
 static var weather_type = preload("res://libraries/effects.gd").weather_type
 enum ability_type {NORMAL, SWORD}
 
+static var base_stats = {
+	ability_type.NORMAL : {
+		level = 1,
+		max_exp = 15, # exp given to player
+		max_hp = 30,
+		atk = 10,
+		speed = 100,
+		atk_size = 1,
+		dmg_taken = 1,
+	},
+	ability_type.SWORD : {
+		level = 1,
+		max_exp = 30,
+		max_hp = 50,
+		atk = 8,
+		speed = 100,
+		atk_size = 1,
+		dmg_taken = 1,
+	}
+}
+static var growth_stats = {
+	ability_type.NORMAL : {
+		max_hp = 5,
+		atk = 2,
+		max_exp = 1.15, # multiply
+		speed = 2
+	},
+	ability_type.SWORD : {
+		max_hp = 5,
+		atk = 2,
+		max_exp = 1.15, # multiply
+		speed = 2
+	},
+}
+
+# return stats for ability, default to normal
+static func get_base_stats(ability:int) -> Dictionary:
+	if ability in base_stats.keys():
+		return base_stats[ability]
+	else: return base_stats[0]
+
+static func get_growth_stats(ability:int) -> Dictionary:
+	if ability in growth_stats.keys():
+		return growth_stats[ability]
+	else: return growth_stats[0]
 
 static var enemy_sprite = {
 	ability_type.NORMAL : "res://assets/waddle dee.tres",

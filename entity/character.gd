@@ -6,49 +6,31 @@ signal damage_taken()
 signal defeated()
 
 const effects_lib = preload("res://libraries/effects.gd")
+const enemy_lib = preload("res://libraries/enemy_lib.gd")
 
 var type : int # player or enemy
 
 # Stats
+# Enemy stats defined in enemy_lib
 @export var base_stats : Dictionary = {
-	player = {
-		level = 1,
-		max_exp = 100,
-		exp = 0,
-		max_hp = 100,
-		atk = 10,
-		speed = 250,
-		iframes = 0.25, # invincibility frames in seconds
-		atk_size = 1, # attack size multiplier
-		dmg_taken = 1, # damage taken multiplier
-	},
-	enemy = {
-		level = 1,
-		max_exp = 20, # exp given to player
-		max_hp = 50,
-		atk = 10,
-		speed = 100,
-		dmg_taken = 1,
-	}
+	level = 1,
+	max_exp = 100,
+	exp = 0,
+	max_hp = 100,
+	atk = 10,
+	speed = 250,
+	iframes = 0.25, # invincibility frames in seconds
+	atk_size = 1, # attack size multiplier
+	dmg_taken = 1, # damage taken multiplier
 }
 # Stat increase per level
 @export var stat_growth : Dictionary = {
-	player = {
-		max_hp = 5,
-		atk = 1.5,
-		max_exp = 1.2, # multiply
-		speed = 1,
-		atk_size = 0.02
-	},
-	enemy = {
-		max_hp = 5,
-		atk = 2,
-		max_exp = 1.15, # multiply
-		speed = 2
-	}
+	max_hp = 5,
+	atk = 1.5,
+	max_exp = 1.2, # multiply
+	speed = 1,
+	atk_size = 0.02
 }
-
-#enum calc {ADD,MULT} # stat calculation type
 
 # Current stats
 @export var stats : Dictionary = {} 
@@ -59,24 +41,20 @@ var type : int # player or enemy
 
 # set stats based on character type
 var isPlayer : bool = (type == 0)
-func init(char_type:int):
+func init(char_type:int, ability:int=0):
 	type = char_type
 	isPlayer = (type == 0)
 	
 	if(char_type == Global.char_type.PLAYER):
-		base_stats = base_stats.player
-		stat_growth = stat_growth.player
 		stats.iframes = 0
 	else:
-		base_stats = base_stats.enemy
-		stat_growth = stat_growth.enemy
+		base_stats = enemy_lib.get_base_stats(ability)
+		stat_growth = enemy_lib.get_growth_stats(ability)
 	
 	stats = base_stats.duplicate()
 	stats.hp = stats.max_hp
 	
 	effects = effects_lib.init_effects()
-	#print("eeeeee",effects)
-	
 
 # Take damage
 var dmg_format : String = "{type} HP: {hp} (-{dmg})"
@@ -134,8 +112,6 @@ func update_stats():
 		stats.atk_size = stats_additive("atk_size")
 		Global.player_stats = stats
 		gui.update_stats()
-		
-	#print_debug(stats, effects)
 
 # calculate stat based on level
 func stats_additive(stat:String, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):

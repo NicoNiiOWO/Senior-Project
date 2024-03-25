@@ -10,17 +10,31 @@ var direction : Vector2 # direction towards node
 enum states {WALK, ATTACK}
 var state : Node
 
-const enemy_lib = preload("res://libraries/enemy_lib.gd")
+const ability_list = enemy_lib.ability_type
+
+@onready var attack_state_list : Dictionary = {
+	ability_list.NORMAL : null,
+	ability_list.SWORD : $State/SwordAttack,
+}
 
 @onready var state_node : Dictionary = {
 	states.WALK : $State/Walk,
-	states.ATTACK : $State/Attack,
+	states.ATTACK : null,
 }
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 
 
 func _init():
-	init(Global.char_type.ENEMY) # initialize stats
+	# set ability type based on current weather
+	# default to cloudy
+	var a = [1]
+	if(Global.api_ready):
+		a = enemy_lib.random_enemy_type(Global.weather_data.type)
+	else:
+		a = enemy_lib.random_enemy_type([0])
+	ability = a
+	
+	init(Global.char_type.ENEMY, ability) # initialize stats
 
 # set current state (walk/attack)
 func set_state(s:int):
@@ -34,15 +48,14 @@ func set_target(x:Node2D):
 func set_ability(a:int):
 	ability = a
 	sprite.set_sprite_frames(enemy_lib.get_sprite(a))
+	
+	# if ability has attack, set attack state
+	if(attack_state_list[a] != null):
+		state_node[states.ATTACK] = attack_state_list[a]
+		state_node[states.ATTACK].set_process_mode(0) # enable state 
 
 func _ready():
-	# set ability type based on current weather
-	var a = [0]
-	if(Global.api_ready):
-		a = enemy_lib.random_enemy_type(Global.weather_data.type)
-	else:
-		a = enemy_lib.random_enemy_type([0])
-	set_ability(a)
+	set_ability(ability)
 	#sprite.set_sprite_frames(enemy_lib.get_sprite(ability))
 	
 	update_text()
@@ -55,9 +68,6 @@ func _physics_process(_delta):
 	move_and_slide()
 	
 	handle_collision()
-	
-	
-	
 	
 	# Flip sprite based on velocity
 	if(velocity.x > 0): flip = false
@@ -99,5 +109,3 @@ func _on_defeated():
 
 func _on_damage_taken():
 	update_text()
-	
-	

@@ -166,7 +166,7 @@ func _on_city_list_item_selected(index:int):
 	set_coords(select.lat,select.lon)
 
 # Save settings when apply button is pressed
-func save_settings(change_key:bool = false):
+func save_settings():
 	if(%OptionButton.selected == 1):
 		set_coords(%LatEdit.text, %LonEdit.text)
 	set_key()

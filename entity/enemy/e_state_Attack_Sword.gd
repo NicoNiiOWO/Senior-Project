@@ -1,7 +1,7 @@
 extends Node
 
 @export var startup_frame : int = 2; # animation frame when attack hitbox starts
-var attack_scn : PackedScene = preload("res://entity/attack.tscn")
+var attack_scn : PackedScene = preload("res://entity/attacks/sword.tscn")
 var sprite : AnimatedSprite2D
 
 var attacking : bool = false # if is attacking
