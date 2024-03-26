@@ -1,6 +1,6 @@
 extends Attack
 
-func init(direction:Vector2, atk_source:int, dmg:float, size_m:float = 1):
+func init(direction:Vector2, atk_source:int, dmg:float, size_m:float = 1, a:int=1):
 	init_attack(direction, atk_source, dmg, size_m)
 	position += direction*30 + Vector2(0, -5)
 

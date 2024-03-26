@@ -1,7 +1,31 @@
 extends Resource
 
 static var weather_type = preload("res://libraries/effects.gd").weather_type
-enum ability_type {NORMAL, SWORD}
+enum ability_type {NORMAL, SWORD, TORNADO, FIRE, ICE}
+
+static var enemy_sprite = {
+	ability_type.NORMAL : "res://assets/waddle dee.tres",
+	ability_type.SWORD : "res://assets/blade knight.tres",
+	ability_type.TORNADO : "res://assets/twister.tres"
+}
+
+const state_path = "res://entity/enemy/state/"
+static var enemy_script : Dictionary = {
+	ability_type.NORMAL : null,
+	ability_type.SWORD : "e_SwordAttack.gd",
+	ability_type.TORNADO : "e_TornadoAttack.gd",
+}
+
+static var spawn_rate = {
+	weather_type.CLEAR: {
+		ability_type.NORMAL : 50,
+		ability_type.SWORD : 30,
+		ability_type.TORNADO : 20
+	},
+	weather_type.WIND : {
+		ability_type.TORNADO : 50
+	}
+}
 
 static var base_stats = {
 	ability_type.NORMAL : {
@@ -49,20 +73,13 @@ static func get_growth_stats(ability:int) -> Dictionary:
 		return growth_stats[ability]
 	else: return growth_stats[0]
 
-static var enemy_sprite = {
-	ability_type.NORMAL : "res://assets/waddle dee.tres",
-	ability_type.SWORD : "res://assets/blade knight.tres",
-}
 
-static var spawn_rate = {
-	weather_type.CLEAR: {
-		ability_type.NORMAL : 50,
-		ability_type.SWORD : 30,
-	}
-}
-
-static func get_sprite(ability):
+static func get_sprite(ability) -> SpriteFrames:
 	return load(enemy_sprite[ability])
+
+static func get_attack_script(ability) -> Variant:
+	if(enemy_script[ability] == null): return null
+	return load(state_path + enemy_script[ability])
 
 # return random enemy that can spawn for current weather
 static func random_enemy_type(weather_list:Array) -> int:

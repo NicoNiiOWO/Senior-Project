@@ -12,11 +12,6 @@ var state : Node
 
 const ability_list = enemy_lib.ability_type
 
-@onready var attack_state_list : Dictionary = {
-	ability_list.NORMAL : null,
-	ability_list.SWORD : $State/SwordAttack,
-}
-
 @onready var state_node : Dictionary = {
 	states.WALK : $State/Walk,
 	states.ATTACK : null,
@@ -47,12 +42,20 @@ func set_target(x:Node2D):
 # set ability and sprites
 func set_ability(a:int):
 	ability = a
-	sprite.set_sprite_frames(enemy_lib.get_sprite(a))
+	sprite.set_sprite_frames(enemy_lib.get_sprite(ability))
 	
-	# if ability has attack, set attack state
-	if(attack_state_list[a] != null):
-		state_node[states.ATTACK] = attack_state_list[a]
-		state_node[states.ATTACK].set_process_mode(0) # enable state 
+	var script = enemy_lib.get_attack_script(ability)
+	# if ability has attack, set attack script
+	if(script != null):
+		# enable state
+		state_node[states.ATTACK] = $State/Attack
+		#state_node[states.ATTACK].set_process_mode(0)
+		$State/Attack.set_script(script)
+	
+	# fix sprite position
+	match ability:
+		ability_list.TORNADO:
+			sprite.position = Vector2(0,0)
 
 func _ready():
 	set_ability(ability)

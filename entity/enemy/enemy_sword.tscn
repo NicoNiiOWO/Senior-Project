@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=3 uid="uid://bllnlui8lx8d1"]
+[gd_scene load_steps=9 format=3 uid="uid://bllnlui8lx8d1"]
 
-[ext_resource type="Script" path="res://entity/enemy/enemy.gd" id="1_srufq"]
 [ext_resource type="Texture2D" uid="uid://c6pw3sf6d6hpb" path="res://assets/Waddle Dee.png" id="2_bn66t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_utgbx"]
@@ -64,7 +63,6 @@ collision_layer = 2
 collision_mask = 3
 motion_mode = 1
 slide_on_ceiling = false
-script = ExtResource("1_srufq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_utgbx")
@@ -99,6 +97,3 @@ text = "LVL 1
 50/50"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[connection signal="damage_taken" from="." to="." method="_on_damage_taken"]
-[connection signal="defeated" from="." to="." method="_on_defeated"]

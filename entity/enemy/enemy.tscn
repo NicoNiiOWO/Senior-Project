@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://be830e3wn8jb4"]
+[gd_scene load_steps=5 format=3 uid="uid://be830e3wn8jb4"]
 
 [ext_resource type="Script" path="res://entity/enemy/enemy.gd" id="1_uudwa"]
-[ext_resource type="SpriteFrames" uid="uid://cdihm6hwfrjd5" path="res://assets/blade knight.tres" id="2_d8erx"]
-[ext_resource type="Script" path="res://entity/enemy/e_state_Walk.gd" id="3_0wutj"]
-[ext_resource type="Script" path="res://entity/enemy/e_state_Attack_Sword.gd" id="4_bramq"]
+[ext_resource type="SpriteFrames" uid="uid://bi87c8u4lp05l" path="res://assets/twister.tres" id="2_55u3g"]
+[ext_resource type="Script" path="res://entity/enemy/state/e_Walk.gd" id="3_wdwsp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_utgbx"]
 radius = 20.0
@@ -22,8 +21,8 @@ shape = SubResource("CapsuleShape2D_utgbx")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(4, -5)
 scale = Vector2(2, 2)
-sprite_frames = ExtResource("2_d8erx")
-animation = &"attack"
+sprite_frames = ExtResource("2_55u3g")
+animation = &"walk"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 visibility_layer = 3
@@ -53,14 +52,12 @@ vertical_alignment = 1
 [node name="State" type="Node" parent="."]
 
 [node name="Walk" type="Node" parent="State"]
-script = ExtResource("3_0wutj")
+script = ExtResource("3_wdwsp")
 
-[node name="SwordAttack" type="Node" parent="State"]
-process_mode = 4
-script = ExtResource("4_bramq")
+[node name="Attack" type="Node" parent="State"]
 
 [connection signal="damage_taken" from="." to="." method="_on_damage_taken"]
-[connection signal="damage_taken" from="." to="State/Walk" method="_on_enemy_damage_taken"]
+[connection signal="damage_taken" from="." to="State/Attack" method="_on_enemy_damage_taken"]
 [connection signal="defeated" from="." to="." method="_on_defeated"]
-[connection signal="animation_finished" from="AnimatedSprite2D" to="State/SwordAttack" method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="frame_changed" from="AnimatedSprite2D" to="State/SwordAttack" method="_on_animated_sprite_2d_frame_changed"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="State/Attack" method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="State/Attack" method="_on_animated_sprite_2d_frame_changed"]

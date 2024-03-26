@@ -10,12 +10,10 @@ func physics_process():
 	else: owner.velocity = Vector2.ZERO
 
 
-func _on_enemy_damage_taken():
-	match owner.ability:
-		enemy_lib.ability_type.SWORD: attack()
-
 func attack():
 	# if has attack state
-	if(owner.states.ATTACK != null):
+	print("BBBB")
+	if(owner.state_node.ATTACK != null):
+		print("AAAAAAAAAAAAA")
 		owner.set_state(owner.states.ATTACK)
 		owner.state.attack()

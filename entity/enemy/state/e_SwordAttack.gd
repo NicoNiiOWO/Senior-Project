@@ -12,15 +12,22 @@ func physics_process():
 	if(owner.target != null):
 		direction = owner.global_position.direction_to(owner.target.global_position)
 		owner.velocity = direction * owner.stats.speed/4
+		print(direction)
 	else: owner.velocity = Vector2.ZERO
+
+# attack when taking damage
+func _on_enemy_damage_taken():
+	owner.set_state(1)
+	attack()
 
 # start attack animation
 func attack():
+	print(direction)
 	sprite = owner.sprite
 	sprite.play("attack")
 	attacking = true
 
-# on attack frame of animation
+# attack on frame of animation
 func _on_animated_sprite_2d_frame_changed():
 	if(attacking && sprite.frame == startup_frame):
 		var attack = attack_scn.instantiate()
@@ -34,6 +41,4 @@ func _on_animated_sprite_2d_animation_finished():
 		sprite.play("walk")
 		owner.set_state(0)
 		attacking=false
-
-
 
