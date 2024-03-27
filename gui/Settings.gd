@@ -62,8 +62,8 @@ func _on_close_button_pressed():
 	hide()
 
 func _on_option_button_item_selected(index):
-	print("e")
-	print(index)
+	#print("e")
+	#print(index)
 	
 	match index:
 		0: # Enter City
@@ -162,7 +162,7 @@ func geocode_list():
 
 func _on_city_list_item_selected(index:int):
 	var select = geocode_response[index-1]
-	print(str(select))
+	#print(str(select))
 	set_coords(select.lat,select.lon)
 
 # Save settings when apply button is pressed

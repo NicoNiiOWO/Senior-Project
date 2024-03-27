@@ -4,41 +4,36 @@ extends Node
 var attack_scn : PackedScene = preload("res://entity/attacks/sword.tscn")
 var sprite : AnimatedSprite2D
 
-var attacking : bool = false # if is attacking
 var direction : Vector2 # direction towards target
+#var attacking = false
+
+func _init():
+	sprite = owner.sprite
 
 func physics_process():
 	# move towards target, lower speed
 	if(owner.target != null):
-		direction = owner.global_position.direction_to(owner.target.global_position)
-		owner.velocity = direction * owner.stats.speed/4
-		print(direction)
+		owner.move(0.3)
 	else: owner.velocity = Vector2.ZERO
-
-# attack when taking damage
-func _on_enemy_damage_taken():
-	owner.set_state(1)
-	attack()
 
 # start attack animation
 func attack():
-	print(direction)
 	sprite = owner.sprite
+	#attacking = true
 	sprite.play("attack")
-	attacking = true
+	print_debug("pp")
 
 # attack on frame of animation
 func _on_animated_sprite_2d_frame_changed():
-	if(attacking && sprite.frame == startup_frame):
+	if(owner.attacking && sprite.frame == startup_frame):
 		var attack = attack_scn.instantiate()
 		#print(owner.stats)
-		attack.init(direction, 1, owner.stats.atk, 0.7)
+		attack.init(direction, 1, owner.stats.atk, owner.stats.atk_size)
 		owner.add_child(attack)
 
 # stop attacking at end of animation
 func _on_animated_sprite_2d_animation_finished():
 	if(sprite.animation == "attack"):
 		sprite.play("walk")
-		owner.set_state(0)
-		attacking=false
-
+		#attacking = false
+		owner.attack(false)

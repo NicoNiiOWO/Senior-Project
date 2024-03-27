@@ -1,14 +1,6 @@
-[gd_resource type="SpriteFrames" load_steps=12 format=3 uid="uid://bi87c8u4lp05l"]
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://bi87c8u4lp05l"]
 
 [ext_resource type="Texture2D" uid="uid://duplyfbuowghh" path="res://assets/Twister.png" id="1_8sbhy"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4mmmj"]
-atlas = ExtResource("1_8sbhy")
-region = Rect2(0, 22, 22, 22)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mgsns"]
-atlas = ExtResource("1_8sbhy")
-region = Rect2(22, 22, 22, 22)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hclub"]
 atlas = ExtResource("1_8sbhy")
@@ -44,20 +36,6 @@ region = Rect2(154, 0, 22, 22)
 
 [resource]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4mmmj")
-}, {
-"duration": 10.0,
-"texture": SubResource("AtlasTexture_mgsns")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4mmmj")
-}],
-"loop": true,
-"name": &"fall",
-"speed": 10.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hclub")

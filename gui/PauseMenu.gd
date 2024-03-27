@@ -5,7 +5,7 @@ var unpause_disable : bool = false
 
 # if paused with key, disable unpausing until released
 func _on_gui_pause(disable:bool=false):
-	print("eeeee")
+	#print("eeeee")
 	pause()
 	if(disable):
 		unpause_disable=true

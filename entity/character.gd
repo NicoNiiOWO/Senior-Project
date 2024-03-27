@@ -67,10 +67,11 @@ func take_damage(n:float):
 	else: 
 		round_to = 0.1
 		
-		# if player iframes is not 0, set damage to 0
-		if stats.iframes==0: 
-			stats.iframes = base_stats.iframes
-		else: n=0
+	# if player, set iframes after taking damage
+	# if iframes is not 0, set damage to 0
+	if isPlayer && stats.iframes==0: 
+		stats.iframes = base_stats.iframes
+	else: if stats.iframes != 0: n=0
 	
 	dmg = snapped(n * stats.dmg_taken, 1)
 	stats.hp = snapped(stats.hp-dmg, round_to) 
@@ -97,9 +98,10 @@ func gain_level(n:int):
 func update_stats():
 	var current_max_hp = stats.max_hp
 	
-	for stat in ["max_hp", "atk", "speed"]:
-		stats[stat] = stats_additive(stat)
-	stats.max_exp = stats_multiplicative("max_exp")
+	for stat in ["max_hp", "atk", "speed", "atk_size"]:
+		stats[stat] = stat_calc_add(stat)
+	for stat in ["max_exp"]:
+		stats[stat] = stat_calc_mult(stat)
 	
 	update_effects()
 	# update stats
@@ -109,19 +111,22 @@ func update_stats():
 	stats.hp += stats.max_hp - current_max_hp
 	
 	if(isPlayer):
-		stats.atk_size = stats_additive("atk_size")
 		Global.player_stats = stats
 		gui.update_stats()
 
 # calculate stat based on level
-func stats_additive(stat:String, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
+func stat_calc_add(stat:String, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
 	return snapped(base[stat] + growth[stat] * (level-1), 1) # nearest int
 
-func stats_multiplicative(stat:String, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
+func stat_calc_mult(stat:String, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
 	return snapped(floor(base[stat] * pow(growth[stat], level-1)), 1) # nearest int
 
 func update_effects():
 	effects_lib.set_stat_mod(effects)
+
+func set_invincible(enable:bool):
+	if enable: stats.iframes = -1
+	else: stats.iframes = 0
 
 # make invisible and disable processing
 func disable():

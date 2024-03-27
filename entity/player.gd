@@ -47,7 +47,7 @@ func _ready():
 func _physics_process(delta):
 	if(stats.iframes > 0):
 		stats.iframes -= delta # reduce iframes by frametime
-		if stats.iframes <= 0: stats.iframes = 0
+		if stats.iframes <= 0 and stats.iframes != -1: stats.iframes = 0
 	
 	# Player movement
 	velocity = Input.get_vector("move_left","move_right","move_up","move_down")

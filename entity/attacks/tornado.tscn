@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://bwx7clf61b310"]
+
+[ext_resource type="Script" path="res://entity/attacks/attack_tornado.gd" id="1_fiu54"]
+[ext_resource type="Texture2D" uid="uid://cdgxoyu0w73lq" path="res://assets/Tornado.png" id="2_yxsif"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46p8u"]
+atlas = ExtResource("2_yxsif")
+region = Rect2(0, 0, 35, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_doatw"]
+atlas = ExtResource("2_yxsif")
+region = Rect2(35, 0, 35, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i61wb"]
+atlas = ExtResource("2_yxsif")
+region = Rect2(70, 0, 35, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ia812"]
+atlas = ExtResource("2_yxsif")
+region = Rect2(105, 0, 35, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhs8x"]
+atlas = ExtResource("2_yxsif")
+region = Rect2(140, 0, 35, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fssxw"]
+atlas = ExtResource("2_yxsif")
+region = Rect2(175, 0, 35, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fktqq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46p8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_doatw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i61wb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ia812")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hhs8x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fssxw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 14.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fgj84"]
+radius = 12.0899
+
+[node name="Tornado" type="Area2D"]
+scale = Vector2(2, 2)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_fiu54")
+source = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.26
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fktqq")
+frame_progress = 0.3248
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fgj84")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

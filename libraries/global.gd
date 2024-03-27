@@ -85,7 +85,7 @@ func setWeatherData(i:int): # simplify response at index
 		weather_data.local_dt = weather_data.dt + timezone.bias*60
 		
 		api_ready = true
-		print_debug(weather_data)
+		#print_debug(weather_data)
 		return setType()
 
 # set weather type based on weather code: https://openweathermap.org/weather-conditions
@@ -112,7 +112,7 @@ func setType() -> bool:
 			if(code==800): type.append(weather_type.CLEAR)
 			else: type.append(weather_type.CLOUDS)
 	
-	print(weather_data)
+	#print(weather_data)
 	if(weather_data["wind"]["speed"] > 8 || weather_data["wind"]["gust"] > 8):
 		type.append(weather_type.WIND)
 	

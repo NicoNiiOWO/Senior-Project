@@ -1,8 +1,14 @@
 extends Attack
 
-func init(direction:Vector2, atk_source:int, dmg:float, size_m:float = 1, a:int=1):
-	init_attack(direction, atk_source, dmg, size_m)
+var direction : Vector2 # attack direction
+
+func init(direction:Vector2, atk_source:int, dmg:float, size_m:float = 1):
+	init_attack(atk_source, dmg, size_m)
+	
+	# offset position and change rotation
 	position += direction*30 + Vector2(0, -5)
+	self.direction = direction
+	global_rotation = Vector2.ZERO.angle_to_point(direction)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

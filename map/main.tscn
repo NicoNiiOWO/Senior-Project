@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://v1608s5lvo0j"]
+[gd_scene load_steps=9 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Texture2D" uid="uid://cp36lau6gxpva" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_3s6u4"]
 [ext_resource type="Script" path="res://map/main.gd" id="1_v6nxb"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://map/EnemySpawnPath.gd" id="3_wsknh"]
 [ext_resource type="PackedScene" uid="uid://c6ckirvpcwsi8" path="res://entity/item.tscn" id="5_2nl8k"]
 [ext_resource type="PackedScene" uid="uid://d8e3lfaeglcx" path="res://gui/gui.tscn" id="6_85ohw"]
+[ext_resource type="PackedScene" uid="uid://bwx7clf61b310" path="res://entity/attacks/tornado.tscn" id="7_qdgpq"]
 
 [sub_resource type="Curve2D" id="Curve2D_i03nr"]
 bake_interval = 10.0
@@ -13,6 +14,7 @@ bake_interval = 10.0
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
 enemy_spawn_time = 2
+enemy_spawn_count = 1
 metadata/_edit_horizontal_guides_ = [2560.0, -2504.0, 0.0, 0.0]
 metadata/_edit_vertical_guides_ = [2560.0, -2500.0]
 
@@ -62,6 +64,10 @@ position = Vector2(143.469, -116.097)
 
 [node name="Item2" parent="." instance=ExtResource("5_2nl8k")]
 position = Vector2(-182.168, -152.908)
+
+[node name="Tornado" parent="." instance=ExtResource("7_qdgpq")]
+position = Vector2(65.0358, -55.2358)
+duration = 100.0
 
 [connection signal="timeout" from="EnemySpawnPath/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]

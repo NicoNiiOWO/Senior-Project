@@ -4,8 +4,6 @@ enum category {WEATHER,UPGRADE,TOTAL}
 enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 enum upgrade_type {}
 
-const stat_list = ["max_hp", "atk", "speed", "dmg_taken", "atk_size"]
-
 const effect_list : Dictionary = {
 	category.WEATHER : { # stats
 		weather_type.CLEAR : {

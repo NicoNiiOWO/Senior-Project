@@ -1,16 +1,18 @@
 class_name Enemy
 extends Character
 
+const ability_list = enemy_lib.ability_type
 var ability=0
 
-var flip : bool = false
+var flip : bool = false # flip sprite
 var target : Node2D = null # node to move towards
-var direction : Vector2 # direction towards node
+var player : Character = null # player node
+var direction : Vector2 # direction moving towards
 
 enum states {WALK, ATTACK}
 var state : Node
-
-const ability_list = enemy_lib.ability_type
+var attack_trigger=null # when to change state
+var attacking = false
 
 @onready var state_node : Dictionary = {
 	states.WALK : $State/Walk,
@@ -30,17 +32,21 @@ func _init():
 	ability = a
 	
 	init(Global.char_type.ENEMY, ability) # initialize stats
+	attack_trigger = enemy_lib.get_attack_trigger(ability)
 
 # set current state (walk/attack)
 func set_state(s:int):
 	state = state_node[s]
 
-# set target for movement
+# set target to move towards
 func set_target(x:Node2D):
 	target = x
 
-# set ability and sprites
-func set_ability(a:int):
+func set_player(x:Character):
+	player = x
+
+# load ability and sprites
+func load_ability(a:int):
 	ability = a
 	sprite.set_sprite_frames(enemy_lib.get_sprite(ability))
 	
@@ -58,7 +64,7 @@ func set_ability(a:int):
 			sprite.position = Vector2(0,0)
 
 func _ready():
-	set_ability(ability)
+	load_ability(ability)
 	#sprite.set_sprite_frames(enemy_lib.get_sprite(ability))
 	
 	update_text()
@@ -79,6 +85,22 @@ func _physics_process(_delta):
 	if(sprite.flip_h != flip):
 		sprite.flip_h = flip
 		sprite.position.x = -sprite.position.x  # Flip offset to match hitbox
+	
+	# call attack when near player
+	if attack_trigger[0] == enemy_lib.attack_trigger.NEARPLAYER:
+		if not attacking && global_position.distance_to(player.global_position) < attack_trigger[1]:
+			attack()
+
+# move towards target
+func move(spd_mod:float = 1):
+	if target != null:
+		move_to(target, spd_mod)
+	else: velocity = Vector2.ZERO
+
+# move towards node
+func move_to(node:Node2D, spd_mod:float = 1):
+	direction = global_position.direction_to(node.global_position)
+	velocity = direction * stats.speed*spd_mod
 
 func handle_collision():
 	var collision_count = get_slide_collision_count()
@@ -112,3 +134,16 @@ func _on_defeated():
 
 func _on_damage_taken():
 	update_text()
+	
+	# call attack when taking damage
+	if attack_trigger[0] == enemy_lib.attack_trigger.TAKEDAMAGE:
+		attack()
+
+# set attack state/var
+func attack(start:bool=true):
+	attacking=start
+	if start:
+		set_state(1)
+		state.attack()
+	else:
+		set_state(0)

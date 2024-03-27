@@ -62,7 +62,7 @@ func load_config():
 		api_settings.custom_key = true
 	
 	Global.api_settings = api_settings
-	print(api_settings)
+	print_debug(api_settings)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -94,7 +94,7 @@ func api_call():
 		return
 	
 	var api_url = api_url_format.format(api_settings)
-	print(api_url)
+	#print_debug(api_url)
 	
 	var API = $API
 	var request = API.request(api_url)
@@ -115,7 +115,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	# if successful
 	if(response_code == 200):
 		Global.api_success = true
-		print_debug(Global.api_response.list[0])
+		#print_debug(Global.api_response.list[0])
 		
 		# datetime difference between responses
 		Global.api_interval = (Global.api_response.list[1].dt - Global.api_response.list[0].dt)
@@ -136,6 +136,7 @@ func enemy_spawn(n:int, level:int):
 			# offset location based on camera
 			#print(spawn_location.position)
 			enemyInstance.set_target(player)
+			enemyInstance.set_player(player)
 			enemyInstance.set_deferred("position", spawn_location.position + player.get_screen_center())
 			
 			add_child(enemyInstance)
