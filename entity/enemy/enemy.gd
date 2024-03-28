@@ -95,14 +95,19 @@ func _physics_process(_delta):
 			attack()
 
 # move towards target
-func move(spd_mod:float = 1):
+func move(spd_mod:float = 1, curve_weight:float = 1):
 	if target != null:
-		move_towards(target, spd_mod)
+		move_towards(target, spd_mod, curve_weight)
 	else: velocity = Vector2.ZERO
 
-# move towards node
-func move_towards(node:Node2D, spd_mod:float = 1):
-	direction = global_position.direction_to(node.global_position)
+# move towards node, can curve
+func move_towards(node:Node2D, spd_mod:float = 1, curve_weight:float = 1):
+	var target_direction = global_position.direction_to(node.global_position)
+	
+	if(curve_weight != 0):
+		direction.x = move_toward(direction.x, target_direction.x, curve_weight)
+		direction.y = move_toward(direction.y, target_direction.y, curve_weight)
+	
 	velocity = direction * stats.speed*spd_mod
 
 

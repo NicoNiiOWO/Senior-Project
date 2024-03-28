@@ -6,23 +6,24 @@ enum phase {NONE=-1, START, ACTIVE, END} # attack states
 @export var duration : Array = [2.0, 2.0, 2.0] # duration of each state
 @export var speed_mod : Array = [0.5, 2.2, 0.3] # speed for each state
 
-var attack_startup : bool = false
+var current_phase : int = phase.NONE
 
 var spd_mod = 1
 func physics_process():
 	# increase animation speed during startup
-	if(attack_startup):
+	if current_phase == phase.START:
 		owner.sprite.speed_scale += 0.05
-		
-	# if near player, dont change direction
-	if owner.global_position.distance_to(owner.target.global_position) > 70:
+	
+	if current_phase == phase.ACTIVE:
+		owner.move(spd_mod, 0.03)
+	else:
 		owner.move(spd_mod)
 	
 
 func attack():
 	# change speed
+	current_phase = phase.START
 	spd_mod = speed_mod[phase.START]
-	attack_startup = true
 	await get_tree().create_timer(duration[phase.START]).timeout
 	
 	# add attack
@@ -34,23 +35,26 @@ func attack():
 
 func attack_start():
 	# hide sprite, reset animation speed, make invincible
-	attack_startup = false
+	current_phase = phase.ACTIVE
 	owner.sprite.speed_scale = 1
 	owner.sprite.hide()
 	owner.set_invincible(true)
 	
 	# add attack, increase speed
 	var attack = attack_scn.instantiate()
-	attack.init(1,owner.stats.atk, owner.stats.atk_size, duration[phase.ACTIVE])
+	attack.init(1,owner.stats.atk*2, owner.stats.atk_size, duration[phase.ACTIVE])
 	owner.add_child(attack)
 	spd_mod = speed_mod[phase.ACTIVE]
 	
 func attack_end():
-	# slow
+	# show sprite, change speed
+	current_phase = phase.END
 	owner.sprite.show()
 	owner.set_invincible(false)
 	spd_mod = speed_mod[phase.END]
 	
+	# after delay, set back to normal
 	await get_tree().create_timer(duration[phase.END]).timeout
+	current_phase = phase.NONE
 	spd_mod = 1
 	owner.attack(false)

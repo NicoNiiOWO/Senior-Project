@@ -57,6 +57,13 @@ static var base_stats = {
 		max_hp = 50,
 		atk = 8,
 		speed = 100,
+	},
+	ability_type.TORNADO : {
+		max_exp = 30,
+		max_hp = 50,
+		atk = 6,
+		speed = 100,
+		atk_size = 1.1,
 	}
 }
 static var growth_stats = {
@@ -75,6 +82,13 @@ static var growth_stats = {
 	ability_type.SWORD : {
 		max_hp = 5,
 		atk = 2,
+		max_exp = 1.15, # multiply
+		speed = 1,
+		atk_size = .01
+	},
+	ability_type.TORNADO : {
+		max_hp = 5,
+		atk = 1,
 		max_exp = 1.15, # multiply
 		speed = 1,
 		atk_size = .01
