@@ -4,6 +4,7 @@ extends Character
 const ability_list = enemy_lib.ability_type
 var ability=0
 
+var can_flip : bool = true # if sprite can flip
 var flip : bool = false # flip sprite
 var target : Node2D = null # node to move towards
 var player : Character = null # player node
@@ -61,6 +62,7 @@ func load_ability(a:int):
 	# fix sprite position
 	match ability:
 		ability_list.TORNADO:
+			can_flip = false
 			sprite.position = Vector2(0,0)
 
 func _ready():
@@ -79,12 +81,13 @@ func _physics_process(_delta):
 	handle_collision()
 	
 	# Flip sprite based on velocity
-	if(velocity.x > 0): flip = false
-	if(velocity.x < 0): flip = true
-	
-	if(sprite.flip_h != flip):
-		sprite.flip_h = flip
-		sprite.position.x = -sprite.position.x  # Flip offset to match hitbox
+	if can_flip:
+		if(velocity.x > 0): flip = false
+		if(velocity.x < 0): flip = true
+		
+		if(sprite.flip_h != flip):
+			sprite.flip_h = flip
+			sprite.position.x = -sprite.position.x  # Flip offset to match hitbox
 	
 	# call attack when near player
 	if attack_trigger[0] == enemy_lib.attack_trigger.NEARPLAYER:
@@ -94,13 +97,14 @@ func _physics_process(_delta):
 # move towards target
 func move(spd_mod:float = 1):
 	if target != null:
-		move_to(target, spd_mod)
+		move_towards(target, spd_mod)
 	else: velocity = Vector2.ZERO
 
 # move towards node
-func move_to(node:Node2D, spd_mod:float = 1):
+func move_towards(node:Node2D, spd_mod:float = 1):
 	direction = global_position.direction_to(node.global_position)
 	velocity = direction * stats.speed*spd_mod
+
 
 func handle_collision():
 	var collision_count = get_slide_collision_count()

@@ -68,22 +68,37 @@ func _init():
 	timezone.abbrev = abbrev
 	print_debug(timezone)
 
-func currentWeather():
+func currentWeather() -> Dictionary:
 	return forecast[index]
 
+func get_weather(i:int) -> Dictionary:
+	return forecast[i]
+
+const text_format : String = "{Description}\n{Temp_C}°C/{Temp_F}°F\n"
+
+# get weather as text, default to current
+func getText(i:int=index, offset:int=0) -> String:
+	var weather = forecast[i]
+	
+	var text = text_format.format({
+		Temp_C = "%0.2f" % weather.temp_c,
+		Temp_F = "%0.2f" % weather.temp_f,
+		Weather = weather.main, 
+		Description = weather.description,
+	})
+	if(weather.type.has(weather_type.WIND)):
+		text += "Windy\n"
+	return text
+
+# make forecast
 func setForecast() -> bool: 
 	if(api_success):
 		var prev_type = []
 		
-		#forecast[0] = {"e":1}
 		print_debug(forecast)
 		for i in range(api_response.cnt):
-			#print_debug(i)
-			#var weather_data = processWeather(i)
-			#print_debug(weather_data)
 			if i == 0: forecast[0] = processWeather(0)
-			else:
-				forecast.append(processWeather(i))
+			else: forecast.append(processWeather(i))
 			
 			# check if weather type changed
 			forecast[i].typeChanged = (prev_type != forecast[i].type)
@@ -92,23 +107,21 @@ func setForecast() -> bool:
 		api_ready = true
 	return api_ready
 
-func processWeather(index:int) -> Dictionary: # simplify response at index
+# simplify response at index
+func processWeather(index:int) -> Dictionary: 
 	var entry = api_response.list[index]
 	var weather_data = entry.weather[0].duplicate()
 	weather_data.description = weather_data.description.capitalize()
 	weather_data.wind = entry.wind.duplicate()
 
 	# Calculate temperature
-	weather_data.temp_c = entry.main.temp-273.15
-	weather_data.temp_f = weather_data.temp_c * 1.8 + 32
+	weather_data.temp_c = snapped(entry.main.temp-273.15, 0.01)
+	weather_data.temp_f = snapped(weather_data.temp_c * 1.8 + 32, 0.01)
 	
 	weather_data.dt = entry.dt
-	
 	weather_data.local_dt = weather_data.dt + timezone.bias*60
 	
 	setType(weather_data)
-	
-	print_debug(weather_data)
 	
 	return weather_data
 

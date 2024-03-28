@@ -62,6 +62,10 @@ unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("2_kghc5")
 
+[node name="Clock" type="Label" parent="HUD/Weather"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="WeatherText" type="Label" parent="HUD/Weather"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
