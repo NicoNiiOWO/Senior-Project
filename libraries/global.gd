@@ -40,9 +40,10 @@ var api_response : Dictionary = {
 	list = [],
 }
 var api_ready = false # if variables are set up
+var forecast : Array = [{}]
 var index : int = 0 # current index in list
 
-var weather_data : Dictionary = { } # info used
+#var weather_data : Dictionary = { } # info used
 
 var weather_interval # time between game weather change in seconds
 var api_interval # time between api response entries
@@ -56,7 +57,7 @@ func clear():
 	api_response_code = null
 	api_response = {}
 	index = 0
-	weather_data = {}
+	forecast = []
 	api_ready = false
 
 # timezone abbreviation
@@ -67,30 +68,52 @@ func _init():
 	timezone.abbrev = abbrev
 	print_debug(timezone)
 
-func setWeatherData(i:int): # simplify response at index
-	if(api_success):
-		var entry = api_response.list[i]
-		#print_debug("AAA",entry)
-		weather_data = entry.weather[0].duplicate()
-		weather_data.description = weather_data.description.capitalize()
-		weather_data.index = i
-		weather_data.wind = entry.wind.duplicate()
+func currentWeather():
+	return forecast[index]
 
-		# Calculate temperature
-		weather_data.temp_c = entry.main.temp-273.15
-		weather_data.temp_f = weather_data.temp_c * 1.8 + 32
+func setForecast() -> bool: 
+	if(api_success):
+		var prev_type = []
 		
-		weather_data.dt = entry.dt
-		
-		weather_data.local_dt = weather_data.dt + timezone.bias*60
+		#forecast[0] = {"e":1}
+		print_debug(forecast)
+		for i in range(api_response.cnt):
+			#print_debug(i)
+			#var weather_data = processWeather(i)
+			#print_debug(weather_data)
+			if i == 0: forecast[0] = processWeather(0)
+			else:
+				forecast.append(processWeather(i))
+			
+			# check if weather type changed
+			forecast[i].typeChanged = (prev_type != forecast[i].type)
+			prev_type = forecast[i].type
 		
 		api_ready = true
-		#print_debug(weather_data)
-		return setType()
+	return api_ready
+
+func processWeather(index:int) -> Dictionary: # simplify response at index
+	var entry = api_response.list[index]
+	var weather_data = entry.weather[0].duplicate()
+	weather_data.description = weather_data.description.capitalize()
+	weather_data.wind = entry.wind.duplicate()
+
+	# Calculate temperature
+	weather_data.temp_c = entry.main.temp-273.15
+	weather_data.temp_f = weather_data.temp_c * 1.8 + 32
+	
+	weather_data.dt = entry.dt
+	
+	weather_data.local_dt = weather_data.dt + timezone.bias*60
+	
+	setType(weather_data)
+	
+	print_debug(weather_data)
+	
+	return weather_data
 
 # set weather type based on weather code: https://openweathermap.org/weather-conditions
-# return true if types changed
-func setType() -> bool:
+func setType(weather_data : Dictionary):
 	var type = []
 	var code = weather_data.id
 	var group = int(code/100)
@@ -117,7 +140,5 @@ func setType() -> bool:
 		type.append(weather_type.WIND)
 	
 	# return true if types changed
-	if(!weather_data.has("type") || weather_data.type != type): 
-		weather_data.type = type
-		return true
-	return false
+	#if(!forecast[index].has("type") || forecast[index].type != type): 
+	weather_data.type = type

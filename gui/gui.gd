@@ -5,13 +5,13 @@ signal time_update() # called every second when game timer updates
 signal weather_changed()
 signal pause()
 
-@export var icon_path_format : String = "res://assets/Icons/%s@2x.png"
+const icon_path_format : String = "res://assets/Icons/%s@2x.png"
+const datetime_f : String = "{year}/{month}/{day} {hour}:{minute}"
+const time_f : String = "%02d:%02d"
+const text_format : String = "{Time} {Timezone}\n{Description}\n{Temp_C}°C/{Temp_F}°F\n"
 
-var datetime_f : String = "{year}/{month}/{day} {hour}:{minute}"
-var time_f : String = "%02d:%02d"
-var text_format : String = "{Time} {Timezone}\n{Description}\n{Temp_C}°C/{Temp_F}°F\n"
-
-var prev_index : int = -1 # most recent index used on weather list
+var weather_data : Dictionary # current weather from forecast
+var prev_index : int = -1 # most recent index used for forecast
 
 var reload_settings : bool = false # reload settings on restart
 
@@ -68,10 +68,10 @@ func weather_update():
 	if Global.api_success: # Response successful
 		#print_debug("Index: ",Global.index,"/", response.cnt-1)
 		if(prev_index != Global.index): # call once per weather change
-			var type_changed = Global.setWeatherData(Global.index)
-
+			weather_data = Global.currentWeather()
+			
 			# Load weather icon
-			var icon_code = Global.weather_data.icon
+			var icon_code = weather_data.icon
 			var icon_path = icon_path_format % icon_code
 			
 			var icon = load(icon_path)
@@ -80,7 +80,7 @@ func weather_update():
 			
 			prev_index = Global.index
 			
-			if(type_changed): 
+			if(weather_data.typeChanged): 
 				get_weather_stats()
 				weather_changed.emit()
 				
@@ -95,7 +95,7 @@ func weather_update():
 
 # make text from current weather stat modifier
 func get_weather_stats():
-	weather_stat_mod.mods = effects_lib.get_total_w(Global.weather_data.type)
+	weather_stat_mod.mods = effects_lib.get_total_w(Global.currentWeather().type)
 	weather_stat_mod.text = ""
 	
 	#print("e",weather_stat_mod.mods)
@@ -125,19 +125,19 @@ func set_weather_text():
 	
 	# Convert UTC to local time
 	#print_debug(Global.weather_data)
-	var time = Time.get_datetime_dict_from_unix_time(Global.weather_data.local_dt + time_offset)
+	var time = Time.get_datetime_dict_from_unix_time(weather_data.local_dt + time_offset)
 	if(time.minute < 10):
 		time.minute = str(0, time.minute)
 
 	var text = text_format.format({
-		Temp_C = "%0.2f" % Global.weather_data.temp_c,
-		Temp_F = "%0.2f" % Global.weather_data.temp_f,
-		Weather = Global.weather_data.main, 
-		Description = Global.weather_data.description,
+		Temp_C = "%0.2f" % weather_data.temp_c,
+		Temp_F = "%0.2f" % weather_data.temp_f,
+		Weather = weather_data.main, 
+		Description = weather_data.description,
 		Time = datetime_f.format(time), 
 		Timezone = Global.timezone.abbrev,
 	})
-	if(Global.weather_data.type.has(Global.weather_type.WIND)):
+	if(weather_data.type.has(Global.weather_type.WIND)):
 		text += "Windy\n"
 	text += weather_stat_mod.text
 	%WeatherText.text = text

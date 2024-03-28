@@ -12,6 +12,5 @@ func physics_process():
 func attack():
 	# if has attack state
 	if(owner.state_node.ATTACK != null):
-		print_debug("AAAAAAAAAAAAA")
 		owner.set_state(owner.states.ATTACK)
 		owner.state.attack()

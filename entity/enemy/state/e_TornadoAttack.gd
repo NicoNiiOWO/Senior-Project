@@ -4,17 +4,12 @@ var attack_scn : PackedScene = preload("res://entity/attacks/tornado.tscn")
 
 @export var startup : float = 2.0 # startup time
 @export var duration : float = 2.0 
-@export var cooldown_time : float = 1.0
+@export var endlag : float = 1.0
 
 var attack_startup : bool = false
-var attack_endlag : bool = false
 
 var spd_mod = 1
 func physics_process():
-	# move if not in endlag
-	if attack_endlag: 
-		spd_mod = 0
-		
 	# increase animation speed during startup
 	if(attack_startup):
 		owner.sprite.speed_scale += 0.05
@@ -49,15 +44,11 @@ func attack_start():
 	spd_mod = 1.8
 	
 func attack_end():
-	attack_endlag = true
-	
+	# slow
 	owner.sprite.show()
 	owner.set_invincible(false)
-	
-	
 	spd_mod = 0.8
-	await get_tree().create_timer(cooldown_time).timeout
-	attack_endlag = false
-	owner.sprite.play("walk")
+	
+	await get_tree().create_timer(endlag).timeout
 	spd_mod = 1
 	owner.attack(false)
