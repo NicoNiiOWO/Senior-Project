@@ -120,10 +120,10 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 		# datetime difference between responses
 		Global.api_interval = (Global.api_response.list[1].dt - Global.api_response.list[0].dt)
 	
-	# wait before updating gui
-	await Global.setForecast()
+	# set forecast then update gui
+	Global.set_forecast()
 	print_debug(Global.forecast)
-	gui.weather_update()
+	gui.api_request_complete()
 
 # Spawn n enemies
 func enemy_spawn(n:int, level:int): 

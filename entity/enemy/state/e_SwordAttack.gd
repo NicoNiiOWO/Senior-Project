@@ -26,10 +26,10 @@ func attack():
 # attack on frame of animation
 func _on_animated_sprite_2d_frame_changed():
 	if(owner.attacking && sprite.frame == startup_frame):
-		var attack = attack_scn.instantiate()
-		#print(owner.stats)
-		attack.init(direction, 1, owner.stats.atk, owner.stats.atk_size)
-		owner.add_child(attack)
+		var new_attack = attack_scn.instantiate()
+		
+		new_attack.init(direction, 1, owner.stats.atk, owner.stats.atk_size)
+		owner.add_child(new_attack)
 
 # stop attacking at end of animation
 func _on_animated_sprite_2d_animation_finished():

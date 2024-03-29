@@ -12,7 +12,3 @@ func _ready():
 	$Timer.start()
 	global_scale *= size
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

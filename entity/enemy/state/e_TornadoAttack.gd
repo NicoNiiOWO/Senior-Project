@@ -4,7 +4,7 @@ var attack_scn : PackedScene = preload("res://entity/attacks/tornado.tscn")
 
 enum phase {NONE=-1, START, ACTIVE, END} # attack states
 @export var duration : Array = [2.0, 2.0, 2.0] # duration of each state
-@export var speed_mod : Array = [0.5, 2.2, 0.3] # speed for each state
+@export var speed_mod : Array = [0.5, 2.0, 0.3] # speed for each state
 
 var current_phase : int = phase.NONE
 
@@ -41,9 +41,9 @@ func attack_start():
 	owner.set_invincible(true)
 	
 	# add attack, increase speed
-	var attack = attack_scn.instantiate()
-	attack.init(1,owner.stats.atk*2, owner.stats.atk_size, duration[phase.ACTIVE])
-	owner.add_child(attack)
+	var new_attack = attack_scn.instantiate()
+	new_attack.init(1,owner.stats.atk*2, owner.stats.atk_size, duration[phase.ACTIVE])
+	owner.add_child(new_attack)
 	spd_mod = speed_mod[phase.ACTIVE]
 	
 func attack_end():

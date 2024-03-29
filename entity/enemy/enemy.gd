@@ -27,7 +27,7 @@ func _init():
 	# default to cloudy
 	var a = [1]
 	if(Global.api_ready):
-		a = enemy_lib.random_enemy_type(Global.currentWeather().type)
+		a = enemy_lib.random_enemy_type(Global.current_weather().type)
 	else:
 		a = enemy_lib.random_enemy_type([0])
 	ability = a
@@ -78,7 +78,8 @@ func _physics_process(_delta):
 	state.physics_process() # movement based on current state
 	move_and_slide()
 	
-	handle_collision()
+	if(get_slide_collision_count() > 0):
+		handle_collision()
 	
 	# Flip sprite based on velocity
 	if can_flip:
@@ -110,23 +111,22 @@ func move_towards(node:Node2D, spd_mod:float = 1, curve_weight:float = 1):
 	
 	velocity = direction * stats.speed*spd_mod
 
-
+# On collision, checks if touching player
 func handle_collision():
 	var collision_count = get_slide_collision_count()
-	if(collision_count > 0):
-		#print_debug("Collisions: ", collision_count)
-		for i in collision_count:
-			var collision = get_slide_collision(i)
+	
+	for i in collision_count:
+		var collision = get_slide_collision(i)
 
-			# check if player
-			var touchPlayer = false
-			if("type" in collision.get_property_list()[0]):
-				if collision.get_collider().type == Global.char_type.PLAYER:
-					touchPlayer = true
-			
-			if touchPlayer:
-				#print_debug(str("E ", collision.get_collider().stats))
-				collision.get_collider().take_damage(stats.atk)
+		# check if player
+		var touchPlayer = false
+		if("type" in collision.get_property_list()[0]):
+			if collision.get_collider().type == Global.char_type.PLAYER:
+				touchPlayer = true
+		
+		if touchPlayer:
+			#print_debug(str("E ", collision.get_collider().stats))
+			collision.get_collider().take_damage(stats.atk)
 	
 # Display level and hp
 func update_text():
@@ -141,6 +141,7 @@ func _on_defeated():
 	get_node("/root/Main").addItem(global_position) # drop heal item
 	queue_free()
 
+# Set HP text when taking damage
 func _on_damage_taken():
 	update_text()
 	
@@ -148,7 +149,7 @@ func _on_damage_taken():
 	if attack_trigger[0] == enemy_lib.attack_trigger.TAKEDAMAGE:
 		attack()
 
-# set attack state/var
+# set attack state
 func attack(start:bool=true):
 	attacking=start
 	if start:

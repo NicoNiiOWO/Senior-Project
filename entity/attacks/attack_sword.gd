@@ -2,12 +2,12 @@ extends Attack
 
 var direction : Vector2 # attack direction
 
-func init(direction:Vector2, atk_source:int, dmg:float, size_m:float = 1):
+func init(dir:Vector2, atk_source:int, dmg:float, size_m:float = 1):
 	init_attack(atk_source, dmg, size_m)
 	
 	# offset position and change rotation
-	position += direction*30 + Vector2(0, -5)
-	self.direction = direction
+	position += dir*30 + Vector2(0, -5)
+	self.direction = dir
 	global_rotation = Vector2.ZERO.angle_to_point(direction)
 
 # Called when the node enters the scene tree for the first time.

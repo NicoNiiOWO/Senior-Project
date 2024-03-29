@@ -68,7 +68,7 @@ func _init():
 	timezone.abbrev = abbrev
 	print_debug(timezone)
 
-func currentWeather() -> Dictionary:
+func current_weather() -> Dictionary:
 	return forecast[index]
 
 func get_weather(i:int) -> Dictionary:
@@ -77,7 +77,7 @@ func get_weather(i:int) -> Dictionary:
 const text_format : String = "{Description}\n{Temp_C}°C/{Temp_F}°F\n"
 
 # get weather as text, default to current
-func getText(i:int=index, offset:int=0) -> String:
+func get_text(i:int=index) -> String:
 	var weather = forecast[i]
 	
 	var text = text_format.format({
@@ -91,14 +91,14 @@ func getText(i:int=index, offset:int=0) -> String:
 	return text
 
 # make forecast
-func setForecast() -> bool: 
+func set_forecast() -> bool: 
 	if(api_success):
 		var prev_type = []
 		
 		print_debug(forecast)
 		for i in range(api_response.cnt):
-			if i == 0: forecast[0] = processWeather(0)
-			else: forecast.append(processWeather(i))
+			if i == 0: forecast[0] = process_weather(0)
+			else: forecast.append(process_weather(i))
 			
 			# check if weather type changed
 			forecast[i].typeChanged = (prev_type != forecast[i].type)
@@ -108,8 +108,8 @@ func setForecast() -> bool:
 	return api_ready
 
 # simplify response at index
-func processWeather(index:int) -> Dictionary: 
-	var entry = api_response.list[index]
+func process_weather(i:int) -> Dictionary: 
+	var entry = api_response.list[i]
 	var weather_data = entry.weather[0].duplicate()
 	weather_data.description = weather_data.description.capitalize()
 	weather_data.wind = entry.wind.duplicate()
@@ -121,12 +121,12 @@ func processWeather(index:int) -> Dictionary:
 	weather_data.dt = entry.dt
 	weather_data.local_dt = weather_data.dt + timezone.bias*60
 	
-	setType(weather_data)
+	set_type(weather_data)
 	
 	return weather_data
 
 # set weather type based on weather code: https://openweathermap.org/weather-conditions
-func setType(weather_data : Dictionary):
+func set_type(weather_data : Dictionary):
 	var type = []
 	var code = weather_data.id
 	var group = int(code/100)

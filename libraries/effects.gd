@@ -53,14 +53,14 @@ static func get_total(effects:Dictionary) -> Dictionary:
 	var total = {}
 	
 	# loop through weather and upgrade categories
-	for category in range(0,1): 
-		for effect in effects[category]:
+	for eff_category in range(0,1): 
+		for effect in effects[eff_category]:
 			#print_debug(effect)
-			for stat in effects[category][effect]:
+			for stat in effects[eff_category][effect]:
 				if(!total.has(stat)):
-					total[stat] = effects[category][effect][stat]
+					total[stat] = effects[eff_category][effect][stat]
 				else:
-					total[stat] += effects[category][effect][stat]
+					total[stat] += effects[eff_category][effect][stat]
 	
 	return total
 
@@ -89,7 +89,7 @@ static func get_weather_stats(weather:int) -> Dictionary:
 
 # adds effect based on weather
 static func update_weather_eff(effects:Dictionary):
-	var weather = Global.currentWeather()
+	var weather = Global.current_weather()
 	if(Global.api_success && weather.has("type")):
 		for type in weather.type:
 			add_effect(effects, category.WEATHER, type)
