@@ -18,7 +18,6 @@ func physics_process():
 		owner.move(spd_mod, 0.03)
 	else:
 		owner.move(spd_mod)
-	
 
 func attack():
 	# change speed

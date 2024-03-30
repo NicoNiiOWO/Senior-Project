@@ -3,29 +3,7 @@ extends Control
 signal settings_changed()
 const geocode_url = "https://api.openweathermap.org/geo/1.0/direct?q={City}&limit={Limit}&appid={Key}"
 
-const locations = [
-	{
-		city = "Brooklyn, New York",
-		lat = 40.6526006,
-		lon = -73.9497211,
-		
-	},
-	{
-		city = "Tampa, Florida",
-		lat = 27.9477595,
-		lon = -82.45844,
-	},
-	{
-		city = "Los Angeles, California",
-		lat = 34.0536909,
-		lon = -118.242766,
-	},
-	{
-		city = "Tokyo, JP",
-		lat = 35.6828387,
-		lon = 139.7594549,
-	}
-]
+@onready var locations = Global.location_preset
 
 const city_format = "{name}, {country}, ({lat}, {lon})"
 const city_format_us = "{name}, {state}, {country}, ({lat}, {lon})"
@@ -38,14 +16,18 @@ var selected = {
 	lat = 0,
 	lon = 0,
 	key = null,
+	use_key = false,
 }
+
+@onready var gui = owner # main gui node
 
 func _ready():
 	for i in locations:
 		%OptionButton.add_item(i.city)
 	
-	print(Global.api_settings)
-	if Global.api_settings.custom_key:
+	print_debug(Global.api_settings)
+	if Global.api_settings.use_key:
+		selected.use_key = true
 		%KeyToggle.set_pressed(true)
 
 func open():
@@ -62,9 +44,6 @@ func _on_close_button_pressed():
 	hide()
 
 func _on_option_button_item_selected(index):
-	#print("e")
-	#print(index)
-	
 	match index:
 		0: # Enter City
 			coords_enable(false)
@@ -81,19 +60,21 @@ func _on_option_button_item_selected(index):
 			
 			set_coords(locations[index-3].lat, locations[index-3].lon)
 
+func select_preset(i:int):
+	set_coords(locations[i].lat,locations[i].lon)
+
 func set_coords(lat:float, lon:float):
 	selected.lat = lat
 	selected.lon = lon
 	%LatEdit.text = str(lat)
 	%LonEdit.text = str(lon)
 
-# if key setting is enabled, use input key, else use default
+# set use_key to toggle state, set key to input if not empty
 func set_key():
-	var key
-	if %KeyToggle.button_pressed: 
-		key = %KeyEdit.text
-	else: 
-		key = null
+	selected.use_key = %KeyToggle.button_pressed
+	
+	var key = %KeyEdit.text
+	if key == "": key = null
 	selected.key = key
 
 func coords_enable(enable:bool=true):
@@ -118,6 +99,7 @@ func geocode_request(text:String = %CityText.text):
 	else:
 		print_debug("a")
 
+# handle geocode request
 func _on_http_request_request_completed(_result, response_code, _headers, body):
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
@@ -162,7 +144,7 @@ func geocode_list():
 
 func _on_city_list_item_selected(index:int):
 	var select = geocode_response[index-1]
-	#print(str(select))
+	
 	set_coords(select.lat,select.lon)
 
 # Save settings when apply button is pressed
@@ -171,17 +153,8 @@ func save_settings():
 		set_coords(%LatEdit.text, %LonEdit.text)
 	set_key()
 	
-	# save settings to config
-	var config = ConfigFile.new()
-	config.load("res://config.cfg")
-	
-	# use selected longitude/latitude and key
-	config.set_value("API", "latitude", selected.lat)
-	config.set_value("API", "longitude", selected.lon)
-	config.set_value("API", "key", selected.key)
-	config.set_value("API", "custom_key", (selected.key != null))
-	
-	var error = config.save("res://config.cfg")
+	var use_key = %KeyToggle.button_pressed
+	var error = Global.save_config(selected.lat, selected.lon, selected.key, use_key)
 	if error != OK:
 		%SaveText.text = "Save error"
 		print_debug("save error")

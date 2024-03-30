@@ -2,18 +2,18 @@ class_name Enemy
 extends Character
 
 const ability_list = enemy_lib.ability_type
-var ability=0
+var ability=0 # current ability
 
-var can_flip : bool = true # if sprite can flip
-var flip : bool = false # flip sprite
-var target : Node2D = null # node to move towards
-var player : Character = null # player node
-var direction : Vector2 # direction moving towards
+var can_flip : bool = true 		# if sprite can flip
+var flip : bool = false 		# flip sprite
+var target : Node2D = null 		# node to move towards
+var direction : Vector2 		# direction moving towards
+var player : Character = null 	# player node
 
 enum states {WALK, ATTACK}
-var state : Node
+var state : Node 		# current state
 var attack_trigger=null # when to change state
-var attacking = false
+var attacking = false	# if attacking
 
 @onready var state_node : Dictionary = {
 	states.WALK : $State/Walk,
@@ -43,6 +43,7 @@ func set_state(s:int):
 func set_target(x:Node2D):
 	target = x
 
+# set player node
 func set_player(x:Character):
 	player = x
 
@@ -67,7 +68,6 @@ func load_ability(a:int):
 
 func _ready():
 	load_ability(ability)
-	#sprite.set_sprite_frames(enemy_lib.get_sprite(ability))
 	
 	update_text()
 	set_state(states.WALK)
@@ -105,6 +105,8 @@ func move(spd_mod:float = 1, curve_weight:float = 1):
 func move_towards(node:Node2D, spd_mod:float = 1, curve_weight:float = 1):
 	var target_direction = global_position.direction_to(node.global_position)
 	
+	# turn towards target by curve_weight
+	# lower number = slower turn
 	if(curve_weight != 0):
 		direction.x = move_toward(direction.x, target_direction.x, curve_weight)
 		direction.y = move_toward(direction.y, target_direction.y, curve_weight)

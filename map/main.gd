@@ -4,9 +4,9 @@ extends Node
 @export var weather_interval : int = 10 # time between weather change in seconds
 
 # API variables
+const api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}"
 var api_settings : Dictionary # settings loaded from config
 var api_called: bool = false # if api has been called with current settings
-const api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}"
 
 var player : Character = null # current player object
 const player_scn : PackedScene = preload("res://entity/player.tscn")
@@ -38,19 +38,29 @@ func load_config():
 		latitude=null,
 		longitude=null,
 		key=null,
-		custom_key=false,
+		use_key=false,
 	}
 	
 	# set api settings from config
 	var config = ConfigFile.new()
-	config.load("res://config.cfg")
 	
-	for setting in config.get_section_keys("API"):
-		api_settings[setting] = config.get_value("API", setting)
+	# load file
+	if config.load("res://config.cfg") != OK:
+		# if not loaded
+		# set default location to first preset
+		#if (api_settings.latitude == null or api_settings.longitude == null):
+		var lat = Global.location_preset[0].lat
+		var lon = Global.location_preset[0].lon
+		api_settings.latitude = lat
+		api_settings.longitude = lon
+		
+		# save settings
+		Global.save_config_dict(api_settings)
+	else:
+		# set settings variable
+		for setting in config.get_section_keys("API"):
+			api_settings[setting] = config.get_value("API", setting)
 	
-	#print(str(api_settings))
-	#print(api_settings.has("key"))
-	#print(api_settings.key == null)
 	
 	# set default api key if not in config
 	if (api_settings.key == null):
@@ -59,9 +69,10 @@ func load_config():
 		api_settings.key = key
 		file.close()
 	else:
-		api_settings.custom_key = true
+		api_settings.use_key = true
 	
 	Global.api_settings = api_settings
+	
 	print_debug(api_settings)
 
 # Called when the node enters the scene tree for the first time.

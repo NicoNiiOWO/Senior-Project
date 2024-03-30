@@ -69,6 +69,10 @@ func show_weather(success:bool):
 		%WeatherText.hide()
 	$HUD/Weather.show()
 
+func error(text: String):
+	%ErrorMessage.text = text
+	show_weather(false)
+
 # update weather info
 func weather_update():
 	var response = Global.api_response
@@ -94,7 +98,7 @@ func weather_update():
 	else:
 		if(response != null && response.message != null):
 			#print_debug(response.message)
-			%ErrorMessage.text = str(Global.api_response_code, " ", response.message)
+			error(str("Error ",Global.api_response_code, " ", response.message))
 	
 	show_weather(Global.api_success)
 
@@ -211,8 +215,8 @@ func make_forecast():
 			var icon = load_icon(weather.icon)
 			entry.get_child(0).set_texture(icon) # icon
 			
-			entry.get_child(1).get_child(0).text = get_clock_str(weather.local_dt)
-			entry.get_child(1).get_child(1).text = Global.get_text(i)
+			entry.get_child(1).get_child(0).text = get_clock_str(weather.local_dt) # time
+			entry.get_child(1).get_child(1).text = Global.get_text(i) # text
 			
 			entry.show()
 			

@@ -28,11 +28,34 @@ var player_stats = {
 
 
 # API variables
+const location_preset = [
+	{
+		city = "Brooklyn, New York",
+		lat = 40.6526006,
+		lon = -73.9497211,
+		
+	},
+	{
+		city = "Tampa, Florida",
+		lat = 27.9477595,
+		lon = -82.45844,
+	},
+	{
+		city = "Los Angeles, California",
+		lat = 34.0536909,
+		lon = -118.242766,
+	},
+	{
+		city = "Tokyo, JP",
+		lat = 35.6828387,
+		lon = 139.7594549,
+	}
+]
 var api_settings : Dictionary = {
 	latitude=null,
 	longitude=null,
 	key=null,
-	custom_key=false
+	use_key=false,
 }
 var api_success : bool = false
 var api_response_code
@@ -42,8 +65,6 @@ var api_response : Dictionary = {
 var api_ready = false # if variables are set up
 var forecast : Array = [{}]
 var index : int = 0 # current index in list
-
-#var weather_data : Dictionary = { } # info used
 
 var weather_interval # time between game weather change in seconds
 var api_interval # time between api response entries
@@ -56,9 +77,34 @@ func clear():
 	api_success = false
 	api_response_code = null
 	api_response = {}
-	index = 0
+	index = -1
 	forecast = []
 	api_ready = false
+
+# save settings to config
+func save_config_dict(settings:Dictionary)-> Error:
+	return save_config(settings.latitude, settings.longitude, settings.key, settings.use_key)
+	
+func save_config(lat, lon, key=null, use_key=null) -> Error:
+	
+	var config = ConfigFile.new()
+	config.load("res://config.cfg")
+	
+	# use selected longitude/latitude and key
+	config.set_value("API", "latitude", lat)
+	config.set_value("API", "longitude", lon)
+	config.set_value("API", "key", key)
+	
+	# if use_key is not provided, set to true if key is set
+	if use_key == null: use_key = (key != null)
+	config.set_value("API", "use_key", use_key)
+	
+	api_settings.latitude = lat
+	api_settings.longitude = lon
+	if key != null: api_settings.key = key
+	api_settings.use_key = use_key
+	
+	return config.save("res://config.cfg")
 
 # timezone abbreviation
 func _init():
@@ -69,7 +115,9 @@ func _init():
 	print_debug(timezone)
 
 func current_weather() -> Dictionary:
-	return forecast[index]
+	if index != -1: 
+		return forecast[index]
+	else: return {}
 
 func get_weather(i:int) -> Dictionary:
 	return forecast[i]

@@ -89,10 +89,12 @@ static func get_weather_stats(weather:int) -> Dictionary:
 
 # adds effect based on weather
 static func update_weather_eff(effects:Dictionary):
-	var weather = Global.current_weather()
-	if(Global.api_success && weather.has("type")):
-		for type in weather.type:
-			add_effect(effects, category.WEATHER, type)
+	
+	if(Global.api_success):
+		var weather = Global.current_weather()
+		if weather.has("type"):
+			for type in weather.type:
+				add_effect(effects, category.WEATHER, type)
 
 # remove weather and set stat mods
 static func clear_weather(effects:Dictionary):
