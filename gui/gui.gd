@@ -81,9 +81,12 @@ func weather_update():
 	if Global.api_success: # Response successful
 		#print_debug("Index: ",Global.index,"/", response.cnt-1)
 		if(prev_index != Global.index): # call once per weather change
+			if Global.index == -1:
+				Global.index = 0
 			weather_data = Global.current_weather()
 			
 			# Load weather icon
+			print_debug(weather_data)
 			var icon = load_icon(weather_data.icon)
 			%Icon.set_texture(icon)
 			
@@ -228,4 +231,7 @@ func make_forecast():
 		%Forecast.show()
 	
 
-
+func clear_forecast():
+	for n in %ForecastList.get_children():
+		%ForecastList.remove_child(n)
+		n.queue_free()

@@ -173,6 +173,33 @@ alignment = 1
 layout_mode = 2
 text = "Forecast"
 
+[node name="ForecastEntry" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+alignment = 1
+vertical = true
+
+[node name="Icon" type="TextureRect" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry"]
+layout_mode = 2
+texture = ExtResource("2_kghc5")
+
+[node name="Text" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry"]
+layout_mode = 2
+alignment = 1
+
+[node name="Clock" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry/Text"]
+layout_mode = 2
+text = "AAA"
+
+[node name="WeatherText" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry/Text"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "AAAAAAAAAAA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ForecastScroll" type="ScrollContainer" parent="PauseMenu/Forecast/FlowContainer"]
 custom_minimum_size = Vector2(100, 300)
 layout_mode = 2
@@ -182,33 +209,6 @@ horizontal_scroll_mode = 0
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
-
-[node name="ForecastEntry" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-alignment = 1
-vertical = true
-
-[node name="Icon" type="TextureRect" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry"]
-layout_mode = 2
-texture = ExtResource("2_kghc5")
-
-[node name="Text" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry"]
-layout_mode = 2
-alignment = 1
-
-[node name="Clock" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry/Text"]
-layout_mode = 2
-text = "AAA"
-
-[node name="WeatherText" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry/Text"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "AAAAAAAAAAA"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="ForecastEntry2" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList"]
 unique_name_in_owner = true

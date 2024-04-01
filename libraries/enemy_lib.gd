@@ -73,26 +73,16 @@ static var growth_stats = {
 		max_hp = 5,
 		atk = 2,
 		max_exp = 1.15,
+		speed = 1,
 		atk_size = 0
 	},
 	ability_type.NORMAL : {
-		max_hp = 5,
-		atk = 2,
-		max_exp = 1.15, # multiply
-		speed = 1
+		
 	},
 	ability_type.SWORD : {
-		max_hp = 5,
-		atk = 2,
-		max_exp = 1.15, # multiply
-		speed = 1,
 		atk_size = .01
 	},
 	ability_type.TORNADO : {
-		max_hp = 5,
-		atk = 1,
-		max_exp = 1.15, # multiply
-		speed = 1,
 		atk_size = .01
 	},
 }

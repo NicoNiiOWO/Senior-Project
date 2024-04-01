@@ -10,15 +10,17 @@ const effect_list : Dictionary = {
 			"atk": 0.2,
 		},
 		weather_type.CLOUDS : {
-			"speed":0.1
+			"speed":0.1,
+			#"atk_size": 0.2
 		},
 		weather_type.RAIN : {
 			"atk": -0.1,
-			"speed": -0.2,
+			"speed": -0.1,
 		},
 		weather_type.SNOW : {
-			"speed": -0.2,
-			"dmg_taken": -0.2
+			"speed": -0.1,
+			"dmg_taken": -0.2,
+			"atk_size": 0.2
 		},
 		weather_type.STORM : {
 			"max_hp": -0.1,

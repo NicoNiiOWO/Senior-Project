@@ -195,6 +195,7 @@ func _on_restart(reload_settings:bool = false):
 	# clear api response and reload settings
 	if reload_settings: 
 		Global.clear()
+		gui.clear_forecast()
 		load_config()
 	
 	_ready()

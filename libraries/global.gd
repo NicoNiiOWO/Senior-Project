@@ -78,7 +78,7 @@ func clear():
 	api_response_code = null
 	api_response = {}
 	index = -1
-	forecast = []
+	forecast = [{}]
 	api_ready = false
 
 # save settings to config
@@ -86,7 +86,6 @@ func save_config_dict(settings:Dictionary)-> Error:
 	return save_config(settings.latitude, settings.longitude, settings.key, settings.use_key)
 	
 func save_config(lat, lon, key=null, use_key=null) -> Error:
-	
 	var config = ConfigFile.new()
 	config.load("res://config.cfg")
 	
@@ -153,6 +152,7 @@ func set_forecast() -> bool:
 			prev_type = forecast[i].type
 		
 		api_ready = true
+	print_debug(api_success, forecast)
 	return api_ready
 
 # simplify response at index
