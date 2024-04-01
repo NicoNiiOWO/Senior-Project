@@ -4,6 +4,7 @@ extends Node
 @export var weather_interval : int = 10 # time between weather change in seconds
 
 # API variables
+signal api_request_complete
 const api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}"
 var api_settings : Dictionary # settings loaded from config
 var api_called: bool = false # if api has been called with current settings
@@ -105,14 +106,10 @@ func api_call():
 		return
 	
 	var api_url = api_url_format.format(api_settings)
-	#print_debug(api_url)
 	
 	var API = $API
 	var request = API.request(api_url)
-	if request != OK:
-		print_debug(":(")
-	else:
-		print_debug("a")
+	if request != OK: print_debug(":(")
 
 func _on_api_request_completed(_result, response_code, _headers, body):
 	print_debug("API response: ", response_code)
@@ -134,7 +131,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	# set forecast then update gui
 	Global.set_forecast()
 	print_debug(Global.forecast)
-	gui.api_request_complete()
+	api_request_complete.emit()
 
 # Spawn n enemies
 func enemy_spawn(n:int, level:int): 
@@ -176,7 +173,6 @@ func addItem(position):
 	var item = item_scn.instantiate()
 	item.set_deferred("global_position", position)
 	call_deferred("add_child", item)
-
 
 func game_over():
 	Global.game_ongoing = false

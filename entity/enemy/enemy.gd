@@ -34,6 +34,8 @@ func _init():
 	
 	init(Global.char_type.ENEMY, ability) # initialize stats
 	attack_trigger = enemy_lib.get_attack_trigger(ability)
+	
+	
 
 # set current state (walk/attack)
 func set_state(s:int):
@@ -72,6 +74,7 @@ func _ready():
 	update_text()
 	set_state(states.WALK)
 	sprite.play("walk")
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
@@ -96,20 +99,20 @@ func _physics_process(_delta):
 			attack()
 
 # move towards target
-func move(spd_mod:float = 1, curve_weight:float = 1):
+func move(spd_mod:float = 1, max_turn:float = 1):
 	if target != null:
-		move_towards(target, spd_mod, curve_weight)
+		move_towards(target, spd_mod, max_turn)
 	else: velocity = Vector2.ZERO
 
 # move towards node, can curve
-func move_towards(node:Node2D, spd_mod:float = 1, curve_weight:float = 1):
+func move_towards(node:Node2D, spd_mod:float = 1, max_turn:float = 1):
 	var target_direction = global_position.direction_to(node.global_position)
 	
-	# turn towards target by curve_weight
+	# turn towards target by max_turn
 	# lower number = slower turn
-	if(curve_weight != 0):
-		direction.x = move_toward(direction.x, target_direction.x, curve_weight)
-		direction.y = move_toward(direction.y, target_direction.y, curve_weight)
+	if(max_turn != 0):
+		direction.x = move_toward(direction.x, target_direction.x, max_turn)
+		direction.y = move_toward(direction.y, target_direction.y, max_turn)
 	
 	velocity = direction * stats.speed*spd_mod
 

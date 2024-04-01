@@ -51,7 +51,7 @@ func update_stats():
 	%HP.text = str("HP: ", stats.hp,"/", stats.max_hp)
 	%Level.text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
 
-func api_request_complete():
+func _on_main_api_request_complete():
 	if Global.api_success:
 		make_forecast()
 	weather_update()
@@ -227,3 +227,5 @@ func make_forecast():
 			%ForecastList.add_child(entry)
 		%Forecast.show()
 	
+
+

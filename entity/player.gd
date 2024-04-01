@@ -11,7 +11,6 @@ func _init():
 	init(Global.char_type.PLAYER)
 	
 	Global.player_stats = stats
-	
 
 # Gain exp and levels
 func gain_exp(n:float):

@@ -14,7 +14,7 @@ static var enemy_sprite = {
 # [trigger, distance/time]
 enum attack_trigger {TAKEDAMAGE, NEARPLAYER, TIMER}
 static var enemy_attack = {
-	ability_type.NORMAL : null,
+	ability_type.NORMAL : [null],
 	ability_type.SWORD : [attack_trigger.TAKEDAMAGE],
 	ability_type.TORNADO : [attack_trigger.NEARPLAYER, 150],
 }
@@ -28,11 +28,12 @@ static var enemy_script : Dictionary = {
 }
 
 # spawn rates
+# use clear by default
 static var spawn_rate = {
 	weather_type.CLEAR: {
-		#ability_type.NORMAL : 10,
-		#ability_type.SWORD : 30,
-		ability_type.TORNADO : 20
+		ability_type.NORMAL : 20,
+		ability_type.SWORD : 30,
+		ability_type.TORNADO : 5
 	},
 	weather_type.WIND : {
 		ability_type.TORNADO : 50
@@ -42,8 +43,8 @@ static var spawn_rate = {
 static var base_stats = {
 	-1 : { # shared
 		level = 1,
-		atk_size = 1,
-		dmg_taken = 1,
+		atk_size = 1.0,
+		dmg_taken = 1.0,
 		iframes = 0,
 	},
 	ability_type.NORMAL : {
@@ -56,13 +57,14 @@ static var base_stats = {
 		max_exp = 30,
 		max_hp = 50,
 		atk = 8,
-		speed = 100,
+		speed = 90,
+		atk_size = 0.9,
 	},
 	ability_type.TORNADO : {
 		max_exp = 30,
 		max_hp = 50,
 		atk = 6,
-		speed = 100,
+		speed = 110,
 		atk_size = 1.1,
 	}
 }
@@ -105,6 +107,7 @@ static func get_base_stats(ability:int) -> Dictionary:
 	# merge with shared stats and overwrite
 	var stats = base_stats[-1].duplicate()
 	stats.merge(base_stats[a], true)
+	#print_debug(stats)
 	return stats
 
 static func get_growth_stats(ability:int) -> Dictionary:
@@ -114,6 +117,7 @@ static func get_growth_stats(ability:int) -> Dictionary:
 	
 	var stats = growth_stats[-1].duplicate()
 	stats.merge(growth_stats[a], true)
+	
 	return stats
 
 
@@ -158,8 +162,6 @@ static func random_enemy_type(weather_list:Array) -> int:
 	for ability in spawn_chance.keys():
 		if random <= spawn_chance[ability] && enemy == -1:
 			enemy = ability
-	#print_debug("eeeeee ", random, spawn_chance)
-	#print_debug("enemy ", enemy)
-
+	
 	return enemy
 	

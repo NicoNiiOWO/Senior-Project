@@ -2,7 +2,7 @@ extends Attack
 
 var direction : Vector2 # attack direction
 
-func init(dir:Vector2, atk_source:int, dmg:float, size_m:float = 1):
+func init(dir:Vector2, atk_source:int, dmg:float, size_m:float = 1.0):
 	init_attack(atk_source, dmg, size_m)
 	
 	# offset position and change rotation

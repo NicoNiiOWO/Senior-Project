@@ -5,6 +5,7 @@ var attack_scn : PackedScene = preload("res://entity/attacks/tornado.tscn")
 enum phase {NONE=-1, START, ACTIVE, END} # attack states
 @export var duration : Array = [2.0, 2.0, 2.0] # duration of each state
 @export var speed_mod : Array = [0.5, 2.0, 0.3] # speed for each state
+@export var dmg_mod : Array = [-0.5, .5] # damage taken for active/end
 
 var current_phase : int = phase.NONE
 
@@ -37,7 +38,8 @@ func attack_start():
 	current_phase = phase.ACTIVE
 	owner.sprite.speed_scale = 1
 	owner.sprite.hide()
-	owner.set_invincible(true)
+	owner.stats.dmg_taken += dmg_mod[0]
+	#owner.set_invincible(true)
 	
 	# add attack, increase speed
 	var new_attack = attack_scn.instantiate()
@@ -49,11 +51,16 @@ func attack_end():
 	# show sprite, change speed
 	current_phase = phase.END
 	owner.sprite.show()
-	owner.set_invincible(false)
+	#owner.set_invincible(false)
+	
+	owner.stats.dmg_taken += (-dmg_mod[0]) + dmg_mod[1]
 	spd_mod = speed_mod[phase.END]
+	owner.sprite.speed_scale = 0.7
 	
 	# after delay, set back to normal
 	await get_tree().create_timer(duration[phase.END]).timeout
 	current_phase = phase.NONE
+	owner.sprite.speed_scale = 1
+	owner.stats.dmg_taken -= dmg_mod[1]
 	spd_mod = 1
 	owner.attack(false)

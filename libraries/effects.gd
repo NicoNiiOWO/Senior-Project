@@ -47,7 +47,6 @@ static func add_effect(effects:Dictionary, eff_category:int, eff_type:int) -> vo
 		effects[eff_category][eff_type] = effect_list[eff_category][eff_type]
 		#print(effects)
 
-
 # return total stat mod from dictionary
 static func get_total(effects:Dictionary) -> Dictionary:
 	var total = {}
@@ -76,7 +75,6 @@ static func get_total_w(weather:Array) -> Dictionary:
 				total[stat] = stats[stat]
 			else:
 				total[stat] += stats[stat]
-	#print(total)
 	return total
 
 # return stat mods for weather type
@@ -89,7 +87,6 @@ static func get_weather_stats(weather:int) -> Dictionary:
 
 # adds effect based on weather
 static func update_weather_eff(effects:Dictionary):
-	
 	if(Global.api_success):
 		var weather = Global.current_weather()
 		if weather.has("type"):

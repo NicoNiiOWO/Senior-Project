@@ -20,7 +20,7 @@ var type : int # player or enemy
 	atk = 10,
 	speed = 250,
 	iframes = 0.25, # invincibility frames in seconds
-	atk_size = 1, # attack size multiplier
+	atk_size = 1.0, # attack size multiplier
 	dmg_taken = 1, # damage taken multiplier
 }
 # Stat increase per level
@@ -86,6 +86,7 @@ func take_damage(n:float):
 		Global.player_stats.hp = stats.hp
 		gui.update_stats()
 	
+	
 	damage_taken.emit()
 	
 
@@ -98,10 +99,10 @@ func gain_level(n:int):
 func update_stats():
 	var current_max_hp = stats.max_hp
 	
-	for stat in ["max_hp", "atk", "speed", "atk_size"]:
+	for stat in ["max_hp", "atk", "speed"]:
 		stats[stat] = stat_calc_add(stat)
-	for stat in ["max_exp"]:
-		stats[stat] = stat_calc_mult(stat)
+	stats["atk_size"] = stat_calc_add("atk_size", 0.01)
+	stats["max_exp"] = stat_calc_mult("max_exp")
 	
 	update_effects()
 	# update stats
@@ -115,11 +116,11 @@ func update_stats():
 		gui.update_stats()
 
 # calculate stat based on level
-func stat_calc_add(stat:String, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
-	return snapped(base[stat] + growth[stat] * (level-1), 1) # nearest int
+func stat_calc_add(stat:String, round:float=1.0, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
+	return snapped(base[stat] + growth[stat] * (level-1), round)
 
-func stat_calc_mult(stat:String, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
-	return snapped(floor(base[stat] * pow(growth[stat], level-1)), 1) # nearest int
+func stat_calc_mult(stat:String, round:float=1.0, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
+	return snapped(floor(base[stat] * pow(growth[stat], level-1)), round)
 
 func update_effects():
 	effects_lib.set_stat_mod(effects)
