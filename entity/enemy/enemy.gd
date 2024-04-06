@@ -57,9 +57,7 @@ func load_ability(a:int):
 	var script = enemy_lib.get_attack_script(ability)
 	# if ability has attack, set attack script
 	if(script != null):
-		# enable state
 		state_node[states.ATTACK] = $State/Attack
-		#state_node[states.ATTACK].set_process_mode(0)
 		$State/Attack.set_script(script)
 	
 	# fix sprite position
@@ -74,11 +72,12 @@ func _ready():
 	update_text()
 	set_state(states.WALK)
 	sprite.play("walk")
-	
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
-	state.physics_process() # movement based on current state
+	# movement based on current state
+	state.physics_process() 
 	move_and_slide()
 	
 	if(get_slide_collision_count() > 0):

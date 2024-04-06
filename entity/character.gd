@@ -5,7 +5,7 @@ extends CharacterBody2D
 signal damage_taken()
 signal defeated()
 
-const effects_lib = preload("res://libraries/effects.gd")
+const effects_lib = preload("res://libraries/char_lib.gd")
 const enemy_lib = preload("res://libraries/enemy_lib.gd")
 
 var type : int # player or enemy
@@ -19,9 +19,9 @@ var type : int # player or enemy
 	max_hp = 100,
 	atk = 10,
 	speed = 250,
-	iframes = 0.25, # invincibility frames in seconds
 	atk_size = 1.0, # attack size multiplier
-	dmg_taken = 1, # damage taken multiplier
+	dmg_taken = 1.0, # damage taken multiplier
+	iframes = 0.25, # invincibility frames in seconds
 }
 # Stat increase per level
 @export var stat_growth : Dictionary = {

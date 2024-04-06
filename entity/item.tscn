@@ -3,6 +3,9 @@
 [ext_resource type="Script" path="res://Item.gd" id="1_aj6l0"]
 [ext_resource type="Texture2D" uid="uid://d2smabxnfy4mv" path="res://assets/Items.png" id="2_dpxcc"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_w7hcm"]
+radius = 16.9086
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvav5"]
 atlas = ExtResource("2_dpxcc")
 region = Rect2(0, 0, 30, 30)
@@ -110,19 +113,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_w7hcm"]
-radius = 16.9086
-
 [node name="Item" type="Area2D" groups=["items"]]
 script = ExtResource("1_aj6l0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_w7hcm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xfmw8")
 animation = &"heal"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("CircleShape2D_w7hcm")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

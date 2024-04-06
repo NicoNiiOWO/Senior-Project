@@ -10,7 +10,7 @@ func _init():
 func physics_process():
 	# move towards target, lower speed
 	if(owner.target != null):
-		owner.move(0.3)
+		owner.move(0.5)
 	else: owner.velocity = Vector2.ZERO
 
 # start attack animation

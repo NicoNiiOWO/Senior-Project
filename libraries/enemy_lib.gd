@@ -1,13 +1,21 @@
 extends Resource
 
 enum ability_type {NORMAL, SWORD, TORNADO, FIRE, ICE}
-static var weather_type = preload("res://libraries/effects.gd").weather_type
+static var weather_type = preload("res://libraries/char_lib.gd").weather_type
 
 # path to sprites
 static var enemy_sprite = {
 	ability_type.NORMAL : "res://assets/waddle dee.tres",
 	ability_type.SWORD : "res://assets/blade knight.tres",
 	ability_type.TORNADO : "res://assets/twister.tres"
+}
+
+# path to attack script
+const state_path = "res://entity/enemy/state/"
+static var enemy_script : Dictionary = {
+	ability_type.NORMAL : null,
+	ability_type.SWORD : "e_SwordAttack.gd",
+	ability_type.TORNADO : "e_TornadoAttack.gd",
 }
 
 # when enemy attacks
@@ -17,14 +25,6 @@ static var enemy_attack = {
 	ability_type.NORMAL : [null],
 	ability_type.SWORD : [attack_trigger.TAKEDAMAGE],
 	ability_type.TORNADO : [attack_trigger.NEARPLAYER, 150],
-}
-
-# path to attack script
-const state_path = "res://entity/enemy/state/"
-static var enemy_script : Dictionary = {
-	ability_type.NORMAL : null,
-	ability_type.SWORD : "e_SwordAttack.gd",
-	ability_type.TORNADO : "e_TornadoAttack.gd",
 }
 
 # spawn rates

@@ -9,8 +9,8 @@ func physics_process():
 	else: owner.velocity = Vector2.ZERO
 
 
-func attack():
-	# if has attack state
-	if(owner.state_node.ATTACK != null):
-		owner.set_state(owner.states.ATTACK)
-		owner.state.attack()
+#func attack():
+	## if has attack state
+	#if(owner.state_node.ATTACK != null):
+		#owner.set_state(owner.states.ATTACK)
+		#owner.state.attack()

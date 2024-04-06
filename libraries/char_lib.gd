@@ -1,7 +1,8 @@
 extends Resource
 
-enum category {WEATHER,UPGRADE,TOTAL}
+enum category {WEATHER,STATS,UPGRADE,TOTAL}
 enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
+enum stats_type {ATK, SPEED, MAX_HP, DMG_TAKEN, ATK_SIZE}
 enum upgrade_type {}
 
 const effect_list : Dictionary = {
@@ -11,7 +12,6 @@ const effect_list : Dictionary = {
 		},
 		weather_type.CLOUDS : {
 			"speed":0.1,
-			#"atk_size": 0.2
 		},
 		weather_type.RAIN : {
 			"atk": -0.1,
@@ -32,7 +32,13 @@ const effect_list : Dictionary = {
 			"speed": 0.3
 		}
 	},
-	category.UPGRADE : {}
+	category.UPGRADE : {
+		"max_hp": 0,
+		"atk": 0,
+		"speed": 0,
+		"dmg_taken": 0,
+		"atk_size": 0
+	}
 }
 
 static func init_effects() -> Dictionary:
@@ -40,14 +46,15 @@ static func init_effects() -> Dictionary:
 		# list of individual effects
 		category.WEATHER: {},
 		category.UPGRADE: {},
+		category.STATS: {},
 		category.TOTAL: {} # total stat changes
 	}
 	return effects
 
+# add effect to input dictionary
 static func add_effect(effects:Dictionary, eff_category:int, eff_type:int) -> void:
 	if !effects[eff_category].has(eff_type):
 		effects[eff_category][eff_type] = effect_list[eff_category][eff_type]
-		#print(effects)
 
 # return total stat mod from dictionary
 static func get_total(effects:Dictionary) -> Dictionary:

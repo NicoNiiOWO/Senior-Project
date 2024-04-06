@@ -17,7 +17,7 @@ var loaded_icons = {} # list of loaded icon textures
 
 var reload_settings : bool = false # reload settings on restart
 
-const effects_lib = preload("res://libraries/effects.gd")
+const effects_lib = preload("res://libraries/char_lib.gd")
 var weather_stat_mod : Dictionary = { # changes to stats from current weather
 	mods = {},
 	text = ""
@@ -50,6 +50,8 @@ func update_stats():
 	
 	%HP.text = str("HP: ", stats.hp,"/", stats.max_hp)
 	%Level.text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
+	
+	%PlayerStats.text = get_stats_text(stats, false)
 
 func _on_main_api_request_complete():
 	if Global.api_success:
@@ -105,24 +107,36 @@ func weather_update():
 	
 	show_weather(Global.api_success)
 
+func get_stats_text(stats:Dictionary, weather:bool) -> String:
+	if(stats.size() > 0):
+		var text = ""
+		if !weather: text = "\n"
+		print(stats)
+		for stat in stats.keys():
+			var mod = stats[stat]
+			
+			if(mod != 0):
+				if(weather): 
+					text += stat.capitalize()
+					text += " "
+					if mod > 0: text += "+"
+					mod*=100
+					text += "%d%%\n" % mod
+				else:
+					if stat not in ["level","max_hp","hp","max_exp","exp"]:
+						text += stat.capitalize()
+						if mod < 10:
+							text += ": %0.2f\n" % mod
+						else:
+							text += ": %d\n" % mod
+
+		return text.left(text.length()-1) # remove last newline
+	return ""
+
 # make text from current weather stat modifier
 func get_weather_stats():
 	weather_stat_mod.mods = effects_lib.get_total_w(Global.current_weather().type)
-	weather_stat_mod.text = ""
-	
-	if(weather_stat_mod.mods.size() > 0):
-		var text = ""
-		for stat in weather_stat_mod.mods.keys():
-			var mod = weather_stat_mod.mods[stat]*100
-			if(mod != 0):
-				text += stat.capitalize() + " "
-
-				if mod > 0: text += "+"
-				
-				text += "%d%%\n" % mod
-
-		weather_stat_mod.text = text.left(text.length()-1) # remove last newline
-		#print(text)
+	weather_stat_mod.text = get_stats_text(weather_stat_mod.mods, true)
 
 var weather_text = ""
 # display weather info and update clock

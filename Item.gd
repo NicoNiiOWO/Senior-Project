@@ -14,8 +14,6 @@ func _ready():
 		#1: item_type = "upgrade"
 		#
 	#sprite.animation = item_type
-	#sprite.frame = randi_range(0, sprite.sprite_frames.get_frame_count(item_type) - 1) #set random sprite
-	
 	$AnimatedSprite2D.frame = randi_range(3,12) # set random sprite
 	$Timer.wait_time = duration-5
 	$Timer.start()
