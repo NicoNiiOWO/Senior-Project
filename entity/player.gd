@@ -1,3 +1,4 @@
+class_name Player
 extends Character
 
 var direction : Vector2 = Vector2(1,0) # player's direction, start facing right

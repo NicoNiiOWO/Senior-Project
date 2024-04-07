@@ -163,7 +163,6 @@ func save_settings():
 		print_debug("settings saved")
 		settings_changed.emit()
 	%SaveText.show()
-	
 
 func _on_api_key_check_button_toggled(toggled_on):
 	%KeyEdit.visible = toggled_on

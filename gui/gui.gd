@@ -1,9 +1,11 @@
+class_name GUI
 extends CanvasLayer
 
 signal restart()
 signal time_update() # called every second when game timer updates
 signal weather_changed()
 signal pause()
+signal popup(e)
 
 const icon_path_format : String = "res://assets/Icons/%s@2x.png"
 const datetime_f : String = "{year}/{month}/{day} {hour}:{minute}"
@@ -249,3 +251,7 @@ func clear_forecast():
 	for n in %ForecastList.get_children():
 		%ForecastList.remove_child(n)
 		n.queue_free()
+
+func show_popup(a):
+	print("qodpklsm")
+	popup.emit(a)

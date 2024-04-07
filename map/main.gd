@@ -31,6 +31,9 @@ const enemy_lib : Resource = preload("res://libraries/enemy_lib.gd")
 
 func _init():
 	load_config()
+	
+func get_gui():
+	return gui
 
 func load_config():
 	api_called = false # api not called with new settings
@@ -171,6 +174,7 @@ func _on_gui_weather_changed():
 # make item at position
 func addItem(position):
 	var item = item_scn.instantiate()
+	
 	item.set_deferred("global_position", position)
 	call_deferred("add_child", item)
 

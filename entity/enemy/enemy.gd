@@ -6,7 +6,8 @@ var ability=0 # current ability
 
 var can_flip : bool = true 		# if sprite can flip
 var flip : bool = false 		# flip sprite
-var target : Node2D = null 		# node to move towards
+@export var target_node : Node2D = null # node to move towards
+var target = null
 var direction : Vector2 		# direction moving towards
 var player : Character = null 	# player node
 
@@ -43,7 +44,8 @@ func set_state(s:int):
 
 # set target to move towards
 func set_target(x:Node2D):
-	target = x
+	target_node = x
+	target = x.global_position
 
 # set player node
 func set_player(x:Character):
@@ -93,19 +95,20 @@ func _physics_process(_delta):
 			sprite.position.x = -sprite.position.x  # Flip offset to match hitbox
 	
 	# call attack when near player
-	if attack_trigger[0] == enemy_lib.attack_trigger.NEARPLAYER:
+	if player != null && attack_trigger[0] == enemy_lib.attack_trigger.NEARPLAYER:
 		if not attacking && global_position.distance_to(player.global_position) < attack_trigger[1]:
 			attack()
 
 # move towards target
 func move(spd_mod:float = 1, max_turn:float = 1):
-	if target != null:
+	if target_node != null: target = target_node.global_position
+	if target != Vector2.INF:
 		move_towards(target, spd_mod, max_turn)
 	else: velocity = Vector2.ZERO
 
 # move towards node, can curve
-func move_towards(node:Node2D, spd_mod:float = 1, max_turn:float = 1):
-	var target_direction = global_position.direction_to(node.global_position)
+func move_towards(node:Vector2, spd_mod:float = 1, max_turn:float = 1):
+	var target_direction = global_position.direction_to(node)
 	
 	# turn towards target by max_turn
 	# lower number = slower turn
@@ -120,17 +123,11 @@ func handle_collision():
 	var collision_count = get_slide_collision_count()
 	
 	for i in collision_count:
-		var collision = get_slide_collision(i)
+		var collision = get_slide_collision(i).get_collider()
 
 		# check if player
-		var touchPlayer = false
-		if("type" in collision.get_property_list()[0]):
-			if collision.get_collider().type == Global.char_type.PLAYER:
-				touchPlayer = true
-		
-		if touchPlayer:
-			#print_debug(str("E ", collision.get_collider().stats))
-			collision.get_collider().take_damage(stats.atk)
+		if is_instance_of(collision, Player):
+			collision.take_damage(stats.atk)
 	
 # Display level and hp
 func update_text():

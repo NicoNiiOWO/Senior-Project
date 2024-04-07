@@ -115,6 +115,9 @@ func update_stats():
 		Global.player_stats = stats
 		gui.update_stats()
 
+func add_temp_eff():
+	var node = Node.new()
+	
 # calculate stat based on level
 func stat_calc_add(stat:String, round:float=1.0, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
 	return snapped(base[stat] + growth[stat] * (level-1), round)

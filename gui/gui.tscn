@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://d8e3lfaeglcx"]
+[gd_scene load_steps=8 format=3 uid="uid://d8e3lfaeglcx"]
 
 [ext_resource type="Script" path="res://gui/gui.gd" id="1_xmdei"]
 [ext_resource type="Texture2D" uid="uid://dwus57414541e" path="res://assets/Icons/01d@2x.png" id="2_kghc5"]
 [ext_resource type="Script" path="res://gui/PauseMenu.gd" id="3_pt86q"]
+[ext_resource type="Script" path="res://gui/Popup.gd" id="3_yq7cs"]
 [ext_resource type="PackedScene" uid="uid://cs4jvv78l7rkq" path="res://gui/settings.tscn" id="4_5x61j"]
 
 [sub_resource type="Theme" id="Theme_4cw36"]
@@ -90,24 +91,51 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 100)
 layout_mode = 2
 
-[node name="Pause" type="Control" parent="."]
-process_mode = 2
-process_priority = 1
+[node name="Popup" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("3_yq7cs")
+
+[node name="DimScreen" type="ColorRect" parent="Popup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.301961)
+
+[node name="CenterContainer" type="CenterContainer" parent="Popup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="Popup/CenterContainer"]
+layout_mode = 2
+text = "AAA"
+
+[node name="PauseMenu" type="Control" parent="."]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("3_pt86q")
 
-[node name="PauseMenu" type="Control" parent="Pause"]
-visible = false
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="DimScreen" type="ColorRect" parent="Pause/PauseMenu"]
+[node name="DimScreen" type="ColorRect" parent="PauseMenu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -116,7 +144,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.615686)
 
-[node name="CenterContainer" type="CenterContainer" parent="Pause/PauseMenu"]
+[node name="CenterContainer" type="CenterContainer" parent="PauseMenu"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -125,41 +153,41 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 567.5
-offset_top = 249.5
+offset_top = 246.5
 offset_right = 672.5
-offset_bottom = 430.5
+offset_bottom = 433.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FlowContainer" type="FlowContainer" parent="Pause/PauseMenu/CenterContainer"]
+[node name="FlowContainer" type="FlowContainer" parent="PauseMenu/CenterContainer"]
 layout_mode = 2
 theme_override_constants/v_separation = 60
 alignment = 1
 
-[node name="Label" type="Label" parent="Pause/PauseMenu/CenterContainer/FlowContainer"]
+[node name="Label" type="Label" parent="PauseMenu/CenterContainer/FlowContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Paused"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Buttons" type="FlowContainer" parent="Pause/PauseMenu/CenterContainer/FlowContainer"]
+[node name="Buttons" type="FlowContainer" parent="PauseMenu/CenterContainer/FlowContainer"]
 layout_mode = 2
 theme_override_constants/v_separation = 15
 alignment = 1
 
-[node name="RestartButton" type="Button" parent="Pause/PauseMenu/CenterContainer/FlowContainer/Buttons"]
+[node name="RestartButton" type="Button" parent="PauseMenu/CenterContainer/FlowContainer/Buttons"]
 custom_minimum_size = Vector2(80, 35)
 layout_mode = 2
 text = "Restart"
 
-[node name="SettingsButton" type="Button" parent="Pause/PauseMenu/CenterContainer/FlowContainer/Buttons"]
+[node name="SettingsButton" type="Button" parent="PauseMenu/CenterContainer/FlowContainer/Buttons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 35)
 layout_mode = 2
 text = "Settings"
 
-[node name="Forecast" type="PanelContainer" parent="Pause/PauseMenu"]
+[node name="Forecast" type="PanelContainer" parent="PauseMenu"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -178,34 +206,34 @@ focus_mode = 2
 theme = SubResource("Theme_4cw36")
 theme_override_styles/panel = SubResource("StyleBoxFlat_lio1d")
 
-[node name="FlowContainer" type="FlowContainer" parent="Pause/PauseMenu/Forecast"]
+[node name="FlowContainer" type="FlowContainer" parent="PauseMenu/Forecast"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Pause/PauseMenu/Forecast/FlowContainer"]
+[node name="Label" type="Label" parent="PauseMenu/Forecast/FlowContainer"]
 layout_mode = 2
 text = "Forecast"
 
-[node name="ForecastEntry" type="FlowContainer" parent="Pause/PauseMenu/Forecast/FlowContainer"]
+[node name="ForecastEntry" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 alignment = 1
 vertical = true
 
-[node name="Icon" type="TextureRect" parent="Pause/PauseMenu/Forecast/FlowContainer/ForecastEntry"]
+[node name="Icon" type="TextureRect" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry"]
 layout_mode = 2
 texture = ExtResource("2_kghc5")
 
-[node name="Text" type="FlowContainer" parent="Pause/PauseMenu/Forecast/FlowContainer/ForecastEntry"]
+[node name="Text" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry"]
 layout_mode = 2
 alignment = 1
 
-[node name="Clock" type="Label" parent="Pause/PauseMenu/Forecast/FlowContainer/ForecastEntry/Text"]
+[node name="Clock" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry/Text"]
 layout_mode = 2
 text = "AAA"
 
-[node name="WeatherText" type="Label" parent="Pause/PauseMenu/Forecast/FlowContainer/ForecastEntry/Text"]
+[node name="WeatherText" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry/Text"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -213,36 +241,36 @@ text = "AAAAAAAAAAA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ForecastScroll" type="ScrollContainer" parent="Pause/PauseMenu/Forecast/FlowContainer"]
+[node name="ForecastScroll" type="ScrollContainer" parent="PauseMenu/Forecast/FlowContainer"]
 custom_minimum_size = Vector2(100, 300)
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="ForecastList" type="FlowContainer" parent="Pause/PauseMenu/Forecast/FlowContainer/ForecastScroll"]
+[node name="ForecastList" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="ForecastEntry2" type="FlowContainer" parent="Pause/PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList"]
+[node name="ForecastEntry2" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 alignment = 1
 vertical = true
 
-[node name="Icon" type="TextureRect" parent="Pause/PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2"]
+[node name="Icon" type="TextureRect" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2"]
 layout_mode = 2
 texture = ExtResource("2_kghc5")
 
-[node name="Text" type="FlowContainer" parent="Pause/PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2"]
+[node name="Text" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2"]
 layout_mode = 2
 alignment = 1
 
-[node name="Clock" type="Label" parent="Pause/PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2/Text"]
+[node name="Clock" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2/Text"]
 layout_mode = 2
 text = "AAA"
 
-[node name="WeatherText" type="Label" parent="Pause/PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2/Text"]
+[node name="WeatherText" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2/Text"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -312,12 +340,9 @@ text = "Settings"
 [node name="Settings" parent="." instance=ExtResource("4_5x61j")]
 visible = false
 
-[connection signal="pause" from="." to="Pause" method="_on_gui_pause"]
+[connection signal="popup" from="." to="Popup" method="_on_gui_popup"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
-[connection signal="pressed" from="Pause/PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="Pause/PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="Pause" method="_on_restart_button_pressed"]
-[connection signal="pressed" from="Pause/PauseMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="Pause" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Popup/CenterContainer/Button" to="Popup" method="_on_button_pressed"]
+[connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="GameOver/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="GameOver/FlowContainer/Buttons/RestartButton" to="Pause" method="_on_restart_button_pressed"]
-[connection signal="pressed" from="GameOver/FlowContainer/Buttons/SettingsButton" to="Pause" method="_on_settings_button_pressed"]
 [connection signal="settings_changed" from="Settings" to="." method="_on_settings_changed"]

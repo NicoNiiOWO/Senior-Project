@@ -20,7 +20,9 @@ func _ready():
 
 # heal player
 func _on_body_entered(body):
-	if(body.has_method("heal")):
+	if(is_instance_of(body, Player)):
+		var gui = owner.get_gui()
+		if gui != null: gui.show_popup("aiuhjsfnhd")
 		#body.take_damage(200)
 		body.heal(10)
 		queue_free()
