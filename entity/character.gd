@@ -56,6 +56,10 @@ func init(char_type:int, ability:int=0):
 	
 	effects = effects_lib.init_effects()
 
+func _ready(): # set default
+	if type == null:
+		init(0)
+
 # Take damage
 var dmg_format : String = "{type} HP: {hp} (-{dmg})"
 func take_damage(n:float):
@@ -77,6 +81,7 @@ func take_damage(n:float):
 	stats.hp = snapped(stats.hp-dmg, round_to) 
 	#print_debug(dmg_format.format({type = Global.char_type_str[type], hp=stats.hp, dmg=dmg}))
 	
+	print(dmg, stats.hp)
 	if stats.hp <= 0:
 		stats.hp = 0
 		defeated.emit()
@@ -91,7 +96,7 @@ func take_damage(n:float):
 	
 
 # Add levels and update stats
-func gain_level(n:int):
+func gain_level(n:int=1):
 	stats.level += n;
 	update_stats()
 
@@ -136,3 +141,6 @@ func set_invincible(enable:bool):
 func disable():
 	visible = false
 	set_process_mode(PROCESS_MODE_DISABLED)
+
+#func add_upgrade(stat:String, n:float):
+	#effects_lib.add_stat_upgrade()

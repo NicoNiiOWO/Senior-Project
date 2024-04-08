@@ -88,7 +88,6 @@ func _physics_process(delta):
 			($AttackCooldown).start()
 			sprite.play("attack")
 
-
 func attack():
 	var new_attack = attack_scn.instantiate()
 	# change damage/size based on player atk stat
@@ -106,3 +105,4 @@ func _on_defeated():
 # return center of screen
 func get_screen_center() -> Vector2:
 	return $Camera2D.get_screen_center_position()
+

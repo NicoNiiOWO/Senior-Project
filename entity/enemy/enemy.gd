@@ -35,8 +35,7 @@ func _init():
 	
 	init(Global.char_type.ENEMY, ability) # initialize stats
 	attack_trigger = enemy_lib.get_attack_trigger(ability)
-	
-	
+
 
 # set current state (walk/attack)
 func set_state(s:int):
@@ -131,9 +130,10 @@ func handle_collision():
 	
 # Display level and hp
 func update_text():
-	var text = str("LVL ", stats.level, "\n")
-	text += "%d/%d" % [stats.hp, stats.max_hp]
-	%Label.text = text
+	if stats.size() != 0:
+		var text = str("LVL ", stats.level, "\n")
+		text += "%d/%d" % [stats.hp, stats.max_hp]
+		%Label.text = text
 
 # When HP reaches 0, give player exp and delete
 func _on_defeated():

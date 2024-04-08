@@ -5,6 +5,7 @@ extends Area2D
 @onready var sprite = $AnimatedSprite2D
 
 var item_type : String;
+var popup : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,9 +22,8 @@ func _ready():
 # heal player
 func _on_body_entered(body):
 	if(is_instance_of(body, Player)):
-		var gui = owner.get_gui()
-		if gui != null: gui.show_popup("aiuhjsfnhd")
-		#body.take_damage(200)
+		var gui = get_node("/root/Main/GUI")
+		if popup and gui != null: gui.show_popup("aiuhjsfnhd")
 		body.heal(10)
 		queue_free()
 

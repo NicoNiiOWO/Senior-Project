@@ -30,7 +30,8 @@ const enemy_lib : Resource = preload("res://libraries/enemy_lib.gd")
 @onready var window_size = $EnemySpawnPath.get_viewport_rect().size
 
 func _init():
-	load_config()
+	if use_api:
+		load_config()
 	
 func get_gui():
 	return gui
@@ -90,7 +91,7 @@ func _ready():
 	player.gain_level(player_level-1)
 	#print(player.global_position)
 	
-	if(!api_called): api_call()
+	if(!api_called and use_api): api_call()
 	api_called = true # don't call api again
 
 	# set enemy spawn
@@ -203,3 +204,30 @@ func _on_restart(reload_settings:bool = false):
 		load_config()
 	
 	_ready()
+
+# debug input
+@export var debug : bool = false
+func _input(event):
+	if debug and event.is_pressed():
+		if is_instance_of(event, InputEventKey):
+			var key = OS.get_keycode_string(event.keycode)
+			
+			match key:
+				"K":
+					get_tree().call_group("enemies", "_on_defeated")
+					print_debug("enemies cleared")
+				
+				"Q":
+					enable_spawn = !enable_spawn
+					if enable_spawn: print_debug("spawn enabled")
+					else: print_debug("spawn disabled")
+			
+				"A": 
+					if player != null: player.gain_level(1)
+					enemy_level += 1
+				
+				"S": if player!=null: player.gain_level(1)
+				"D": enemy_level += 1
+				"E": game_over()
+				"R": _on_restart()
+				

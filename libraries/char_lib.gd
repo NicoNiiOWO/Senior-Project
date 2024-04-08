@@ -1,9 +1,9 @@
 extends Resource
 
-enum category {WEATHER,STATS,UPGRADE,TOTAL}
-enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 enum stats_type {ATK, SPEED, MAX_HP, DMG_TAKEN, ATK_SIZE}
-enum upgrade_type {}
+
+enum category {WEATHER,UPGRADE,TOTAL}
+enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 
 const effect_list : Dictionary = {
 	category.WEATHER : { # stats
@@ -33,20 +33,28 @@ const effect_list : Dictionary = {
 		}
 	},
 	category.UPGRADE : {
-		"max_hp": 0,
-		"atk": 0,
-		"speed": 0,
-		"dmg_taken": 0,
-		"atk_size": 0
+		"list":[],
+		"total":{
+			"max_hp": 0,
+			"atk": 0,
+			"speed": 0,
+			"dmg_taken": 0,
+			"atk_size": 0,
+		}
 	}
+}
+
+const upgrade_format = {
+	#"id"=0,
+	"node"=null, #if uses node
+	"stats"={}
 }
 
 static func init_effects() -> Dictionary:
 	var effects = {
 		# list of individual effects
 		category.WEATHER: {},
-		category.UPGRADE: {},
-		category.STATS: {},
+		category.UPGRADE: effect_list[category.UPGRADE].duplicate(),
 		category.TOTAL: {} # total stat changes
 	}
 	return effects
@@ -56,19 +64,43 @@ static func add_effect(effects:Dictionary, eff_category:int, eff_type:int) -> vo
 	if !effects[eff_category].has(eff_type):
 		effects[eff_category][eff_type] = effect_list[eff_category][eff_type]
 
+# add stat upgrade
+static func add_stat_upgrade(effects:Dictionary, stat:String, n:float) -> void:
+	add_upgrade_dict(effects, {stat:n})
+
+# add upgrade from stat dict
+static func add_upgrade_dict(effects:Dictionary, stats:Dictionary, node:Node=null) -> void:
+	var upgrade = upgrade_format.duplicate()
+	upgrade["stats"] = stats
+	
+	if node != null: upgrade["node"] = node
+	
+	# add upgrade, add stats to total
+	effects[category.UPGRADE]["list"].append(upgrade)
+	
+	for stat in stats.keys():
+		effects[category.UPGRADE]["total"][stat] += stats[stat]
+
+
 # return total stat mod from dictionary
 static func get_total(effects:Dictionary) -> Dictionary:
 	var total = {}
 	
 	# loop through weather and upgrade categories
-	for eff_category in range(0,1): 
-		for effect in effects[eff_category]:
-			#print_debug(effect)
-			for stat in effects[eff_category][effect]:
-				if(!total.has(stat)):
-					total[stat] = effects[eff_category][effect][stat]
-				else:
-					total[stat] += effects[eff_category][effect][stat]
+	for weather in effects[0]:
+		#print_debug(effect)
+		for stat in effects[0][weather]:
+			if(!total.has(stat)):
+				total[stat] = effects[0][weather][stat]
+			else:
+				total[stat] += effects[0][weather][stat]
+	
+	var upgrade_total = effects[category.UPGRADE]["total"]
+	for stat in upgrade_total:
+		if(!total.has(stat)):
+			total[stat] = upgrade_total[stat]
+		else:
+			total[stat] += upgrade_total[stat]
 	
 	return total
 

@@ -19,6 +19,6 @@ func _on_timer_timeout():
 	queue_free() # Remove from memory 
 
 func _on_body_entered(body):
-	if(body.has_method("take_damage")):
+	if(is_instance_of(body, Character)):
 		if(body.type != source): # check source of attack
 			body.take_damage(damage)
