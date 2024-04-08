@@ -87,6 +87,7 @@ func _ready():
 	# add new player
 	player = player_scn.instantiate()
 	add_child(player)
+	gui.set_player(player)
 	
 	player.gain_level(player_level-1)
 	#print(player.global_position)
@@ -138,7 +139,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	api_request_complete.emit()
 
 # Spawn n enemies
-func enemy_spawn(n:int, level:int): 
+func enemy_spawn(n:int, level:int, move:bool=true): 
 	if(player != null):
 		for i in n:
 			var enemyInstance = enemy_scn.instantiate()
@@ -150,7 +151,10 @@ func enemy_spawn(n:int, level:int):
 
 			# offset location based on camera
 			#print(spawn_location.position)
-			enemyInstance.set_target(player)
+			if move:
+				enemyInstance.set_target_node(player)
+			#else:
+				#enemyInstance
 			enemyInstance.set_player(player)
 			enemyInstance.set_deferred("position", spawn_location.position + player.get_screen_center())
 			
@@ -159,7 +163,7 @@ func enemy_spawn(n:int, level:int):
 var timer = Global.level_timer
 func _on_gui_time_update(): # Call every second when timer is running
 	# Increase enemy level on interval
-	if(timer.total_seconds != 0 && timer.total_seconds % enemy_level_interval == 0):
+	if(enable_spawn and timer.total_seconds != 0 and timer.total_seconds % enemy_level_interval == 0):
 		enemy_level += 1
 		print_debug("enemy level ", enemy_level)
 
@@ -211,6 +215,7 @@ func _input(event):
 	if debug and event.is_pressed():
 		if is_instance_of(event, InputEventKey):
 			var key = OS.get_keycode_string(event.keycode)
+			print(key)
 			
 			match key:
 				"K":
@@ -230,4 +235,6 @@ func _input(event):
 				"D": enemy_level += 1
 				"E": game_over()
 				"R": _on_restart()
+				"F": player.add_upgrade("atk", 0.1)
+				"1": enemy_spawn(1,enemy_level,false)
 				

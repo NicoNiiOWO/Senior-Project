@@ -77,10 +77,13 @@ static func add_upgrade_dict(effects:Dictionary, stats:Dictionary, node:Node=nul
 	
 	# add upgrade, add stats to total
 	effects[category.UPGRADE]["list"].append(upgrade)
-	
 	for stat in stats.keys():
-		effects[category.UPGRADE]["total"][stat] += stats[stat]
-
+		print_debug(effects[category.UPGRADE]["total"][stat], stats[stat], stat)
+		var s = effects[category.UPGRADE]["total"][stat]
+		if s==0:
+			effects[category.UPGRADE]["total"][stat] = stats[stat]
+		else:
+			effects[category.UPGRADE]["total"][stat] += stats[stat]
 
 # return total stat mod from dictionary
 static func get_total(effects:Dictionary) -> Dictionary:

@@ -18,5 +18,5 @@ func _on_button_pressed():
 
 
 func _on_gui_popup(e=1):
-	print(e)
+	print_debug(e)
 	show()

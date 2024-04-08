@@ -91,48 +91,15 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 100)
 layout_mode = 2
 
-[node name="Popup" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("3_yq7cs")
-
-[node name="DimScreen" type="ColorRect" parent="Popup"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.301961)
-
-[node name="CenterContainer" type="CenterContainer" parent="Popup"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Button" type="Button" parent="Popup/CenterContainer"]
-layout_mode = 2
-text = "AAA"
-
 [node name="PauseMenu" type="Control" parent="."]
 process_mode = 2
 visible = false
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("3_pt86q")
 
 [node name="DimScreen" type="ColorRect" parent="PauseMenu"]
@@ -142,7 +109,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.615686)
+color = Color(0, 0, 0, 0.454902)
 
 [node name="CenterContainer" type="CenterContainer" parent="PauseMenu"]
 custom_minimum_size = Vector2(100, 0)
@@ -152,10 +119,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 567.5
-offset_top = 246.5
-offset_right = 672.5
-offset_bottom = 433.5
+offset_left = -52.5
+offset_top = -93.5
+offset_right = 52.5
+offset_bottom = 93.5
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -278,6 +245,43 @@ text = "AAAAAAAAAAA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Popup" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_yq7cs")
+
+[node name="DimScreen" type="ColorRect" parent="Popup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.301961)
+
+[node name="CenterContainer" type="CenterContainer" parent="Popup"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="Popup/CenterContainer"]
+layout_mode = 2
+text = "AAA"
+
 [node name="GameOver" type="Control" parent="."]
 unique_name_in_owner = true
 visible = false
@@ -340,9 +344,10 @@ text = "Settings"
 [node name="Settings" parent="." instance=ExtResource("4_5x61j")]
 visible = false
 
+[connection signal="pause" from="." to="PauseMenu" method="_on_gui_pause"]
 [connection signal="popup" from="." to="Popup" method="_on_gui_popup"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
-[connection signal="pressed" from="Popup/CenterContainer/Button" to="Popup" method="_on_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="Popup/CenterContainer/Button" to="Popup" method="_on_button_pressed"]
 [connection signal="pressed" from="GameOver/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="settings_changed" from="Settings" to="." method="_on_settings_changed"]

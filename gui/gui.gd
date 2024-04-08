@@ -19,6 +19,11 @@ var loaded_icons = {} # list of loaded icon textures
 
 var reload_settings : bool = false # reload settings on restart
 
+var player : Player = null
+
+func set_player(p:Player):
+	player=p
+
 const effects_lib = preload("res://libraries/char_lib.gd")
 var weather_stat_mod : Dictionary = { # changes to stats from current weather
 	mods = {},
@@ -48,12 +53,16 @@ func start():
 
 # Display player stats
 func update_stats():
-	var stats = Global.player_stats
+	var stats = player.stats
 	
 	%HP.text = str("HP: ", stats.hp,"/", stats.max_hp)
 	%Level.text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
 	
-	%PlayerStats.text = get_stats_text(stats, false)
+	var i = player.effects[1]["list"].size()
+	var text = get_stats_text(stats)
+	if i != 0:
+		text += "\nUpgrades:"+ get_stats_text(player.effects[1]["total"],false,true)
+	%PlayerStats.text = text
 
 func _on_main_api_request_complete():
 	if Global.api_success:
@@ -109,11 +118,14 @@ func weather_update():
 	
 	show_weather(Global.api_success)
 
-func get_stats_text(stats:Dictionary, weather:bool) -> String:
+const txt_percent = "%d%%\n"
+const txt_decimal = "%d\n"
+const txt_float = "%0.2f\n"
+func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) -> String:
 	if(stats.size() > 0):
 		var text = ""
 		if !weather: text = "\n"
-		print(stats)
+		#print_debug(stats)
 		for stat in stats.keys():
 			var mod = stats[stat]
 			
@@ -123,16 +135,25 @@ func get_stats_text(stats:Dictionary, weather:bool) -> String:
 					text += " "
 					if mod > 0: text += "+"
 					mod*=100
-					text += "%d%%\n" % mod
+					text += txt_percent % mod
 				else:
 					if stat not in ["level","max_hp","hp","max_exp","exp"]:
-						text += stat.capitalize()
-						if mod < 10:
-							text += ": %0.2f\n" % mod
+						text += stat.capitalize() + ": "
+						
+						var format = ""
+						
+						if upgrade: text += "x" + txt_float % (mod+1)
 						else:
-							text += ": %d\n" % mod
+							match stat:
+								"atk": format = txt_decimal
+								"speed": format = txt_decimal
+								_: format = txt_float
+							text += format % mod
+						#else:							text += ": %d\n" % mod
+			#else: text+=stat+"\n"
 
-		return text.left(text.length()-1) # remove last newline
+		#return text.left(text.length()-1) # remove last newline
+		return text
 	return ""
 
 # make text from current weather stat modifier
@@ -253,5 +274,6 @@ func clear_forecast():
 		n.queue_free()
 
 func show_popup(a):
-	print("qodpklsm")
+	print_debug("qodpklsm")
 	popup.emit(a)
+

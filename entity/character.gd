@@ -34,7 +34,7 @@ var type : int # player or enemy
 
 # Current stats
 @export var stats : Dictionary = {} 
-@onready var effects : Dictionary = effects_lib.init_effects()
+@onready var effects : Dictionary = effects_lib.init_effects().duplicate(true)
 
 @onready var main : Node = $/root/Main
 @onready var gui : CanvasLayer = $/root/Main/GUI
@@ -81,7 +81,7 @@ func take_damage(n:float):
 	stats.hp = snapped(stats.hp-dmg, round_to) 
 	#print_debug(dmg_format.format({type = Global.char_type_str[type], hp=stats.hp, dmg=dmg}))
 	
-	print(dmg, stats.hp)
+	#print_debug(dmg, stats.hp)
 	if stats.hp <= 0:
 		stats.hp = 0
 		defeated.emit()
@@ -120,9 +120,8 @@ func update_stats():
 		Global.player_stats = stats
 		gui.update_stats()
 
-func add_temp_eff():
-	var node = Node.new()
-	
+
+
 # calculate stat based on level
 func stat_calc_add(stat:String, round:float=1.0, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
 	return snapped(base[stat] + growth[stat] * (level-1), round)
@@ -142,5 +141,17 @@ func disable():
 	visible = false
 	set_process_mode(PROCESS_MODE_DISABLED)
 
-#func add_upgrade(stat:String, n:float):
-	#effects_lib.add_stat_upgrade()
+#func add_temp_eff():
+	#var node = Node.new()
+
+func add_upgrade(stat:String, n:float):
+	effects_lib.add_stat_upgrade(effects, stat, n)
+	
+	#var arr = []
+	#arr.append("w")
+	#print(arr)
+	#effects[1]["list"].append("w")
+	#print(upgrade)
+	print_debug(effects[1]["total"])
+	
+	update_stats()

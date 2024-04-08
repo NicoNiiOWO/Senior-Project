@@ -42,9 +42,12 @@ func set_state(s:int):
 	state = state_node[s]
 
 # set target to move towards
-func set_target(x:Node2D):
+func set_target_node(x:Node2D):
 	target_node = x
-	target = x.global_position
+	set_target(x.global_position)
+
+func set_target(x:Vector2):
+	target = x
 
 # set player node
 func set_player(x:Character):
@@ -130,10 +133,10 @@ func handle_collision():
 	
 # Display level and hp
 func update_text():
-	if stats.size() != 0:
-		var text = str("LVL ", stats.level, "\n")
-		text += "%d/%d" % [stats.hp, stats.max_hp]
-		%Label.text = text
+	#if stats.size() != 0:
+	var text = str("LVL ", stats.level, "\n")
+	text += "%d/%d" % [stats.hp, stats.max_hp]
+	%Label.text = text
 
 # When HP reaches 0, give player exp and delete
 func _on_defeated():
