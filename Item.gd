@@ -1,11 +1,16 @@
 extends Area2D
 
+enum item_types{HEAL,UPGRADE}
+var item_type : int;
+
+#const stats_lib = preload("res://libraries/stats_lib.gd")
+
 @export var duration = 15 # time before item disappears
 
 @onready var sprite = $AnimatedSprite2D
 
-var item_type : String;
-var popup : bool = false
+var popup : bool = true
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

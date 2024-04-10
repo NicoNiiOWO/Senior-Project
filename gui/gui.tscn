@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://gui/gui.gd" id="1_xmdei"]
 [ext_resource type="Texture2D" uid="uid://dwus57414541e" path="res://assets/Icons/01d@2x.png" id="2_kghc5"]
 [ext_resource type="Script" path="res://gui/PauseMenu.gd" id="3_pt86q"]
-[ext_resource type="Script" path="res://gui/Popup.gd" id="3_yq7cs"]
 [ext_resource type="PackedScene" uid="uid://cs4jvv78l7rkq" path="res://gui/settings.tscn" id="4_5x61j"]
+[ext_resource type="Script" path="res://gui/UpgradePopup.gd" id="4_fdg22"]
 
 [sub_resource type="Theme" id="Theme_4cw36"]
 
@@ -245,7 +245,8 @@ text = "AAAAAAAAAAA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Popup" type="Control" parent="."]
+[node name="UpgradePopup" type="Control" parent="."]
+process_mode = 2
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -253,9 +254,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("3_yq7cs")
+script = ExtResource("4_fdg22")
 
-[node name="DimScreen" type="ColorRect" parent="Popup"]
+[node name="DimScreen" type="ColorRect" parent="UpgradePopup"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -264,7 +265,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.301961)
 
-[node name="CenterContainer" type="CenterContainer" parent="Popup"]
+[node name="CenterContainer" type="CenterContainer" parent="UpgradePopup"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -278,9 +279,42 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="Popup/CenterContainer"]
+[node name="FlowContainer" type="FlowContainer" parent="UpgradePopup/CenterContainer"]
 layout_mode = 2
-text = "AAA"
+theme_override_constants/v_separation = 50
+alignment = 1
+
+[node name="UpgradeButton" type="Button" parent="UpgradePopup/CenterContainer/FlowContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "aaaaaaaa"
+
+[node name="UpgradeSelect" type="BoxContainer" parent="UpgradePopup/CenterContainer/FlowContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+vertical = true
+
+[node name="Button" type="Button" parent="UpgradePopup/CenterContainer/FlowContainer/UpgradeSelect"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "aaaaaaaa"
+
+[node name="Button2" type="Button" parent="UpgradePopup/CenterContainer/FlowContainer/UpgradeSelect"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "aaaaaaaa"
+
+[node name="CloseButton" type="Button" parent="UpgradePopup/CenterContainer/FlowContainer"]
+layout_mode = 2
+text = "Close"
 
 [node name="GameOver" type="Control" parent="."]
 unique_name_in_owner = true
@@ -345,9 +379,9 @@ text = "Settings"
 visible = false
 
 [connection signal="pause" from="." to="PauseMenu" method="_on_gui_pause"]
-[connection signal="popup" from="." to="Popup" method="_on_gui_popup"]
+[connection signal="popup" from="." to="UpgradePopup" method="_on_gui_popup"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="Popup/CenterContainer/Button" to="Popup" method="_on_button_pressed"]
+[connection signal="pressed" from="UpgradePopup/CenterContainer/FlowContainer/CloseButton" to="UpgradePopup" method="_on_close_button_pressed"]
 [connection signal="pressed" from="GameOver/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="settings_changed" from="Settings" to="." method="_on_settings_changed"]

@@ -5,10 +5,12 @@ extends CharacterBody2D
 signal damage_taken()
 signal defeated()
 
-const effects_lib = preload("res://libraries/char_lib.gd")
+const char_lib = preload("res://libraries/char_lib.gd")
 const enemy_lib = preload("res://libraries/enemy_lib.gd")
 
 var type : int # player or enemy
+
+@export var stats_r : Resource
 
 # Stats
 # Enemy stats defined in enemy_lib
@@ -34,7 +36,7 @@ var type : int # player or enemy
 
 # Current stats
 @export var stats : Dictionary = {} 
-@onready var effects : Dictionary = effects_lib.init_effects().duplicate(true)
+@onready var effects : Dictionary = char_lib.init_effects().duplicate(true)
 
 @onready var main : Node = $/root/Main
 @onready var gui : CanvasLayer = $/root/Main/GUI
@@ -54,7 +56,7 @@ func init(char_type:int, ability:int=0):
 	stats = base_stats.duplicate()
 	stats.hp = stats.max_hp
 	
-	effects = effects_lib.init_effects()
+	effects = char_lib.init_effects()
 
 func _ready(): # set default
 	if type == null:
@@ -130,7 +132,7 @@ func stat_calc_mult(stat:String, round:float=1.0, base:Dictionary=base_stats, gr
 	return snapped(floor(base[stat] * pow(growth[stat], level-1)), round)
 
 func update_effects():
-	effects_lib.set_stat_mod(effects)
+	char_lib.set_stat_mod(effects)
 
 func set_invincible(enable:bool):
 	if enable: stats.iframes = -1
@@ -145,13 +147,8 @@ func disable():
 	#var node = Node.new()
 
 func add_upgrade(stat:String, n:float):
-	effects_lib.add_stat_upgrade(effects, stat, n)
+	char_lib.add_stat_upgrade(effects, stat, n)
 	
-	#var arr = []
-	#arr.append("w")
-	#print(arr)
-	#effects[1]["list"].append("w")
-	#print(upgrade)
 	print_debug(effects[1]["total"])
 	
 	update_stats()

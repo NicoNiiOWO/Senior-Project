@@ -44,7 +44,8 @@ func set_state(s:int):
 # set target to move towards
 func set_target_node(x:Node2D):
 	target_node = x
-	set_target(x.global_position)
+	if x != null: 
+		set_target(x.global_position)
 
 func set_target(x:Vector2):
 	target = x

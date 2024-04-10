@@ -1,4 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
+.vscode/
 addons/godot-git-plugin/win64/~libgit_plugin.windows.editor.x86_64.dll
 api_key.txt

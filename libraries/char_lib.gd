@@ -5,6 +5,13 @@ enum stats_type {ATK, SPEED, MAX_HP, DMG_TAKEN, ATK_SIZE}
 enum category {WEATHER,UPGRADE,TOTAL}
 enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 
+#const upgrade_s = preload("res://libraries/upgrade.gd")
+
+const upgrade_format = {
+	node = null,
+	stats = {}
+}
+
 const effect_list : Dictionary = {
 	category.WEATHER : { # stats
 		weather_type.CLEAR : {
@@ -44,11 +51,7 @@ const effect_list : Dictionary = {
 	}
 }
 
-const upgrade_format = {
-	#"id"=0,
-	"node"=null, #if uses node
-	"stats"={}
-}
+
 
 static func init_effects() -> Dictionary:
 	var effects = {
@@ -67,6 +70,12 @@ static func add_effect(effects:Dictionary, eff_category:int, eff_type:int) -> vo
 # add stat upgrade
 static func add_stat_upgrade(effects:Dictionary, stat:String, n:float) -> void:
 	add_upgrade_dict(effects, {stat:n})
+
+#static func make_upgrade() -> Dictionary:
+	#return upgrade_s
+
+static func upgrade_add_stat(upgrade:Dictionary, stat:String, x) -> void:
+	upgrade["stats"] = {stat:x}
 
 # add upgrade from stat dict
 static func add_upgrade_dict(effects:Dictionary, stats:Dictionary, node:Node=null) -> void:
@@ -147,3 +156,6 @@ static func set_stat_mod(effects:Dictionary):
 	update_weather_eff(effects)
 	effects.total_mod = get_total(effects)
 	
+
+static func make_upgrade():
+	return upgrade_format.duplicate()

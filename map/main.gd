@@ -14,6 +14,7 @@ const player_scn : PackedScene = preload("res://entity/player.tscn")
 const enemy_scn : PackedScene = preload("res://entity/enemy/enemy.tscn")
 const item_scn : PackedScene = preload("res://entity/item.tscn")
 const enemy_lib : Resource = preload("res://libraries/enemy_lib.gd")
+const make_node : Resource = preload("res://libraries/make_node.gd")
 
 # Initial level
 @export var player_level : int = 1
@@ -85,12 +86,9 @@ func _ready():
 	Global.weather_interval = weather_interval
 	
 	# add new player
-	player = player_scn.instantiate()
+	player = make_node.new_player(player_level)
 	add_child(player)
 	gui.set_player(player)
-	
-	player.gain_level(player_level-1)
-	#print(player.global_position)
 	
 	if(!api_called and use_api): api_call()
 	api_called = true # don't call api again
@@ -107,14 +105,9 @@ func _ready():
 
 # Call API
 func api_call():
-	if(api_settings.key == null):
-		return
-	
+	if(api_settings.key == null): return
 	var api_url = api_url_format.format(api_settings)
-	
-	var API = $API
-	var request = API.request(api_url)
-	if request != OK: print_debug(":(")
+	if $API.request(api_url) != OK: print_debug(":(")
 
 func _on_api_request_completed(_result, response_code, _headers, body):
 	print_debug("API response: ", response_code)
@@ -142,21 +135,19 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 func enemy_spawn(n:int, level:int, move:bool=true): 
 	if(player != null):
 		for i in n:
-			var enemyInstance = enemy_scn.instantiate()
+			
 			var spawn_location = %EnemySpawnLocation
-			
-			enemyInstance.gain_level(level-1) # increase level
-			
 			spawn_location.set_progress_ratio(randf()) # Select random location on path
-
+			
 			# offset location based on camera
-			#print(spawn_location.position)
+			var position = spawn_location.position + player.get_screen_center()
+			
+			var target = null
+			
 			if move:
-				enemyInstance.set_target_node(player)
-			#else:
-				#enemyInstance
-			enemyInstance.set_player(player)
-			enemyInstance.set_deferred("position", spawn_location.position + player.get_screen_center())
+				target = player
+			
+			var enemyInstance = make_node.new_enemy(enemy_level, position, target)
 			
 			add_child(enemyInstance)
 
@@ -178,10 +169,10 @@ func _on_gui_weather_changed():
 
 # make item at position
 func addItem(position):
-	var item = item_scn.instantiate()
+	var item = make_node.new_item()
 	
 	item.set_deferred("global_position", position)
-	call_deferred("add_child", item)
+	add_child(item)
 
 func game_over():
 	Global.game_ongoing = false
@@ -215,26 +206,27 @@ func _input(event):
 	if debug and event.is_pressed():
 		if is_instance_of(event, InputEventKey):
 			var key = OS.get_keycode_string(event.keycode)
-			print(key)
+			#print(key)
 			
 			match key:
-				"K":
+				"Q":
 					get_tree().call_group("enemies", "_on_defeated")
 					print_debug("enemies cleared")
 				
-				"Q":
+				"W":
 					enable_spawn = !enable_spawn
 					if enable_spawn: print_debug("spawn enabled")
 					else: print_debug("spawn disabled")
 			
+				"E": enemy_spawn(1,enemy_level,false)
 				"A": 
 					if player != null: player.gain_level(1)
 					enemy_level += 1
 				
 				"S": if player!=null: player.gain_level(1)
 				"D": enemy_level += 1
-				"E": game_over()
+				"T": game_over()
 				"R": _on_restart()
 				"F": player.add_upgrade("atk", 0.1)
-				"1": enemy_spawn(1,enemy_level,false)
+				
 				
