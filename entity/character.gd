@@ -125,11 +125,11 @@ func update_stats():
 
 
 # calculate stat based on level
-func stat_calc_add(stat:String, round:float=1.0, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
-	return snapped(base[stat] + growth[stat] * (level-1), round)
+func stat_calc_add(stat:String, round_to:float=1.0, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
+	return snapped(base[stat] + growth[stat] * (level-1), round_to)
 
-func stat_calc_mult(stat:String, round:float=1.0, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
-	return snapped(floor(base[stat] * pow(growth[stat], level-1)), round)
+func stat_calc_mult(stat:String, round_to:float=1.0, base:Dictionary=base_stats, growth:Dictionary=stat_growth, level:int=stats.level):
+	return snapped(floor(base[stat] * pow(growth[stat], level-1)), round_to)
 
 func update_effects():
 	char_lib.set_stat_mod(effects)
@@ -151,4 +151,9 @@ func add_upgrade(stat:String, n:float):
 	
 	print_debug(effects[1]["total"])
 	
+	update_stats()
+
+func add_upgrade_dict(upgrade:Dictionary):
+	char_lib.add_upgrade_dict(effects, upgrade)
+	print_debug(effects[1]["total"])
 	update_stats()

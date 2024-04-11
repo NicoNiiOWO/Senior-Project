@@ -201,6 +201,7 @@ func game_over():
 # reset settings and hide weather ui if changed
 func _on_restart_button_pressed():
 	$GameOver.set_visible(false)
+	#$PauseMenu.unpause()
 	restart.emit(reload_settings)
 	
 	if(reload_settings): $HUD/Weather.hide()

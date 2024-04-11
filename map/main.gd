@@ -147,7 +147,7 @@ func enemy_spawn(n:int, level:int, move:bool=true):
 			if move:
 				target = player
 			
-			var enemyInstance = make_node.new_enemy(enemy_level, position, target)
+			var enemyInstance = make_node.new_enemy(level, position, target)
 			
 			add_child(enemyInstance)
 

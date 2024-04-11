@@ -4,36 +4,35 @@ extends Control
 
 const upgrade_lib = preload("res://libraries/upgrade_lib.gd")
 
+var upgrades:Array
+
 func _ready():
 	make_list()
 
 # make list of selectable upgrades
 func make_list(count:int=3):
-	var upgrades = upgrade_lib.random_upgrade(count)
+	upgrades = upgrade_lib.random_upgrade(count)
 	
 	print_debug(upgrades, upgrade_lib)
 	clear()
 	for x in range(upgrades.size()):
 		var button = %UpgradeButton.duplicate()
 		
-		#var text = ""
-		#button.text = upgrades[x]
-		#for stat in upgrades[x].keys():
-			#button.text += stat.capitalize() + " "
-		
+		button.upgrade = upgrades[x]
 		button.text = upgrade_lib.get_text(upgrades[x])
 		
 		button.show()
 		
 		%UpgradeSelect.add_child(button)
 
+# clear list
 func clear():
 	for n in %UpgradeSelect.get_children():
 		%UpgradeSelect.remove_child(n)
 		n.queue_free()
 
-func pause(pause:bool=true):
-	get_tree().paused = pause
+func pause(enable:bool=true):
+	get_tree().paused = enable
 
 func _on_gui_popup(e=1):
 	print_debug(e)
@@ -45,3 +44,10 @@ func _on_close_button_pressed():
 	pause(false)
 	
 	make_list()
+
+
+func _on_upgrade_button_pressed(upgrade):
+	print_debug(upgrade)
+	owner.player.add_upgrade_dict(upgrade)
+	
+	_on_close_button_pressed()
