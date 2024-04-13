@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://bopr58h3maudq"]
+
+[ext_resource type="Script" path="res://gui/UpgradeButton.gd" id="1_yqy5p"]
+[ext_resource type="Texture2D" uid="uid://m4al6w3kokjt" path="res://assets/Icons/Ability/a_normal_text.tres" id="2_wlffw"]
+[ext_resource type="Texture2D" uid="uid://cifk1b0cw3msi" path="res://assets/Icons/Ability/a_normal_icon.tres" id="3_6mnxv"]
+
+[node name="UpgradeButton" type="Button"]
+custom_minimum_size = Vector2(300, 100)
+size_flags_horizontal = 3
+text = "aaaaaaaa"
+script = ExtResource("1_yqy5p")
+
+[node name="AbilityIcon" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -24.0
+offset_right = 44.0
+offset_bottom = 24.0
+grow_vertical = 2
+
+[node name="FlowContainer" type="FlowContainer" parent="AbilityIcon"]
+layout_mode = 2
+theme_override_constants/v_separation = 0
+alignment = 1
+
+[node name="AbilityText" type="TextureRect" parent="AbilityIcon/FlowContainer"]
+layout_mode = 2
+texture = ExtResource("2_wlffw")
+
+[node name="AbilityIcon" type="TextureRect" parent="AbilityIcon/FlowContainer"]
+layout_mode = 2
+texture = ExtResource("3_6mnxv")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

@@ -147,7 +147,9 @@ func enemy_spawn(n:int, level:int, move:bool=true):
 			if move:
 				target = player
 			
+			# get/add enemy
 			var enemyInstance = make_node.new_enemy(level, position, target)
+			enemyInstance.enemy_defeated.connect(_on_enemy_defeated)
 			
 			add_child(enemyInstance)
 
@@ -168,7 +170,7 @@ func _on_gui_weather_changed():
 	get_tree().call_group("enemies", "update_stats")
 
 # make item at position
-func addItem(position):
+func addItem(position:Vector2, ability:int=0):
 	var item = make_node.new_item()
 	
 	item.set_deferred("global_position", position)
@@ -200,6 +202,10 @@ func _on_restart(reload_settings:bool = false):
 	
 	_ready()
 
+func _on_enemy_defeated(position, ability, exp):
+	addItem(position, ability)
+	player.gain_exp(exp)
+
 # debug input
 @export var debug : bool = false
 func _input(event):
@@ -213,12 +219,12 @@ func _input(event):
 					get_tree().call_group("enemies", "_on_defeated")
 					print_debug("enemies cleared")
 				
-				"W":
+				"W": enemy_spawn(1,enemy_level,false)
+				"E":
 					enable_spawn = !enable_spawn
 					if enable_spawn: print_debug("spawn enabled")
 					else: print_debug("spawn disabled")
-			
-				"E": enemy_spawn(1,enemy_level,false)
+				
 				"A": 
 					if player != null: player.gain_level(1)
 					enemy_level += 1
@@ -228,5 +234,4 @@ func _input(event):
 				"T": game_over()
 				"R": _on_restart()
 				"F": player.add_upgrade("atk", 0.1)
-				
-				
+

@@ -70,7 +70,7 @@ static var base_stats = {
 }
 static var growth_stats = {
 	-1 : { # default
-		max_hp = 5,
+		max_hp = 1.05,
 		atk = 2,
 		max_exp = 1.15,
 		speed = 1,

@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://d8e3lfaeglcx"]
 
 [ext_resource type="Script" path="res://gui/gui.gd" id="1_xmdei"]
-[ext_resource type="Texture2D" uid="uid://dwus57414541e" path="res://assets/Icons/01d@2x.png" id="2_kghc5"]
+[ext_resource type="Texture2D" uid="uid://dwus57414541e" path="res://assets/Icons/Weather/01d@2x.png" id="2_obkgc"]
 [ext_resource type="Script" path="res://gui/PauseMenu.gd" id="3_pt86q"]
 [ext_resource type="PackedScene" uid="uid://cs4jvv78l7rkq" path="res://gui/settings.tscn" id="4_5x61j"]
 [ext_resource type="Script" path="res://gui/UpgradePopup.gd" id="4_fdg22"]
-[ext_resource type="Script" path="res://gui/UpgradeButton.gd" id="5_2c4cu"]
+[ext_resource type="PackedScene" uid="uid://bopr58h3maudq" path="res://gui/upgrade_button.tscn" id="5_rgp6c"]
 
 [sub_resource type="Theme" id="Theme_4cw36"]
 
@@ -73,7 +73,7 @@ alignment = 1
 [node name="Icon" type="TextureRect" parent="HUD/Weather"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("2_kghc5")
+texture = ExtResource("2_obkgc")
 
 [node name="Clock" type="Label" parent="HUD/Weather"]
 unique_name_in_owner = true
@@ -191,7 +191,7 @@ vertical = true
 
 [node name="Icon" type="TextureRect" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry"]
 layout_mode = 2
-texture = ExtResource("2_kghc5")
+texture = ExtResource("2_obkgc")
 
 [node name="Text" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry"]
 layout_mode = 2
@@ -228,7 +228,7 @@ vertical = true
 
 [node name="Icon" type="TextureRect" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2"]
 layout_mode = 2
-texture = ExtResource("2_kghc5")
+texture = ExtResource("2_obkgc")
 
 [node name="Text" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2"]
 layout_mode = 2
@@ -285,14 +285,10 @@ layout_mode = 2
 theme_override_constants/v_separation = 50
 alignment = 1
 
-[node name="UpgradeButton" type="Button" parent="UpgradePopup/CenterContainer/FlowContainer"]
+[node name="UpgradeButton" parent="UpgradePopup/CenterContainer/FlowContainer" instance=ExtResource("5_rgp6c")]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-size_flags_horizontal = 3
-text = "aaaaaaaa"
-script = ExtResource("5_2c4cu")
 
 [node name="UpgradeSelect" type="BoxContainer" parent="UpgradePopup/CenterContainer/FlowContainer"]
 unique_name_in_owner = true
@@ -385,7 +381,6 @@ visible = false
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="PauseMenu" method="_on_restart_button_pressed"]
-[connection signal="pressed" from="UpgradePopup/CenterContainer/FlowContainer/UpgradeButton" to="UpgradePopup/CenterContainer/FlowContainer/UpgradeButton" method="_on_pressed"]
 [connection signal="upgrade_pressed" from="UpgradePopup/CenterContainer/FlowContainer/UpgradeButton" to="UpgradePopup" method="_on_upgrade_button_pressed"]
 [connection signal="pressed" from="UpgradePopup/CenterContainer/FlowContainer/CloseButton" to="UpgradePopup" method="_on_close_button_pressed"]
 [connection signal="pressed" from="GameOver/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]

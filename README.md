@@ -13,6 +13,10 @@ Weather icons from OpenWeather
 
 [Pixel Art Top Down by Cainos](https://cainos.itch.io/pixel-art-top-down-basic)
 
-Sprites from Kirby: Nightmare in Dream Land by Nintendo
+Sprites from Kirby: Nightmare in Dream Land, Kirby and the Amazing Mirror, and Kirby Squeak Squad by Nintendo and HAL Laboratory
 - [Kirby sprites](https://www.spriters-resource.com/game_boy_advance/kirbynim/sheet/15598/) ripped by A.J. Nitro
-- [Waddle Dee sprites](https://www.spriters-resource.com/game_boy_advance/kirbynim/sheet/55857/) ripped by Soincfunt
+- Enemy Sprites:
+-- [Waddle Dee](https://www.spriters-resource.com/game_boy_advance/kirbynim/sheet/55857/) ripped by Soincfunt
+-- [Blade Knight](https://www.spriters-resource.com/game_boy_advance/kirbynim/sheet/2995/)
+-- [Twister](https://www.spriters-resource.com/ds_dsi/kirbysqueaksquad/sheet/3334/)
+- [Ability icons](https://www.spriters-resource.com/game_boy_advance/kirbyandtheamazingmirror/sheet/2736/)

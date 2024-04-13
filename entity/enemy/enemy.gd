@@ -1,6 +1,8 @@
 class_name Enemy
 extends Character
 
+signal enemy_defeated(position:Vector2, ability:int, exp:int)
+
 const ability_list = enemy_lib.ability_type
 var ability=0 # current ability
 
@@ -141,9 +143,10 @@ func update_text():
 
 # When HP reaches 0, give player exp and delete
 func _on_defeated():
-	get_tree().call_group("player", "gain_exp", stats.max_exp)
+	enemy_defeated.emit(global_position, ability, stats.max_exp)
+	#get_tree().call_group("player", "gain_exp", stats.max_exp)
 	#player.gain_exp(stats.max_exp)
-	get_node("/root/Main").addItem(global_position) # drop heal item
+	#get_node("/root/Main").addItem(global_position) # drop heal item
 	queue_free()
 
 # Set HP text when taking damage

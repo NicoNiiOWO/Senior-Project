@@ -7,7 +7,7 @@ signal weather_changed()
 signal pause()
 signal popup(e)
 
-const icon_path_format : String = "res://assets/Icons/%s@2x.png"
+const icon_path_format : String = "res://assets/Icons/Weather/%s@2x.png"
 const datetime_f : String = "{year}/{month}/{day} {hour}:{minute}"
 const time_f : String = "%02d:%02d"
 const clock_format : String = "{Time} {Timezone}"
