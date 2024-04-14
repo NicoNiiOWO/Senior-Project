@@ -1,9 +1,9 @@
 extends Button
 
 signal upgrade_pressed(upgrade:Dictionary)
-var upgrade:Dictionary = {}
+var upgrade:Upgrade
 
-func set_upgrade(upg:Dictionary):
+func set_upgrade(upg:Upgrade):
 	upgrade = upg
 	
 	#if upgrade is from ability:

@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://c6ckirvpcwsi8"]
 
-[ext_resource type="Script" path="res://Item.gd" id="1_aj6l0"]
+[ext_resource type="Script" path="res://entity/Item.gd" id="1_6kd4i"]
 [ext_resource type="Texture2D" uid="uid://d2smabxnfy4mv" path="res://assets/Items.png" id="2_dpxcc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w7hcm"]
@@ -114,7 +114,7 @@ animations = [{
 }]
 
 [node name="Item" type="Area2D" groups=["items"]]
-script = ExtResource("1_aj6l0")
+script = ExtResource("1_6kd4i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_w7hcm")

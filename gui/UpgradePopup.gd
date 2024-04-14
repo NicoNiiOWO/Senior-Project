@@ -46,8 +46,8 @@ func _on_close_button_pressed():
 	make_list()
 
 
-func _on_upgrade_button_pressed(upgrade):
+func _on_upgrade_button_pressed(upgrade:Upgrade):
 	print_debug(upgrade)
-	owner.player.add_upgrade_dict(upgrade)
+	owner.player.add_stat_upgrade_dict(upgrade.stats)
 	
 	_on_close_button_pressed()

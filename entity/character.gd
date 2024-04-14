@@ -113,6 +113,7 @@ func update_stats():
 	
 	update_effects()
 	# update stats
+	print_debug("e",effects)
 	for stat in effects.total_mod.keys():
 		stats[stat] *= 1+effects.total_mod[stat]
 	
@@ -146,14 +147,20 @@ func disable():
 #func add_temp_eff():
 	#var node = Node.new()
 
-func add_upgrade(stat:String, n:float):
+func add_upgrade(upgrade:Upgrade):
+	char_lib.add_upgrade(effects, upgrade)
+	update_stats()
+	
+
+func add_stat_upgrade(stat:String, n:float):
 	char_lib.add_stat_upgrade(effects, stat, n)
 	
 	print_debug(effects[1]["total"])
+	print_debug("e",effects[1]["list"][0].stats)
 	
 	update_stats()
 
-func add_upgrade_dict(upgrade:Dictionary):
-	char_lib.add_upgrade_dict(effects, upgrade)
+func add_stat_upgrade_dict(stats:Dictionary):
+	char_lib.add_upgrade_dict(effects, stats)
 	print_debug(effects[1]["total"])
 	update_stats()

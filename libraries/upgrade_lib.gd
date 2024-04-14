@@ -6,19 +6,22 @@ const stats_upgradeable = ["atk","speed","max_hp","atk_size","dmg_taken"]
 # base increase, in percent
 const upgrade_base = .05
 
-static func make_upgrade(stat:String, x:int=1):
+static func make_stat_upgrade(stat:String, x:int=1, ability=0) -> Upgrade:
 	var stat_mod
 	match stat:
 		"dmg_taken": # subtract
 			stat_mod = -(upgrade_base*x)
 		_:
 			stat_mod = upgrade_base*x
-			
-	return {stat : stat_mod}
+	
+	var stats = {stat : stat_mod}
+	var upgrade = Upgrade.new()
+	upgrade.set_upgrade(ability, stats)
+	return upgrade
 
-static func make_upgrade_i(index:int, x:int=1):
+static func make_stat_upgrade_i(index:int, x:int=1) -> Upgrade:
 	var stat = stats_upgradeable[index]
-	return make_upgrade(stat,x)
+	return make_stat_upgrade(stat,x)
 
 # array of random upgradeable stats, no duplicates
 static func rand_stats(count:int=1) -> Array:
@@ -49,16 +52,16 @@ static func random_upgrade(count:int=1, x:int=1):
 	
 	var upgrades = []
 	for stat in stats:
-		upgrades.append(make_upgrade(stat,x))
+		upgrades.append(make_stat_upgrade(stat,x))
 	
 	print_debug(upgrades)
 	return upgrades
 
-static func get_text(upgrade:Dictionary) -> String:
+static func get_text(upgrade:Upgrade) -> String:
 	var text = ""
 	
-	for stat in upgrade.keys():
-		var stat_mod = upgrade[stat]
+	for stat in upgrade.stats:
+		var stat_mod = upgrade.stats[stat]
 		var sign
 		if stat_mod > 0: sign = " +"
 		else: sign = " "

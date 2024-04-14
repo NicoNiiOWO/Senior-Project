@@ -73,6 +73,7 @@ position = Vector2(143.469, -116.097)
 position = Vector2(-182.168, -152.908)
 
 [node name="Enemy" parent="." instance=ExtResource("7_770p6")]
+position = Vector2(91.9238, -1.41425)
 
 [connection signal="api_request_complete" from="." to="GUI" method="_on_main_api_request_complete"]
 [connection signal="timeout" from="EnemySpawnPath/SpawnTimer" to="." method="_on_spawn_timer_timeout"]

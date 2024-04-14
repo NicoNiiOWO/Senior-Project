@@ -7,10 +7,10 @@ enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 
 #const upgrade_s = preload("res://libraries/upgrade.gd")
 
-const upgrade_format = {
-	node = null,
-	stats = {}
-}
+#const upgrade_format = {
+	#node = null,
+	#stats = {}
+#}
 
 const effect_list : Dictionary = {
 	category.WEATHER : { # stats
@@ -67,54 +67,62 @@ static func add_effect(effects:Dictionary, eff_category:int, eff_type:int) -> vo
 	if !effects[eff_category].has(eff_type):
 		effects[eff_category][eff_type] = effect_list[eff_category][eff_type]
 
+static func add_upgrade(effects:Dictionary, upgrade:Upgrade):
+	effects[category.UPGRADE]["list"].append(upgrade)
+
 # add stat upgrade
 static func add_stat_upgrade(effects:Dictionary, stat:String, n:float) -> void:
 	add_upgrade_dict(effects, {stat:n})
 
-#static func make_upgrade() -> Dictionary:
-	#return upgrade_s
-
-static func upgrade_add_stat(upgrade:Dictionary, stat:String, x) -> void:
-	upgrade["stats"] = {stat:x}
-
 # add upgrade from stat dict
 static func add_upgrade_dict(effects:Dictionary, stats:Dictionary, node:Node=null) -> void:
-	var upgrade = upgrade_format.duplicate()
-	upgrade["stats"] = stats
+	var upgrade = Upgrade.new()
+	upgrade.stats = stats
 	
-	if node != null: upgrade["node"] = node
+	if node != null: upgrade.node = node
 	
 	# add upgrade, add stats to total
 	effects[category.UPGRADE]["list"].append(upgrade)
-	for stat in stats.keys():
-		print_debug(effects[category.UPGRADE]["total"][stat], stats[stat], stat)
-		var s = effects[category.UPGRADE]["total"][stat]
-		if s==0:
-			effects[category.UPGRADE]["total"][stat] = stats[stat]
-		else:
-			effects[category.UPGRADE]["total"][stat] += stats[stat]
+	effects[category.TOTAL] = get_total_stat(effects)
+	
 
-# return total stat mod from dictionary
-static func get_total(effects:Dictionary) -> Dictionary:
+static func get_upgrade_stat(upgrade_list:Array) -> Dictionary:
 	var total = {}
+	for upgrade in upgrade_list:
+		for stat in upgrade.stats.keys():
+			add_stat(total, stat, upgrade.stats[stat])
+	
+	return total
+# return total stat mod from dictionary
+static func get_total_stat(effects:Dictionary) -> Dictionary:
+	var weather_total = {}
 	
 	# loop through weather and upgrade categories
 	for weather in effects[0]:
 		#print_debug(effect)
 		for stat in effects[0][weather]:
-			if(!total.has(stat)):
-				total[stat] = effects[0][weather][stat]
-			else:
-				total[stat] += effects[0][weather][stat]
+			add_stat(weather_total, stat, effects[0][weather][stat])
 	
-	var upgrade_total = effects[category.UPGRADE]["total"]
-	for stat in upgrade_total:
-		if(!total.has(stat)):
-			total[stat] = upgrade_total[stat]
-		else:
-			total[stat] += upgrade_total[stat]
+	var upgrade_total = get_upgrade_stat(effects[category.UPGRADE]["list"])
+	effects[category.UPGRADE]["total"] = upgrade_total
 	
-	return total
+	
+	return combine_stat_dict(weather_total, upgrade_total)
+
+static func combine_stat_dict(dict1:Dictionary, dict2:Dictionary) -> Dictionary:
+	var combined = dict1.duplicate()
+	
+	for stat in dict2.keys():
+		add_stat(combined, stat, dict2[stat])
+	
+	return combined
+
+static func add_stat(stats:Dictionary, stat:String, value:Variant):
+	if(!stats.has(stat)):
+		stats[stat] = value
+	else:
+		stats[stat] += value
+
 
 # total stats from weather array
 static func get_total_w(weather:Array) -> Dictionary:
@@ -149,13 +157,12 @@ static func update_weather_eff(effects:Dictionary):
 # remove weather and set stat mods
 static func clear_weather(effects:Dictionary):
 	effects[category.WEATHER] = {}
-	effects.total_mod = get_total(effects)
+	effects.total_mod = get_total_stat(effects)
 
 # update weather effect and set stat mods
 static func set_stat_mod(effects:Dictionary):
 	update_weather_eff(effects)
-	effects.total_mod = get_total(effects)
 	
-
-static func make_upgrade():
-	return upgrade_format.duplicate()
+	effects.total_mod = get_total_stat(effects)
+	print_debug("total", effects.total_mod)
+	

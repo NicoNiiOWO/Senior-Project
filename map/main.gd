@@ -233,5 +233,5 @@ func _input(event):
 				"D": enemy_level += 1
 				"T": game_over()
 				"R": _on_restart()
-				"F": player.add_upgrade("atk", 0.1)
+				"F": player.add_stat_upgrade("atk", 0.1)
 
