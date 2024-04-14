@@ -1,6 +1,8 @@
 extends Control
 
 signal settings_changed()
+signal settings_closed()
+
 const geocode_url = "https://api.openweathermap.org/geo/1.0/direct?q={City}&limit={Limit}&appid={Key}"
 
 @onready var locations = Global.location_preset
@@ -37,11 +39,13 @@ func open():
 		set_coords(selected.lat, selected.lon)
 
 	visible = true
+	%CloseButton.grab_focus()
 	
 func _on_close_button_pressed():
 	%SaveText.text = ""
 	%SaveText.hide()
 	hide()
+	settings_closed.emit()
 
 func _on_option_button_item_selected(index):
 	match index:

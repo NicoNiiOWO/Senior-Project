@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://v1608s5lvo0j"]
+[gd_scene load_steps=8 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Texture2D" uid="uid://cp36lau6gxpva" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_3s6u4"]
 [ext_resource type="Script" path="res://map/main.gd" id="1_v6nxb"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://map/EnemySpawnPath.gd" id="3_wsknh"]
 [ext_resource type="PackedScene" uid="uid://c6ckirvpcwsi8" path="res://entity/item.tscn" id="5_2nl8k"]
 [ext_resource type="PackedScene" uid="uid://d8e3lfaeglcx" path="res://gui/gui.tscn" id="6_85ohw"]
-[ext_resource type="PackedScene" uid="uid://be830e3wn8jb4" path="res://entity/enemy/enemy.tscn" id="7_770p6"]
 
 [sub_resource type="Curve2D" id="Curve2D_i03nr"]
 bake_interval = 10.0
@@ -72,13 +71,9 @@ position = Vector2(143.469, -116.097)
 [node name="Item2" parent="." instance=ExtResource("5_2nl8k")]
 position = Vector2(-182.168, -152.908)
 
-[node name="Enemy" parent="." instance=ExtResource("7_770p6")]
-position = Vector2(91.9238, -1.41425)
-
 [connection signal="api_request_complete" from="." to="GUI" method="_on_main_api_request_complete"]
 [connection signal="timeout" from="EnemySpawnPath/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]
 [connection signal="restart" from="GUI" to="." method="_on_restart"]
 [connection signal="time_update" from="GUI" to="." method="_on_gui_time_update"]
 [connection signal="weather_changed" from="GUI" to="." method="_on_gui_weather_changed"]
-[connection signal="enemy_defeated" from="Enemy" to="." method="_on_enemy_enemy_defeated"]

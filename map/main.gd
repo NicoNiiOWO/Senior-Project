@@ -234,4 +234,5 @@ func _input(event):
 				"T": game_over()
 				"R": _on_restart()
 				"F": player.add_stat_upgrade("atk", 0.1)
+				"G": player.take_damage(1000)
 

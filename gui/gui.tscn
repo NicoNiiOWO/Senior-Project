@@ -144,7 +144,8 @@ layout_mode = 2
 theme_override_constants/v_separation = 15
 alignment = 1
 
-[node name="RestartButton" type="Button" parent="PauseMenu/CenterContainer/FlowContainer/Buttons"]
+[node name="PauseRestartButton" type="Button" parent="PauseMenu/CenterContainer/FlowContainer/Buttons"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 35)
 layout_mode = 2
 text = "Restart"
@@ -363,7 +364,8 @@ layout_mode = 2
 theme_override_constants/v_separation = 15
 alignment = 1
 
-[node name="RestartButton" type="Button" parent="GameOver/FlowContainer/Buttons"]
+[node name="GORestartButton" type="Button" parent="GameOver/FlowContainer/Buttons"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 35)
 layout_mode = 2
 text = "Restart"
@@ -379,9 +381,12 @@ visible = false
 [connection signal="pause" from="." to="PauseMenu" method="_on_gui_pause"]
 [connection signal="popup" from="." to="UpgradePopup" method="_on_gui_popup"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
-[connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/RestartButton" to="PauseMenu" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/PauseRestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/PauseRestartButton" to="PauseMenu" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]
 [connection signal="upgrade_pressed" from="UpgradePopup/CenterContainer/FlowContainer/UpgradeButton" to="UpgradePopup" method="_on_upgrade_button_pressed"]
 [connection signal="pressed" from="UpgradePopup/CenterContainer/FlowContainer/CloseButton" to="UpgradePopup" method="_on_close_button_pressed"]
-[connection signal="pressed" from="GameOver/FlowContainer/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameOver/FlowContainer/Buttons/GORestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameOver/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]
 [connection signal="settings_changed" from="Settings" to="." method="_on_settings_changed"]
+[connection signal="settings_closed" from="Settings" to="PauseMenu" method="_on_settings_settings_closed"]

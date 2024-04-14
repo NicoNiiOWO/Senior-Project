@@ -19,6 +19,7 @@ func _input(event):
 func pause():
 	print_debug("pause")
 	show()
+	%PauseRestartButton.grab_focus()
 	get_tree().paused = true
 
 # hide menu and unpause
@@ -35,3 +36,6 @@ func _on_settings_button_pressed():
 
 func _on_restart_button_pressed():
 	unpause()
+
+func _on_settings_settings_closed():
+	if visible: %PauseRestartButton.grab_focus()

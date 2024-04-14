@@ -9,6 +9,7 @@ var upgrades:Array
 func _ready():
 	make_list()
 
+
 # make list of selectable upgrades
 func make_list(count:int=3):
 	upgrades = upgrade_lib.random_upgrade(count)
@@ -38,6 +39,7 @@ func _on_gui_popup(e=1):
 	print_debug(e)
 	show()
 	pause()
+	%UpgradeSelect.get_child(0).grab_focus()
 
 func _on_close_button_pressed():
 	hide()

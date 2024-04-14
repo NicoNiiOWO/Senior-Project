@@ -196,6 +196,7 @@ func get_clock_str(unix:int) -> String:
 func game_over():
 	$GameOver.set_visible(true)
 	$GameTimer.stop()
+	%GORestartButton.grab_focus()
 
 # call restart 
 # reset settings and hide weather ui if changed
