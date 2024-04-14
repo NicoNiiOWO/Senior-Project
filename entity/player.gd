@@ -21,7 +21,7 @@ func gain_exp(n:float):
 	while stats.exp >= stats.max_exp:
 		levels+=1
 		stats.exp -= stats.max_exp
-		stats.max_exp *= stat_growth.max_exp
+		stats.max_exp *= stats_r.growth.max_exp
 	
 	gain_level(levels)
 

@@ -44,7 +44,7 @@ func attack_start():
 	# add attack, increase speed
 	var new_attack = attack_scn.instantiate()
 	new_attack.init(1,owner.stats.atk*2, owner.stats.atk_size, duration[phase.ACTIVE])
-	owner.add_child(new_attack)
+	add_child(new_attack)
 	spd_mod = speed_mod[phase.ACTIVE]
 	
 func attack_end():

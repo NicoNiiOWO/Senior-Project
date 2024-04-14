@@ -4,6 +4,7 @@ extends Node
 var attack_scn : PackedScene = preload("res://entity/attacks/sword.tscn")
 var sprite : AnimatedSprite2D
 
+
 func _init():
 	sprite = owner.sprite
 
@@ -15,8 +16,7 @@ func physics_process():
 
 # start attack animation
 func attack():
-	sprite = owner.sprite
-	sprite.play("attack")
+	owner.sprite.play("attack")
 
 # attack on frame of animation
 func _on_animated_sprite_2d_frame_changed():

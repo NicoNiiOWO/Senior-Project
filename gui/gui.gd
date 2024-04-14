@@ -137,7 +137,7 @@ func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) -> Stri
 					mod*=100
 					text += txt_percent % mod
 				else:
-					if stat not in ["level","max_hp","hp","max_exp","exp"]:
+					if stat not in ["level","hp","max_exp","exp"]:
 						text += stat.capitalize() + ": "
 						
 						var format = ""

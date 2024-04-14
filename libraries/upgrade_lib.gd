@@ -6,6 +6,21 @@ const stats_upgradeable = ["atk","speed","max_hp","atk_size","dmg_taken"]
 # base increase, in percent
 const upgrade_base = .05
 
+const ability_icons = {
+	0 : {
+		text = preload("res://assets/Icons/Ability/a_normal_text.tres"),
+		icon = preload("res://assets/Icons/Ability/a_normal_icon.tres")
+	},
+	1 : {
+		text = preload("res://assets/Icons/Ability/a_sword_text.tres"),
+		icon = preload("res://assets/Icons/Ability/a_sword_icon.tres")
+	},
+	2 : {
+		text = preload("res://assets/Icons/Ability/a_tornado_text.tres"),
+		icon = preload("res://assets/Icons/Ability/a_tornado_icon.tres")
+	}
+}
+
 static func make_stat_upgrade(stat:String, x:int=1, ability=0) -> Upgrade:
 	var stat_mod
 	match stat:
