@@ -13,10 +13,10 @@ bake_interval = 10.0
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
 use_api = false
-enable_spawn = false
+load_title = false
+debug = true
 enemy_spawn_time = 2
 enemy_spawn_count = 1
-debug = true
 metadata/_edit_horizontal_guides_ = [2560.0, -2504.0, 0.0, 0.0]
 metadata/_edit_vertical_guides_ = [2560.0, -2500.0]
 
@@ -72,6 +72,7 @@ position = Vector2(143.469, -116.097)
 position = Vector2(-182.168, -152.908)
 
 [connection signal="api_request_complete" from="." to="GUI" method="_on_main_api_request_complete"]
+[connection signal="game_start" from="." to="GUI" method="_on_main_game_start"]
 [connection signal="timeout" from="EnemySpawnPath/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]
 [connection signal="restart" from="GUI" to="." method="_on_restart"]

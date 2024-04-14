@@ -19,7 +19,7 @@ const enemy_lib = preload("res://libraries/enemy_lib.gd")
 }
 # Stat increase per level
 @export var growth : Dictionary = {
-	max_hp = 5,
+	max_hp = 1.05,
 	atk = 1.5,
 	max_exp = 1.2, # multiply
 	speed = 1,
@@ -41,10 +41,12 @@ func set_type(char_type:int, ability:int=0):
 
 # update stats based on level
 func update():
-	for stat in ["max_hp", "atk", "speed"]:
+	for stat in ["atk", "speed"]:
 		current[stat] = calc_add(stat)
+	for stat in ["max_hp", "max_exp"]:
+		current[stat] = calc_mult(stat)
 	current["atk_size"] = calc_add("atk_size", 0.01)
-	current["max_exp"] = calc_mult("max_exp")
+	#current["max_exp"] = calc_mult("max_exp")
 
 # calculate stat based on level
 func calc_add(stat:String, round_to:float=1.0, base:Dictionary=base, growth:Dictionary=growth, level:int=current.level):

@@ -40,7 +40,9 @@ func _input(event):
 		_on_restart_button_pressed()
 
 # start timer
-func start():
+func _on_main_game_start():
+	$StartMenu.hide()
+	
 	var timer = $GameTimer
 	timer.wait_time = 1
 	Global.level_timer.minutes = 0
@@ -197,6 +199,11 @@ func game_over():
 	$GameOver.set_visible(true)
 	$GameTimer.stop()
 	%GORestartButton.grab_focus()
+
+
+func _on_start_button_pressed():
+	restart.emit(reload_settings)
+	reload_settings = false
 
 # call restart 
 # reset settings and hide weather ui if changed

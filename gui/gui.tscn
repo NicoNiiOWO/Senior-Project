@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://d8e3lfaeglcx"]
+[gd_scene load_steps=10 format=3 uid="uid://d8e3lfaeglcx"]
 
 [ext_resource type="Script" path="res://gui/gui.gd" id="1_xmdei"]
 [ext_resource type="Texture2D" uid="uid://dwus57414541e" path="res://assets/Icons/Weather/01d@2x.png" id="2_obkgc"]
+[ext_resource type="Theme" uid="uid://ulm14td8xqou" path="res://resources/theme/title.tres" id="3_1514i"]
 [ext_resource type="Script" path="res://gui/PauseMenu.gd" id="3_pt86q"]
 [ext_resource type="PackedScene" uid="uid://cs4jvv78l7rkq" path="res://gui/settings.tscn" id="4_5x61j"]
 [ext_resource type="Script" path="res://gui/UpgradePopup.gd" id="4_fdg22"]
@@ -91,6 +92,70 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 100)
 layout_mode = 2
+
+[node name="StartMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="StartMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_1514i")
+color = Color(1, 0.709804, 0.705882, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="StartMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -339.5
+offset_top = -155.0
+offset_right = 339.5
+offset_bottom = 155.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_1514i")
+
+[node name="FlowContainer" type="FlowContainer" parent="StartMenu/CenterContainer"]
+layout_mode = 2
+theme = ExtResource("3_1514i")
+alignment = 1
+
+[node name="Title" type="Label" parent="StartMenu/CenterContainer/FlowContainer"]
+layout_mode = 2
+theme = ExtResource("3_1514i")
+text = "Untitled
+Weather Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="FlowContainer" parent="StartMenu/CenterContainer/FlowContainer"]
+layout_mode = 2
+theme = ExtResource("3_1514i")
+theme_override_constants/v_separation = 15
+alignment = 1
+
+[node name="StartButton" type="Button" parent="StartMenu/CenterContainer/FlowContainer/Buttons"]
+custom_minimum_size = Vector2(80, 35)
+layout_mode = 2
+theme = ExtResource("3_1514i")
+text = "Start"
+
+[node name="SettingsButton" type="Button" parent="StartMenu/CenterContainer/FlowContainer/Buttons"]
+custom_minimum_size = Vector2(80, 35)
+layout_mode = 2
+theme = ExtResource("3_1514i")
+text = "Settings"
 
 [node name="PauseMenu" type="Control" parent="."]
 process_mode = 2
@@ -381,6 +446,8 @@ visible = false
 [connection signal="pause" from="." to="PauseMenu" method="_on_gui_pause"]
 [connection signal="popup" from="." to="UpgradePopup" method="_on_gui_popup"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
+[connection signal="pressed" from="StartMenu/CenterContainer/FlowContainer/Buttons/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="StartMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/PauseRestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/PauseRestartButton" to="PauseMenu" method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]

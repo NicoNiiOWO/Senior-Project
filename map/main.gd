@@ -1,10 +1,17 @@
 extends Node
 
+signal game_start
+signal api_request_complete
+
 @export var use_api: bool = true  # Enable/disable api call
-@export var weather_interval : int = 10 # time between weather change in seconds
+@export var enable_spawn : bool = true
+@export var load_title : bool = true
+@export var debug : bool = false
+
 
 # API variables
-signal api_request_complete
+@export var weather_interval : int = 10 # time between weather change in seconds
+
 const api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}"
 var api_settings : Dictionary # settings loaded from config
 var api_called: bool = false # if api has been called with current settings
@@ -21,7 +28,6 @@ const make_node : Resource = preload("res://libraries/make_node.gd")
 @export var enemy_level : int = 1
 
 # Enemy variables
-@export var enable_spawn : bool = true
 @export var enemy_spawn_time : int = 1	# Time between enemy spawns (s)
 @export var enemy_spawn_count : int = 2	# Amount spawned
 @export var enemy_level_interval : int = 15	# Time between incrementing enemy level (s)
@@ -30,10 +36,17 @@ const make_node : Resource = preload("res://libraries/make_node.gd")
 @onready var spawn_timer : Timer = $EnemySpawnPath/SpawnTimer
 @onready var window_size = $EnemySpawnPath.get_viewport_rect().size
 
+
+
 func _init():
 	if use_api:
 		load_config()
-	
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	if not load_title:
+		start()
+
 func get_gui():
 	return gui
 
@@ -81,8 +94,9 @@ func load_config():
 	
 	print_debug(api_settings)
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+
+
+func start():
 	Global.weather_interval = weather_interval
 	
 	# add new player
@@ -98,7 +112,7 @@ func _ready():
 	spawn_timer.start()
 	
 	# start GUI and make pausable
-	gui.start()
+	game_start.emit()
 	Global.game_ongoing = true
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 
@@ -171,10 +185,10 @@ func _on_gui_weather_changed():
 
 # make item at position
 func addItem(position:Vector2, ability:int=0):
-	var item = make_node.new_item()
-	
-	item.set_deferred("global_position", position)
-	add_child(item)
+	var item = make_node.new_item(ability)
+	if item != null:
+		item.set_deferred("global_position", position)
+		add_child(item)
 
 func game_over():
 	Global.game_ongoing = false
@@ -185,6 +199,9 @@ func game_over():
 	get_tree().call_group("items", "queue_free")
 	
 	gui.game_over()
+
+func _on_gui_game_start():
+	start()
 
 # restart
 func _on_restart(reload_settings:bool = false):
@@ -200,14 +217,13 @@ func _on_restart(reload_settings:bool = false):
 		gui.clear_forecast()
 		load_config()
 	
-	_ready()
+	start()
 
-func _on_enemy_defeated(position, ability, exp):
+func _on_enemy_defeated(position, ability, xp):
 	addItem(position, ability)
-	player.gain_exp(exp)
+	player.gain_exp(xp)
 
 # debug input
-@export var debug : bool = false
 func _input(event):
 	if debug and event.is_pressed():
 		if is_instance_of(event, InputEventKey):
@@ -235,4 +251,5 @@ func _input(event):
 				"R": _on_restart()
 				"F": player.add_stat_upgrade("atk", 0.1)
 				"G": player.take_damage(1000)
+
 

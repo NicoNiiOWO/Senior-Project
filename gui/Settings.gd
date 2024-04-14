@@ -154,7 +154,7 @@ func _on_city_list_item_selected(index:int):
 # Save settings when apply button is pressed
 func save_settings():
 	if(%OptionButton.selected == 1):
-		set_coords(%LatEdit.text, %LonEdit.text)
+		set_coords(%LatEdit.text as float, %LonEdit.text as float)
 	set_key()
 	
 	var use_key = %KeyToggle.button_pressed

@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://ulm14td8xqou"]
+
+[ext_resource type="FontFile" uid="uid://c2x5jwl55wy1" path="res://resources/fonts/ClimateCrisis-Regular-VariableFont_YEAR.ttf" id="1_ag8s2"]
+
+[resource]
+Button/font_sizes/font_size = 24
+FlowContainer/constants/v_separation = 50
+Label/colors/font_color = Color(0.121569, 0.121569, 0.121569, 1)
+Label/font_sizes/font_size = 64
+Label/fonts/font = ExtResource("1_ag8s2")
