@@ -10,7 +10,7 @@ const enemy_lib = preload("res://libraries/enemy_lib.gd")
 
 var type : int # player or enemy
 
-@export var stats_r : Resource
+@export var stats_r : Stats
 @export var stats : Dictionary = {}: set = _set_stats, get = _get_stats # short for current stats in resource
 
 func _set_stats(new_stats):
@@ -35,33 +35,18 @@ func init(char_type:int, ability:int=0):
 	stats = stats_r.current
 	
 	effects = char_lib.init_effects()
+	
+	stats_r.stats_changed.connect(_on_stats_changed)
 
 func _ready(): # set default
 	if type == null:
 		init(0)
 
 # Take damage
-var dmg_format : String = "{type} HP: {hp} (-{dmg})"
+#var dmg_format : String = "{type} HP: {hp} (-{dmg})"
 func take_damage(n:float):
-	var dmg = 0
-	var round_to # round to nearest 1 or 0.1
+	stats_r.take_damage(n)
 	
-	if(!isPlayer):
-		round_to = 1
-	else: 
-		round_to = 0.1
-		
-	# if player, set iframes after taking damage
-	# if iframes is not 0, set damage to 0
-	if isPlayer && stats.iframes==0: 
-		stats.iframes = stats_r.base.iframes
-	else: if stats.iframes != 0: n=0
-	
-	dmg = snapped(n * stats.dmg_taken, 1)
-	stats.hp = snapped(stats.hp -dmg, round_to) 
-	#print_debug(dmg_format.format({type = Global.char_type_str[type], hp=stats.hp, dmg=dmg}))
-	
-	#print_debug(dmg, stats.hp)
 	if stats.hp <= 0:
 		stats.hp = 0
 		defeated.emit()
@@ -77,14 +62,14 @@ func take_damage(n:float):
 
 # Add levels and update stats
 func gain_level(n:int=1):
-	stats.level += n;
+	stats_r.gain_level(n)
 	update_stats()
 
-# Calculate stats and update hud
+# Calculate stat effects and update hud
 func update_stats():
 	var current_max_hp = stats.max_hp
 	
-	stats_r.update()
+	stats_r.update(false)
 	
 	update_effects()
 	# update stats
@@ -94,12 +79,16 @@ func update_stats():
 	
 	stats.hp += stats.max_hp - current_max_hp
 	
+	
+	_on_stats_changed()
+
+func _on_stats_changed():
+	if stats.hp <= 0:
+		defeated.emit()
+	
 	if(isPlayer):
 		Global.player_stats = stats
 		gui.update_stats()
-
-
-
 
 
 func update_effects():

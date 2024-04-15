@@ -35,5 +35,5 @@ func _on_body_entered(body):
 # change transparency and delete after 5 seconds
 func _on_timer_timeout():
 	sprite.set_self_modulate(Color(1,1,1,0.5))
-	await get_tree().create_timer(5.0).timeout
+	await get_tree().create_timer(5.0, false).timeout
 	queue_free()

@@ -1,6 +1,8 @@
 extends Resource
 class_name Stats
 
+signal stats_changed()
+
 const char_lib = preload("res://libraries/char_lib.gd")
 const enemy_lib = preload("res://libraries/enemy_lib.gd")
 
@@ -27,9 +29,17 @@ const enemy_lib = preload("res://libraries/enemy_lib.gd")
 }
 
 # Current stats
-@export var current : Dictionary = {} 
+@export var current : Dictionary = {}
+
+@export var stat_mods : Dictionary = {}
+
+var isPlayer = false
+var ability = -1
 
 func set_type(char_type:int, ability:int=0):
+	isPlayer = (char_type == 0)
+	self.ability = ability
+	
 	if(char_type == Global.char_type.PLAYER):
 		current.iframes = 0
 	else:
@@ -39,14 +49,67 @@ func set_type(char_type:int, ability:int=0):
 	current = base.duplicate()
 	current.hp = current.max_hp
 
+
 # update stats based on level
-func update():
+func update(emit=true):
+	var old_max_hp = current["max_hp"]
+	
 	for stat in ["atk", "speed"]:
 		current[stat] = calc_add(stat)
 	for stat in ["max_hp", "max_exp"]:
 		current[stat] = calc_mult(stat)
 	current["atk_size"] = calc_add("atk_size", 0.01)
-	#current["max_exp"] = calc_mult("max_exp")
+	
+	heal(current["max_hp"] - old_max_hp)
+	
+	if emit: stats_changed.emit()
+	
+
+# Take damage
+#var dmg_format : String = "{type} HP: {hp} (-{dmg})"
+func take_damage(n:float):
+	var dmg = 0
+	var round_to # round to nearest 1 or 0.1
+	
+	if(!isPlayer):
+		round_to = 1
+	else: 
+		round_to = 0.1
+		
+	# if player, set iframes after taking damage
+	# if iframes is not 0, set damage to 0
+	if isPlayer && current.iframes==0: 
+		current.iframes = base.iframes
+	else: if current.iframes != 0: n=0
+	
+	dmg = snapped(n * current.dmg_taken, 1)
+	current.hp = snapped(current.hp-dmg, round_to) 
+	
+	if current.hp < 0: current.hp = 0
+
+		
+# Add levels 
+func gain_level(n:int=1):
+	current.level += n;
+	update()
+	
+# Gain exp and levels
+func gain_exp(n:float):
+	current.exp += n
+	
+	var levels = 0
+	while current.exp >= current.max_exp:
+		levels+=1
+		current.exp -= current.max_exp
+		current.max_exp *= growth.max_exp
+	
+	gain_level(levels)
+
+func heal(n:int):
+	current.hp += n;
+	if(current.hp > current.max_hp):
+		current.hp = current.max_hp
+	update()
 
 # calculate stat based on level
 func calc_add(stat:String, round_to:float=1.0, base:Dictionary=base, growth:Dictionary=growth, level:int=current.level):

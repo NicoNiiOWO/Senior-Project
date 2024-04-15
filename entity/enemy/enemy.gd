@@ -136,7 +136,6 @@ func handle_collision():
 	
 # Display level and hp
 func update_text():
-	#if stats.size() != 0:
 	var text = str("LVL ", stats.level, "\n")
 	text += "%d/%d" % [stats.hp, stats.max_hp]
 	%Label.text = text
@@ -144,9 +143,6 @@ func update_text():
 # When HP reaches 0, give player exp and delete
 func _on_defeated():
 	enemy_defeated.emit(global_position, ability, stats.max_exp)
-	#get_tree().call_group("player", "gain_exp", stats.max_exp)
-	#player.gain_exp(stats.max_exp)
-	#get_node("/root/Main").addItem(global_position) # drop heal item
 	queue_free()
 
 # Set HP text when taking damage

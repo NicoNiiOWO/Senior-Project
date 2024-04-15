@@ -147,7 +147,6 @@ func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) -> Stri
 						if upgrade: text += "x" + txt_float % (mod+1)
 						else:
 							match stat:
-								"atk": format = txt_decimal
 								"speed": format = txt_decimal
 								_: format = txt_float
 							text += format % mod

@@ -15,20 +15,10 @@ func _init():
 
 # Gain exp and levels
 func gain_exp(n:float):
-	stats.exp += n
-	
-	var levels = 0
-	while stats.exp >= stats.max_exp:
-		levels+=1
-		stats.exp -= stats.max_exp
-		stats.max_exp *= stats_r.growth.max_exp
-	
-	gain_level(levels)
+	stats_r.gain_exp(n)
 
 func heal(n:int):
-	stats.hp += n;
-	if(stats.hp > stats.max_hp):
-		stats.hp = stats.max_hp
+	stats_r.heal(n)
 	update_stats()
 
 # Called when the node enters the scene tree for the first time.
