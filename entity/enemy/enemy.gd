@@ -3,7 +3,9 @@ extends Character
 
 signal enemy_defeated(position:Vector2, ability:int, exp:int)
 
+const enemy_lib = preload("res://libraries/enemy_lib.gd")
 const ability_list = enemy_lib.ability_type
+
 var ability=0 # current ability
 
 var can_flip : bool = true 		# if sprite can flip

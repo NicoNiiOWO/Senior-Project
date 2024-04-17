@@ -3,9 +3,6 @@ extends Resource
 # list of stats that can be upgraded
 const stats_upgradeable = ["atk","speed","max_hp","atk_size","dmg_taken"]
 
-# base increase, in percent
-const upgrade_base = .05
-
 const ability_icons = {
 	0 : {
 		text = preload("res://assets/Icons/Ability/a_normal_text.tres"),
@@ -22,16 +19,8 @@ const ability_icons = {
 }
 
 static func make_stat_upgrade(stat:String, x:int=1, ability=0) -> Upgrade:
-	var stat_mod
-	match stat:
-		"dmg_taken": # subtract
-			stat_mod = -(upgrade_base*x)
-		_:
-			stat_mod = upgrade_base*x
-	
-	var stats = {stat : stat_mod}
 	var upgrade = Upgrade.new()
-	upgrade.set_upgrade(ability, stats)
+	upgrade.set_stat_upgrade(stat)
 	return upgrade
 
 static func make_stat_upgrade_i(index:int, x:int=1) -> Upgrade:

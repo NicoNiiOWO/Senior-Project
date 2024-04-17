@@ -1,9 +1,9 @@
 extends Resource
 class_name Stats
 
-signal stats_changed()
+signal stats_updated()
 
-const char_lib = preload("res://libraries/char_lib.gd")
+#const char_lib = preload("res://libraries/char_lib.gd")
 const enemy_lib = preload("res://libraries/enemy_lib.gd")
 
 # Stats
@@ -60,9 +60,9 @@ func update(emit=true):
 		current[stat] = calc_mult(stat)
 	current["atk_size"] = calc_add("atk_size", 0.01)
 	
-	heal(current["max_hp"] - old_max_hp)
+	heal(current["max_hp"] - old_max_hp, false)
 	
-	if emit: stats_changed.emit()
+	if emit: stats_updated.emit()
 	
 
 # Take damage
@@ -105,11 +105,11 @@ func gain_exp(n:float):
 	
 	gain_level(levels)
 
-func heal(n:int):
+func heal(n:int, update:bool=true):
 	current.hp += n;
 	if(current.hp > current.max_hp):
 		current.hp = current.max_hp
-	update()
+	if update: update()
 
 # calculate stat based on level
 func calc_add(stat:String, round_to:float=1.0, base:Dictionary=base, growth:Dictionary=growth, level:int=current.level):

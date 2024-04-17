@@ -14,7 +14,7 @@ func _ready():
 func make_list(count:int=3):
 	upgrades = upgrade_lib.random_upgrade(count)
 	
-	print_debug(upgrades, upgrade_lib)
+	#print_debug(upgrades, upgrade_lib)
 	clear()
 	for x in range(upgrades.size()):
 		var button = %UpgradeButton.duplicate()
@@ -50,6 +50,6 @@ func _on_close_button_pressed():
 
 func _on_upgrade_button_pressed(upgrade:Upgrade):
 	print_debug(upgrade)
-	owner.player.add_stat_upgrade_dict(upgrade.stats)
+	owner.player.add_upgrade(upgrade)
 	
 	_on_close_button_pressed()

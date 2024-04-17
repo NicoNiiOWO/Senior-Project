@@ -5,13 +5,13 @@ extends CharacterBody2D
 signal damage_taken()
 signal defeated()
 
-const char_lib = preload("res://libraries/char_lib.gd")
-const enemy_lib = preload("res://libraries/enemy_lib.gd")
+# const char_lib = preload("res://libraries/char_lib.gd")
+
 
 var type : int # player or enemy
 
 @export var stats_r : Stats
-@export var stats : Dictionary = {}: set = _set_stats, get = _get_stats # short for current stats in resource
+@export var stats : Dictionary = {}: set = _set_stats, get = _get_stats # alias for current stats in resource
 
 func _set_stats(new_stats):
 	stats_r.current = new_stats
@@ -19,7 +19,8 @@ func _set_stats(new_stats):
 func _get_stats():
 	return stats_r.current
 
-@onready var effects : Dictionary = char_lib.init_effects().duplicate(true)
+# @onready var effects : Dictionary = char_lib.init_effects().duplicate(true)
+var effects : EffectList = EffectList.new()
 
 @onready var main : Node = $/root/Main
 @onready var gui : CanvasLayer = $/root/Main/GUI
@@ -34,9 +35,9 @@ func init(char_type:int, ability:int=0):
 	stats_r.set_type(type, ability)
 	stats = stats_r.current
 	
-	effects = char_lib.init_effects()
+	# effects = char_lib.init_effects()
 	
-	stats_r.stats_changed.connect(_on_stats_changed)
+	stats_r.stats_updated.connect(_on_stats_updated)
 
 func _ready(): # set default
 	if type == null:
@@ -73,16 +74,15 @@ func update_stats():
 	
 	update_effects()
 	# update stats
-	print_debug("e",effects)
 	for stat in effects.total_mod.keys():
 		stats[stat] *= 1+effects.total_mod[stat]
 	
 	stats.hp += stats.max_hp - current_max_hp
 	
 	
-	_on_stats_changed()
+	_on_stats_updated()
 
-func _on_stats_changed():
+func _on_stats_updated():
 	if stats.hp <= 0:
 		defeated.emit()
 	
@@ -92,7 +92,7 @@ func _on_stats_changed():
 
 
 func update_effects():
-	char_lib.set_stat_mod(effects)
+	effects.update_total()
 
 func set_invincible(enable:bool):
 	if enable: stats.iframes = -1
@@ -107,19 +107,22 @@ func disable():
 	#var node = Node.new()
 
 func add_upgrade(upgrade:Upgrade):
-	char_lib.add_upgrade(effects, upgrade)
+	# char_lib.add_upgrade(effects, upgrade)
+	effects.add_upgrade(upgrade)
 	update_stats()
 	
 
-func add_stat_upgrade(stat:String, n:float):
-	char_lib.add_stat_upgrade(effects, stat, n)
+# func add_stat_upgrade(stat:String, n:float):
+	# char_lib.add_stat_upgrade(effects, stat, n)
 	
-	print_debug(effects[1]["total"])
-	print_debug("e",effects[1]["list"][0].stats)
+	# print_debug(effects[1]["total"])
+	# print_debug("e",effects[1]["list"][0].stats)
+# 	var upgrade = Upgrade.new()
+# 	effects.add_stat_upgrade(stat, n)
 	
-	update_stats()
+# 	update_stats()
 
-func add_stat_upgrade_dict(stats:Dictionary):
-	char_lib.add_upgrade_dict(effects, stats)
-	print_debug(effects[1]["total"])
-	update_stats()
+# func add_stat_upgrade_dict(stats:Dictionary):
+# 	char_lib.add_upgrade_dict(effects, stats)
+# 	print_debug(effects[1]["total"])
+# 	update_stats()

@@ -1,59 +1,17 @@
 extends Resource
 
+
 enum stats_type {ATK, SPEED, MAX_HP, DMG_TAKEN, ATK_SIZE}
+enum ability_type {NORMAL, SWORD, TORNADO, FIRE, ICE}
 
 enum category {WEATHER,UPGRADE,TOTAL}
 enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 
-#const upgrade_s = preload("res://libraries/upgrade.gd")
-
-#const upgrade_format = {
-	#node = null,
-	#stats = {}
-#}
-
-const effect_list : Dictionary = {
-	category.WEATHER : { # stats
-		weather_type.CLEAR : {
-			"atk": 0.2,
-		},
-		weather_type.CLOUDS : {
-			"speed":0.1,
-		},
-		weather_type.RAIN : {
-			"atk": -0.1,
-			"speed": -0.1,
-		},
-		weather_type.SNOW : {
-			"speed": -0.1,
-			"dmg_taken": -0.2,
-			"atk_size": 0.2
-		},
-		weather_type.STORM : {
-			"max_hp": -0.1,
-			"atk": 0.3,
-			"speed": 0.1
-		},
-		weather_type.WIND : {
-			"atk": -0.2,
-			"speed": 0.3
-		}
-	},
-	category.UPGRADE : {
-		"list":[],
-		"total":{
-			"max_hp": 0,
-			"atk": 0,
-			"speed": 0,
-			"dmg_taken": 0,
-			"atk_size": 0,
-		}
-	}
-}
+const effect_list = preload("res://libraries/effect_lib.gd").effect_list
 
 
 
-static func init_effects() -> Dictionary:
+static func init_effects() -> Dictionary: 
 	var effects = {
 		# list of individual effects
 		category.WEATHER: {},

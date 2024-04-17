@@ -1,7 +1,9 @@
 extends Resource
 
-enum ability_type {NORMAL, SWORD, TORNADO, FIRE, ICE}
-static var weather_type = preload("res://libraries/char_lib.gd").weather_type
+
+static var eff_lib = preload("res://libraries/effect_lib.gd")
+const weather_type = preload("res://libraries/effect_lib.gd").weather_type
+const ability_type = preload("res://libraries/effect_lib.gd").ability_type
 
 # path to sprites
 static var enemy_sprite = {

@@ -60,10 +60,10 @@ func update_stats():
 	%HP.text = str("HP: ", stats.hp,"/", stats.max_hp)
 	%Level.text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
 	
-	var i = player.effects[1]["list"].size()
+	var i = player.effects.size
 	var text = get_stats_text(stats)
 	if i != 0:
-		text += "\nUpgrades:"+ get_stats_text(player.effects[1]["total"],false,true)
+		text += "\nUpgrades:"+ get_stats_text(player.effects.total_mod,false,true)
 	%PlayerStats.text = text
 
 func _on_main_api_request_complete():

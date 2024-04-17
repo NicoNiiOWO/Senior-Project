@@ -223,6 +223,7 @@ func _on_enemy_defeated(position, ability, xp):
 	addItem(position, ability)
 	player.gain_exp(xp)
 
+enum a {A,E}
 # debug input
 func _input(event):
 	if debug and event.is_pressed():
@@ -249,7 +250,13 @@ func _input(event):
 				"D": enemy_level += 1
 				"T": game_over()
 				"R": _on_restart()
-				"F": player.add_stat_upgrade("atk", 0.1)
+				"F": 
+					var upgrade = Upgrade.new()
+					upgrade.set_stat_upgrade("atk")
+					print_debug(upgrade.stats)
+					
+					print(a)
+					player.effects.print()
 				"G": player.take_damage(1000)
 
 

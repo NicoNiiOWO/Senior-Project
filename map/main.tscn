@@ -12,7 +12,6 @@ bake_interval = 10.0
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
-use_api = false
 load_title = false
 debug = true
 enemy_spawn_time = 2

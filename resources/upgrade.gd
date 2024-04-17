@@ -1,19 +1,20 @@
-extends Resource
+extends Effect
 class_name Upgrade
 
-#const upgrade_format = {
-	#ability = 0,
-	#node = null,
-	#stats = {}
-#}
+const upgrade_lib = preload("res://libraries/upgrade_lib.gd")
 
 @export var ability:int = 0
-@export var stats:Dictionary = {}
 
-#func _init(ability:int, stats:Dictionary={}):
-	#set_upgrade(ability,stats)
+#func set_upgrade_dict(abi:int, stat:Dictionary={}):
+	#ability = abi
+	#set_stats(stat)
 
-func set_upgrade(abi:int, stat:Dictionary={}):
-	ability = abi
-	stats = stat
+func set_stat_upgrade(stat:String, count:int=1):
+	ability = 0
+	set_effect(effect_lib.get_upgrade(stat))
+	add(count-1)
 
+func set_ability_upgrade(ability_:int):
+	ability = ability_
+	
+	set_effect(effect_lib.get_ability(ability_))
