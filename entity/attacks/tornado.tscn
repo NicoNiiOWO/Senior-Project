@@ -1,57 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://bwx7clf61b310"]
+[gd_scene load_steps=4 format=3 uid="uid://bwx7clf61b310"]
 
 [ext_resource type="Script" path="res://entity/attacks/attack_tornado.gd" id="1_fiu54"]
-[ext_resource type="Texture2D" uid="uid://cdgxoyu0w73lq" path="res://assets/Tornado.png" id="2_yxsif"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_46p8u"]
-atlas = ExtResource("2_yxsif")
-region = Rect2(0, 0, 35, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_doatw"]
-atlas = ExtResource("2_yxsif")
-region = Rect2(35, 0, 35, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_i61wb"]
-atlas = ExtResource("2_yxsif")
-region = Rect2(70, 0, 35, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ia812"]
-atlas = ExtResource("2_yxsif")
-region = Rect2(105, 0, 35, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hhs8x"]
-atlas = ExtResource("2_yxsif")
-region = Rect2(140, 0, 35, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fssxw"]
-atlas = ExtResource("2_yxsif")
-region = Rect2(175, 0, 35, 24)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_fktqq"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_46p8u")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_doatw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i61wb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ia812")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hhs8x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fssxw")
-}],
-"loop": true,
-"name": &"default",
-"speed": 14.0
-}]
+[ext_resource type="SpriteFrames" uid="uid://bht4m32b5rnq0" path="res://entity/attacks/tornado_atk.tres" id="2_d4334"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fgj84"]
 radius = 12.0899
@@ -67,7 +17,7 @@ source = 1
 wait_time = 0.26
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_fktqq")
+sprite_frames = ExtResource("2_d4334")
 autoplay = "default"
 frame_progress = 0.322015
 

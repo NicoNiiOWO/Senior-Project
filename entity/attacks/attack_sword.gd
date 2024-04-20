@@ -22,7 +22,5 @@ func _ready():
 	# flip sprite
 	if direction.x < 0: sprite.flip_v = true
 	
-	# set duration
-	var timer = $Timer
-	timer.wait_time = duration
-	global_scale *= size
+	start()
+	

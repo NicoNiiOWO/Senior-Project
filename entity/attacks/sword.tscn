@@ -1,77 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwf68iwi80gxa"]
+[gd_scene load_steps=3 format=3 uid="uid://bwf68iwi80gxa"]
 
 [ext_resource type="Script" path="res://entity/attacks/attack_sword.gd" id="1_s2os4"]
-[ext_resource type="Texture2D" uid="uid://b82bbxr0bp0mv" path="res://assets/Blade Knight.png" id="2_gbjry"]
-[ext_resource type="Texture2D" uid="uid://dlihnmtapnej8" path="res://assets/sword.png" id="3_0y5yg"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t4njm"]
-atlas = ExtResource("2_gbjry")
-region = Rect2(364, 40, 52, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_q3pk5"]
-atlas = ExtResource("3_0y5yg")
-region = Rect2(0, 0, 65, 50)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bmetg"]
-atlas = ExtResource("3_0y5yg")
-region = Rect2(65, 0, 65, 50)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_01hv2"]
-atlas = ExtResource("3_0y5yg")
-region = Rect2(130, 0, 65, 50)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kmowk"]
-atlas = ExtResource("3_0y5yg")
-region = Rect2(195, 0, 65, 50)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qcyhe"]
-atlas = ExtResource("3_0y5yg")
-region = Rect2(0, 50, 65, 50)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ck0wg"]
-atlas = ExtResource("3_0y5yg")
-region = Rect2(65, 50, 65, 50)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3j8g7"]
-atlas = ExtResource("3_0y5yg")
-region = Rect2(130, 50, 65, 50)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_alpob"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_t4njm")
-}],
-"loop": true,
-"name": &"enemy",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 0.4,
-"texture": SubResource("AtlasTexture_q3pk5")
-}, {
-"duration": 0.4,
-"texture": SubResource("AtlasTexture_bmetg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_01hv2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kmowk")
-}, {
-"duration": 0.2,
-"texture": SubResource("AtlasTexture_qcyhe")
-}, {
-"duration": 0.1,
-"texture": SubResource("AtlasTexture_ck0wg")
-}, {
-"duration": 0.1,
-"texture": SubResource("AtlasTexture_3j8g7")
-}],
-"loop": true,
-"name": &"player",
-"speed": 10.0
-}]
+[ext_resource type="SpriteFrames" uid="uid://dn8rbxog0qyo0" path="res://entity/attacks/sword_atk.tres" id="2_q20xl"]
 
 [node name="Sword" type="Area2D"]
 visibility_layer = 3
@@ -93,7 +23,7 @@ polygon = PackedVector2Array(-16, -24, 16, -24, 32, -8, 32, 8, 16, 24, -16, 24, 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 position = Vector2(1, 0)
-sprite_frames = SubResource("SpriteFrames_alpob")
+sprite_frames = ExtResource("2_q20xl")
 animation = &"enemy"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -258,5 +258,6 @@ func _input(event):
 					print(a)
 					player.effects.print()
 				"G": player.take_damage(1000)
+				"X": player.projectile()
 
 

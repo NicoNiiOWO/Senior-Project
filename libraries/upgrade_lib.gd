@@ -18,6 +18,17 @@ const ability_icons = {
 	}
 }
 
+const ability_data = {
+	1 : {
+		text = "AAA",
+	},
+	2 : {
+		text = "EEE",
+	}
+}
+
+
+
 static func make_stat_upgrade(stat:String, x:int=1, ability=0) -> Upgrade:
 	var upgrade = Upgrade.new()
 	upgrade.set_stat_upgrade(stat)
@@ -64,12 +75,16 @@ static func random_upgrade(count:int=1, x:int=1):
 static func get_text(upgrade:Upgrade) -> String:
 	var text = ""
 	
-	for stat in upgrade.stats:
-		var stat_mod = upgrade.stats[stat]
-		var sign
-		if stat_mod > 0: sign = " +"
-		else: sign = " "
-		
-		text += str(stat.capitalize(), sign, stat_mod*100, "%")
+	# if no ability, use stats
+	if upgrade.ability == 0 || upgrade.ability == -1:
+		for stat in upgrade.stats:
+			var stat_mod = upgrade.stats[stat]
+			var sign
+			if stat_mod > 0: sign = " +"
+			else: sign = " "
+			
+			text += str(stat.capitalize(), sign, stat_mod*100, "%")
+	else:
+		text = ability_data[upgrade.ability].text
 	
 	return text

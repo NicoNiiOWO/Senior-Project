@@ -1,0 +1,53 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://bht4m32b5rnq0"]
+
+[ext_resource type="Texture2D" uid="uid://cdgxoyu0w73lq" path="res://assets/Tornado.png" id="1_j1u0r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46p8u"]
+atlas = ExtResource("1_j1u0r")
+region = Rect2(0, 0, 35, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_doatw"]
+atlas = ExtResource("1_j1u0r")
+region = Rect2(35, 0, 35, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i61wb"]
+atlas = ExtResource("1_j1u0r")
+region = Rect2(70, 0, 35, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ia812"]
+atlas = ExtResource("1_j1u0r")
+region = Rect2(105, 0, 35, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhs8x"]
+atlas = ExtResource("1_j1u0r")
+region = Rect2(140, 0, 35, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fssxw"]
+atlas = ExtResource("1_j1u0r")
+region = Rect2(175, 0, 35, 24)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46p8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_doatw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i61wb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ia812")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hhs8x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fssxw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 14.0
+}]

@@ -96,3 +96,13 @@ func _on_defeated():
 func get_screen_center() -> Vector2:
 	return $Camera2D.get_screen_center_position()
 
+func projectile():
+	var proj = load("res://entity/attacks/projectile.tscn").instantiate()
+	proj.init_projectile(0,10)
+	proj.global_position = global_position
+	proj.direction = direction
+	
+	#print(get_tree_string_pretty(), get_tree().root.Main)
+	#print(get_parent().get_tree_string_pretty())
+	get_parent().add_child(proj)
+	

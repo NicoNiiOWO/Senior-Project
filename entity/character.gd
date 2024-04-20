@@ -110,7 +110,7 @@ func add_upgrade(upgrade:Upgrade):
 	# char_lib.add_upgrade(effects, upgrade)
 	effects.add_upgrade(upgrade)
 	update_stats()
-	
+
 
 # func add_stat_upgrade(stat:String, n:float):
 	# char_lib.add_stat_upgrade(effects, stat, n)

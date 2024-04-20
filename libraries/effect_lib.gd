@@ -51,7 +51,7 @@ const effect_list : Dictionary = {
 		}
 	},
 	category.ABILITY_UPGRADE : {
-		# ability_type.NORMAL:{},
+		ability_type.NORMAL:{},
 		ability_type.SWORD:{},
 		ability_type.TORNADO:{},
 	}

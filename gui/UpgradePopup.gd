@@ -20,7 +20,7 @@ func make_list(count:int=3):
 		var button = %UpgradeButton.duplicate()
 		
 		button.set_upgrade(upgrades[x])
-		button.text = upgrade_lib.get_text(upgrades[x])
+		button.text = upgrades[x].text
 		
 		button.show()
 		
