@@ -13,18 +13,21 @@ const ability_data = {
 	1 : {
 		icon_text = preload("res://assets/Icons/Ability/a_sword_text.tres"),
 		icon = preload("res://assets/Icons/Ability/a_sword_icon.tres"),
+		item_icon = preload("res://assets/Icons/Ability/a_sword_item.tres"),
 		text = "AAA"
 	},
 	2 : {
 		icon_text = preload("res://assets/Icons/Ability/a_tornado_text.tres"),
 		icon = preload("res://assets/Icons/Ability/a_tornado_icon.tres"),
-		text = "BBB"
+		item_icon = preload("res://assets/Icons/Ability/a_tornado_item.tres"),
+		text = "BBB",
+		
 	}
 }
 
 
 
-static func make_stat_upgrade(stat:String, x:int=1, ability=0) -> Upgrade:
+static func make_stat_upgrade(stat:String, x:int=1) -> Upgrade:
 	var upgrade = Upgrade.new()
 	upgrade.set_stat_upgrade(stat)
 	return upgrade
@@ -32,6 +35,11 @@ static func make_stat_upgrade(stat:String, x:int=1, ability=0) -> Upgrade:
 static func make_stat_upgrade_i(index:int, x:int=1) -> Upgrade:
 	var stat = stats_upgradeable[index]
 	return make_stat_upgrade(stat,x)
+
+static func make_ability(ability:int) -> Upgrade:
+	var upgrade = Upgrade.new()
+	upgrade.set_ability_upgrade(ability)
+	return upgrade
 
 # array of random upgradeable stats, no duplicates
 static func rand_stats(count:int=1) -> Array:
@@ -58,11 +66,15 @@ static func random_upgrade(ability=0, count:int=1, x:int=1) -> Array:
 	if count > stats_upgradeable.size():
 		count = stats_upgradeable.size()
 	
-	var stats = rand_stats(count)
-	
 	var upgrades = []
-	for stat in stats:
-		upgrades.append(make_stat_upgrade(stat,x))
+	if ability == 0: # random stats
+		var stats = rand_stats(count)
+		
+		for stat in stats:
+			upgrades.append(make_stat_upgrade(stat,x))
+	else:
+		for i in range(count):
+			upgrades.append(make_ability(ability))
 	
 	print_debug(upgrades)
 	return upgrades

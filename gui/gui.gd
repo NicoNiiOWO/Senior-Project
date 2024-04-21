@@ -33,7 +33,8 @@ var weather_stat_mod : Dictionary = { # changes to stats from current weather
 func _input(event):
 	# pause game when running
 	if Global.game_ongoing && event.is_action_pressed("pause"):
-		pause.emit(true)
+		if not $UpgradePopup.popup_active:
+			pause.emit(false)
 	
 	# restart when pressing button
 	if $GameOver.visible && event.is_action_pressed("attack"):
@@ -285,3 +286,7 @@ func upgrade_popup(a:Array):
 	print_debug("qodpklsm")
 	popup.emit(a)
 
+
+
+func _on_pause_menu_unpaused():
+	pass # Replace with function body.

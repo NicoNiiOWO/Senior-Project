@@ -1,19 +1,23 @@
 extends Control
 
-var unpause_disable : bool = false
+signal unpaused()
+
+var input_disable : bool = false
 
 # if paused with key, disable unpausing until released
-func _on_gui_pause(disable:bool=false):
+var input_released : bool = true
+func _on_gui_pause(release:bool=true):
 	#print("eeeee")
 	pause()
-	if(disable):
-		unpause_disable=true
+	if(!release):
+		input_released=false
 
 func _input(event):
-	if(event.is_action_released("pause")):
-		if(unpause_disable):
-			unpause_disable = false
-		else: unpause()
+	if not input_disable:
+		if(event.is_action_released("pause")):
+			if(!input_released):
+				input_released = true
+			else: unpause()
 
 # show menu and pause
 func pause():
@@ -28,6 +32,7 @@ func unpause():
 	hide()
 	%Settings.hide()
 	
+	unpaused.emit()
 	get_tree().paused = false
 
 

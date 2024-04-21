@@ -23,5 +23,6 @@ Sprites from Kirby: Nightmare in Dream Land, Kirby and the Amazing Mirror, and K
   - [Blade Knight](https://www.spriters-resource.com/game_boy_advance/kirbynim/sheet/2995/)
   - [Twister](https://www.spriters-resource.com/ds_dsi/kirbysqueaksquad/sheet/3334/)
 - [Ability icons](https://www.spriters-resource.com/game_boy_advance/kirbyandtheamazingmirror/sheet/2736/)
+- [Ability items](https://www.spriters-resource.com/ds_dsi/kirbysqueaksquad/sheet/3045/)
 
 ##### Fonts: [Climate Crisis](https://fonts.google.com/specimen/Climate+Crisis)

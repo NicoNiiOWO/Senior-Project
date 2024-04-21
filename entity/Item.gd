@@ -1,9 +1,10 @@
 extends Area2D
 
 enum item_types{HEAL,UPGRADE}
-var item_type : int;
-
 const upgrade_lib = preload("res://libraries/upgrade_lib.gd")
+
+var item_type : int = 0
+var ability : int = 0
 var upgrades : Array = [] # list of upgrades
 @export var duration = 15 # time before item disappears
 
@@ -12,13 +13,26 @@ var upgrades : Array = [] # list of upgrades
 
 var popup : bool = true
 
-func set_ability(ability:int=0):
+func set_ability(abi:int=0):
+	ability = abi
 	item_type = 1
-	upgrades = upgrade_lib.random_upgrade(ability,3)
+	
+	upgrades = upgrade_lib.random_upgrade(ability,1)
+	upgrades.append_array(upgrade_lib.random_upgrade(0,2))
+
+func set_sprite():
+	if ability == 0: # set random sprite
+		sprite.set_animation("heal")
+		$AnimatedSprite2D.frame = randi_range(3,12)
+	else:
+		sprite.set_animation("ability")
+		sprite.frame = ability
+		sprite.scale *= 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$AnimatedSprite2D.frame = randi_range(3,12) # set random sprite
+	print_debug(ability)
+	set_sprite()
 	$Timer.wait_time = duration-5
 	$Timer.start()
 	

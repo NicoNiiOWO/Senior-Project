@@ -188,6 +188,7 @@ func addItem(position:Vector2, ability:int=0):
 	var item = make_node.new_item(ability)
 	if item != null:
 		item.set_deferred("global_position", position)
+		item.set_ability(ability)
 		add_child(item)
 
 func game_over():
@@ -220,6 +221,7 @@ func _on_restart(reload_settings:bool = false):
 	start()
 
 func _on_enemy_defeated(position, ability, xp):
+	print_debug(ability)
 	addItem(position, ability)
 	player.gain_exp(xp)
 

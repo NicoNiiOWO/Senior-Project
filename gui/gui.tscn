@@ -162,6 +162,7 @@ theme = ExtResource("3_1514i")
 text = "Settings"
 
 [node name="PauseMenu" type="Control" parent="."]
+unique_name_in_owner = true
 process_mode = 2
 visible = false
 layout_mode = 3
@@ -317,6 +318,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="UpgradePopup" type="Control" parent="."]
+unique_name_in_owner = true
 process_mode = 2
 visible = false
 layout_mode = 3
@@ -452,6 +454,7 @@ visible = false
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
 [connection signal="pressed" from="StartMenu/CenterContainer/FlowContainer/Buttons/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="StartMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]
+[connection signal="unpaused" from="PauseMenu" to="." method="_on_pause_menu_unpaused"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/PauseRestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/PauseRestartButton" to="PauseMenu" method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]

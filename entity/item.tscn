@@ -1,7 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://c6ckirvpcwsi8"]
+[gd_scene load_steps=20 format=3 uid="uid://c6ckirvpcwsi8"]
 
 [ext_resource type="Script" path="res://entity/Item.gd" id="1_6kd4i"]
 [ext_resource type="Texture2D" uid="uid://d2smabxnfy4mv" path="res://assets/Items.png" id="2_dpxcc"]
+[ext_resource type="Texture2D" uid="uid://cdqavpme3056i" path="res://assets/Icons/Ability/a_sword_item.tres" id="3_8oqfh"]
+[ext_resource type="Texture2D" uid="uid://bacb5qmej633i" path="res://assets/Icons/Ability/a_tornado_item.tres" id="4_kt1hj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w7hcm"]
 radius = 16.9086
@@ -65,6 +67,20 @@ animations = [{
 "texture": SubResource("AtlasTexture_cvav5")
 }, {
 "duration": 1.0,
+"texture": ExtResource("3_8oqfh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_kt1hj")
+}],
+"loop": true,
+"name": &"ability",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cvav5")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_py02q")
 }, {
 "duration": 1.0,
@@ -103,14 +119,6 @@ animations = [{
 "loop": false,
 "name": &"heal",
 "speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cvav5")
-}],
-"loop": true,
-"name": &"upgrade",
-"speed": 5.0
 }]
 
 [node name="Item" type="Area2D" groups=["items"]]
@@ -121,7 +129,7 @@ shape = SubResource("CircleShape2D_w7hcm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xfmw8")
-animation = &"heal"
+animation = &"ability"
 
 [node name="Timer" type="Timer" parent="."]
 process_mode = 1
