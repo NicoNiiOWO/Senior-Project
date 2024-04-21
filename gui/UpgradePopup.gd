@@ -7,12 +7,13 @@ const upgrade_lib = preload("res://libraries/upgrade_lib.gd")
 var upgrades:Array
 
 func _ready():
-	make_list()
+	#make_list()
+	pass
 
 
 # make list of selectable upgrades
-func make_list(count:int=3):
-	upgrades = upgrade_lib.random_upgrade(count)
+func make_list(upgrades:Array):
+	#upgrades = upgrade_lib.random_upgrade(count)
 	
 	#print_debug(upgrades, upgrade_lib)
 	clear()
@@ -35,8 +36,9 @@ func clear():
 func pause(enable:bool=true):
 	get_tree().paused = enable
 
-func _on_gui_popup(e=1):
+func _on_gui_popup(e=[]):
 	print_debug(e)
+	make_list(e)
 	show()
 	pause()
 	%UpgradeSelect.get_child(0).grab_focus()
@@ -45,7 +47,7 @@ func _on_close_button_pressed():
 	hide()
 	pause(false)
 	
-	make_list()
+	#make_list()
 
 
 func _on_upgrade_button_pressed(upgrade:Upgrade):

@@ -24,7 +24,7 @@ func add_upgrade(upgrade:Upgrade):
 		category_type.WEATHER:
 			set_weather([upgrade])
 
-		category_type.UPGRADE:
+		category_type.STAT_UPGRADE:
 			print_debug("AAAAAAAAAAAAAAAAAA")
 			if upgrade.type in upgrade_stat_list:
 				upgrade_stat_list[upgrade.type].add()
@@ -37,7 +37,7 @@ func add_upgrade(upgrade:Upgrade):
 			else:
 				upgrade_ability_list[upgrade.type] = upgrade
 		_: 
-			print_debug(upgrade.type.x, category_type, category_type.UPGRADE, upgrade.type.x==category_type.UPGRADE)
+			#print_debug(upgrade.type.x, category_type, category_type.STAT_UPGRADE, upgrade.type.x=category_type.STAT_UPGRADE)
 			return
 	size+=1
 	

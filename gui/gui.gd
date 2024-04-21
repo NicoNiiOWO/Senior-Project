@@ -281,7 +281,7 @@ func clear_forecast():
 		%ForecastList.remove_child(n)
 		n.queue_free()
 
-func show_popup(a):
+func upgrade_popup(a:Array):
 	print_debug("qodpklsm")
 	popup.emit(a)
 

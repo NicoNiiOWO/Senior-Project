@@ -3,27 +3,22 @@ extends Resource
 # list of stats that can be upgraded
 const stats_upgradeable = ["atk","speed","max_hp","atk_size","dmg_taken"]
 
-const ability_icons = {
-	0 : {
-		text = preload("res://assets/Icons/Ability/a_normal_text.tres"),
-		icon = preload("res://assets/Icons/Ability/a_normal_icon.tres")
-	},
-	1 : {
-		text = preload("res://assets/Icons/Ability/a_sword_text.tres"),
-		icon = preload("res://assets/Icons/Ability/a_sword_icon.tres")
-	},
-	2 : {
-		text = preload("res://assets/Icons/Ability/a_tornado_text.tres"),
-		icon = preload("res://assets/Icons/Ability/a_tornado_icon.tres")
-	}
-}
+enum activation_type {PASSIVE,ATTACK}
 
 const ability_data = {
+	0 : {
+		icon_text = preload("res://assets/Icons/Ability/a_normal_text.tres"),
+		icon = preload("res://assets/Icons/Ability/a_normal_icon.tres"),
+	},
 	1 : {
-		text = "AAA",
+		icon_text = preload("res://assets/Icons/Ability/a_sword_text.tres"),
+		icon = preload("res://assets/Icons/Ability/a_sword_icon.tres"),
+		text = "AAA"
 	},
 	2 : {
-		text = "EEE",
+		icon_text = preload("res://assets/Icons/Ability/a_tornado_text.tres"),
+		icon = preload("res://assets/Icons/Ability/a_tornado_icon.tres"),
+		text = "BBB"
 	}
 }
 
@@ -59,10 +54,10 @@ static func rand_stats(count:int=1) -> Array:
 	return arr
 
 # array of random upgrades
-static func random_upgrade(count:int=1, x:int=1):
+static func random_upgrade(ability=0, count:int=1, x:int=1) -> Array:
 	if count > stats_upgradeable.size():
 		count = stats_upgradeable.size()
-		
+	
 	var stats = rand_stats(count)
 	
 	var upgrades = []
@@ -88,3 +83,10 @@ static func get_text(upgrade:Upgrade) -> String:
 		text = ability_data[upgrade.ability].text
 	
 	return text
+
+static func get_icons(upgrade:Upgrade) -> Dictionary:
+	var ability = upgrade.ability
+	return {
+		text = ability_data[ability].icon_text,
+		icon = ability_data[ability].icon,
+	}

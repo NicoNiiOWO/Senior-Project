@@ -1,6 +1,6 @@
 extends Resource
 
-enum category {WEATHER,UPGRADE,ABILITY_UPGRADE}
+enum category {WEATHER,STAT_UPGRADE,ABILITY_UPGRADE}
 
 enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 enum stats_type {ATK, SPEED, MAX_HP, ATK_SIZE, DMG_TAKEN}
@@ -33,7 +33,7 @@ const effect_list : Dictionary = {
 			"speed": 0.3
 		}
 	},
-	category.UPGRADE : {
+	category.STAT_UPGRADE : {
 		stats_type.ATK: {
 			"atk": 0.05
 		},
@@ -51,7 +51,9 @@ const effect_list : Dictionary = {
 		}
 	},
 	category.ABILITY_UPGRADE : {
-		ability_type.NORMAL:{},
+		ability_type.NORMAL:{
+			script = null
+		},
 		ability_type.SWORD:{},
 		ability_type.TORNADO:{},
 	}
@@ -77,7 +79,7 @@ static func get_weather(type:int):
 static func get_upgrade(stat:String):
 	var stat_i = stats_type.get(stat.to_upper())
 
-	return get_effect(category.UPGRADE, stat_i)
+	return get_effect(category.STAT_UPGRADE, stat_i)
 
 static func get_ability(ability_ : int):
 	return get_effect(category.ABILITY_UPGRADE, ability_)
