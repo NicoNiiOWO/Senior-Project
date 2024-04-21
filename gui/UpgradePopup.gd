@@ -9,7 +9,7 @@ func popup(upgrades:Array):
 	popup_active = true
 	make_list(upgrades)
 	show()
-	pause()
+	popup_pause()
 	%UpgradeSelect.get_child(0).grab_focus()
 
 # make list of selectable upgrades
@@ -34,9 +34,8 @@ func clear():
 		%UpgradeSelect.remove_child(n)
 		n.queue_free()
 
-func pause(enable:bool=true):
+func popup_pause(enable:bool=true):
 	get_tree().paused = enable
-	%PauseMenu.input_disable = true
 
 func _on_gui_popup(upgrades=[]):
 	popup(upgrades)
@@ -51,5 +50,4 @@ func _on_upgrade_button_pressed(upgrade:Upgrade):
 func _on_close_button_pressed():
 	popup_active = false
 	hide()
-	%PauseMenu.input_disable = false
-	pause(false)
+	popup_pause(false)

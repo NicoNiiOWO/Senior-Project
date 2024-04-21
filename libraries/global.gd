@@ -142,7 +142,7 @@ func set_forecast() -> bool:
 	if(api_success):
 		var prev_type = []
 		
-		print_debug(forecast)
+		#print_debug(forecast)
 		for i in range(api_response.cnt):
 			if i == 0: forecast[0] = process_weather(0)
 			else: forecast.append(process_weather(i))
@@ -152,7 +152,7 @@ func set_forecast() -> bool:
 			prev_type = forecast[i].type
 		
 		api_ready = true
-	print_debug(api_success, forecast)
+	#print_debug(api_success, forecast)
 	return api_ready
 
 # simplify response at index

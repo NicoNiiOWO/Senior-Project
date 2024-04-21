@@ -17,8 +17,11 @@ func set_ability(abi:int=0):
 	ability = abi
 	item_type = 1
 	
-	upgrades = upgrade_lib.random_upgrade(ability,1)
-	upgrades.append_array(upgrade_lib.random_upgrade(0,2))
+	if ability == 0:
+		upgrades = upgrade_lib.random_upgrade(0,3)
+	else:
+		upgrades = upgrade_lib.random_upgrade(ability,1)
+		upgrades.append_array(upgrade_lib.random_upgrade(0,2))
 
 func set_sprite():
 	if ability == 0: # set random sprite

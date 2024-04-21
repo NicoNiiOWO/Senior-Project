@@ -56,6 +56,7 @@ script = ExtResource("3_wdwsp")
 
 [node name="Attack" type="Node" parent="State"]
 
+[connection signal="attack_start" from="." to="." method="_on_attack"]
 [connection signal="damage_taken" from="." to="." method="_on_damage_taken"]
 [connection signal="defeated" from="." to="." method="_on_defeated"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="State/Attack" method="_on_animated_sprite_2d_animation_finished"]

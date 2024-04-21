@@ -124,7 +124,7 @@ func api_call():
 	if $API.request(api_url) != OK: print_debug(":(")
 
 func _on_api_request_completed(_result, response_code, _headers, body):
-	print_debug("API response: ", response_code)
+	#print_debug("API response: ", response_code)
 	
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
@@ -142,7 +142,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	
 	# set forecast then update gui
 	Global.set_forecast()
-	print_debug(Global.forecast)
+	#print_debug(Global.forecast)
 	api_request_complete.emit()
 
 # Spawn n enemies
@@ -225,7 +225,7 @@ func _on_enemy_defeated(position, ability, xp):
 	addItem(position, ability)
 	player.gain_exp(xp)
 
-enum a {A,E}
+
 # debug input
 func _input(event):
 	if debug and event.is_pressed():
@@ -257,9 +257,9 @@ func _input(event):
 					upgrade.set_stat_upgrade("atk")
 					print_debug(upgrade.stats)
 					
-					print(a)
 					player.effects.print()
 				"G": player.take_damage(1000)
 				"X": player.projectile()
+				"C": pass
 
 

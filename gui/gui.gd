@@ -7,6 +7,7 @@ signal weather_changed()
 signal pause()
 signal popup(e)
 
+const eff_lib = preload("res://libraries/effect_lib.gd")
 const icon_path_format : String = "res://assets/Icons/Weather/%s@2x.png"
 const datetime_f : String = "{year}/{month}/{day} {hour}:{minute}"
 const time_f : String = "%02d:%02d"
@@ -24,7 +25,6 @@ var player : Player = null
 func set_player(p:Player):
 	player=p
 
-const char_lib = preload("res://libraries/char_lib.gd")
 var weather_stat_mod : Dictionary = { # changes to stats from current weather
 	mods = {},
 	text = ""
@@ -102,7 +102,7 @@ func weather_update():
 			weather_data = Global.current_weather()
 			
 			# Load weather icon
-			print_debug(weather_data)
+			#print_debug(weather_data)
 			var icon = load_icon(weather_data.icon)
 			%Icon.set_texture(icon)
 			
@@ -160,7 +160,7 @@ func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) -> Stri
 
 # make text from current weather stat modifier
 func get_weather_stats():
-	weather_stat_mod.mods = char_lib.get_total_w(Global.current_weather().type)
+	weather_stat_mod.mods = eff_lib.get_total_w(Global.current_weather().type)
 	weather_stat_mod.text = get_stats_text(weather_stat_mod.mods, true)
 
 var weather_text = ""

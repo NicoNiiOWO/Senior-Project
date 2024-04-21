@@ -14,14 +14,15 @@ const ability_data = {
 		icon_text = preload("res://assets/Icons/Ability/a_sword_text.tres"),
 		icon = preload("res://assets/Icons/Ability/a_sword_icon.tres"),
 		item_icon = preload("res://assets/Icons/Ability/a_sword_item.tres"),
-		text = "AAA"
+		text = "AAA",
+		node = preload("res://resources/ability/AbilityNode.tscn")
 	},
 	2 : {
 		icon_text = preload("res://assets/Icons/Ability/a_tornado_text.tres"),
 		icon = preload("res://assets/Icons/Ability/a_tornado_icon.tres"),
 		item_icon = preload("res://assets/Icons/Ability/a_tornado_item.tres"),
 		text = "BBB",
-		
+		node = preload("res://resources/ability/AbilityNode.tscn")
 	}
 }
 
@@ -37,8 +38,8 @@ static func make_stat_upgrade_i(index:int, x:int=1) -> Upgrade:
 	return make_stat_upgrade(stat,x)
 
 static func make_ability(ability:int) -> Upgrade:
-	var upgrade = Upgrade.new()
-	upgrade.set_ability_upgrade(ability)
+	var upgrade = Ability.new()
+	upgrade.set_ability(ability)
 	return upgrade
 
 # array of random upgradeable stats, no duplicates
@@ -102,3 +103,10 @@ static func get_icons(upgrade:Upgrade) -> Dictionary:
 		text = ability_data[ability].icon_text,
 		icon = ability_data[ability].icon,
 	}
+
+static func get_node(ability:Ability) -> AbilityNode:
+	if ability.ability == 0: return null
+	
+	var node = AbilityNode.new()
+	node.set_ability(ability)
+	return node

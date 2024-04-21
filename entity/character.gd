@@ -4,9 +4,7 @@ extends CharacterBody2D
 
 signal damage_taken()
 signal defeated()
-
-# const char_lib = preload("res://libraries/char_lib.gd")
-
+signal attack_start(x)
 
 var type : int # player or enemy
 
@@ -20,7 +18,7 @@ func _get_stats():
 	return stats_r.current
 
 # @onready var effects : Dictionary = char_lib.init_effects().duplicate(true)
-var effects : EffectList = EffectList.new()
+var effects : EffectList = EffectList.new().init(self)
 
 @onready var main : Node = $/root/Main
 @onready var gui : CanvasLayer = $/root/Main/GUI
@@ -103,26 +101,13 @@ func disable():
 	visible = false
 	set_process_mode(PROCESS_MODE_DISABLED)
 
-#func add_temp_eff():
-	#var node = Node.new()
-
 func add_upgrade(upgrade:Upgrade):
 	# char_lib.add_upgrade(effects, upgrade)
 	effects.add_upgrade(upgrade)
 	update_stats()
 
-
-# func add_stat_upgrade(stat:String, n:float):
-	# char_lib.add_stat_upgrade(effects, stat, n)
-	
-	# print_debug(effects[1]["total"])
-	# print_debug("e",effects[1]["list"][0].stats)
-# 	var upgrade = Upgrade.new()
-# 	effects.add_stat_upgrade(stat, n)
-	
-# 	update_stats()
-
-# func add_stat_upgrade_dict(stats:Dictionary):
-# 	char_lib.add_upgrade_dict(effects, stats)
-# 	print_debug(effects[1]["total"])
-# 	update_stats()
+func attack(param:Variant=null):
+	if param != null:
+		attack_start.emit(param)
+	else:
+		attack_start.emit()

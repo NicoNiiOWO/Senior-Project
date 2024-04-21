@@ -78,7 +78,7 @@ func _physics_process(delta):
 			($AttackCooldown).start()
 			sprite.play("attack")
 
-func attack():
+func _on_attack():
 	var new_attack = attack_scn.instantiate()
 	# change damage/size based on player atk stat
 	new_attack.init(direction, Global.char_type.PLAYER, stats.atk, stats.atk_size)

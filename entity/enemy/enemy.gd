@@ -156,7 +156,7 @@ func _on_damage_taken():
 		attack()
 
 # set attack state
-func attack(start:bool=true):
+func _on_attack(start:bool=true):
 	attacking=start
 	if start:
 		set_state(1)
