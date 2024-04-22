@@ -1,6 +1,8 @@
 extends Resource
 class_name Effect
 
+signal level_changed()
+
 const effect_lib = preload("res://libraries/effect_lib.gd")
 var category_list = effect_lib.category
 
@@ -23,15 +25,6 @@ func set_effect(eff_data:Dictionary):
 	if hasStats:
 		set_stats(eff_data.stats, eff_data.count)
 
-# func init(set_type:Vector2, set_mods:Dictionary={}):
-# 	type = set_type
-# 	stat_base = set_mods
-# 	stat_mods = set_mods
-# 	count = 1
-	
-# 	if type.x != category_list.ABILITY_UPGRADE:
-# 		set_stats(set_mods)
-
 func set_stats(base_stats:Dictionary, n:int=1):
 	stat_base = base_stats
 	level = n
@@ -43,6 +36,7 @@ func set_weather(weatherType:int):
 func add_level(n:int = 1):
 	level += n
 	stat_multiply(level)
+	level_changed.emit()
 
 # set base stats * number
 func stat_multiply(n:int=level):

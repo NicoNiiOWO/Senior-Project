@@ -106,5 +106,12 @@ func add_upgrade(upgrade:Upgrade):
 	effects.add_upgrade(upgrade)
 	update_stats()
 
+func has_upgrade(upgrade:Upgrade) -> bool:
+	return effects.has_upgrade(upgrade)
+
+# if has same type, return upgrade
+func get_upgrade(upgrade:Upgrade) -> Upgrade:
+	return effects.get_upgrade(upgrade)
+
 func attack(atk:bool=true):
 	attack_start.emit(atk)

@@ -227,6 +227,7 @@ func _on_enemy_defeated(position, ability, xp):
 
 
 # debug input
+
 func _input(event):
 	if debug and event.is_pressed():
 		if is_instance_of(event, InputEventKey):

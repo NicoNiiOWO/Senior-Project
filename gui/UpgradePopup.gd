@@ -5,6 +5,8 @@ const upgrade_lib = preload("res://libraries/upgrade_lib.gd")
 var popup_active:bool = false
 var upgrades:Array
 
+var player : Character = null
+
 func popup(upgrades:Array):
 	popup_active = true
 	make_list(upgrades)
@@ -14,15 +16,25 @@ func popup(upgrades:Array):
 
 # make list of selectable upgrades
 func make_list(upgrades:Array):
+	player = owner.player
 	#upgrades = upgrade_lib.random_upgrade(count)
 	
 	#print_debug(upgrades, upgrade_lib)
 	clear()
-	for x in range(upgrades.size()):
+	for i in range(upgrades.size()):
+		var upg = upgrades[i]
 		var button = %UpgradeButton.duplicate()
 		
-		button.set_upgrade(upgrades[x])
-		button.text = upgrades[x].text
+		button.set_upgrade(upg)
+		
+		if upg is Ability:
+			print_debug(owner.player != null, " ", owner.player.has_upgrade(upg))
+			if player != null and player.has_upgrade(upg):
+				var u = player.get_upgrade(upg)
+				print_debug("OSIADK ", u.level)
+				button.text = u.get_next_lvl_text()
+		else:
+			button.text = upg.text
 		
 		button.show()
 		

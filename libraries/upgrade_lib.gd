@@ -35,8 +35,8 @@ static func make_stat_upgrade_i(index:int, x:int=1) -> Upgrade:
 	var stat = stats_upgradeable[index]
 	return make_stat_upgrade(stat,x)
 
-static func make_ability(ability:int, parent:Character = null) -> Upgrade:
-	var upgrade = Ability.new()
+static func make_ability(ability:int, parent:Character = null) -> Ability:
+	var upgrade = ability_data[ability].script.new()
 	upgrade.init(ability, parent)
 	return upgrade
 
@@ -102,9 +102,9 @@ static func get_icons(upgrade:Upgrade) -> Dictionary:
 		icon = ability_data[ability].icon,
 	}
 
-static func get_ability_script(ability:Ability) -> AbilityScript:
-	if ability.ability == 0: return null
-	
-	var script = ability_data[ability.ability].script.duplicate()
-	script.init(ability)
-	return script
+#static func get_ability_script(ability:Ability) -> Ability:
+	#if ability.ability == 0: return null
+	#
+	#var script = ability_data[ability.ability].script.duplicate()
+	#script.init(ability)
+	#return script

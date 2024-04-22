@@ -8,8 +8,8 @@ signal attack_end
 @export var size : float = 1.0 # size multiplier
 @export var source : int # source of attack (player/enemy)
 
-@onready var timer = $Timer
-@onready var sprite = $AnimatedSprite2D
+@onready var timer : Timer = $Timer
+@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 
 
 func init_attack(atk_source:int, dmg:float, size_m:float = 1.0, dur:float=0.25):
@@ -21,8 +21,10 @@ func init_attack(atk_source:int, dmg:float, size_m:float = 1.0, dur:float=0.25):
 func start():
 	#timer.timeout.connect(_on_timer_timeout)
 	sprite.play()
-	timer.wait_time = duration
-	timer.start()
+	if duration != -1:
+		timer.wait_time = duration
+		timer.start()
+	else: timer.paused = true
 	global_scale *= size
 
 func _on_timer_timeout():

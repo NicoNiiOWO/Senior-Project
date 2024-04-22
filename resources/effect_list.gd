@@ -36,7 +36,7 @@ func add_upgrade(upgrade:Upgrade):
 
 			category_type.STAT_UPGRADE:
 				print_debug("AAAAAAAAAAAAAAAAAA")
-				if upgrade.type in upgrade_stat_list:
+				if has_upgrade(upgrade):
 					upgrade_stat_list[upgrade.type].add_level()
 				else:
 					upgrade_stat_list[upgrade.type] = upgrade
@@ -47,7 +47,7 @@ func add_upgrade(upgrade:Upgrade):
 	size+=1
 
 func add_ability(ability:Ability):
-	if ability.type in ability_list:
+	if has_upgrade(ability):
 		ability_list[ability.type].add_level()
 	else:
 		ability_list[ability.type] = ability
@@ -103,6 +103,20 @@ func get_total_mod():
 
 func print():
 	print_debug("Size: ", size, "\nWeather: ", weather_list, "\nStat Upgrade: ",upgrade_stat_list,"\nTotal: ", total_mod)
+
+# if contains same upgrade type
+func has_upgrade(upg:Upgrade) -> bool:
+	if (upg is Ability) and (upg.type in ability_list): return true
+	if upg.type in upgrade_stat_list: return true
+	
+	return false
+
+# if has same type, return upgrade
+func get_upgrade(upg:Upgrade) -> Upgrade:
+	if has_upgrade(upg):
+		if upg is Ability: return ability_list[upg.type]
+		else: return upgrade_stat_list[upg.type]
+	return null
 
 # call each ability
 func physics_update(delta):
