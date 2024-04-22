@@ -1,22 +1,24 @@
 extends Upgrade
 class_name Ability
 
-var node : AbilityNode = null
+var ready : bool = false
 
-func set_ability(ability_:int):
-	ability = ability_
-	
-	set_upgrade(effect_lib.get_ability(ability_))
-	get_node()
+var ab_script : AbilityScript = null
+var parent : Character = null # parent node
 
-func get_node() -> AbilityNode:
-	if node == null:
-		node = upgrade_lib.get_node(self)
-	return node
+func init(ability:int, parent:Character=null):
+	self.ability = ability
+	if parent != null: set_parent(parent)
+	set_upgrade(effect_lib.get_ability(ability))
+	#ab_script = upgrade_lib.get_ability_script(self)
+
+func set_parent(parent:Character):
+	self.parent = parent
+	ready = true
 
 func physics_update(delta):
-	pass
+	if ready: pass
 
 func on_attack():
-	if node.active:
-		node.attack()
+	print_debug("FJOIKLNSA")
+	if ready: pass

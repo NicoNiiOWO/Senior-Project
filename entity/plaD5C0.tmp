@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://ooji3r34hew2"]
+
+[ext_resource type="Script" path="res://entity/player.gd" id="1_gj2uo"]
+[ext_resource type="SpriteFrames" uid="uid://be4hrbhrnrbbc" path="res://assets/kirby.tres" id="2_rn44o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ov5h2"]
+radius = 19.1253
+
+[node name="Player" type="CharacterBody2D" groups=["character", "player"]]
+visibility_layer = 3
+z_index = 1
+collision_layer = 3
+collision_mask = 5
+motion_mode = 1
+slide_on_ceiling = false
+script = ExtResource("1_gj2uo")
+
+[node name="AttackCooldown" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_smoothed = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.887894, -1.00188)
+shape = SubResource("CircleShape2D_ov5h2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-5, -20)
+scale = Vector2(1.8, 1.8)
+sprite_frames = ExtResource("2_rn44o")
+animation = &"attack"
+autoplay = "idle"
+
+[connection signal="attack_start" from="." to="." method="_on_attack"]
+[connection signal="defeated" from="." to="." method="_on_defeated"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

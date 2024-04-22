@@ -3,8 +3,6 @@ extends Resource
 # list of stats that can be upgraded
 const stats_upgradeable = ["atk","speed","max_hp","atk_size","dmg_taken"]
 
-enum activation_type {PASSIVE,ATTACK}
-
 const ability_data = {
 	0 : {
 		icon_text = preload("res://assets/Icons/Ability/a_normal_text.tres"),
@@ -15,14 +13,14 @@ const ability_data = {
 		icon = preload("res://assets/Icons/Ability/a_sword_icon.tres"),
 		item_icon = preload("res://assets/Icons/Ability/a_sword_item.tres"),
 		text = "AAA",
-		node = preload("res://resources/ability/AbilityNode.tscn")
+		script = preload("res://resources/ability/ab_sword.gd")
 	},
 	2 : {
 		icon_text = preload("res://assets/Icons/Ability/a_tornado_text.tres"),
 		icon = preload("res://assets/Icons/Ability/a_tornado_icon.tres"),
 		item_icon = preload("res://assets/Icons/Ability/a_tornado_item.tres"),
 		text = "BBB",
-		node = preload("res://resources/ability/AbilityNode.tscn")
+		script = preload("res://resources/ability/ab_tornado.gd")
 	}
 }
 
@@ -37,9 +35,9 @@ static func make_stat_upgrade_i(index:int, x:int=1) -> Upgrade:
 	var stat = stats_upgradeable[index]
 	return make_stat_upgrade(stat,x)
 
-static func make_ability(ability:int) -> Upgrade:
+static func make_ability(ability:int, parent:Character = null) -> Upgrade:
 	var upgrade = Ability.new()
-	upgrade.set_ability(ability)
+	upgrade.init(ability, parent)
 	return upgrade
 
 # array of random upgradeable stats, no duplicates
@@ -104,9 +102,9 @@ static func get_icons(upgrade:Upgrade) -> Dictionary:
 		icon = ability_data[ability].icon,
 	}
 
-static func get_node(ability:Ability) -> AbilityNode:
+static func get_ability_script(ability:Ability) -> AbilityScript:
 	if ability.ability == 0: return null
 	
-	var node = AbilityNode.new()
-	node.set_ability(ability)
-	return node
+	var script = ability_data[ability.ability].script.duplicate()
+	script.init(ability)
+	return script

@@ -35,6 +35,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	effects.physics_update(delta) # update ability
+	
 	if(stats.iframes > 0):
 		stats.iframes -= delta # reduce iframes by frametime
 		if stats.iframes <= 0 and stats.iframes != -1: stats.iframes = 0
@@ -78,11 +80,13 @@ func _physics_process(delta):
 			($AttackCooldown).start()
 			sprite.play("attack")
 
-func _on_attack():
+func _on_attack(_x):
 	var new_attack = attack_scn.instantiate()
 	# change damage/size based on player atk stat
 	new_attack.init(direction, Global.char_type.PLAYER, stats.atk, stats.atk_size)
 	add_child(new_attack)
+	
+	effects.on_attack() # update ability
 
 func _on_animated_sprite_2d_animation_finished():
 	sprite.set_animation("idle")

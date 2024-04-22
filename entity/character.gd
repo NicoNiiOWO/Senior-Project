@@ -106,8 +106,5 @@ func add_upgrade(upgrade:Upgrade):
 	effects.add_upgrade(upgrade)
 	update_stats()
 
-func attack(param:Variant=null):
-	if param != null:
-		attack_start.emit(param)
-	else:
-		attack_start.emit()
+func attack(atk:bool=true):
+	attack_start.emit(atk)

@@ -260,6 +260,6 @@ func _input(event):
 					player.effects.print()
 				"G": player.take_damage(1000)
 				"X": player.projectile()
-				"C": pass
+				"C": player.effects.new_ability(1)
 
 

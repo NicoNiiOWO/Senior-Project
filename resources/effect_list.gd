@@ -12,14 +12,12 @@ var size : int = 0 # upgrade count
 var upgrade_stat_list : Dictionary = {}
 var total_mod : Dictionary = {} # total stat mod
 
-var ability_list : Dictionary = {} # store nodes, key = ability type
-var listNode : Node = null # node in parent, store ability nodes
+var ability_list : Dictionary = {} # store abilities, key = type
 
 var parent : Character
 
 func init(node:Character) -> EffectList:
 	parent = node
-	listNode = parent.get_node_or_null("AbilityList")
 	return self
 
 func clear_weather():
@@ -45,22 +43,15 @@ func add_upgrade(upgrade:Upgrade):
 			_: 
 				#print_debug(upgrade.type.x, category_type, category_type.STAT_UPGRADE, upgrade.type.x=category_type.STAT_UPGRADE)
 				return
+		update_total()
 	size+=1
-	
-	
-	update_total()
 
 func add_ability(ability:Ability):
-	if listNode == null:
-		listNode = Node.new()
-		parent.add_child(listNode)
-	
 	if ability.type in ability_list:
 		ability_list[ability.type].add_level()
 	else:
-		var node = ability.get_node()
-		listNode.add_child(node)
-		ability_list[ability.type] = node
+		ability_list[ability.type] = ability
+		ability.set_parent(parent)
 
 # set weather effect from weather array
 func set_weather(weather_arr:Array):
@@ -89,7 +80,7 @@ func add_stat_dict(stats:Dictionary):
 
 func new_ability(ability_type:int):
 	var ability = Ability.new()
-	ability.set_ability(ability_type)
+	ability.init(ability_type, parent)
 
 	add_upgrade(ability)
 
@@ -112,3 +103,13 @@ func get_total_mod():
 
 func print():
 	print_debug("Size: ", size, "\nWeather: ", weather_list, "\nStat Upgrade: ",upgrade_stat_list,"\nTotal: ", total_mod)
+
+# call each ability
+func physics_update(delta):
+	for i in ability_list:
+		
+		ability_list[i].physics_update(delta)
+
+func on_attack():
+	for i in ability_list:
+		ability_list[i].on_attack()

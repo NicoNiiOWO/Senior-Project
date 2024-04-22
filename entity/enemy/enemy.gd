@@ -84,7 +84,8 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(_delta):
+func _physics_process(delta):
+	effects.physics_update(delta)
 	# movement based on current state
 	state.physics_process() 
 	move_and_slide()
@@ -161,5 +162,6 @@ func _on_attack(start:bool=true):
 	if start:
 		set_state(1)
 		state.attack()
+		effects.on_attack()
 	else:
 		set_state(0)

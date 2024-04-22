@@ -19,7 +19,7 @@ func init_attack(atk_source:int, dmg:float, size_m:float = 1.0, dur:float=0.25):
 	duration = dur
 
 func start():
-	timer.timeout.connect(_on_timer_timeout)
+	#timer.timeout.connect(_on_timer_timeout)
 	sprite.play()
 	timer.wait_time = duration
 	timer.start()
