@@ -8,17 +8,27 @@ var parent : Character = null # parent node
 # base stats for each ability
 const ab_base_stats = {
 	1 : {
-		atk_mod = 0.2, # multiply by parent atk stat
+		duration = 0.5,
+		speed = 800,
+		atk_scale = 0.2, # multiply by parent atk stat
 		size = 1.2
+	},
+	2: {
+		duration = -1,
+		speed = 400,
+		atk_scale = 0.1,
+		size = 1
 	}
-	
 }
 const ab_growth_stats = {
 	1: {
-		atk_mod = 0.01,
+		atk_scale = 0.01,
+		size = 0.05
+	},
+	2: {
+		atk_scale = 0.01,
 		size = 0.05
 	}
-	
 }
 var ability_stats = {}
 
@@ -30,23 +40,37 @@ func init(ability:int, parent:Character=null):
 	
 	update_stats()
 
+# if parent is not loaded, set ready when parent is loaded
 func set_parent(parent:Character):
 	self.parent = parent
-	ready = parent.is_node_ready()
-	
-	# if parent is not loaded, set ready when parent is loaded
-	if !ready: parent.ready.connect(set_ready)
 
+	if parent.is_node_ready(): set_ready()
+	else: parent.ready.connect(set_ready)
+
+# call level_changed on load
 func set_ready():
 	ready = true
+	level_changed.emit()
 
-func update_stats(): # calculate stats
+# calculate stats
+func update_stats(): 
 	if ability in ab_base_stats:
 		var stats = ab_base_stats[ability].duplicate()
 		
 		for stat in ab_growth_stats[ability]:
 			stats[stat] += level * ab_growth_stats[ability][stat]
 		ability_stats = stats
+
+# return attack with damage and size
+func init_attack(scn:PackedScene) -> Attack:
+	var atk = scn.instantiate()
+	atk.source = parent.type
+	atk.damage = parent.stats.atk * ability_stats.atk_scale
+	atk.size = ability_stats.size
+	atk.duration = ability_stats.duration
+	atk.speed = ability_stats.speed
+	
+	return atk
 
 # override:
 func physics_update(delta): if ready: pass
@@ -64,3 +88,4 @@ func get_next_lvl_text(lvl=self.level):
 		text += "\n" + upgrade_lib.get_stat_text(self.ab_growth_stats[ability])
 	
 	return text
+

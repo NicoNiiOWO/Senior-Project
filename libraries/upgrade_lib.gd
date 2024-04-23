@@ -75,7 +75,7 @@ static func random_upgrade(ability=0, count:int=1, x:int=1) -> Array:
 		for i in range(count):
 			upgrades.append(make_ability(ability))
 	
-	print_debug(upgrades)
+	#print_debug(upgrades)
 	return upgrades
 
 static func get_text(upgrade:Upgrade) -> String:

@@ -24,6 +24,8 @@ func set_effect(eff_data:Dictionary):
 
 	if hasStats:
 		set_stats(eff_data.stats, eff_data.count)
+	
+	#level_changed.emit()
 
 func set_stats(base_stats:Dictionary, n:int=1):
 	stat_base = base_stats

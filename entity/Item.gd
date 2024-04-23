@@ -27,7 +27,7 @@ func set_ability(abi:int=0):
 		0:
 			add_upgrade(0, 3)
 		_:
-			add_upgrade(1)
+			add_upgrade(ability)
 			add_upgrade(0, 2)
 
 func add_upgrade(ability=0, count=1):
@@ -44,7 +44,7 @@ func set_sprite():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print_debug(ability)
+	#print_debug(ability)
 	set_sprite()
 	$Timer.wait_time = duration-5
 	$Timer.start()
