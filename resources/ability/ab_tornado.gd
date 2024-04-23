@@ -1,7 +1,4 @@
 extends Ability
 
-func _init():
-	level_changed.connect(reload)
-
-func reload():
+func on_level_changed():
 	pass

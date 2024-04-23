@@ -1,6 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://c6ckirvpcwsi8"]
+[gd_scene load_steps=21 format=3 uid="uid://c6ckirvpcwsi8"]
 
 [ext_resource type="Script" path="res://entity/Item.gd" id="1_6kd4i"]
+[ext_resource type="Texture2D" uid="uid://bt857os7475h7" path="res://assets/Icons/Ability/a_random_item.tres" id="2_5ei0w"]
 [ext_resource type="Texture2D" uid="uid://d2smabxnfy4mv" path="res://assets/Items.png" id="2_dpxcc"]
 [ext_resource type="Texture2D" uid="uid://cdqavpme3056i" path="res://assets/Icons/Ability/a_sword_item.tres" id="3_8oqfh"]
 [ext_resource type="Texture2D" uid="uid://bacb5qmej633i" path="res://assets/Icons/Ability/a_tornado_item.tres" id="4_kt1hj"]
@@ -64,7 +65,7 @@ region = Rect2(90, 60, 30, 30)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_cvav5")
+"texture": ExtResource("2_5ei0w")
 }, {
 "duration": 1.0,
 "texture": ExtResource("3_8oqfh")

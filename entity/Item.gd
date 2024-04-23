@@ -4,8 +4,8 @@ enum item_types{HEAL,UPGRADE}
 const upgrade_lib = preload("res://libraries/upgrade_lib.gd")
 
 var item_type : int = 0
-var ability : int = 0
 var upgrades : Array = [] # list of upgrades
+@export var ability : int = 0
 @export var duration = 15 # time before item disappears
 
 @onready var sprite = $AnimatedSprite2D
@@ -17,11 +17,21 @@ func set_ability(abi:int=0):
 	ability = abi
 	item_type = 1
 	
-	if ability == 0:
-		upgrades = upgrade_lib.random_upgrade(0,3)
-	else:
-		upgrades = upgrade_lib.random_upgrade(ability,1)
-		upgrades.append_array(upgrade_lib.random_upgrade(0,2))
+	upgrades = []
+	
+	match ability:
+		-1: # add each ability
+			add_upgrade(1)
+			add_upgrade(2)
+			add_upgrade(0, 5)
+		0:
+			add_upgrade(0, 3)
+		_:
+			add_upgrade(1)
+			add_upgrade(0, 2)
+
+func add_upgrade(ability=0, count=1):
+	upgrades.append_array(upgrade_lib.random_upgrade(ability,count))
 
 func set_sprite():
 	if ability == 0: # set random sprite
@@ -40,7 +50,7 @@ func _ready():
 	$Timer.start()
 	
 	if upgrades.size() == 0:
-		set_ability()
+		set_ability(ability)
 
 # heal player
 func _on_body_entered(body):

@@ -1,12 +1,14 @@
 class_name Projectile
 extends Attack
 
-@export var useOrbit : bool = false
-@export var direction : Vector2 = Vector2.ZERO
-@export var speed : int = 400
-var path : Path2D = null
 
-var offset = Vector2(100,0)
+@export var useOrbit : bool = false
+#@export var direction : Vector2 = Vector2.ZERO
+@export var speed : int = 400
+
+#var path : Path2D = null
+#var offset = Vector2(100,0)
+
 
 func init_projectile(atk_source:int, dmg:float, size_m:float = 1.0, dur:float=1):
 	init_attack(atk_source, dmg, size_m, dur)
@@ -22,4 +24,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if useOrbit: position = position.rotated(delta*speed/100)
-	else: position += direction * delta * speed
+	else: position += direction.normalized() * speed * delta 
+
+func set_sprite(texture:SpriteFrames, animation="", frame=0):
+	sprite.sprite_frames = texture
+	if animation != "":
+		sprite.animation = animation
+		sprite.frame = frame

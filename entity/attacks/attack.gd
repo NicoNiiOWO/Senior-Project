@@ -6,7 +6,8 @@ signal attack_end
 @export var duration : float = 0.25 # How long attack lasts
 @export var damage : float = 10
 @export var size : float = 1.0 # size multiplier
-@export var source : int # source of attack (player/enemy)
+@export var source : int = 0 # source of attack (player/enemy)
+@export var direction : Vector2 = Vector2.RIGHT # attack direction
 
 @onready var timer : Timer = $Timer
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
@@ -17,6 +18,16 @@ func init_attack(atk_source:int, dmg:float, size_m:float = 1.0, dur:float=0.25):
 	damage = dmg
 	size = size_m
 	duration = dur
+
+func set_source(atk_source:int=0): source = atk_source
+func set_damage(dmg:float): damage = dmg
+func set_size(size_m:float): size = size_m
+func set_duration(dur:float): duration = dur
+func set_direction(dir:Vector2, rotate:bool=true):
+	direction = dir
+	
+	if rotate:
+		rotation = Vector2.ZERO.angle_to_point(direction)
 
 func start():
 	#timer.timeout.connect(_on_timer_timeout)

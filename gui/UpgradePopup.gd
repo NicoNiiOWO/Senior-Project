@@ -16,6 +16,7 @@ func popup(upgrades:Array):
 
 # make list of selectable upgrades
 func make_list(upgrades:Array):
+	
 	player = owner.player
 	#upgrades = upgrade_lib.random_upgrade(count)
 	
@@ -27,21 +28,26 @@ func make_list(upgrades:Array):
 		
 		button.set_upgrade(upg)
 		
-		if upg is Ability:
-			print_debug(owner.player != null, " ", owner.player.has_upgrade(upg))
-			if player != null and player.has_upgrade(upg):
-				var u = player.get_upgrade(upg)
-				print_debug("OSIADK ", u.level)
-				button.text = u.get_next_lvl_text()
+		# if player has ability, set text to next level
+		if upg is Ability and player != null and player.has_upgrade(upg):
+			#print_debug(owner.player != null, " ", owner.player.has_upgrade(upg))
+			var u = player.get_upgrade(upg)
+			print_debug("OSIADK ", u.level)
+			button.text = u.get_next_lvl_text()
 		else:
-			button.text = upg.text
+			button.text = upgrade_lib.get_text(upg)
 		
 		button.show()
 		
+		# increase columns every 5
+		if (i+1) % 5 == 0:
+			%UpgradeSelect.columns += 1
+			
 		%UpgradeSelect.add_child(button)
 
 # clear list
 func clear():
+	%UpgradeSelect.columns = 1
 	for n in %UpgradeSelect.get_children():
 		%UpgradeSelect.remove_child(n)
 		n.queue_free()

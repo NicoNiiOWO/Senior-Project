@@ -189,7 +189,7 @@ func addItem(position:Vector2, ability:int=0):
 	if item != null:
 		item.set_deferred("global_position", position)
 		item.set_ability(ability)
-		add_child(item)
+		call_deferred("add_child", item)
 
 func game_over():
 	Global.game_ongoing = false

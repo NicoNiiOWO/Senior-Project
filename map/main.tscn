@@ -65,10 +65,11 @@ layer_1/tile_data = PackedInt32Array()
 [node name="GUI" parent="." instance=ExtResource("6_85ohw")]
 
 [node name="Item" parent="." instance=ExtResource("5_2nl8k")]
-position = Vector2(143.469, -116.097)
+position = Vector2(106.898, -151.022)
+ability = -1
 
 [node name="Item2" parent="." instance=ExtResource("5_2nl8k")]
-position = Vector2(-182.168, -152.908)
+position = Vector2(-62.9626, -176.249)
 
 [connection signal="api_request_complete" from="." to="GUI" method="_on_main_api_request_complete"]
 [connection signal="game_start" from="." to="GUI" method="_on_main_game_start"]

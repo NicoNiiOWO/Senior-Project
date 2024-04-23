@@ -98,6 +98,7 @@ custom_minimum_size = Vector2(150, 100)
 layout_mode = 2
 
 [node name="StartMenu" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -362,13 +363,12 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="UpgradeSelect" type="BoxContainer" parent="UpgradePopup/CenterContainer/FlowContainer"]
+[node name="UpgradeSelect" type="GridContainer" parent="UpgradePopup/CenterContainer/FlowContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 1
-vertical = true
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
 
 [node name="Button" type="Button" parent="UpgradePopup/CenterContainer/FlowContainer/UpgradeSelect"]
 custom_minimum_size = Vector2(0, 100)

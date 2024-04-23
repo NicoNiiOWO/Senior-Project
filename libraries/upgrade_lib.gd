@@ -12,15 +12,15 @@ const ability_data = {
 		icon_text = preload("res://assets/Icons/Ability/a_sword_text.tres"),
 		icon = preload("res://assets/Icons/Ability/a_sword_icon.tres"),
 		item_icon = preload("res://assets/Icons/Ability/a_sword_item.tres"),
-		text = "AAA",
-		script = preload("res://resources/ability/ab_sword.gd")
+		script = preload("res://resources/ability/ab_sword.gd"),
+		desc = "Add projectile"
 	},
 	2 : {
 		icon_text = preload("res://assets/Icons/Ability/a_tornado_text.tres"),
 		icon = preload("res://assets/Icons/Ability/a_tornado_icon.tres"),
 		item_icon = preload("res://assets/Icons/Ability/a_tornado_item.tres"),
-		text = "BBB",
-		script = preload("res://resources/ability/ab_tornado.gd")
+		script = preload("res://resources/ability/ab_tornado.gd"),
+		desc = "AAAAAAAAA"
 	}
 }
 
@@ -83,16 +83,22 @@ static func get_text(upgrade:Upgrade) -> String:
 	
 	# if no ability, use stats
 	if upgrade.ability == 0 || upgrade.ability == -1:
-		for stat in upgrade.stats:
-			var stat_mod = upgrade.stats[stat]
-			var sign
-			if stat_mod > 0: sign = " +"
-			else: sign = " "
-			
-			text += str(stat.capitalize(), sign, stat_mod*100, "%")
-	else:
-		text = ability_data[upgrade.ability].text
+		text += get_stat_text(upgrade.stats)
+	else: if upgrade.ability in ability_data:
+		text = ability_data[upgrade.ability].desc
 	
+	return text
+
+static func get_stat_text(stats:Dictionary) -> String:
+	var text = ""
+	for stat in stats:
+		var stat_mod = stats[stat]
+		var sign
+		if stat_mod > 0: sign = " +"
+		else: sign = " "
+		
+		text += str(stat.capitalize(), sign, stat_mod*100, "%, ")
+	if text.ends_with(", "): text = text.left(-2) # remove last space and comma
 	return text
 
 static func get_icons(upgrade:Upgrade) -> Dictionary:

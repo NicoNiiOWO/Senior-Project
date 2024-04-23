@@ -10,6 +10,10 @@ collision_layer = 2
 collision_mask = 2
 input_pickable = false
 script = ExtResource("1_s2os4")
+duration = null
+damage = null
+size = null
+source = null
 metadata/_edit_horizontal_guides_ = [17.0]
 metadata/_edit_vertical_guides_ = [-32.0, -26.0]
 
