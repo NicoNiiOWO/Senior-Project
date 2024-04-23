@@ -99,7 +99,7 @@ func set_invincible(enable:bool):
 # make invisible and disable processing
 func disable():
 	visible = false
-	set_process_mode(PROCESS_MODE_DISABLED)
+	set_deferred("set_process_mode", PROCESS_MODE_DISABLED)
 
 func add_upgrade(upgrade:Upgrade):
 	# char_lib.add_upgrade(effects, upgrade)

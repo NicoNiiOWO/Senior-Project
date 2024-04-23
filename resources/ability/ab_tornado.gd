@@ -7,7 +7,7 @@ var projectiles : Array = [] # store current attack nodes
 
 func on_level_changed():
 	super.on_level_changed()
-	add_attack(int(level/5))
+	add_attack(int(level/3) +1)
 
 # add attacks rotated evenly
 func add_attack(count:int=1):

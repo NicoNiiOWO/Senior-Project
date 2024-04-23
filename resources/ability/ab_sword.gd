@@ -15,11 +15,9 @@ func make_attack() -> Projectile:
 func on_attack():
 	var proj = make_attack()
 	parent.get_parent().add_child(proj)
-	
-	print_debug("AAAA ", proj.size)
 
 
-func get_next_lvl_text(lvl=self.level):
+func get_next_lvl_text(_lvl=self.level):
 	return super.get_next_lvl_text()
 
 func on_level_changed():

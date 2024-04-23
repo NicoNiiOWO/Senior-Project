@@ -30,8 +30,8 @@ func set_ability(abi:int=0):
 			add_upgrade(ability)
 			add_upgrade(0, 2)
 
-func add_upgrade(ability=0, count=1):
-	upgrades.append_array(upgrade_lib.random_upgrade(ability,count))
+func add_upgrade(ability_type=0, count=1):
+	upgrades.append_array(upgrade_lib.random_upgrade(ability_type,count))
 
 func set_sprite():
 	if ability == 0: # set random sprite

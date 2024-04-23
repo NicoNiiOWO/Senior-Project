@@ -94,7 +94,6 @@ func _on_animated_sprite_2d_animation_finished():
 func _on_defeated():
 	disable()
 	main.game_over()
-	print_debug("AAA")
 
 # return center of screen
 func get_screen_center() -> Vector2:

@@ -36,9 +36,9 @@ const enemy_lib = preload("res://libraries/enemy_lib.gd")
 var isPlayer = false
 var ability = -1
 
-func set_type(char_type:int, ability:int=0):
+func set_type(char_type:int, ability_type:int=0):
 	isPlayer = (char_type == 0)
-	self.ability = ability
+	ability = ability_type
 	
 	if(char_type == Global.char_type.PLAYER):
 		current.iframes = 0
@@ -105,15 +105,15 @@ func gain_exp(n:float):
 	
 	gain_level(levels)
 
-func heal(n:int, update:bool=true):
+func heal(n:int, update_stats:bool=true):
 	current.hp += n;
 	if(current.hp > current.max_hp):
 		current.hp = current.max_hp
-	if update: update()
+	if update_stats: update()
 
 # calculate stat based on level
-func calc_add(stat:String, round_to:float=1.0, base:Dictionary=base, growth:Dictionary=growth, level:int=current.level):
-	return snapped(base[stat] + growth[stat] * (level-1), round_to)
+func calc_add(stat:String, round_to:float=1.0, base_stats:Dictionary=base, growth_stats:Dictionary=growth, level:int=current.level):
+	return snapped(base_stats[stat] + growth_stats[stat] * (level-1), round_to)
 
-func calc_mult(stat:String, round_to:float=1.0, base:Dictionary=base, growth:Dictionary=growth, level:int=current.level):
-	return snapped(floor(base[stat] * pow(growth[stat], level-1)), round_to)
+func calc_mult(stat:String, round_to:float=1.0, base_stats:Dictionary=base, growth_stats:Dictionary=growth, level:int=current.level):
+	return snapped(floor(base_stats[stat] * pow(growth_stats[stat], level-1)), round_to)

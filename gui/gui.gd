@@ -283,7 +283,6 @@ func clear_forecast():
 		n.queue_free()
 
 func upgrade_popup(a:Array):
-	print_debug("qodpklsm")
 	popup.emit(a)
 
 

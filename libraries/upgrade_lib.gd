@@ -28,12 +28,13 @@ const ability_data = {
 
 static func make_stat_upgrade(stat:String, x:int=1) -> Upgrade:
 	var upgrade = Upgrade.new()
-	upgrade.set_stat_upgrade(stat)
+	upgrade.set_stat_upgrade(stat, x)
+	
 	return upgrade
 
 static func make_stat_upgrade_i(index:int, x:int=1) -> Upgrade:
 	var stat = stats_upgradeable[index]
-	return make_stat_upgrade(stat,x)
+	return make_stat_upgrade(stat, x)
 
 static func make_ability(ability:int, parent:Character = null) -> Ability:
 	var upgrade = ability_data[ability].script.new()
@@ -93,11 +94,11 @@ static func get_stat_text(stats:Dictionary) -> String:
 	var text = ""
 	for stat in stats:
 		var stat_mod = stats[stat]
-		var sign
-		if stat_mod > 0: sign = " +"
-		else: sign = " "
+		var num_sign
+		if stat_mod > 0: num_sign = " +"
+		else: num_sign = " "
 		
-		text += str(stat.capitalize(), sign, stat_mod*100, "%, ")
+		text += str(stat.capitalize(), num_sign, stat_mod*100, "%, ")
 	if text.ends_with(", "): text = text.left(-2) # remove last space and comma
 	return text
 

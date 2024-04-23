@@ -65,6 +65,7 @@ func load_config():
 	
 	# load file
 	if config.load("res://config.cfg") != OK:
+		
 		# if not loaded
 		# set default location to first preset
 		#if (api_settings.latitude == null or api_settings.longitude == null):
@@ -83,10 +84,7 @@ func load_config():
 	
 	# set default api key if not in config
 	if (api_settings.key == null):
-		var file = FileAccess.open("res://api_key.txt", FileAccess.READ)
-		var key = file.get_as_text().replace("\n","")
-		api_settings.key = key
-		file.close()
+		api_settings.key = load("res://api_key.gd").key
 	else:
 		api_settings.use_key = true
 	
@@ -121,10 +119,14 @@ func start():
 func api_call():
 	if(api_settings.key == null): return
 	var api_url = api_url_format.format(api_settings)
+	
+	print_debug(api_url)
 	if $API.request(api_url) != OK: print_debug(":(")
 
 func _on_api_request_completed(_result, response_code, _headers, body):
 	#print_debug("API response: ", response_code)
+	
+	print_debug("API response ",response_code)
 	
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
@@ -221,13 +223,11 @@ func _on_restart(reload_settings:bool = false):
 	start()
 
 func _on_enemy_defeated(position, ability, xp):
-	print_debug(ability)
 	addItem(position, ability)
 	player.gain_exp(xp)
 
 
 # debug input
-
 func _input(event):
 	if debug and event.is_pressed():
 		if is_instance_of(event, InputEventKey):

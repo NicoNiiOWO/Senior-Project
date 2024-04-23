@@ -23,10 +23,10 @@ func set_source(atk_source:int=0): source = atk_source
 func set_damage(dmg:float): damage = dmg
 func set_size(size_m:float): size = size_m
 func set_duration(dur:float): duration = dur
-func set_direction(dir:Vector2, rotate:bool=true):
+func set_direction(dir:Vector2, rotate_sprite:bool=true):
 	direction = dir
 	
-	if rotate:
+	if rotate_sprite:
 		rotation = Vector2.ZERO.angle_to_point(direction)
 
 func start():
@@ -46,7 +46,6 @@ func delete():
 	queue_free() # Remove from memory 
 
 func _on_body_entered(body):
-	print(body)
 	if(is_instance_of(body, Character)):
 		if(body.type != source): # check source of attack
 			body.take_damage(damage)

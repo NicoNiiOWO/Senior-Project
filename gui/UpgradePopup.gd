@@ -7,23 +7,23 @@ var upgrades:Array
 
 var player : Character = null
 
-func popup(upgrades:Array):
+func popup(upgrade_list:Array):
 	popup_active = true
-	make_list(upgrades)
+	make_list(upgrade_list)
 	show()
 	popup_pause()
 	%UpgradeSelect.get_child(0).grab_focus()
 
 # make list of selectable upgrades
-func make_list(upgrades:Array):
+func make_list(upgrade_list:Array):
 	
 	player = owner.player
 	#upgrades = upgrade_lib.random_upgrade(count)
 	
 	#print_debug(upgrades, upgrade_lib)
 	clear()
-	for i in range(upgrades.size()):
-		var upg = upgrades[i]
+	for i in range(upgrade_list.size()):
+		var upg = upgrade_list[i]
 		var button = %UpgradeButton.duplicate()
 		
 		button.set_upgrade(upg)
@@ -32,7 +32,6 @@ func make_list(upgrades:Array):
 		if upg is Ability and player != null and player.has_upgrade(upg):
 			#print_debug(owner.player != null, " ", owner.player.has_upgrade(upg))
 			var u = player.get_upgrade(upg)
-			print_debug("OSIADK ", u.level)
 			button.text = u.get_next_lvl_text()
 		else:
 			button.text = upgrade_lib.get_text(upg)
@@ -55,12 +54,11 @@ func clear():
 func popup_pause(enable:bool=true):
 	get_tree().paused = enable
 
-func _on_gui_popup(upgrades=[]):
-	popup(upgrades)
+func _on_gui_popup(upgrade_list:Array=[]):
+	popup(upgrade_list)
 	
 
 func _on_upgrade_button_pressed(upgrade:Upgrade):
-	print_debug(upgrade)
 	owner.player.add_upgrade(upgrade)
 	
 	_on_close_button_pressed()

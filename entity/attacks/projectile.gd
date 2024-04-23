@@ -3,7 +3,7 @@ extends Attack
 
 
 @export var useOrbit : bool = false
-@export var speed : int = 400
+@export var speed : int = 200
 
 func init_projectile(atk_source:int, dmg:float, size_m:float = 1.0, dur:float=1):
 	init_attack(atk_source, dmg, size_m, dur)

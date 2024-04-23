@@ -32,17 +32,17 @@ const ab_growth_stats = {
 }
 var ability_stats = {}
 
-func init(ability:int, parent:Character=null):
-	self.ability = ability
-	if parent != null: set_parent(parent)
+func init(ability_type:int, parent_char:Character=null):
+	ability = ability_type
+	if parent_char != null: set_parent(parent_char)
 	set_upgrade(effect_lib.get_ability(ability))
 	level_changed.connect(on_level_changed)
 	
 	update_stats()
 
 # if parent is not loaded, set ready when parent is loaded
-func set_parent(parent:Character):
-	self.parent = parent
+func set_parent(parent_char:Character):
+	parent = parent_char
 
 	if parent.is_node_ready(): set_ready()
 	else: parent.ready.connect(set_ready)
@@ -55,11 +55,10 @@ func set_ready():
 # calculate stats
 func update_stats(): 
 	if ability in ab_base_stats:
-		var stats = ab_base_stats[ability].duplicate()
+		ability_stats = ab_base_stats[ability].duplicate()
 		
 		for stat in ab_growth_stats[ability]:
-			stats[stat] += level * ab_growth_stats[ability][stat]
-		ability_stats = stats
+			ability_stats[stat] += level * ab_growth_stats[ability][stat]
 
 # return attack with damage and size
 func init_attack(scn:PackedScene) -> Attack:
@@ -73,7 +72,7 @@ func init_attack(scn:PackedScene) -> Attack:
 	return atk
 
 # override:
-func physics_update(delta): if ready: pass
+func physics_update(_delta): if ready: pass
 
 func on_attack(): if ready: pass
 
@@ -81,11 +80,11 @@ func on_level_changed():
 	update_stats()
 
 func get_next_lvl_text(lvl=self.level):
-	var text = str("Level ", lvl+1)
+	var txt = str("Level ", lvl+1)
 	if lvl == 0:
-		text += "\n1" + upgrade_lib.get_text(self)
+		txt += "\n1" + upgrade_lib.get_text(self)
 	else:
-		text += "\n" + upgrade_lib.get_stat_text(self.ab_growth_stats[ability])
+		txt += "\n" + upgrade_lib.get_stat_text(self.ab_growth_stats[ability])
 	
-	return text
+	return txt
 

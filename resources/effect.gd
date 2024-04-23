@@ -42,7 +42,6 @@ func add_level(n:int = 1):
 
 # set base stats * number
 func stat_multiply(n:int=level):
-	var stats = {}
+	stats = {}
 	for stat in stat_base:
 		stats[stat] = stat_base[stat] * n
-	self.stats = stats

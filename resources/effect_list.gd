@@ -3,8 +3,8 @@ class_name EffectList
 
 const effect_lib = preload("res://libraries/effect_lib.gd")
 const category_type = effect_lib.category
-const stats_type = effect_lib.stats_type
-const ability_type = effect_lib.ability_type
+#const stats_type = effect_lib.stats_type
+#const ability_type = effect_lib.ability_type
 
 var weather_list : Array = []
 
@@ -65,7 +65,7 @@ func set_weather(weather_arr:Array):
 	update_total()
 
 func new_stat_upgrade(stat:String, _n:int=1):
-	var type = effect_lib.get_upgrade(stat).type
+	#var type = effect_lib.get_upgrade(stat).type
 
 	var upgrade = Upgrade.new()
 	upgrade.set_stat_upgrade(stat)
