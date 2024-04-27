@@ -21,8 +21,7 @@ func set_ability(abi:int=0):
 	
 	match ability:
 		-1: # add each ability
-			add_upgrade(1)
-			add_upgrade(2)
+			add_upgrade(-1)
 			add_upgrade(0, 5)
 		0:
 			add_upgrade(0, 3)

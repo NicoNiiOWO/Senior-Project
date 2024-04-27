@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bllnlui8lx8d1"]
 
-[ext_resource type="Texture2D" uid="uid://c6pw3sf6d6hpb" path="res://assets/Waddle Dee.png" id="2_bn66t"]
+[ext_resource type="Texture2D" uid="uid://c6pw3sf6d6hpb" path="res://assets/Enemy/Waddle Dee.png" id="2_bn66t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_utgbx"]
 radius = 20.0

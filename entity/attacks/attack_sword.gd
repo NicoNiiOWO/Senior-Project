@@ -1,7 +1,7 @@
 extends Attack
 
-func init(dir:Vector2, atk_source:int, dmg:float, size_m:float = 1.0):
-	init_attack(atk_source, dmg, size_m)
+func init(dir:Vector2, atk_source:int, dmg:float, size_m:float = 1.0, dur = 0.25):
+	init_attack(atk_source, dmg, size_m, dur)
 	
 	# offset position and change rotation
 	position += dir*30 + Vector2(0, -5)

@@ -3,8 +3,6 @@ class_name EffectList
 
 const effect_lib = preload("res://libraries/effect_lib.gd")
 const category_type = effect_lib.category
-#const stats_type = effect_lib.stats_type
-#const ability_type = effect_lib.ability_type
 
 var weather_list : Array = []
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://c6ckirvpcwsi8"]
+[gd_scene load_steps=22 format=3 uid="uid://c6ckirvpcwsi8"]
 
 [ext_resource type="Script" path="res://entity/Item.gd" id="1_6kd4i"]
 [ext_resource type="Texture2D" uid="uid://bt857os7475h7" path="res://assets/Icons/Ability/a_random_item.tres" id="2_5ei0w"]
 [ext_resource type="Texture2D" uid="uid://d2smabxnfy4mv" path="res://assets/Items.png" id="2_dpxcc"]
 [ext_resource type="Texture2D" uid="uid://cdqavpme3056i" path="res://assets/Icons/Ability/a_sword_item.tres" id="3_8oqfh"]
 [ext_resource type="Texture2D" uid="uid://bacb5qmej633i" path="res://assets/Icons/Ability/a_tornado_item.tres" id="4_kt1hj"]
+[ext_resource type="Texture2D" uid="uid://c6ux3ljtm271c" path="res://assets/Icons/Ability/a_parasol_item.tres" id="5_84xcj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w7hcm"]
 radius = 16.9086
@@ -72,6 +73,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("4_kt1hj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_84xcj")
 }],
 "loop": true,
 "name": &"ability",

@@ -69,11 +69,17 @@ func load_ability(a:int):
 		state_node[states.ATTACK] = $State/Attack
 		$State/Attack.set_script(script)
 	
-	# fix sprite position
+	# fix sprite
 	match ability:
 		ability_list.TORNADO:
 			can_flip = false
 			sprite.position = Vector2(0,0)
+		
+		ability_list.PARASOL:
+			$Parasol.show()
+			# offset hp display
+			var height = ($Parasol as AnimatedSprite2D).sprite_frames.get_frame_texture("default",0).get_height() + 10
+			$CenterContainer.position -= Vector2(0,height)
 
 func _ready():
 	load_ability(ability)

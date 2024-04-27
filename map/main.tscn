@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://v1608s5lvo0j"]
+[gd_scene load_steps=9 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Texture2D" uid="uid://cp36lau6gxpva" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_3s6u4"]
 [ext_resource type="Script" path="res://map/main.gd" id="1_v6nxb"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://map/EnemySpawnPath.gd" id="3_wsknh"]
 [ext_resource type="PackedScene" uid="uid://c6ckirvpcwsi8" path="res://entity/item.tscn" id="5_2nl8k"]
 [ext_resource type="PackedScene" uid="uid://d8e3lfaeglcx" path="res://gui/gui.tscn" id="6_85ohw"]
+[ext_resource type="PackedScene" uid="uid://168p112wb04u" path="res://entity/attacks/area_attack.tscn" id="7_5m71s"]
 
 [sub_resource type="Curve2D" id="Curve2D_i03nr"]
 bake_interval = 10.0
@@ -86,6 +87,10 @@ ability = -1
 [node name="Item6" parent="." instance=ExtResource("5_2nl8k")]
 position = Vector2(134.492, -25.1091)
 ability = -1
+
+[node name="AreaAttack" parent="." instance=ExtResource("7_5m71s")]
+position = Vector2(21.3008, -57)
+source = 1
 
 [connection signal="api_request_complete" from="." to="GUI" method="_on_main_api_request_complete"]
 [connection signal="game_start" from="." to="GUI" method="_on_main_game_start"]

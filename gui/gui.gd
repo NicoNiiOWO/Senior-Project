@@ -233,7 +233,7 @@ func _on_game_timer_timeout():
 		#print_debug("e")
 		
 		# loop weather at end of array
-		if(Global.index < Global.api_response.cnt):
+		if(Global.index < Global.api_response.cnt-1):
 			Global.index += 1
 		else: Global.index = 0
 		weather_update()

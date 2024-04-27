@@ -3,6 +3,12 @@ extends Resource
 # list of stats that can be upgraded
 const stats_upgradeable = ["atk","speed","max_hp","atk_size","dmg_taken"]
 
+const path_format = {
+	icon_text = "res://assets/Icons/Ability/a_{str}_text.tres",
+	icon = "res://assets/Icons/Ability/a_{str}_icon.tres",
+	item_icon = "res://assets/Icons/Ability/a_{str}_item.tres",
+	script = "res://resources/ability/ab_{str}.gd",
+}
 const ability_data = {
 	0 : {
 		icon_text = preload("res://assets/Icons/Ability/a_normal_text.tres"),
@@ -13,7 +19,7 @@ const ability_data = {
 		icon = preload("res://assets/Icons/Ability/a_sword_icon.tres"),
 		item_icon = preload("res://assets/Icons/Ability/a_sword_item.tres"),
 		script = preload("res://resources/ability/ab_sword.gd"),
-		desc = "Add projectile"
+		desc = "Add projectile on attack"
 	},
 	2 : {
 		icon_text = preload("res://assets/Icons/Ability/a_tornado_text.tres"),
@@ -21,6 +27,13 @@ const ability_data = {
 		item_icon = preload("res://assets/Icons/Ability/a_tornado_item.tres"),
 		script = preload("res://resources/ability/ab_tornado.gd"),
 		desc = "AAAAAAAAA"
+	},
+	3 : {
+		icon_text = preload("res://assets/Icons/Ability/a_parasol_text.tres"),
+		icon = preload("res://assets/Icons/Ability/a_parasol_icon.tres"),
+		item_icon = preload("res://assets/Icons/Ability/a_parasol_item.tres"),
+		script = preload("res://resources/ability/ab_parasol.gd"),
+		desc = "E"
 	}
 }
 
@@ -37,6 +50,10 @@ static func make_stat_upgrade_i(index:int, x:int=1) -> Upgrade:
 	return make_stat_upgrade(stat, x)
 
 static func make_ability(ability:int, parent:Character = null) -> Ability:
+	if ability == 0 or ability not in ability_data: 
+		print_debug(ability)
+		return null
+	
 	var upgrade = ability_data[ability].script.new()
 	upgrade.init(ability, parent)
 	return upgrade
@@ -67,14 +84,19 @@ static func random_upgrade(ability=0, count:int=1, x:int=1) -> Array:
 		count = stats_upgradeable.size()
 	
 	var upgrades = []
-	if ability == 0: # random stats
-		var stats = rand_stats(count)
-		
-		for stat in stats:
-			upgrades.append(make_stat_upgrade(stat,x))
-	else:
-		for i in range(count):
-			upgrades.append(make_ability(ability))
+	
+	match ability:
+		-1: # each ability
+			for i in range(1, ability_data.size()):
+				upgrades.append(make_ability(i))
+		0: # random stats
+			var stats = rand_stats(count)
+			
+			for stat in stats:
+				upgrades.append(make_stat_upgrade(stat,x))
+		_:
+			for i in range(count):
+				upgrades.append(make_ability(ability))
 	
 	#print_debug(upgrades)
 	return upgrades

@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=13 format=3 uid="uid://cdihm6hwfrjd5"]
 
-[ext_resource type="Texture2D" uid="uid://b82bbxr0bp0mv" path="res://assets/Blade Knight.png" id="2_rtnoh"]
+[ext_resource type="Texture2D" uid="uid://b82bbxr0bp0mv" path="res://assets/Enemy/Blade Knight.png" id="2_rtnoh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hgpfr"]
 atlas = ExtResource("2_rtnoh")

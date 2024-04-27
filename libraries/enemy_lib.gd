@@ -7,9 +7,10 @@ const ability_type = preload("res://libraries/effect_lib.gd").ability_type
 
 # path to sprites
 static var enemy_sprite = {
-	ability_type.NORMAL : "res://assets/waddle dee.tres",
-	ability_type.SWORD : "res://assets/blade knight.tres",
-	ability_type.TORNADO : "res://assets/twister.tres"
+	ability_type.NORMAL : "res://assets/Enemy/waddle dee.tres",
+	ability_type.SWORD : "res://assets/Enemy/blade knight.tres",
+	ability_type.TORNADO : "res://assets/Enemy/twister.tres",
+	ability_type.PARASOL : "res://assets/Enemy/waddle dee.tres",
 }
 
 # path to attack script
@@ -18,6 +19,7 @@ static var enemy_script : Dictionary = {
 	ability_type.NORMAL : null,
 	ability_type.SWORD : "e_SwordAttack.gd",
 	ability_type.TORNADO : "e_TornadoAttack.gd",
+	ability_type.PARASOL : null,
 }
 
 # when enemy attacks
@@ -27,18 +29,23 @@ static var enemy_attack = {
 	ability_type.NORMAL : [null],
 	ability_type.SWORD : [attack_trigger.TAKEDAMAGE],
 	ability_type.TORNADO : [attack_trigger.NEARPLAYER, 150],
+	ability_type.PARASOL : [null],
 }
 
 # spawn rates
 # use clear by default
 static var spawn_rate = {
 	weather_type.CLEAR: {
-		ability_type.NORMAL : 20,
-		ability_type.SWORD : 30,
-		ability_type.TORNADO : 5
+		#ability_type.NORMAL : 20,
+		#ability_type.SWORD : 30,
+		#ability_type.TORNADO : 5,
+		ability_type.PARASOL : 5,
 	},
 	weather_type.WIND : {
 		ability_type.TORNADO : 50
+	},
+	weather_type.RAIN : {
+		ability_type.PARASOL : 50
 	}
 }
 # stats
@@ -117,14 +124,16 @@ static func get_sprite(ability) -> SpriteFrames:
 	return load(enemy_sprite[ability])
 
 static func get_attack_script(ability) -> Variant:
-	if(enemy_script[ability] == null): return null
+	if(ability not in enemy_script): return null
+	else: if(enemy_script[ability] == null): return null
 	return load(state_path + enemy_script[ability])
 
 static func get_attack_trigger(ability) -> Array:
+	if ability not in enemy_attack: return [null]
 	return enemy_attack[ability]
 
 # return random enemy that can spawn for current weather
-static func random_enemy_type(weather_list:Array) -> int:
+static func random_enemy_type(weather_list:Array, exclusive:bool=false) -> int:
 	var spawn_chance = {}
 	
 	# for each weather, add spawn rate of each ability

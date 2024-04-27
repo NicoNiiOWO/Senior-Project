@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c1bbwbcm3u5l8"]
 
-[ext_resource type="Script" path="res://entity/attacks/projectile.gd" id="1_5rea0"]
+[ext_resource type="Script" path="res://entity/attacks/projectile_attack.gd" id="1_cluks"]
 [ext_resource type="SpriteFrames" uid="uid://bht4m32b5rnq0" path="res://entity/attacks/tornado_atk.tres" id="2_w5e1k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kd1if"]
@@ -10,7 +10,7 @@ radius = 12.0899
 scale = Vector2(2, 2)
 collision_layer = 2
 collision_mask = 2
-script = ExtResource("1_5rea0")
+script = ExtResource("1_cluks")
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
