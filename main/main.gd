@@ -1,6 +1,7 @@
 extends Node
 
 signal game_start
+signal restart
 signal api_request_complete
 
 @export var use_api: bool = true  # Enable/disable api call
@@ -32,6 +33,7 @@ const make_node : Resource = preload("res://libraries/make_node.gd")
 @export var enemy_spawn_count : int = 2	# Amount spawned
 @export var enemy_level_interval : int = 15	# Time between incrementing enemy level (s)
 
+@onready var game : Node = $Entities
 @onready var gui : CanvasLayer = $GUI
 @onready var spawn_timer : Timer = $EnemySpawnPath/SpawnTimer
 @onready var window_size = $EnemySpawnPath.get_viewport_rect().size
@@ -95,11 +97,12 @@ func load_config():
 
 
 func start():
+	$GUI/StartMenu.hide()
 	Global.weather_interval = weather_interval
 	
 	# add new player
 	player = make_node.new_player(player_level)
-	add_child(player)
+	game.add_child(player)
 	gui.set_player(player)
 	
 	if(!api_called and use_api): api_call()
@@ -167,7 +170,7 @@ func enemy_spawn(n:int, level:int, move:bool=true):
 			var enemyInstance = make_node.new_enemy(level, position, target)
 			enemyInstance.enemy_defeated.connect(_on_enemy_defeated)
 			
-			add_child(enemyInstance)
+			game.add_child(enemyInstance)
 
 var timer = Global.level_timer
 func _on_gui_time_update(): # Call every second when timer is running
@@ -191,7 +194,7 @@ func addItem(position:Vector2, ability:int=0):
 	if item != null:
 		item.set_deferred("global_position", position)
 		item.set_ability(ability)
-		call_deferred("add_child", item)
+		game.call_deferred("add_child", item)
 
 func game_over():
 	Global.game_ongoing = false
@@ -210,6 +213,8 @@ func _on_gui_game_start():
 func _on_restart(reload_settings:bool = false):
 	# delete player and enemies
 	get_tree().call_group("character", "queue_free")
+	for child in game.get_children(): # delete remaining nodes
+		child.queue_free()
 	
 	player_level = 1
 	enemy_level = 1
@@ -220,6 +225,7 @@ func _on_restart(reload_settings:bool = false):
 		gui.clear_forecast()
 		load_config()
 	
+	restart.emit()
 	start()
 
 # add item, give player xp, play sound at position

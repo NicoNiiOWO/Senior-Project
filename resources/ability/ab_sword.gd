@@ -7,6 +7,7 @@ const attack_scn : PackedScene = preload("res://entity/attacks/proj_sword.tscn")
 
 func make_attack() -> Projectile:
 	var new_attack = init_attack(attack_scn)
+	new_attack.isAbility = true
 	new_attack.set_direction(parent.direction)
 	new_attack.global_position = parent.position + parent.direction*30
 	

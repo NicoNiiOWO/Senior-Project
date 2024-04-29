@@ -2,7 +2,7 @@ class_name Character
 extends CharacterBody2D
 # Shared script for player and enemies
 
-signal damage_taken()
+signal damage_taken(dmg, isAbility, playSound)
 signal defeated()
 signal attack_start(x)
 
@@ -43,8 +43,8 @@ func _ready(): # set default
 
 # Take damage
 #var dmg_format : String = "{type} HP: {hp} (-{dmg})"
-func take_damage(n:float):
-	if stats_r.take_damage(n): damage_taken.emit()
+func take_damage(n:float, isAbility:bool=false, playSound:bool=true):
+	if stats_r.take_damage(n): damage_taken.emit(n, isAbility, playSound)
 	
 	if stats.hp <= 0:
 		stats.hp = 0

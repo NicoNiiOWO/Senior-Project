@@ -19,6 +19,8 @@ func add_attack(count:int=1):
 	for i in range(count):
 		var atk = init_attack(attack_scn) as Projectile
 		
+		atk.isAbility = true
+		
 		atk.orbit(radius)
 		atk.position = atk.position.rotated(i*rotation)
 		

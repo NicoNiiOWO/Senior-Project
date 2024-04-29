@@ -29,7 +29,7 @@ Sprites from Kirby: Nightmare in Dream Land, Kirby and the Amazing Mirror, and K
 
 Sound Effects from Kirby Squeak Squad
 
-Music from Kirby and the Amazing Mirror
+Music from Kirby and the Amazing Mirror, and Kirby Super Star Ultra
 
 
 ##### Fonts: [Climate Crisis](https://fonts.google.com/specimen/Climate+Crisis)

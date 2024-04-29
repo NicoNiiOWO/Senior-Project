@@ -10,8 +10,9 @@ var ability=0 # current ability
 
 var can_flip : bool = true 		# if sprite can flip
 var flip : bool = false 		# flip sprite
+
 @export var target_node : Node2D = null # node to move towards
-var target = null
+var target = null # target coordinate
 var direction : Vector2 	# direction moving towards
 var player : Character = null 	# player node
 
@@ -156,15 +157,17 @@ func _on_defeated():
 	queue_free()
 
 # Set HP text when taking damage
-func _on_damage_taken():
+func _on_damage_taken(x, isAbility:bool=false, playSound:bool=true):
 	update_text()
 	
-	# call attack when taking damage
-	if attack_trigger[0] == enemy_lib.attack_trigger.TAKEDAMAGE:
-		attack()
+	if not isAbility: # attack or play sound if not ability
+		# call attack when taking damage
+		if attack_trigger[0] == enemy_lib.attack_trigger.TAKEDAMAGE:
+			attack()
+		
+		await get_tree().create_timer(0.1).timeout
 	
-	await get_tree().create_timer(0.1).timeout
-	$Sound/Hit.play()
+	if playSound: $Sound/Hit.play()
 
 # set attack state
 func _on_attack(start:bool=true):

@@ -38,4 +38,4 @@ func _on_timer_timeout():
 func damage_area(): 
 	for body in get_overlapping_bodies():
 		if body is Character and body.type != source:
-			body.take_damage(damage)
+			body.take_damage(damage, isAbility, false)

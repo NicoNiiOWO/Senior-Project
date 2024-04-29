@@ -12,15 +12,14 @@ signal attack_end
 @onready var timer : Timer = $Timer
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 
+var isAbility : bool = false
+
 
 func init_attack(atk_source:int=source, dmg:float=damage, size_m:float = size, dur:float=duration):
 	source = atk_source
 	damage = dmg
 	size = size_m
 	duration = dur
-	print_debug(collision_mask)
-	
-	
 
 func set_source(atk_source:int=0): source = atk_source
 func set_damage(dmg:float): damage = dmg
@@ -52,4 +51,4 @@ func delete():
 func _on_body_entered(body):
 	if(is_instance_of(body, Character)):
 		if(body.type != source): # check source of attack
-			body.take_damage(damage)
+			body.take_damage(damage, isAbility)

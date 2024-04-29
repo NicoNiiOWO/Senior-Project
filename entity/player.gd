@@ -117,5 +117,5 @@ func projectile():
 	
 
 
-func _on_damage_taken():
-	%Hurt.play()
+func _on_damage_taken(_x,_y,playSound=true):
+	if playSound: %Hurt.play()

@@ -12,6 +12,7 @@ func on_level_changed():
 	
 	if attack == null:
 		attack = init_attack(attack_scn)
+		attack.isAbility = true
 		update_attack()
 		attack.color = Color.ROYAL_BLUE
 		parent.add_child(attack)
