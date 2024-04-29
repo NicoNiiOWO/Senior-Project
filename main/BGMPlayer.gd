@@ -34,5 +34,5 @@ func set_bgm(i):
 	play()
 	current_bgm = i
 
-func _on_main_restart():
+func _on_main_restarted():
 	random_bgm(false)

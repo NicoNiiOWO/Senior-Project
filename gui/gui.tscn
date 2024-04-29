@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d8e3lfaeglcx"]
+[gd_scene load_steps=11 format=3 uid="uid://d8e3lfaeglcx"]
 
 [ext_resource type="Script" path="res://gui/gui.gd" id="1_xmdei"]
 [ext_resource type="Texture2D" uid="uid://dwus57414541e" path="res://assets/Icons/Weather/01d@2x.png" id="2_obkgc"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://gui/PauseMenu.gd" id="3_pt86q"]
 [ext_resource type="PackedScene" uid="uid://cs4jvv78l7rkq" path="res://gui/settings.tscn" id="4_5x61j"]
 [ext_resource type="Script" path="res://gui/UpgradePopup.gd" id="4_fdg22"]
+[ext_resource type="Texture2D" uid="uid://3djp4kem8i5o" path="res://assets/Icons/github-mark.svg" id="4_mnhff"]
 [ext_resource type="PackedScene" uid="uid://bopr58h3maudq" path="res://gui/upgrade_button.tscn" id="5_rgp6c"]
 
 [sub_resource type="Theme" id="Theme_4cw36"]
@@ -160,6 +161,31 @@ custom_minimum_size = Vector2(80, 35)
 layout_mode = 2
 theme = ExtResource("3_1514i")
 text = "Settings"
+
+[node name="LinkButtons" type="CenterContainer" parent="StartMenu"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -49.0
+offset_top = -96.0
+offset_right = 90.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.7, 0.7)
+
+[node name="LinkButtons" type="FlowContainer" parent="StartMenu/LinkButtons"]
+layout_mode = 2
+
+[node name="GithubButton" type="TextureButton" parent="StartMenu/LinkButtons/LinkButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("4_mnhff")
 
 [node name="PauseMenu" type="Control" parent="."]
 unique_name_in_owner = true
@@ -453,6 +479,7 @@ visible = false
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
 [connection signal="pressed" from="StartMenu/CenterContainer/FlowContainer/Buttons/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="StartMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="StartMenu/LinkButtons/LinkButtons/GithubButton" to="." method="_on_github_button_pressed"]
 [connection signal="unpaused" from="PauseMenu" to="." method="_on_pause_menu_unpaused"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/PauseRestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/PauseRestartButton" to="PauseMenu" method="_on_restart_button_pressed"]

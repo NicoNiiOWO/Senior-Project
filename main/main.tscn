@@ -17,7 +17,6 @@ bake_interval = 10.0
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
 enable_spawn = false
-load_title = false
 debug = true
 enemy_spawn_time = 2
 enemy_spawn_count = 1
@@ -111,7 +110,7 @@ source = 1
 
 [connection signal="api_request_complete" from="." to="GUI" method="_on_main_api_request_complete"]
 [connection signal="game_start" from="." to="GUI" method="_on_main_game_start"]
-[connection signal="restart" from="." to="BGMPlayer" method="_on_main_restart"]
+[connection signal="restarted" from="." to="BGMPlayer" method="_on_main_restarted"]
 [connection signal="timeout" from="EnemySpawnPath/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]
 [connection signal="restart" from="GUI" to="." method="_on_restart"]

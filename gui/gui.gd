@@ -20,6 +20,7 @@ var loaded_icons = {} # list of loaded icon textures
 
 var reload_settings : bool = false # reload settings on restart
 
+@onready var main = get_node("/root/Main")
 var player : Player = null
 
 func set_player(p:Player):
@@ -202,7 +203,7 @@ func game_over():
 
 
 func _on_start_button_pressed():
-	restart.emit(reload_settings)
+	main.start(reload_settings)
 	reload_settings = false
 
 # call restart 
@@ -289,3 +290,7 @@ func upgrade_popup(a:Array):
 
 func _on_pause_menu_unpaused():
 	pass # Replace with function body.
+
+
+func _on_github_button_pressed():
+	OS.shell_open("https://github.com/NicoNiiOWO/Senior-Project/")

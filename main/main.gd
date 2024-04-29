@@ -1,7 +1,7 @@
 extends Node
 
 signal game_start
-signal restart
+signal restarted
 signal api_request_complete
 
 @export var use_api: bool = true  # Enable/disable api call
@@ -96,8 +96,11 @@ func load_config():
 
 
 
-func start():
+func start(reload_settings:bool = false):
 	$GUI/StartMenu.hide()
+	
+	if reload_settings: reload_settings()
+	
 	Global.weather_interval = weather_interval
 	
 	# add new player
@@ -221,12 +224,15 @@ func _on_restart(reload_settings:bool = false):
 	
 	# clear api response and reload settings
 	if reload_settings: 
-		Global.clear()
-		gui.clear_forecast()
-		load_config()
+		reload_settings()
 	
-	restart.emit()
+	restarted.emit()
 	start()
+
+func reload_settings():
+	Global.clear()
+	gui.clear_forecast()
+	load_config()
 
 # add item, give player xp, play sound at position
 func _on_enemy_defeated(position, ability, xp):
@@ -265,7 +271,6 @@ func _input(event):
 				"R": _on_restart()
 				"F": addItem(player.position, -1)
 				"G": player.take_damage(1000)
-				"X": player.projectile()
 				"C": player.effects.new_ability(1)
 
 

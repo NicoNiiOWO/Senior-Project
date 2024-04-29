@@ -101,21 +101,5 @@ func _on_defeated():
 func get_screen_center() -> Vector2:
 	return $Camera2D.get_screen_center_position()
 
-func projectile():
-	var offset = Vector2(100,0)
-	var proj = load("res://entity/attacks/projectile.tscn").instantiate()
-	proj.init_projectile(0,10)
-	proj.direction = direction
-	proj.global_position += offset
-	proj.orbit(100)
-	proj.duration = -1
-	
-	#print(get_tree_string_pretty(), get_tree().root.Main)
-	#print(get_parent().get_tree_string_pretty())
-	#get_parent().add_child(proj)
-	add_child(proj)
-	
-
-
 func _on_damage_taken(_x,_y,playSound=true):
 	if playSound: %Hurt.play()
