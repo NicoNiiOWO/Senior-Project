@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ooji3r34hew2"]
+[gd_scene load_steps=6 format=3 uid="uid://ooji3r34hew2"]
 
 [ext_resource type="Script" path="res://entity/player.gd" id="1_gj2uo"]
 [ext_resource type="SpriteFrames" uid="uid://be4hrbhrnrbbc" path="res://assets/kirby.tres" id="2_rn44o"]
+[ext_resource type="AudioStream" uid="uid://cm45hh38p6c27" path="res://assets/sounds/sword_1.wav" id="3_30oqs"]
+[ext_resource type="AudioStream" uid="uid://cdwwxrr73625i" path="res://assets/sounds/hit_2.wav" id="4_s14lp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ov5h2"]
 radius = 19.1253
@@ -36,6 +38,19 @@ sprite_frames = ExtResource("2_rn44o")
 animation = &"attack"
 autoplay = "idle"
 
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="SFX" groups=["audio_player", "sfx_player"]]
+unique_name_in_owner = true
+stream = ExtResource("3_30oqs")
+volume_db = -7.0
+
+[node name="Hurt" type="AudioStreamPlayer2D" parent="SFX" groups=["audio_player", "sfx_player"]]
+unique_name_in_owner = true
+stream = ExtResource("4_s14lp")
+volume_db = -7.0
+
 [connection signal="attack_start" from="." to="." method="_on_attack"]
+[connection signal="damage_taken" from="." to="." method="_on_damage_taken"]
 [connection signal="defeated" from="." to="." method="_on_defeated"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

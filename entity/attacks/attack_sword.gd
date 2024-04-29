@@ -20,4 +20,3 @@ func _ready():
 	if direction.x < 0: sprite.flip_v = true
 	
 	start()
-	

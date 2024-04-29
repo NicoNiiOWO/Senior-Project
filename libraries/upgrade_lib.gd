@@ -26,7 +26,7 @@ const ability_data = {
 		icon = preload("res://assets/Icons/Ability/a_tornado_icon.tres"),
 		item_icon = preload("res://assets/Icons/Ability/a_tornado_item.tres"),
 		script = preload("res://resources/ability/ab_tornado.gd"),
-		desc = "AAAAAAAAA"
+		desc = "Add tornado"
 	},
 	3 : {
 		icon_text = preload("res://assets/Icons/Ability/a_parasol_text.tres"),

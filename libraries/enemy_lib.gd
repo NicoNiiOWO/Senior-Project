@@ -38,14 +38,15 @@ static var spawn_rate = {
 	weather_type.CLEAR: {
 		#ability_type.NORMAL : 20,
 		#ability_type.SWORD : 30,
-		#ability_type.TORNADO : 5,
-		ability_type.PARASOL : 5,
+		ability_type.TORNADO : 5,
+		#ability_type.PARASOL : 5,
 	},
 	weather_type.WIND : {
 		ability_type.TORNADO : 50
 	},
 	weather_type.RAIN : {
-		ability_type.PARASOL : 50
+		ability_type.TORNADO : 5,
+		#ability_type.PARASOL : 50
 	}
 }
 # stats
@@ -150,19 +151,18 @@ static func random_enemy_type(weather_list:Array, exclusive:bool=false) -> int:
 			else:
 				spawn_chance[ability] += spawn_rate[temp][ability]
 	
-	# make each entry the sum itself and all previous
+	# every ability is interval between 0 and total
 	var total=0
 	for ability in spawn_chance.keys():
 		total += spawn_chance[ability]
 		spawn_chance[ability] = total
 	
 	# pick random int between 1 and total
-	# loop through spawn chance until int is < chance
+	# pick first ability where int < chance
 	var random = randi_range(1, total)
-	var enemy = -1
 	for ability in spawn_chance.keys():
-		if random <= spawn_chance[ability] && enemy == -1:
-			enemy = ability
+		if random <= spawn_chance[ability]:
+			return ability
 	
-	return enemy
+	return 0
 	

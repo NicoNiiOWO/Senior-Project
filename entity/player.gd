@@ -86,6 +86,8 @@ func _on_attack(_x):
 	new_attack.init(direction, Global.char_type.PLAYER, stats.atk, stats.atk_size)
 	add_child(new_attack)
 	
+	%Attack.play()
+	
 	effects.on_attack() # update ability
 
 func _on_animated_sprite_2d_animation_finished():
@@ -114,3 +116,7 @@ func projectile():
 	#get_parent().add_child(proj)
 	add_child(proj)
 	
+
+
+func _on_damage_taken():
+	%Hurt.play()

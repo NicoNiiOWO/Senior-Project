@@ -65,9 +65,9 @@ func update(emit=true):
 	if emit: stats_updated.emit()
 	
 
-# Take damage
+# Take damage, return true if damage > 0
 #var dmg_format : String = "{type} HP: {hp} (-{dmg})"
-func take_damage(n:float):
+func take_damage(n:float) -> bool:
 	var dmg = 0
 	var round_to # round to nearest 1 or 0.1
 	
@@ -86,6 +86,8 @@ func take_damage(n:float):
 	current.hp = snapped(current.hp-dmg, round_to) 
 	
 	if current.hp < 0: current.hp = 0
+	
+	return dmg > 0
 
 		
 # Add levels 

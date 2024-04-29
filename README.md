@@ -25,4 +25,11 @@ Sprites from Kirby: Nightmare in Dream Land, Kirby and the Amazing Mirror, and K
 - [Ability icons](https://www.spriters-resource.com/game_boy_advance/kirbyandtheamazingmirror/sheet/2736/)
 - [Ability items](https://www.spriters-resource.com/ds_dsi/kirbysqueaksquad/sheet/3045/)
 
+#### Sounds:
+
+Sound Effects from Kirby Squeak Squad
+
+Music from Kirby and the Amazing Mirror
+
+
 ##### Fonts: [Climate Crisis](https://fonts.google.com/specimen/Climate+Crisis)

@@ -44,7 +44,7 @@ func _ready(): # set default
 # Take damage
 #var dmg_format : String = "{type} HP: {hp} (-{dmg})"
 func take_damage(n:float):
-	stats_r.take_damage(n)
+	if stats_r.take_damage(n): damage_taken.emit()
 	
 	if stats.hp <= 0:
 		stats.hp = 0
@@ -54,10 +54,6 @@ func take_damage(n:float):
 	if isPlayer: 
 		Global.player_stats.hp = stats.hp
 		gui.update_stats()
-	
-	
-	damage_taken.emit()
-	
 
 # Add levels and update stats
 func gain_level(n:int=1):
@@ -99,7 +95,7 @@ func set_invincible(enable:bool):
 # make invisible and disable processing
 func disable():
 	visible = false
-	set_deferred("set_process_mode", PROCESS_MODE_DISABLED)
+	set_process_mode(PROCESS_MODE_DISABLED)
 
 func add_upgrade(upgrade:Upgrade):
 	# char_lib.add_upgrade(effects, upgrade)

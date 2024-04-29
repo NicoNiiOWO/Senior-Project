@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://be830e3wn8jb4"]
+[gd_scene load_steps=13 format=3 uid="uid://be830e3wn8jb4"]
 
 [ext_resource type="Script" path="res://entity/enemy/enemy.gd" id="1_uudwa"]
 [ext_resource type="SpriteFrames" uid="uid://ee2fe8kftrgn" path="res://assets/Enemy/waddle dee.tres" id="2_xb7je"]
 [ext_resource type="Texture2D" uid="uid://qsdc2a38d2bc" path="res://assets/Enemy/parasol.png" id="3_6kvrk"]
 [ext_resource type="Script" path="res://entity/enemy/state/e_Walk.gd" id="3_wdwsp"]
+[ext_resource type="AudioStream" uid="uid://cdn5yqc6p37k5" path="res://assets/sounds/hit_1.wav" id="5_vajno"]
+[ext_resource type="AudioStream" uid="uid://cnjpe787la4v1" path="res://assets/sounds/tornado_4.wav" id="6_l8lu5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_utgbx"]
 radius = 20.0
@@ -103,6 +105,19 @@ vertical_alignment = 1
 script = ExtResource("3_wdwsp")
 
 [node name="Attack" type="Node" parent="State"]
+
+[node name="Sound" type="Node2D" parent="."]
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sound"]
+
+[node name="Attack2" type="AudioStreamPlayer2D" parent="Sound"]
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource("5_vajno")
+volume_db = -7.0
+
+[node name="Tornado" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource("6_l8lu5")
 
 [connection signal="attack_start" from="." to="." method="_on_attack"]
 [connection signal="damage_taken" from="." to="." method="_on_damage_taken"]

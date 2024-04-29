@@ -152,6 +152,7 @@ func update_text():
 # When HP reaches 0, give player exp and delete
 func _on_defeated():
 	enemy_defeated.emit(global_position, ability, stats.max_exp)
+	
 	queue_free()
 
 # Set HP text when taking damage
@@ -161,6 +162,9 @@ func _on_damage_taken():
 	# call attack when taking damage
 	if attack_trigger[0] == enemy_lib.attack_trigger.TAKEDAMAGE:
 		attack()
+	
+	await get_tree().create_timer(0.1).timeout
+	$Sound/Hit.play()
 
 # set attack state
 func _on_attack(start:bool=true):

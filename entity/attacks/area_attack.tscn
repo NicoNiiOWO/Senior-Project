@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://entity/attacks/area_attack.gd" id="1_rr21a"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7d5i3"]
+radius = 50.0
 
 [node name="AreaAttack" type="Area2D"]
 position = Vector2(-24, -21)
