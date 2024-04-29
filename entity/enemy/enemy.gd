@@ -12,7 +12,7 @@ var can_flip : bool = true 		# if sprite can flip
 var flip : bool = false 		# flip sprite
 @export var target_node : Node2D = null # node to move towards
 var target = null
-var direction : Vector2 		# direction moving towards
+var direction : Vector2 	# direction moving towards
 var player : Character = null 	# player node
 
 enum states {WALK, ATTACK}

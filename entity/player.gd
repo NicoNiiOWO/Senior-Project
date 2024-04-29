@@ -105,7 +105,6 @@ func projectile():
 	var offset = Vector2(100,0)
 	var proj = load("res://entity/attacks/projectile.tscn").instantiate()
 	proj.init_projectile(0,10)
-	#proj.position = position
 	proj.direction = direction
 	proj.global_position += offset
 	proj.orbit(100)

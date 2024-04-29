@@ -85,14 +85,17 @@ func update_stats():
 func init_attack(scn:PackedScene) -> Attack:
 	var atk = scn.instantiate()
 	atk.source = parent.type
-	atk.damage = parent.stats.atk * ability_stats.atk_scale
 	atk.size = ability_stats.size
+	atk_update_damage(atk)
 	
 	if atk is Projectile:
 		atk.duration = ability_stats.duration
 		atk.speed = ability_stats.speed
 	
 	return atk
+
+func atk_update_damage(atk:Attack):
+	atk.damage = parent.stats.atk * ability_stats.atk_scale
 
 # override:
 func physics_update(_delta): if ready: pass

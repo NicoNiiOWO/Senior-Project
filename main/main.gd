@@ -257,12 +257,7 @@ func _input(event):
 				"D": enemy_level += 1
 				"T": game_over()
 				"R": _on_restart()
-				"F": 
-					var upgrade = Upgrade.new()
-					upgrade.set_stat_upgrade("atk")
-					print_debug(upgrade.stats)
-					
-					player.effects.print()
+				"F": addItem(player.position, -1)
 				"G": player.take_damage(1000)
 				"X": player.projectile()
 				"C": player.effects.new_ability(1)

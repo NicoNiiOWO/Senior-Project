@@ -33,7 +33,7 @@ const ability_data = {
 		icon = preload("res://assets/Icons/Ability/a_parasol_icon.tres"),
 		item_icon = preload("res://assets/Icons/Ability/a_parasol_item.tres"),
 		script = preload("res://resources/ability/ab_parasol.gd"),
-		desc = "E"
+		desc = "Damage nearby enemies"
 	}
 }
 
