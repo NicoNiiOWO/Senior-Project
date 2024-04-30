@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://co30ylnorxwan"]
+
+[ext_resource type="Script" path="res://gui/VolumeSlider.gd" id="1_nsk5o"]
+
+[node name="VolumeSlider" type="HSlider"]
+custom_minimum_size = Vector2(200, 0)
+offset_right = 8.0
+offset_bottom = 16.0
+max_value = 1.0
+step = 0.01
+value = 0.8
+script = ExtResource("1_nsk5o")
+
+[connection signal="value_changed" from="." to="." method="_on_value_changed"]

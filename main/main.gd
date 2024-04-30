@@ -46,6 +46,8 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var audio_layout = load("res://resources/audio_layout.tres")
+	AudioServer.set_bus_layout(audio_layout)
 	if not load_title:
 		start()
 
@@ -96,10 +98,10 @@ func load_config():
 
 
 
-func start(reload_settings:bool = false):
+func start(save_settings:bool = false):
 	$GUI/StartMenu.hide()
 	
-	if reload_settings: reload_settings()
+	if save_settings: reload_settings()
 	
 	Global.weather_interval = weather_interval
 	
@@ -213,7 +215,7 @@ func _on_gui_game_start():
 	start()
 
 # restart
-func _on_restart(reload_settings:bool = false):
+func _on_restart(save_settings:bool = false):
 	# delete player and enemies
 	get_tree().call_group("character", "queue_free")
 	for child in game.get_children(): # delete remaining nodes
@@ -223,7 +225,7 @@ func _on_restart(reload_settings:bool = false):
 	enemy_level = 1
 	
 	# clear api response and reload settings
-	if reload_settings: 
+	if save_settings: 
 		reload_settings()
 	
 	restarted.emit()
@@ -272,5 +274,6 @@ func _input(event):
 				"F": addItem(player.position, -1)
 				"G": player.take_damage(1000)
 				"C": player.effects.new_ability(1)
+				"M": $BGMPlayer.random_bgm(true)
 
 

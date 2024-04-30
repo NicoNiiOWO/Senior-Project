@@ -157,7 +157,7 @@ func _on_defeated():
 	queue_free()
 
 # Set HP text when taking damage
-func _on_damage_taken(x, isAbility:bool=false, playSound:bool=true):
+func _on_damage_taken(_x, isAbility:bool=false, playSound:bool=true):
 	update_text()
 	
 	if not isAbility: # attack or play sound if not ability

@@ -1,0 +1,24 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://jht3tj51v41g"]
+
+[ext_resource type="StyleBox" uid="uid://cwf271ywoytj6" path="res://gui/style_box_flat.tres" id="1_jq5uy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x1ypd"]
+bg_color = Color(0.278431, 0.647059, 0.811765, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hlug"]
+bg_color = Color(0.87451, 0.396078, 0.741176, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_vgca1"]
+color = Color(0.65098, 0.65098, 0.65098, 1)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 5
+
+[resource]
+BoxContainer/constants/separation = 10
+GridContainer/constants/h_separation = 60
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_x1ypd")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_2hlug")
+HSlider/styles/slider = SubResource("StyleBoxLine_vgca1")
+PanelContainer/styles/panel = ExtResource("1_jq5uy")
+TabContainer/styles/panel = ExtResource("1_jq5uy")
