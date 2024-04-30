@@ -64,6 +64,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MasterVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Volume" instance=ExtResource("3_rgfyv")]
+unique_name_in_owner = true
 layout_mode = 2
 bus_index = 0
 
@@ -74,6 +75,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BGMVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Volume" instance=ExtResource("3_rgfyv")]
+unique_name_in_owner = true
 layout_mode = 2
 bus_index = 1
 
@@ -84,6 +86,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SFXVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Volume" instance=ExtResource("3_rgfyv")]
+unique_name_in_owner = true
 layout_mode = 2
 bus_index = 2
 
@@ -245,7 +248,7 @@ text = "Close"
 [node name="ApplyButton" type="Button" parent="PanelContainer/BoxContainer/Buttons/BoxContainer/FlowContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Apply"
+text = "Save"
 
 [node name="TabContainer" type="TabContainer" parent="."]
 visible = false

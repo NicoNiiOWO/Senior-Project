@@ -48,8 +48,13 @@ func _init():
 func _ready():
 	var audio_layout = load("res://resources/audio_layout.tres")
 	AudioServer.set_bus_layout(audio_layout)
+	Config.apply_volume()
+	
 	if not load_title:
+		$GUI/StartMenu.hide()
 		start()
+	else:
+		$GUI/StartMenu.show()
 
 func get_gui():
 	return gui
@@ -57,42 +62,7 @@ func get_gui():
 func load_config():
 	api_called = false # api not called with new settings
 	
-	api_settings = {
-		latitude=null,
-		longitude=null,
-		key=null,
-		use_key=false,
-	}
-	
-	# set api settings from config
-	var config = ConfigFile.new()
-	
-	# load file
-	if config.load("res://config.cfg") != OK:
-		
-		# if not loaded
-		# set default location to first preset
-		#if (api_settings.latitude == null or api_settings.longitude == null):
-		var lat = Global.location_preset[0].lat
-		var lon = Global.location_preset[0].lon
-		api_settings.latitude = lat
-		api_settings.longitude = lon
-		
-		# save settings
-		Global.save_config_dict(api_settings)
-	else:
-		# set settings variable
-		for setting in config.get_section_keys("API"):
-			api_settings[setting] = config.get_value("API", setting)
-	
-	
-	# set default api key if not in config
-	if (api_settings.key == null):
-		api_settings.key = load("res://api_key.gd").key
-	else:
-		api_settings.use_key = true
-	
-	Global.api_settings = api_settings
+	api_settings = Config.load_config()
 	
 	print_debug(api_settings)
 

@@ -15,8 +15,8 @@ var geocode_response : Array
 
 
 var selected = {
-	lat = 0,
-	lon = 0,
+	latitude = 0,
+	longitude = 0,
 	key = null,
 	use_key = false,
 }
@@ -27,16 +27,19 @@ func _ready():
 	for i in locations:
 		%OptionButton.add_item(i.city)
 	
-	print_debug(Global.api_settings)
-	if Global.api_settings.use_key:
+	if Config.api_settings.use_key:
 		selected.use_key = true
 		%KeyToggle.set_pressed(true)
+		
+	%MasterVolume.volume = Config.volume.master
+	%BGMVolume.volume = Config.volume.bgm
+	%SFXVolume.volume = Config.volume.sfx
 
 func open():
-	if(Global.api_settings.latitude != null && Global.api_settings.longitude != null):
-		selected.lat = Global.api_settings.latitude
-		selected.lon = Global.api_settings.longitude
-		set_coords(selected.lat, selected.lon)
+	if(Config.api_settings.latitude != null && Config.api_settings.longitude != null):
+		selected.latitude = Config.api_settings.latitude
+		selected.longitude = Config.api_settings.longitude
+		set_coords(selected.latitude, selected.longitude)
 
 	visible = true
 	%CloseButton.grab_focus()
@@ -68,8 +71,8 @@ func select_preset(i:int):
 	set_coords(locations[i].lat,locations[i].lon)
 
 func set_coords(lat:float, lon:float):
-	selected.lat = lat
-	selected.lon = lon
+	selected.latitude = lat
+	selected.longitude = lon
 	%LatEdit.text = str(lat)
 	%LonEdit.text = str(lon)
 
@@ -157,9 +160,16 @@ func save_settings():
 		set_coords(%LatEdit.text as float, %LonEdit.text as float)
 	set_key()
 	
+	var vol_master = %MasterVolume.value
+	var vol_bgm = %BGMVolume.value
+	var vol_sfx = %SFXVolume.value
+	
+	Config.set_volume(vol_master, vol_bgm, vol_sfx)
+	
 	var use_key = %KeyToggle.button_pressed
-	var error = Global.save_config(selected.lat, selected.lon, selected.key, use_key)
-	if error != OK:
+	Config.set_api_settings(selected)
+	
+	if Config.save() != OK:
 		%SaveText.text = "Save error"
 		print_debug("save error")
 	else: 
@@ -167,6 +177,8 @@ func save_settings():
 		print_debug("settings saved")
 		settings_changed.emit()
 	%SaveText.show()
+	await get_tree().create_timer(3.0).timeout
+	%SaveText.hide()
 
 func _on_api_key_check_button_toggled(toggled_on):
 	%KeyEdit.visible = toggled_on

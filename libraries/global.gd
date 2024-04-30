@@ -51,12 +51,7 @@ const location_preset = [
 		lon = 139.7594549,
 	}
 ]
-var api_settings : Dictionary = {
-	latitude=null,
-	longitude=null,
-	key=null,
-	use_key=false,
-}
+
 var api_success : bool = false
 var api_response_code
 var api_response : Dictionary = {
@@ -73,37 +68,13 @@ var timezone = Time.get_time_zone_from_system()
 
 # clear api variables
 func clear():
-	api_settings = {latitude=null,longitude=null,key=null}
+	Config.clear_api()
 	api_success = false
 	api_response_code = null
 	api_response = {}
 	index = -1
 	forecast = [{}]
 	api_ready = false
-
-# save settings to config
-func save_config_dict(settings:Dictionary)-> Error:
-	return save_config(settings.latitude, settings.longitude, settings.key, settings.use_key)
-	
-func save_config(lat, lon, key=null, use_key=null) -> Error:
-	var config = ConfigFile.new()
-	config.load("res://config.cfg")
-	
-	# use selected longitude/latitude and key
-	config.set_value("API", "latitude", lat)
-	config.set_value("API", "longitude", lon)
-	config.set_value("API", "key", key)
-	
-	# if use_key is not provided, set to true if key is set
-	if use_key == null: use_key = (key != null)
-	config.set_value("API", "use_key", use_key)
-	
-	api_settings.latitude = lat
-	api_settings.longitude = lon
-	if key != null: api_settings.key = key
-	api_settings.use_key = use_key
-	
-	return config.save("res://config.cfg")
 
 # timezone abbreviation
 func _init():

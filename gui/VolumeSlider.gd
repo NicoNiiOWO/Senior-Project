@@ -2,15 +2,16 @@ extends HSlider
 class_name VolumeSlider
 
 @export var bus_index = -1
+@export var volume = 0.8 : set=set_vol
 
-#func set_bus(bus_name):
-	#bus = bus_name
-	#bus_index = AudioServer.get_bus_index(bus)
-
-# Called when the node enters the scene tree for the first time.
+## Called when the node enters the scene tree for the first time.
 func _ready():
-	_on_value_changed(value)
+	set_vol(volume)
 
 func _on_value_changed(val):
-	#print_debug(bus_index, " ", bus, " ", AudioServer.get_bus_index(bus))
+	volume = val
+
+func set_vol(val):
+	value = val
 	AudioServer.set_bus_volume_db(bus_index, linear_to_db(val))
+

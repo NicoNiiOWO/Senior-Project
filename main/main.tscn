@@ -71,7 +71,6 @@ layer_1/tile_data = PackedInt32Array()
 [node name="BGMPlayer" type="AudioStreamPlayer" parent="." groups=["audio_player"]]
 process_mode = 3
 stream = ExtResource("6_mpt5k")
-volume_db = -10.0
 autoplay = true
 bus = &"BGM"
 script = ExtResource("7_rviok")
