@@ -5,6 +5,7 @@ var radius = 120
 
 var projectiles : Array = [] # store current attack nodes
 
+func _init(): name = "Tornado"
 func on_level_changed():
 	super.on_level_changed()
 	add_attack(int(level/3) +1)

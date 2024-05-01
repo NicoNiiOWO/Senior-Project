@@ -6,6 +6,7 @@ const attack_scn : PackedScene = preload("res://entity/attacks/area_attack.tscn"
 
 var attack : Node2D = null # current attack
 
+func _init(): name = "Parasol"
 func on_level_changed():
 	
 	super.on_level_changed()

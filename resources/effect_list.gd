@@ -116,6 +116,14 @@ func get_upgrade(upg:Upgrade) -> Upgrade:
 		else: return upgrade_stat_list[upg.type]
 	return null
 
+func get_ability_txt() -> String:
+	var txt = ""
+	for i in ability_list:
+		var ability = ability_list[i]
+		txt += str(ability.name, " Lvl ", ability.level, "\n")
+	
+	return txt
+
 # call each ability
 func physics_update(delta):
 	for i in ability_list:

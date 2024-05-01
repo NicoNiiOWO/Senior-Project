@@ -4,7 +4,7 @@ const attack_scn : PackedScene = preload("res://entity/attacks/proj_sword.tscn")
 #var attack : Projectile = null
 
 
-
+func _init(): name = "Sword"
 func make_attack() -> Projectile:
 	var new_attack = init_attack(attack_scn)
 	new_attack.isAbility = true

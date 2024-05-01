@@ -1,6 +1,7 @@
 extends Upgrade
 class_name Ability
 
+var name = ""
 var ready : bool = false
 
 var parent : Character = null # parent node
