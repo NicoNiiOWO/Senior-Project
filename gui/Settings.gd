@@ -165,8 +165,6 @@ func save_settings():
 	var vol_sfx = %SFXVolume.value
 	
 	Config.set_volume(vol_master, vol_bgm, vol_sfx)
-	
-	var use_key = %KeyToggle.button_pressed
 	Config.set_api_settings(selected)
 	
 	if Config.save() != OK:

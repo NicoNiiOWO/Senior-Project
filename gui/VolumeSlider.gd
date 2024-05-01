@@ -6,7 +6,8 @@ class_name VolumeSlider
 
 ## Called when the node enters the scene tree for the first time.
 func _ready():
-	set_vol(volume)
+	#set_vol(volume)
+	pass
 
 func _on_value_changed(val):
 	volume = val

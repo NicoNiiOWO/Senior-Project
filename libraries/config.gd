@@ -1,16 +1,18 @@
 extends Node
 
-var volume : Dictionary = {
-	master = 0.8,
-	bgm = 0.8,
-	sfx = 0.8
+const default_vol ={
+	master = 0.5,
+	bgm = 0.5,
+	sfx = 0.5
 }
-var api_settings : Dictionary = {
-	latitude=null,
-	longitude=null,
+const default_api = {
+	latitude=Global.location_preset[0].lat,
+	longitude=Global.location_preset[0].lon,
 	key=null,
 	use_key=false,
 }
+var volume = default_vol.duplicate()
+var api_settings = default_api.duplicate()
 
 func clear_api() -> void:
 	api_settings = {
@@ -20,21 +22,15 @@ func clear_api() -> void:
 		use_key=false,
 	}
 
+# load from file
 func load_config() -> Dictionary:
 	# set api settings from config
 	var config = ConfigFile.new()
 	
 	# load file
 	if config.load("res://config.cfg") != OK:
-		# if not loaded,
-		# set default location to first preset
-		var lat = Global.location_preset[0].lat
-		var lon = Global.location_preset[0].lon
-		api_settings.latitude = lat
-		api_settings.longitude = lon
-		
-		# save settings
-		save()
+		# if not loaded, load and save default
+		load_default()
 	else:
 		# set settings
 		for setting in config.get_section_keys("Volume"):
@@ -50,10 +46,6 @@ func load_config() -> Dictionary:
 	
 	
 	return api_settings
-
-# save settings to config
-#func save_config_dict(settings:Dictionary) -> Error:
-	#return set_api_settings(settings.latitude, settings.longitude, settings.key, settings.use_key)
 
 func set_coords_dict(settings:Dictionary):
 	set_coords(settings.latitude, settings.longitude)
@@ -78,11 +70,20 @@ func set_volume(master=0.8, bgm=0.8, sfx=0.8):
 	volume.sfx = sfx
 	apply_volume()
 
+func set_volume_dict(vol:Dictionary):
+	set_volume(vol.master, vol.bgm, vol.sfx)
+
 func apply_volume():
 	AudioServer.set_bus_volume_db(0, linear_to_db(volume.master))
 	AudioServer.set_bus_volume_db(1, linear_to_db(volume.bgm))
 	AudioServer.set_bus_volume_db(2, linear_to_db(volume.sfx))
 
+func load_default():
+	set_api_settings(default_api.duplicate())
+	set_volume_dict(default_vol.duplicate())
+	save()
+
+# save loaded values
 func save() -> Error:
 	var config = ConfigFile.new()
 	config.load("res://config.cfg")

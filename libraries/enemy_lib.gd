@@ -134,7 +134,7 @@ static func get_attack_trigger(ability) -> Array:
 	return enemy_attack[ability]
 
 # return random enemy that can spawn for current weather
-static func random_enemy_type(weather_list:Array, exclusive:bool=false) -> int:
+static func random_enemy_type(weather_list:Array, _exclusive:bool=false) -> int:
 	var spawn_chance = {}
 	
 	# for each weather, add spawn rate of each ability
