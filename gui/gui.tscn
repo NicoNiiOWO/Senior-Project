@@ -65,6 +65,7 @@ offset_right = 20.5
 offset_bottom = 32.0
 grow_horizontal = 2
 text = "00:00"
+horizontal_alignment = 1
 
 [node name="Weather" type="HFlowContainer" parent="HUD"]
 visible = false
@@ -310,6 +311,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ForecastScroll" type="ScrollContainer" parent="PauseMenu/Forecast/FlowContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 300)
 layout_mode = 2
 horizontal_scroll_mode = 0

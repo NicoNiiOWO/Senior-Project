@@ -187,6 +187,7 @@ func set_clock():
 	# offset game clock proportionally to weather interval and api interval
 	var time_offset = Global.api_interval/Global.weather_interval * (Global.level_timer.total_seconds % Global.weather_interval)
 	var text = get_clock_str(weather_data.local_dt + time_offset)
+	
 	%Clock.text = text
 
 func get_clock_str(unix:int) -> String:
@@ -246,8 +247,18 @@ func _on_game_timer_timeout():
 	
 	#print_debug(Global.weather_data)
 	if Global.api_ready: set_clock()
-	$HUD/Timer.text = time_f % [time.minutes, time.seconds]
+	
+	var index_text = str("\n",Global.index+1, "/", Global.api_response.cnt)
+	$HUD/Timer.text = time_f % [time.minutes, time.seconds] + index_text
 
+func weather_increment():
+	# loop weather at end of array
+	if(Global.index < Global.api_response.cnt-1):
+		Global.index += 1
+	else: Global.index = 0
+	weather_update()
+	
+	
 # When settings change, reload settings on next restart
 func _on_settings_changed():
 	reload_settings = true
