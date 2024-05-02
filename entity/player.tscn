@@ -44,13 +44,11 @@ autoplay = "idle"
 unique_name_in_owner = true
 stream = ExtResource("3_30oqs")
 volume_db = -7.0
-bus = &"SFX"
 
 [node name="Hurt" type="AudioStreamPlayer2D" parent="SFX" groups=["audio_player", "sfx_player"]]
 unique_name_in_owner = true
 stream = ExtResource("4_s14lp")
 volume_db = -7.0
-bus = &"SFX"
 
 [connection signal="attack_start" from="." to="." method="_on_attack"]
 [connection signal="damage_taken" from="." to="." method="_on_damage_taken"]

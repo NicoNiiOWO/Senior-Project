@@ -5,7 +5,7 @@ signal settings_closed()
 
 const geocode_url = "https://api.openweathermap.org/geo/1.0/direct?q={City}&limit={Limit}&appid={Key}"
 
-@onready var locations = Global.location_preset
+@onready var locations = Config.location_preset
 
 const city_format = "{name}, {country}, ({lat}, {lon})"
 const city_format_us = "{name}, {state}, {country}, ({lat}, {lon})"
@@ -182,4 +182,4 @@ func _on_api_key_check_button_toggled(toggled_on):
 	%KeyEdit.visible = toggled_on
 
 func _on_api_key_button_pressed():
-	Global.api_settings["key"] = %KeyEdit.text
+	Config.api_settings["key"] = %KeyEdit.text

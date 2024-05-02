@@ -17,7 +17,9 @@ bake_interval = 10.0
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
 enable_spawn = false
+load_title = false
 debug = true
+sound_on = false
 enemy_spawn_time = 2
 enemy_spawn_count = 1
 metadata/_edit_horizontal_guides_ = [2560.0, -2504.0, 0.0, 0.0]
@@ -72,13 +74,11 @@ layer_1/tile_data = PackedInt32Array()
 process_mode = 3
 stream = ExtResource("6_mpt5k")
 autoplay = true
-bus = &"BGM"
 script = ExtResource("7_rviok")
 
 [node name="CharDefeatSFX" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_7bs5o")
 volume_db = -15.0
-bus = &"SFX"
 
 [node name="Entities" type="Node2D" parent="."]
 

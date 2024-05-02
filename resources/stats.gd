@@ -119,3 +119,41 @@ func calc_add(stat:String, round_to:float=1.0, base_stats:Dictionary=base, growt
 
 func calc_mult(stat:String, round_to:float=1.0, base_stats:Dictionary=base, growth_stats:Dictionary=growth, level:int=current.level):
 	return snapped(floor(base_stats[stat] * pow(growth_stats[stat], level-1)), round_to)
+
+
+const txt_percent = "%d%%\n"
+const txt_decimal = "%d\n"
+const txt_float = "%0.2f\n"
+static func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) -> String:
+	if(stats.size() > 0):
+		var text = ""
+		if !weather: text = "\n"
+		#print_debug(stats)
+		for stat in stats.keys():
+			var mod = stats[stat]
+			
+			if(mod != 0):
+				if(weather): 
+					text += stat.capitalize()
+					text += " "
+					if mod > 0: text += "+"
+					mod*=100
+					text += txt_percent % mod
+				else:
+					if stat not in ["level","hp","max_exp","exp"]:
+						text += stat.capitalize() + ": "
+						
+						var format = ""
+						
+						if upgrade: text += "x" + txt_float % (mod+1)
+						else:
+							match stat:
+								"speed": format = txt_decimal
+								_: format = txt_float
+							text += format % mod
+						#else:							text += ": %d\n" % mod
+			#else: text+=stat+"\n"
+
+		#return text.left(text.length()-1) # remove last newline
+		return text
+	return ""

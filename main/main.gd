@@ -8,6 +8,7 @@ signal api_request_complete
 @export var enable_spawn : bool = true
 @export var load_title : bool = true
 @export var debug : bool = false
+@export var sound_on : bool = true
 
 
 # API variables
@@ -48,7 +49,7 @@ func _init():
 func _ready():
 	var audio_layout = load("res://resources/audio_layout.tres")
 	AudioServer.set_bus_layout(audio_layout)
-	Config.apply_volume()
+	Config.apply_volume(sound_on)
 	
 	if not load_title:
 		$GUI/StartMenu.hide()
@@ -73,10 +74,12 @@ func start(save_settings:bool = false):
 	
 	if save_settings: reload_settings()
 	
-	Global.weather_interval = weather_interval
+	Weather.weather_interval = weather_interval
 	
 	# add new player
-	player = make_node.new_player(player_level)
+	Global.new_player(player_level)
+	player = Global.player
+	
 	game.add_child(player)
 	gui.set_player(player)
 	
@@ -105,24 +108,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	#print_debug("API response: ", response_code)
 	
 	print_debug("API response ",response_code)
-	
-	var json = JSON.new()
-	json.parse(body.get_string_from_utf8())
-	
-	Global.api_response_code = response_code
-	Global.api_response = json.get_data()
-	
-	# if successful
-	if(response_code == 200):
-		Global.api_success = true
-		#print_debug(Global.api_response.list[0])
-		
-		# datetime difference between responses
-		Global.api_interval = (Global.api_response.list[1].dt - Global.api_response.list[0].dt)
-	
-	# set forecast then update gui
-	Global.set_forecast()
-	#print_debug(Global.forecast)
+	Weather.handle_response(response_code, body)
 	api_request_complete.emit()
 
 # Spawn n enemies
@@ -202,7 +188,7 @@ func _on_restart(save_settings:bool = false):
 	start()
 
 func reload_settings():
-	Global.clear()
+	Weather.clear()
 	gui.clear_forecast()
 	load_config()
 

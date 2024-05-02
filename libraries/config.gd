@@ -1,13 +1,38 @@
 extends Node
 
+# API variables
+const location_preset = [
+	{
+		city = "Brooklyn, New York",
+		lat = 40.6526006,
+		lon = -73.9497211,
+		
+	},
+	{
+		city = "Tampa, Florida",
+		lat = 27.9477595,
+		lon = -82.45844,
+	},
+	{
+		city = "Los Angeles, California",
+		lat = 34.0536909,
+		lon = -118.242766,
+	},
+	{
+		city = "Tokyo, JP",
+		lat = 35.6828387,
+		lon = 139.7594549,
+	}
+]
+
 const default_vol ={
 	master = 0.5,
 	bgm = 0.5,
 	sfx = 0.5
 }
 const default_api = {
-	latitude=Global.location_preset[0].lat,
-	longitude=Global.location_preset[0].lon,
+	latitude=location_preset[0].lat,
+	longitude=location_preset[0].lon,
 	key=null,
 	use_key=false,
 }
@@ -73,7 +98,8 @@ func set_volume(master=0.8, bgm=0.8, sfx=0.8):
 func set_volume_dict(vol:Dictionary):
 	set_volume(vol.master, vol.bgm, vol.sfx)
 
-func apply_volume():
+func apply_volume(enabled=true):
+	if not enabled: set_volume(0,0,0)
 	AudioServer.set_bus_volume_db(0, linear_to_db(volume.master))
 	AudioServer.set_bus_volume_db(1, linear_to_db(volume.bgm))
 	AudioServer.set_bus_volume_db(2, linear_to_db(volume.sfx))

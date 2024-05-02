@@ -52,7 +52,7 @@ func take_damage(n:float, isAbility:bool=false, playSound:bool=true):
 		
 	# update hud if player
 	if isPlayer: 
-		Global.player_stats.hp = stats.hp
+		#Global.player_stats.hp = stats.hp
 		gui.update_stats()
 
 # Add levels and update stats
@@ -81,7 +81,7 @@ func _on_stats_updated():
 		defeated.emit()
 	
 	if(isPlayer):
-		Global.player_stats = stats
+		#Global.player_stats = stats
 		gui.update_stats()
 
 

@@ -32,8 +32,8 @@ func _init():
 	# set ability type based on current weather
 	# default to cloudy
 	var a = [1]
-	if(Global.api_ready):
-		a = enemy_lib.random_enemy_type(Global.current_weather().type)
+	if(Weather.api_ready):
+		a = enemy_lib.random_enemy_type(Weather.current_weather().type)
 	else:
 		a = enemy_lib.random_enemy_type([0])
 	ability = a
