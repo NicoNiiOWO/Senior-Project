@@ -38,7 +38,7 @@ const make_node : Resource = preload("res://libraries/make_node.gd")
 @onready var gui : CanvasLayer = $GUI
 @onready var spawn_timer : Timer = $EnemySpawnPath/SpawnTimer
 @onready var window_size = $EnemySpawnPath.get_viewport_rect().size
-
+@onready var timer : GameTimer = Global.timer
 
 
 func _init():
@@ -50,6 +50,9 @@ func _ready():
 	var audio_layout = load("res://resources/audio_layout.tres")
 	AudioServer.set_bus_layout(audio_layout)
 	Config.apply_volume(sound_on)
+	
+	add_child(timer)
+	timer.game_timeout.connect(_on_timer_timeout)
 	
 	if not load_title:
 		$GUI/StartMenu.hide()
@@ -64,8 +67,6 @@ func load_config():
 	api_called = false # api not called with new settings
 	
 	api_settings = Config.load_config()
-	
-	print_debug(api_settings)
 
 
 
@@ -92,6 +93,7 @@ func start(save_settings:bool = false):
 	
 	# start GUI and make pausable
 	game_start.emit()
+	Global.timer.start()
 	Global.game_ongoing = true
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 
@@ -133,8 +135,7 @@ func enemy_spawn(n:int, level:int, move:bool=true):
 			
 			game.add_child(enemyInstance)
 
-var timer = Global.level_timer
-func _on_gui_time_update(): # Call every second when timer is running
+func _on_timer_timeout(): # Call every second when timer is running
 	# Increase enemy level on interval
 	if(enable_spawn and timer.total_seconds != 0 and timer.total_seconds % enemy_level_interval == 0):
 		enemy_level += 1
@@ -183,6 +184,9 @@ func _on_restart(save_settings:bool = false):
 	# clear api response and reload settings
 	if save_settings: 
 		reload_settings()
+	
+	timer.clear()
+	Weather.restart()
 	
 	restarted.emit()
 	start()

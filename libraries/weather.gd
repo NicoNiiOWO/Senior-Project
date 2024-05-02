@@ -1,5 +1,8 @@
 extends Node
 
+signal weather_updated()
+signal weather_changed() # if weather type changed
+
 enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 
 const eff_lib = preload("res://libraries/effect_lib.gd")
@@ -11,7 +14,8 @@ var api_response : Dictionary = {
 }
 var api_ready = false # if variables are set up
 var forecast : Array = [{}]
-var index : int = 0 # current index in list
+var index : int = 0 : set = update # current index in list
+var prev_index : int = -1 # most recent index used for forecast
 
 const icon_path_format : String = "res://assets/Icons/Weather/%s@2x.png"
 var loaded_icons = {} # list of loaded icon textures
@@ -36,7 +40,9 @@ func clear():
 	forecast = [{}]
 	api_ready = false
 
-
+func restart():
+	index = 0
+	prev_index = -1
 
 # timezone abbreviation
 func _init():
@@ -44,7 +50,7 @@ func _init():
 	for word in timezone.name.split(" "):
 		abbrev += word[0]
 	timezone.abbrev = abbrev
-	print_debug(timezone)
+	#print_debug(timezone)
 
 func current_weather() -> Dictionary:
 	if index != -1: 
@@ -61,16 +67,18 @@ func handle_response(response_code, body):
 	json.parse(body.get_string_from_utf8())
 	
 	api_response_code = response_code
-	Weather.api_response = json.get_data()
+	api_response = json.get_data()
 	
 	# if successful
 	if(response_code == 200):
-		Weather.api_success = true
+		api_success = true
 		# datetime difference between responses
-		Weather.api_interval = (Weather.api_response.list[1].dt - Weather.api_response.list[0].dt)
+		api_interval = (api_response.list[1].dt - api_response.list[0].dt)
 	
-	# set forecast then update gui
-	Weather.set_forecast()
+	# set forecast
+	set_forecast()
+	update()
+
 # get weather as text, default to current
 func get_text(i:int=index) -> String:
 	var weather = forecast[i]
@@ -91,7 +99,10 @@ func load_icon(code:String) -> Texture2D:
 		
 		loaded_icons[code] = load(icon_path)
 	return loaded_icons[code]
-	
+
+func get_icon() -> Texture2D:
+	return load_icon(current_weather().icon)
+
 # make forecast
 func set_forecast() -> bool: 
 	if(api_success):
@@ -151,16 +162,13 @@ func set_type(weather_data : Dictionary):
 			if(code==800): type.append(weather_type.CLEAR)
 			else: type.append(weather_type.CLOUDS)
 	
-	#print(weather_data)
 	if(weather_data["wind"]["speed"] > 8 || weather_data["wind"]["gust"] > 8):
 		type.append(weather_type.WIND)
 	
-	# return true if types changed
-	#if(!forecast[index].has("type") || forecast[index].type != type): 
 	weather_data.type = type
 
 func set_weather_stats():
-	weather_stat_mod.mods = eff_lib.get_total_w(Weather.current_weather().type)
+	weather_stat_mod.mods = eff_lib.get_total_w(current_weather().type)
 	weather_stat_mod.text = Stats.get_stats_text(weather_stat_mod.mods, true)
 
 # return true if looped
@@ -171,3 +179,19 @@ func increment() -> bool:
 	else: 
 		index = 0
 		return false
+
+func update(i=index):
+	index = i
+	if(prev_index != index): # call once per weather change
+		if index == -1: index = 0
+		
+		# Load weather icon
+		load_icon(current_weather().icon)
+		
+		prev_index = index
+		
+		#Global.timer.set_text()
+		if(current_weather().typeChanged): 
+			set_weather_stats()
+			weather_changed.emit()
+		weather_updated.emit()

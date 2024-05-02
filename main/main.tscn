@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://v1608s5lvo0j"]
+[gd_scene load_steps=11 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Texture2D" uid="uid://cp36lau6gxpva" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_3s6u4"]
 [ext_resource type="Script" path="res://main/main.gd" id="1_v6nxb"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://c6ckirvpcwsi8" path="res://entity/item.tscn" id="5_2nl8k"]
 [ext_resource type="PackedScene" uid="uid://d8e3lfaeglcx" path="res://gui/gui.tscn" id="6_85ohw"]
 [ext_resource type="AudioStream" uid="uid://dso5ascabpuri" path="res://assets/sounds/bgm/Peanut Plains.wav" id="6_mpt5k"]
-[ext_resource type="PackedScene" uid="uid://168p112wb04u" path="res://entity/attacks/area_attack.tscn" id="7_5m71s"]
 [ext_resource type="Script" path="res://main/BGMPlayer.gd" id="7_rviok"]
 [ext_resource type="AudioStream" uid="uid://c20xvw5x0bgqb" path="res://assets/sounds/hit_3.wav" id="9_7bs5o"]
 
@@ -91,10 +90,10 @@ position = Vector2(62.2521, -144.77)
 ability = -1
 
 [node name="Item2" parent="Entities" instance=ExtResource("5_2nl8k")]
-position = Vector2(-77.217, -147.74)
+position = Vector2(-137.83, -145.495)
 
 [node name="Item4" parent="Entities" instance=ExtResource("5_2nl8k")]
-position = Vector2(-126.796, -148.283)
+position = Vector2(-83.02, -147.161)
 ability = -1
 
 [node name="Item5" parent="Entities" instance=ExtResource("5_2nl8k")]
@@ -104,10 +103,6 @@ ability = -1
 [node name="Item6" parent="Entities" instance=ExtResource("5_2nl8k")]
 position = Vector2(105.092, -143.599)
 ability = -1
-
-[node name="AreaAttack" parent="Entities" instance=ExtResource("7_5m71s")]
-position = Vector2(210.913, -123.529)
-source = 1
 
 [connection signal="api_request_complete" from="." to="GUI" method="_on_main_api_request_complete"]
 [connection signal="game_start" from="." to="GUI" method="_on_main_game_start"]

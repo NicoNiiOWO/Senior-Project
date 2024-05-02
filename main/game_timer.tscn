@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfs3ytp4ewvac"]
+
+[ext_resource type="Script" path="res://main/GameTimer.gd" id="1_3v1h2"]
+
+[node name="GameTimer" type="Timer"]
+script = ExtResource("1_3v1h2")
+
+[connection signal="timeout" from="." to="." method="_on_timeout"]

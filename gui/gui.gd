@@ -10,6 +10,7 @@ signal popup(e)
 var reload_settings : bool = false # reload settings on restart
 
 @onready var main = get_node("/root/Main")
+@onready var timer = Global.timer
 var player : Player = null
 
 func set_player(p:Player):
@@ -31,15 +32,7 @@ func _input(event):
 func _on_main_game_start():
 	$StartMenu.hide()
 	
-	var timer = $GameTimer
-	timer.wait_time = 1
-	Global.level_timer.minutes = 0
-	Global.level_timer.seconds = 0
-	
-	$HUD/Timer.text = "00:00"
-	
-	timer.start()
-	$HUD.update_stats()
+	$HUD.start()
 
 # Display player stats
 func update_stats():
@@ -48,7 +41,7 @@ func update_stats():
 func _on_main_api_request_complete():
 	if Weather.api_success:
 		make_forecast()
-	$HUD.weather_update()
+	#$HUD.weather_update()
 
 #func show_weather(success:bool):
 	#$HUD.show_weather(success)
@@ -108,7 +101,7 @@ func make_forecast():
 			var icon = Weather.load_icon(weather.icon)
 			entry.get_child(0).set_texture(icon) # icon
 			
-			entry.get_child(1).get_child(0).text = $HUD.get_clock_str(weather.local_dt) # time
+			entry.get_child(1).get_child(0).text = timer.get_clock_str(weather.local_dt) # time
 			entry.get_child(1).get_child(1).text = Weather.get_text(i) # text
 			
 			entry.show()

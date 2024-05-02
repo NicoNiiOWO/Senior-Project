@@ -18,8 +18,6 @@ bg_color = Color(0.6, 0.6, 0.6, 0.0784314)
 [node name="GUI" type="CanvasLayer" groups=["gui"]]
 script = ExtResource("1_xmdei")
 
-[node name="GameTimer" type="Timer" parent="."]
-
 [node name="HUD" parent="." instance=ExtResource("2_urirw")]
 
 [node name="StartMenu" type="Control" parent="."]
@@ -400,7 +398,6 @@ visible = false
 
 [connection signal="pause" from="." to="PauseMenu" method="_on_gui_pause"]
 [connection signal="popup" from="." to="UpgradePopup" method="_on_gui_popup"]
-[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
 [connection signal="pressed" from="StartMenu/CenterContainer/FlowContainer/Buttons/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="StartMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="StartMenu/LinkButtons/LinkButtons/GithubButton" to="." method="_on_github_button_pressed"]

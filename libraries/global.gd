@@ -12,11 +12,7 @@ var map_size : int = 5120 # size of map
 
 var player : Player = null
 
-var level_timer = {
-	minutes = 0,
-	seconds = 0,
-	total_seconds = 0
-}
+var timer : GameTimer = GameTimer.new()
 
 func new_player(level=1):
 	player = make_node.new_player(level)
