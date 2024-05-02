@@ -12,8 +12,6 @@ Project for CISC 4900, Spring 2024
 
 Weather icons from OpenWeather
 
-[Kenney's Prototype Textures](https://github.com/Calinou/kenney-prototype-textures)
-
 [Pixel Art Top Down by Cainos](https://cainos.itch.io/pixel-art-top-down-basic)
 
 Sprites from Kirby: Nightmare in Dream Land, Kirby and the Amazing Mirror, and Kirby Squeak Squad by Nintendo and HAL Laboratory

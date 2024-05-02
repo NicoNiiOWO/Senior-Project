@@ -14,6 +14,8 @@ var api_response : Dictionary = {
 }
 var api_ready = false # if variables are set up
 var forecast : Array = [{}]
+
+var count : int = 0 # max
 var index : int = 0 : set = update # current index in list
 var prev_index : int = -1 # most recent index used for forecast
 
@@ -108,8 +110,9 @@ func set_forecast() -> bool:
 	if(api_success):
 		var prev_type = []
 		
-		#print_debug(forecast)
-		for i in range(api_response.cnt):
+		count = api_response.cnt
+		
+		for i in range(count):
 			if i == 0: forecast[0] = process_weather(0)
 			else: forecast.append(process_weather(i))
 			

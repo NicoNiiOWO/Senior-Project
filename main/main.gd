@@ -235,5 +235,6 @@ func _input(event):
 				"G": player.take_damage(1000)
 				"C": player.effects.new_ability(1)
 				"M": $BGMPlayer.random_bgm(true)
+				"+": Weather.increment()
 
 

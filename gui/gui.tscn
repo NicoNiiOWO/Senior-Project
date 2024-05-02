@@ -113,7 +113,6 @@ texture_normal = ExtResource("4_mnhff")
 [node name="PauseMenu" type="Control" parent="."]
 unique_name_in_owner = true
 process_mode = 2
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -183,43 +182,45 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -229.0
-offset_top = -163.5
-offset_bottom = 163.5
+offset_left = -100.0
+offset_top = -213.5
+offset_bottom = 213.5
 grow_horizontal = 0
 grow_vertical = 2
 focus_mode = 2
 theme = SubResource("Theme_4cw36")
 theme_override_styles/panel = SubResource("StyleBoxFlat_lio1d")
 
-[node name="FlowContainer" type="FlowContainer" parent="PauseMenu/Forecast"]
+[node name="BoxContainer" type="BoxContainer" parent="PauseMenu/Forecast"]
 layout_mode = 2
 alignment = 1
+vertical = true
 
-[node name="Label" type="Label" parent="PauseMenu/Forecast/FlowContainer"]
+[node name="Label" type="Label" parent="PauseMenu/Forecast/BoxContainer"]
 layout_mode = 2
 text = "Forecast"
+horizontal_alignment = 1
 
-[node name="ForecastEntry" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer"]
+[node name="ForecastEntry" type="FlowContainer" parent="PauseMenu/Forecast/BoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 alignment = 1
 vertical = true
 
-[node name="Icon" type="TextureRect" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry"]
+[node name="Icon" type="TextureRect" parent="PauseMenu/Forecast/BoxContainer/ForecastEntry"]
 layout_mode = 2
 texture = ExtResource("2_obkgc")
 
-[node name="Text" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry"]
+[node name="Text" type="FlowContainer" parent="PauseMenu/Forecast/BoxContainer/ForecastEntry"]
 layout_mode = 2
 alignment = 1
 
-[node name="Clock" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry/Text"]
+[node name="Clock" type="Label" parent="PauseMenu/Forecast/BoxContainer/ForecastEntry/Text"]
 layout_mode = 2
 text = "AAA"
 
-[node name="WeatherText" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastEntry/Text"]
+[node name="WeatherText" type="Label" parent="PauseMenu/Forecast/BoxContainer/ForecastEntry/Text"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -227,37 +228,37 @@ text = "AAAAAAAAAAA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ForecastScroll" type="ScrollContainer" parent="PauseMenu/Forecast/FlowContainer"]
+[node name="ForecastScroll" type="ScrollContainer" parent="PauseMenu/Forecast/BoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 300)
+custom_minimum_size = Vector2(100, 400)
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="ForecastList" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll"]
+[node name="ForecastList" type="FlowContainer" parent="PauseMenu/Forecast/BoxContainer/ForecastScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="ForecastEntry2" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList"]
+[node name="ForecastEntry2" type="FlowContainer" parent="PauseMenu/Forecast/BoxContainer/ForecastScroll/ForecastList"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 alignment = 1
 vertical = true
 
-[node name="Icon" type="TextureRect" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2"]
+[node name="Icon" type="TextureRect" parent="PauseMenu/Forecast/BoxContainer/ForecastScroll/ForecastList/ForecastEntry2"]
 layout_mode = 2
 texture = ExtResource("2_obkgc")
 
-[node name="Text" type="FlowContainer" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2"]
+[node name="Text" type="FlowContainer" parent="PauseMenu/Forecast/BoxContainer/ForecastScroll/ForecastList/ForecastEntry2"]
 layout_mode = 2
 alignment = 1
 
-[node name="Clock" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2/Text"]
+[node name="Clock" type="Label" parent="PauseMenu/Forecast/BoxContainer/ForecastScroll/ForecastList/ForecastEntry2/Text"]
 layout_mode = 2
 text = "AAA"
 
-[node name="WeatherText" type="Label" parent="PauseMenu/Forecast/FlowContainer/ForecastScroll/ForecastList/ForecastEntry2/Text"]
+[node name="WeatherText" type="Label" parent="PauseMenu/Forecast/BoxContainer/ForecastScroll/ForecastList/ForecastEntry2/Text"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4

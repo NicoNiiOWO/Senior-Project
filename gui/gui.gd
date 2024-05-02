@@ -16,6 +16,8 @@ var player : Player = null
 func set_player(p:Player):
 	player=p
 
+func _ready():
+	Weather.weather_updated.connect(weather_update)
 
 
 func _input(event):
@@ -41,19 +43,6 @@ func update_stats():
 func _on_main_api_request_complete():
 	if Weather.api_success:
 		make_forecast()
-	#$HUD.weather_update()
-
-#func show_weather(success:bool):
-	#$HUD.show_weather(success)
-
-#func error(text: String):
-	#$HUD.error(text)
-#
-## update weather info
-#func weather_update():
-	#$HUD.weather_update()
-
-# make text from current weather stat modifier
 
 func game_over():
 	$GameOver.set_visible(true)
@@ -81,10 +70,16 @@ func _on_game_timer_timeout():
 	time_update.emit()
 	$HUD._on_game_timer_timeout()
 
-func weather_increment():
-	Weather.increment()
-	$HUD.weather_update()
+func weather_update():
+	#Weather.increment()
+	#$HUD.weather_update()
 	
+	# scroll to entry
+	var scrollbar = %ForecastScroll.get_v_scroll_bar() as ScrollBar
+	
+	print_debug(scrollbar.value)
+	var step = scrollbar.max_value / Weather.count
+	scrollbar.value = step * Weather.index
 	
 # When settings change, reload settings on next restart
 func _on_settings_changed():

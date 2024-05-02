@@ -49,7 +49,6 @@ func set_text():
 		label_text = text + index_text
 		
 		set_clock()
-		print_debug(total_seconds, " ", label_text)
 	
 func set_clock():
 	# ignore on api response error

@@ -80,9 +80,10 @@ func set_weather_text():
 
 # Call every second, update timer
 func _on_game_timer_timeout():
-	print_debug(timer.text, timer.label_text)
-	set_timer_text()
-
-func set_timer_text():
+	#set_timer_text()
 	$TimerLabel.text = timer.label_text
 	%Clock.text = timer.weather_clock
+
+#func set_timer_text():
+	#$TimerLabel.text = timer.label_text
+	#%Clock.text = timer.weather_clock
