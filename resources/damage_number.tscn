@@ -10,9 +10,12 @@ outline_color = Color(0.839216, 0.839216, 0.839216, 1)
 [node name="DamageNumber" type="Node2D"]
 z_index = 1
 script = ExtResource("1_02f4p")
+dmg = 5
+offset = null
+rand_radius = null
 
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
-text = "-20"
+text = "-5"
 label_settings = SubResource("LabelSettings_yfheu")

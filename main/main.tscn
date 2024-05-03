@@ -71,6 +71,7 @@ process_callback = 0
 autostart = true
 
 [node name="Entities" type="Node2D" parent="."]
+texture_filter = 1
 
 [node name="Item" parent="Entities" instance=ExtResource("5_2nl8k")]
 position = Vector2(15.1354, -145.677)

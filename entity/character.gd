@@ -50,7 +50,8 @@ func take_damage(n:float, isAbility:bool=false, playSound:bool=true):
 		# show damage number
 		var dmg_n = damage_num_scn.instantiate()
 		dmg_n.dmg = n
-		dmg_n.position = position+Vector2(0,-50)
+		
+		dmg_n.position = position
 		get_parent().add_child(dmg_n)
 	
 	

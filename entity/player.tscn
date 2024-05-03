@@ -11,11 +11,13 @@ radius = 19.1253
 [node name="Player" type="CharacterBody2D" groups=["character", "player"]]
 visibility_layer = 3
 z_index = 1
+texture_filter = 1
 collision_layer = 3
 collision_mask = 5
 motion_mode = 1
 slide_on_ceiling = false
 script = ExtResource("1_gj2uo")
+stats = null
 
 [node name="AttackCooldown" type="Timer" parent="."]
 process_callback = 0
@@ -31,7 +33,6 @@ position = Vector2(0.887894, -1.00188)
 shape = SubResource("CircleShape2D_ov5h2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-texture_filter = 1
 position = Vector2(-5, -20)
 scale = Vector2(1.8, 1.8)
 sprite_frames = ExtResource("2_rn44o")

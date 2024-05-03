@@ -36,17 +36,17 @@ static var enemy_attack = {
 # use clear by default
 static var spawn_rate = {
 	weather_type.CLEAR: {
-		#ability_type.NORMAL : 20,
-		#ability_type.SWORD : 30,
+		ability_type.NORMAL : 20,
+		ability_type.SWORD : 30,
 		ability_type.TORNADO : 5,
-		#ability_type.PARASOL : 5,
+		ability_type.PARASOL : 5,
 	},
 	weather_type.WIND : {
 		ability_type.TORNADO : 50
 	},
 	weather_type.RAIN : {
-		ability_type.TORNADO : 5,
-		#ability_type.PARASOL : 50
+		ability_type.TORNADO : 2,
+		ability_type.PARASOL : 50
 	}
 }
 # stats
