@@ -42,9 +42,17 @@ func _ready(): # set default
 		init(0)
 
 # Take damage
-#var dmg_format : String = "{type} HP: {hp} (-{dmg})"
+const damage_num_scn = preload("res://resources/damage_number.tscn")
 func take_damage(n:float, isAbility:bool=false, playSound:bool=true):
-	if stats_r.take_damage(n): damage_taken.emit(n, isAbility, playSound)
+	if stats_r.take_damage(n): 
+		damage_taken.emit(n, isAbility, playSound)
+		
+		# show damage number
+		var dmg_n = damage_num_scn.instantiate()
+		dmg_n.dmg = n
+		dmg_n.position = position+Vector2(0,-50)
+		get_parent().add_child(dmg_n)
+	
 	
 	if stats.hp <= 0:
 		stats.hp = 0

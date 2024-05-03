@@ -46,7 +46,7 @@ func _on_main_api_request_complete():
 
 func game_over():
 	$GameOver.set_visible(true)
-	$GameTimer.stop()
+	Global.timer.stop()
 	%GORestartButton.grab_focus()
 
 
@@ -71,13 +71,9 @@ func _on_game_timer_timeout():
 	$HUD._on_game_timer_timeout()
 
 func weather_update():
-	#Weather.increment()
-	#$HUD.weather_update()
-	
 	# scroll to entry
 	var scrollbar = %ForecastScroll.get_v_scroll_bar() as ScrollBar
 	
-	print_debug(scrollbar.value)
 	var step = scrollbar.max_value / Weather.count
 	scrollbar.value = step * Weather.index
 	
@@ -107,7 +103,6 @@ func make_forecast():
 			%ForecastList.add_child(separator)
 			%ForecastList.add_child(entry)
 		%Forecast.show()
-	
 
 func clear_forecast():
 	for n in %ForecastList.get_children():

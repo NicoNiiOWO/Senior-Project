@@ -18,8 +18,6 @@ enable_spawn = false
 load_title = false
 debug = true
 sound_on = false
-enemy_spawn_time = 2
-enemy_spawn_count = 1
 metadata/_edit_horizontal_guides_ = [2560.0, -2504.0, 0.0, 0.0]
 metadata/_edit_vertical_guides_ = [2560.0, -2500.0]
 

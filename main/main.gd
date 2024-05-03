@@ -30,8 +30,8 @@ const make_node : Resource = preload("res://libraries/make_node.gd")
 @export var enemy_level : int = 1
 
 # Enemy variables
-@export var enemy_spawn_time : int = 1	# Time between enemy spawns (s)
-@export var enemy_spawn_count : int = 2	# Amount spawned
+@export var enemy_spawn_time : int = 2	# Time between enemy spawns (s)
+@export var enemy_spawn_count : int = 1	# Amount spawned
 @export var enemy_level_interval : int = 15	# Time between incrementing enemy level (s)
 
 @onready var game : Node = $Entities
