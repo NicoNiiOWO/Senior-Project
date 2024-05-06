@@ -12,7 +12,7 @@ extends Node2D
 @export var fade_time = 0.1
 @export var fade:bool = false
 
-func _reset(x):
+func _reset(_x):
 	set_modulate(Color(1,1,1,1))
 	position=Vector2.ZERO
 	fade = false
@@ -31,7 +31,7 @@ func _ready():
 	fade=true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if fade:
 		var color = get_modulate()
 		# delete if transparency is 0

@@ -4,10 +4,10 @@ signal game_start
 signal restarted
 signal api_request_complete
 
+@export var debug : bool = false
 @export var use_api: bool = true  # Enable/disable api call
 @export var enable_spawn : bool = true
 @export var load_title : bool = true
-@export var debug : bool = false
 @export var sound_on : bool = true
 
 
@@ -73,6 +73,7 @@ func load_config():
 func start(save_settings:bool = false):
 	$GUI/StartMenu.hide()
 	
+	if not debug: clear_entities()
 	if save_settings: reload_settings()
 	
 	Weather.weather_interval = weather_interval
@@ -107,9 +108,7 @@ func api_call():
 	if $API.request(api_url) != OK: print_debug(":(")
 
 func _on_api_request_completed(_result, response_code, _headers, body):
-	#print_debug("API response: ", response_code)
-	
-	print_debug("API response ",response_code)
+	#print_debug("API response ",response_code)
 	Weather.handle_response(response_code, body)
 	api_request_complete.emit()
 
@@ -144,8 +143,8 @@ func _on_timer_timeout(): # Call every second when timer is running
 func _on_spawn_timer_timeout():
 	if(enable_spawn): enemy_spawn(enemy_spawn_count, enemy_level)
 
+# update stats when weather changes
 func _on_gui_weather_changed():
-	# update stats
 	if(player != null):
 		player.update_stats()
 	get_tree().call_group("enemies", "update_stats")
@@ -173,10 +172,7 @@ func _on_gui_game_start():
 
 # restart
 func _on_restart(save_settings:bool = false):
-	# delete player and enemies
-	get_tree().call_group("character", "queue_free")
-	for child in game.get_children(): # delete remaining nodes
-		child.queue_free()
+	clear_entities()
 	
 	player_level = 1
 	enemy_level = 1
@@ -191,6 +187,14 @@ func _on_restart(save_settings:bool = false):
 	restarted.emit()
 	start()
 
+func clear_entities():
+	# delete characters and items
+	get_tree().call_group("character", "queue_free")
+	get_tree().call_group("items", "queue_free")
+	for child in game.get_children(): # delete remaining nodes
+		child.queue_free()
+
+# clear forecast and load config file
 func reload_settings():
 	Weather.clear()
 	gui.clear_forecast()

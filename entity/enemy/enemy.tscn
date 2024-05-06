@@ -118,6 +118,7 @@ volume_db = -7.0
 
 [node name="Tornado" type="AudioStreamPlayer2D" parent="Sound"]
 stream = ExtResource("6_l8lu5")
+volume_db = -10.0
 
 [connection signal="attack_start" from="." to="." method="_on_attack"]
 [connection signal="damage_taken" from="." to="." method="_on_damage_taken"]

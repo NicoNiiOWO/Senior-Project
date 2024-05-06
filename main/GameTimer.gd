@@ -56,17 +56,17 @@ func set_clock():
 	
 	# offset game clock proportionally to weather interval and api interval
 	var time_offset = Weather.api_interval/Weather.weather_interval * (Global.timer.total_seconds % Weather.weather_interval)
-	var text = get_clock_str(Weather.current_weather().local_dt + time_offset)
+	var txt = get_clock_str(Weather.current_weather().local_dt + time_offset)
 	
-	weather_clock = text
+	weather_clock = txt
 
 func get_clock_str(unix:int) -> String:
 	var time = Time.get_datetime_dict_from_unix_time(unix)
 	if(time.minute < 10):
 		time.minute = str(0, time.minute)
 	
-	var text = clock_format.format({
+	var txt = clock_format.format({
 		Time = datetime_f.format(time),
 		Timezone = Weather.timezone.abbrev,
 	})
-	return text
+	return txt
