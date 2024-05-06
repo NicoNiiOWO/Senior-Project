@@ -37,8 +37,8 @@ func unpause():
 func _on_settings_button_pressed():
 	%Settings.open()
 
-func _on_restart_button_pressed():
-	unpause()
+#func _on_restart_button_pressed():
+	#unpause()
 
 func _on_settings_settings_closed():
 	if visible: %PauseRestartButton.grab_focus()

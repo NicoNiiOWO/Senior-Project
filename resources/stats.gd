@@ -65,29 +65,28 @@ func update(emit=true):
 	if emit: stats_updated.emit()
 	
 
-# Take damage, return true if damage > 0
+# Take damage, return damage taken
 #var dmg_format : String = "{type} HP: {hp} (-{dmg})"
-func take_damage(n:float) -> bool:
+func take_damage(n:float) -> float:
 	var dmg = 0
-	var round_to # round to nearest 1 or 0.1
+	var round_to = 0.01
 	
-	if(!isPlayer):
-		round_to = 1
-	else: 
-		round_to = 0.1
-		
 	# if player, set iframes after taking damage
 	# if iframes is not 0, set damage to 0
 	if isPlayer && current.iframes==0: 
 		current.iframes = base.iframes
 	else: if current.iframes != 0: n=0
 	
-	dmg = snapped(n * current.dmg_taken, 1)
-	current.hp = snapped(current.hp-dmg, round_to) 
 	
-	if current.hp < 0: current.hp = 0
+	dmg = n * current.dmg_taken
+	dmg = snapped(dmg, round_to)
+	current.hp = current.hp-dmg
 	
-	return dmg > 0
+	
+	if current.hp < 0 or (!isPlayer and current.hp < 1): 
+		current.hp = 0
+	
+	return dmg
 
 		
 # Add levels 

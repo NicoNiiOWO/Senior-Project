@@ -44,12 +44,13 @@ func _ready(): # set default
 # Take damage
 const damage_num_scn = preload("res://resources/damage_number.tscn")
 func take_damage(n:float, isAbility:bool=false, playSound:bool=true):
-	if stats_r.take_damage(n): 
-		damage_taken.emit(n, isAbility, playSound)
+	var dmg = stats_r.take_damage(n)
+	if dmg > 0: 
+		damage_taken.emit(dmg, isAbility, playSound)
 		
 		# show damage number
 		var dmg_n = damage_num_scn.instantiate()
-		dmg_n.dmg = n
+		dmg_n.dmg = dmg
 		
 		dmg_n.position = position
 		get_parent().add_child(dmg_n)

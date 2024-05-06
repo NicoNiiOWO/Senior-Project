@@ -58,7 +58,7 @@ func _ready():
 		$GUI/StartMenu.hide()
 		start()
 	else:
-		$GUI/StartMenu.show()
+		$GUI.open_title()
 
 func get_gui():
 	return gui
@@ -157,21 +157,29 @@ func addItem(position:Vector2, ability:int=0):
 		item.set_ability(ability)
 		game.call_deferred("add_child", item)
 
-func game_over():
+func stop():
 	Global.game_ongoing = false
 	spawn_timer.stop()
+	timer.stop()
+	timer.clear()
 	
 	# disable player and enemies, delete items
 	get_tree().call_group("character", "disable")
 	get_tree().call_group("items", "queue_free")
 	
+func game_over():
+	stop()
+	
 	gui.game_over()
 
+# title screen start button
 func _on_gui_game_start():
+	clear_entities()
 	start()
 
-# restart
+# restart button
 func _on_restart(save_settings:bool = false):
+	stop()
 	clear_entities()
 	
 	player_level = 1
@@ -181,7 +189,6 @@ func _on_restart(save_settings:bool = false):
 	if save_settings: 
 		reload_settings()
 	
-	timer.clear()
 	Weather.restart()
 	
 	restarted.emit()

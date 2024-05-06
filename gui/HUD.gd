@@ -12,13 +12,13 @@ func _ready():
 func start():
 	$TimerLabel.text = "00:00"
 	update_stats()
-	
+
 # Display player stats
 func update_stats():
 	player = Global.player
 	var stats = player.stats
 	
-	%HP.text = str("HP: ", stats.hp,"/", stats.max_hp)
+	%HP.text = str("HP: ", "%.2f/%d" % [stats.hp, stats.max_hp])
 	%Level.text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
 	
 	

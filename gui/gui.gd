@@ -44,9 +44,15 @@ func _on_main_api_request_complete():
 	if Weather.api_success:
 		make_forecast()
 
+func open_title():
+	main.stop()
+	$PauseMenu.unpause()
+	$StartMenu.show()
+	%StartButton.grab_focus()
+	
 func game_over():
 	$GameOver.set_visible(true)
-	Global.timer.stop()
+	main.stop()
 	%GORestartButton.grab_focus()
 
 
@@ -58,7 +64,7 @@ func _on_start_button_pressed():
 # reset settings and hide weather ui if changed
 func _on_restart_button_pressed():
 	$GameOver.set_visible(false)
-	#$PauseMenu.unpause()
+	$PauseMenu.unpause()
 	restart.emit(reload_settings)
 	
 	if(reload_settings): $HUD/Weather.hide()
@@ -117,3 +123,8 @@ func _on_pause_menu_unpaused():
 
 func _on_github_button_pressed():
 	OS.shell_open("https://github.com/NicoNiiOWO/Senior-Project/")
+
+
+func _on_settings_closed():
+	if $StartMenu.visible:
+		%StartButton.grab_focus()
