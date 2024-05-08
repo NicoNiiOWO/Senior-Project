@@ -135,9 +135,7 @@ func move_towards(node:Vector2, spd_mod:float = 1, max_turn:float = 1):
 
 # On collision, checks if touching player
 func handle_collision():
-	var collision_count = get_slide_collision_count()
-	
-	for i in collision_count:
+	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i).get_collider()
 
 		# check if player

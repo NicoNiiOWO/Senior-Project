@@ -30,11 +30,15 @@ func _input(event):
 	if $GameOver.visible && event.is_action_pressed("attack"):
 		_on_restart_button_pressed()
 
-# start timer
+# title screen start button
+func _on_start_button_pressed():
+	main.start(reload_settings)
+	reload_settings = false
+
+# start HUD
 func _on_main_game_start():
-	$StartMenu.hide()
-	
 	$HUD.start()
+	$StartMenu.hide()
 
 # Display player stats
 func update_stats():
@@ -56,9 +60,6 @@ func game_over():
 	%GORestartButton.grab_focus()
 
 
-func _on_start_button_pressed():
-	main.start(reload_settings)
-	reload_settings = false
 
 # call restart 
 # reset settings and hide weather ui if changed

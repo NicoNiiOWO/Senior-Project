@@ -47,12 +47,16 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Weather.weather_interval = weather_interval
+	
 	var audio_layout = load("res://resources/audio_layout.tres")
 	AudioServer.set_bus_layout(audio_layout)
 	Config.apply_volume(sound_on)
 	
 	add_child(timer)
 	timer.game_timeout.connect(_on_timer_timeout)
+	
+	if use_api: api_call()
 	
 	if not load_title:
 		$GUI/StartMenu.hide()
@@ -85,8 +89,8 @@ func start(save_settings:bool = false):
 	game.add_child(player)
 	gui.set_player(player)
 	
-	if(!api_called and use_api): api_call()
-	api_called = true # don't call api again
+	if(!api_called and use_api): api_call() # call api if not already called
+	
 
 	# set enemy spawn
 	spawn_timer.wait_time = enemy_spawn_time
@@ -106,6 +110,7 @@ func api_call():
 	
 	print_debug(api_url)
 	if $API.request(api_url) != OK: print_debug(":(")
+	api_called = true
 
 func _on_api_request_completed(_result, response_code, _headers, body):
 	#print_debug("API response ",response_code)

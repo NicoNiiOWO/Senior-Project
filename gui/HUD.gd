@@ -11,6 +11,8 @@ func _ready():
 
 func start():
 	$TimerLabel.text = "00:00"
+	#weather_update(false)
+	show_weather(Weather.api_success)
 	update_stats()
 
 # Display player stats
@@ -32,13 +34,14 @@ func update_stats():
 	%PlayerUpgrades.text = upgrade_text
 
 # update weather info
-func weather_update():
-	await timer.game_timeout
+func weather_update(show_error=true):
+	#await timer.game_timeout
 	
 	var response = Weather.api_response
 	
-	if(response != null && response.message != null):
-		error(str("Error ",Weather.api_response_code, " ", response.message))
+	if show_error:
+		if(response != null && response.message != null):
+			error(str("Error ",Weather.api_response_code, " ", response.message))
 	
 	show_weather(Weather.api_success)
 

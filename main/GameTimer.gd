@@ -55,7 +55,7 @@ func set_clock():
 	if(!Weather.api_ready): return
 	
 	# offset game clock proportionally to weather interval and api interval
-	var time_offset = Weather.api_interval/Weather.weather_interval * (Global.timer.total_seconds % Weather.weather_interval)
+	var time_offset = Weather.api_interval/Weather.weather_interval * (total_seconds % Weather.weather_interval)
 	var txt = get_clock_str(Weather.current_weather().local_dt + time_offset)
 	
 	weather_clock = txt

@@ -62,7 +62,6 @@ func current_weather() -> Dictionary:
 func get_weather(i:int) -> Dictionary:
 	return forecast[i]
 
-const text_format : String = "{Description}\n{Temp_C}°C/{Temp_F}°F\n"
 
 func handle_response(response_code, body):
 	var json = JSON.new()
@@ -82,6 +81,8 @@ func handle_response(response_code, body):
 	update()
 
 # get weather as text, default to current
+const text_format : String = "{Description}\n{Temp_C}°C/{Temp_F}°F\nWind {Speed} m/s\n"
+#const wind_f = "Windy ({Speed} m/s)\n"
 func get_text(i:int=index) -> String:
 	var weather = forecast[i]
 	
@@ -90,10 +91,15 @@ func get_text(i:int=index) -> String:
 		Temp_F = "%0.2f" % weather.temp_f,
 		Weather = weather.main, 
 		Description = weather.description,
+		Speed = weather.wind.speed
 	})
 	if(weather.type.has(weather_type.WIND)):
+		#text += wind_f.format({
+			#Speed = weather.wind.speed
+		#})
 		text += "Windy\n"
-	return text
+	
+	return text + "\n"
 
 func load_icon(code:String) -> Texture2D:
 	if code not in loaded_icons.keys():
@@ -121,6 +127,9 @@ func set_forecast() -> bool:
 			prev_type = forecast[i].type
 		
 		api_ready = true
+	
+	Global.timer.set_text()
+	weather_updated.emit()
 	#print_debug(api_success, forecast)
 	return api_ready
 
@@ -138,7 +147,12 @@ func process_weather(i:int) -> Dictionary:
 	weather_data.dt = entry.dt
 	weather_data.local_dt = weather_data.dt + timezone.bias*60
 	
+	weather_data.wind = {}
+	weather_data.wind.speed = entry["wind"]["speed"]
+	weather_data.wind.gust = entry["wind"]["gust"]
+	
 	set_type(weather_data)
+	load_icon(weather_data.icon)
 	
 	return weather_data
 
@@ -165,7 +179,7 @@ func set_type(weather_data : Dictionary):
 			if(code==800): type.append(weather_type.CLEAR)
 			else: type.append(weather_type.CLOUDS)
 	
-	if(weather_data["wind"]["speed"] > 8 || weather_data["wind"]["gust"] > 8):
+	if(weather_data.wind.speed > 8 || weather_data.wind.gust > 8):
 		type.append(weather_type.WIND)
 	
 	weather_data.type = type
