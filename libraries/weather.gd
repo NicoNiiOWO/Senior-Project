@@ -81,7 +81,7 @@ func handle_response(response_code, body):
 	update()
 
 # get weather as text, default to current
-const text_format : String = "{Description}\n{Temp_C}°C/{Temp_F}°F\nWind {Speed} m/s\n"
+const text_format : String = "{Description}\n{Temp_C}°C/{Temp_F}°F\nWind {Speed} m/s\nGust {Gust} m/s"
 #const wind_f = "Windy ({Speed} m/s)\n"
 func get_text(i:int=index) -> String:
 	var weather = forecast[i]
@@ -91,13 +91,14 @@ func get_text(i:int=index) -> String:
 		Temp_F = "%0.2f" % weather.temp_f,
 		Weather = weather.main, 
 		Description = weather.description,
-		Speed = weather.wind.speed
+		Speed = weather.wind.speed,
+		Gust = weather.wind.gust,
 	})
 	if(weather.type.has(weather_type.WIND)):
 		#text += wind_f.format({
 			#Speed = weather.wind.speed
 		#})
-		text += "Windy\n"
+		text += "\nWindy"
 	
 	return text + "\n"
 

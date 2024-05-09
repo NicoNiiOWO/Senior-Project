@@ -97,7 +97,9 @@ func geocode_request(text:String = %CityText.text):
 	
 	set_key()
 	
-	var url = geocode_url.format({City=text,Limit="5",Key=selected.key})
+	var url = geocode_url.format({City=text,Limit="5",Key=Config.api_settings.key})
+	
+	print_debug(url)
 	var request = $HTTPRequest.request(url)
 	if request != OK:
 		print_debug("geocode error")
@@ -115,8 +117,14 @@ func _on_http_request_request_completed(_result, response_code, _headers, body):
 	print_debug(str(response))
 	# check for error
 	if(response_code != 200):
-		print_debug(response_code)
-		%APIErrorText.text = str("API error ", response_code, ":\n", response.message)
+		print_debug("error ", response_code)
+		var txt = ""
+		match response_code:
+			400: txt = "No location found" 
+			_: txt = str("API error ", response_code)
+		if response != null: txt += str(":\n", response.message)
+		%APIErrorText.text = txt
+		
 		%APIErrorText.show()
 	else:
 		geocode_success = true
