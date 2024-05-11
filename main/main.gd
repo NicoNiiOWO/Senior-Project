@@ -171,11 +171,11 @@ func stop():
 func win():
 	game_over(true)
 	
-func game_over(win=false):
+func game_over(w=false):
 	player.disable()
 	stop()
 	
-	gui.game_over(win)
+	gui.game_over(w)
 
 # title screen start button
 func _on_gui_game_start():

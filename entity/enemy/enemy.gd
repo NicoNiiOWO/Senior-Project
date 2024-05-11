@@ -82,7 +82,9 @@ func load_ability(a:int):
 			var height = ($Parasol as AnimatedSprite2D).sprite_frames.get_frame_texture("default",0).get_height() + 10
 			$CenterContainer.position -= Vector2(0,height)
 
+var fade = true # fade in
 func _ready():
+	if fade: modulate = Color.TRANSPARENT
 	load_ability(ability)
 	
 	update_text()
@@ -92,6 +94,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	if fade: # fade in
+		var color = get_modulate()
+		if color == Color.WHITE: fade=false
+		else:
+			set_modulate(color.lerp(Color.WHITE, 0.1))
 	effects.physics_update(delta)
 	# movement based on current state
 	state.physics_process() 
