@@ -38,13 +38,14 @@ func clear():
 	api_success = false
 	api_response_code = null
 	api_response = {}
+	prev_index = -1
 	index = -1
 	forecast = [{}]
 	api_ready = false
 
 func restart():
-	index = 0
 	prev_index = -1
+	index = 0
 
 # timezone abbreviation
 func _init():
@@ -208,7 +209,7 @@ func update(i=index):
 	if(prev_index != index): # call once per weather change
 		if index == -1: index = 0
 		
-		if index == 0 and prev_index > 0:
+		if index == 0 and prev_index == forecast.size()-1:
 			prev_index = index
 			forecast_end.emit()
 		else:

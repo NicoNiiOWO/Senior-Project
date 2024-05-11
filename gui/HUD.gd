@@ -18,7 +18,9 @@ func update_stats():
 	player = Global.player
 	var stats = player.stats
 	
-	%HP.text = str("HP: ", "%.2f/%d" % [stats.hp, stats.max_hp])
+	%HP.text = str("%.2f/%.2f" % [stats.hp, stats.max_hp])
+	%HPBar.max_value = stats.max_hp
+	%HPBar.value = stats.hp
 	%Level.text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
 	
 	
