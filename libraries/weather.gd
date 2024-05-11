@@ -1,6 +1,7 @@
 extends Node
 
 signal weather_updated() # if weather changed
+signal forecast_end() # if end of forecast
 
 enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 
@@ -207,16 +208,17 @@ func update(i=index):
 	if(prev_index != index): # call once per weather change
 		if index == -1: index = 0
 		
-		# Load weather icon
-		#load_icon(current_weather().icon)
+		if index == 0 and prev_index > 0:
+			prev_index = index
+			forecast_end.emit()
+		else:
+			prev_index = index
+			if current_weather() != {}:
+				if(current_weather().typeChanged): 
+					set_weather_stats()
+					#weather_changed.emit()
+				weather_updated.emit()
 		
-		prev_index = index
-		
-		if current_weather() != {}:
-			if(current_weather().typeChanged): 
-				set_weather_stats()
-				#weather_changed.emit()
-			weather_updated.emit()
 
 func get_city():
 	if index == -1: return ""

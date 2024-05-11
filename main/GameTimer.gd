@@ -19,6 +19,7 @@ func _ready():
 	timeout.connect(_on_timeout)
 
 func clear() -> void:
+	stop()
 	total_seconds = 0
 	text = "00:00"
 	label_text = "00:00"

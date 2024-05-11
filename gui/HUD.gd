@@ -10,7 +10,6 @@ func _ready():
 
 func start():
 	$TimerLabel.text = "00:00"
-	#weather_update(false)
 	show_weather(Weather.api_success)
 	update_stats()
 
@@ -33,19 +32,19 @@ func update_stats():
 	%PlayerUpgrades.text = upgrade_text
 
 # update weather info
-func weather_update(show_error=true):
+func weather_update():
 	if not Weather.api_ready: return
 	var response = Weather.api_response
 	
-	if show_error:
-		if(response != null && response.message != null):
-			error(str("Error ",Weather.api_response_code, " ", response.message))
+	if(response != null && response.message != null):
+		error(str("Error ",Weather.api_response_code, " ", response.message))
 	
 	# set icon and text if weather type changed
 	if Weather.current_weather() != null && Weather.current_weather().typeChanged:
 		%Icon.set_texture(Weather.get_icon())
 		set_weather_text()
 		
+	set_timer_text()
 	show_weather(Weather.api_success)
 
 func show_weather(success:bool):
@@ -85,5 +84,6 @@ func _on_game_timer_timeout():
 	set_timer_text()
 
 func set_timer_text():
+	timer.set_text()
 	$TimerLabel.text = timer.label_text
 	%Clock.text = timer.weather_clock

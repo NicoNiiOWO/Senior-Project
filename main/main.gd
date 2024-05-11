@@ -15,14 +15,9 @@ signal api_request_complete
 @export var weather_interval : int = 10 # time between weather change in seconds
 
 const api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}"
-var api_settings : Dictionary # settings loaded from config
 var api_called: bool = false # if api has been called with current settings
 
 var player : Character = null # current player object
-const player_scn : PackedScene = preload("res://entity/player.tscn")
-const enemy_scn : PackedScene = preload("res://entity/enemy/enemy.tscn")
-const item_scn : PackedScene = preload("res://entity/item.tscn")
-const enemy_lib : Resource = preload("res://libraries/enemy_lib.gd")
 const make_node : Resource = preload("res://libraries/make_node.gd")
 
 # Initial level
@@ -47,6 +42,8 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Weather.forecast_end.connect(win) # call win() at end of forecast
+	
 	Weather.weather_interval = weather_interval
 	Global.set_bgm_node($BGMPlayer)
 	
@@ -70,10 +67,7 @@ func get_gui():
 
 func load_config():
 	api_called = false # api not called with new settings
-	
-	api_settings = Config.load_config()
-
-
+	Config.load_config()
 
 func start(save_settings:bool = false):
 	$GUI/StartMenu.hide()
@@ -109,8 +103,8 @@ func start(save_settings:bool = false):
 
 # Call API
 func api_call():
-	if(api_settings.key == null): return
-	var api_url = api_url_format.format(api_settings)
+	if(Config.api_settings.key == null): return
+	var api_url = api_url_format.format(Config.api_settings)
 	
 	print_debug(api_url)
 	if $API.request(api_url) != OK: print_debug(":(")
@@ -168,18 +162,20 @@ func addItem(position:Vector2, ability:int=0):
 func stop():
 	Global.game_ongoing = false
 	spawn_timer.stop()
-	timer.stop()
 	timer.clear()
 	
 	# disable player and enemies, delete items
 	get_tree().call_group("character", "disable")
 	get_tree().call_group("items", "queue_free")
+
+func win():
+	game_over(true)
 	
-func game_over():
+func game_over(win=false):
 	player.disable()
 	stop()
 	
-	gui.game_over()
+	gui.game_over(win)
 
 # title screen start button
 func _on_gui_game_start():

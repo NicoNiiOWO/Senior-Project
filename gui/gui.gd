@@ -17,7 +17,6 @@ func set_player(p:Player):
 func _ready():
 	Weather.weather_updated.connect(weather_update)
 
-
 func _input(event):
 	# pause game when running
 	if Global.game_ongoing && event.is_action_pressed("pause"):
@@ -46,10 +45,12 @@ func open_title():
 	$PauseMenu.unpause()
 	$StartMenu.show()
 	%StartButton.grab_focus()
+
+func game_over(win=false):
+	%GameOverText.visible = !win
+	%WinText.visible = win
 	
-func game_over():
 	$GameOver.set_visible(true)
-	main.stop()
 	%GORestartButton.grab_focus()
 
 # call restart 
