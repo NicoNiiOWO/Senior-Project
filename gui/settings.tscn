@@ -57,14 +57,24 @@ text = "Sound"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
+[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
+layout_mode = 2
+alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/FlowContainer"]
 layout_mode = 2
 
-[node name="RandBGMButton" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/CenterContainer"]
+[node name="RandBGMButton" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/FlowContainer/CenterContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 text = "Randomize BGM on restart"
+alignment = 1
+
+[node name="NextBGMButton" type="Button" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/FlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Next BGM"
 
 [node name="VolumeLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
 layout_mode = 2
@@ -277,6 +287,7 @@ theme = ExtResource("2_xbopw")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
+[connection signal="pressed" from="PanelContainer/BoxContainer/Settings/GridContainer/Sound/FlowContainer/NextBGMButton" to="." method="_on_next_bgm_button_pressed"]
 [connection signal="toggled" from="PanelContainer/BoxContainer/Settings/GridContainer/API Settings/API Key/FlowContainer/KeyToggle" to="." method="_on_api_key_check_button_toggled"]
 [connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/API Settings/Geolocation/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="text_submitted" from="PanelContainer/BoxContainer/Settings/GridContainer/API Settings/Geolocation/FlowContainer/CityEdit/CityText" to="." method="geocode_request"]

@@ -200,3 +200,7 @@ func _on_api_key_check_button_toggled(toggled_on):
 
 func _on_api_key_button_pressed():
 	Config.api_settings["key"] = %KeyEdit.text
+
+
+func _on_next_bgm_button_pressed():
+	Global.bgm.next()

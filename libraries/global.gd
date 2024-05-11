@@ -10,9 +10,13 @@ var game_paused : bool = false
 
 var map_size : int = 5120 # size of map
 
+var bgm : AudioStreamPlayer = null
 var player : Player = null
 
 var timer : GameTimer = GameTimer.new()
 
 func new_player(level=1):
 	player = make_node.new_player(level)
+
+func set_bgm_node(node:AudioStreamPlayer):
+	bgm = node

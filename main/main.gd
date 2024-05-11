@@ -48,6 +48,7 @@ func _init():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Weather.weather_interval = weather_interval
+	Global.set_bgm_node($BGMPlayer)
 	
 	var audio_layout = load("res://resources/audio_layout.tres")
 	AudioServer.set_bus_layout(audio_layout)
