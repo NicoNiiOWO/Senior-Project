@@ -43,6 +43,7 @@ layout_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/BoxContainer/Settings"]
 layout_mode = 2
+theme_override_constants/h_separation = 20
 columns = 3
 
 [node name="Sound" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
@@ -57,61 +58,79 @@ text = "Sound"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
 layout_mode = 2
-alignment = 1
+theme_override_constants/separation = 20
 
-[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/FlowContainer"]
+[node name="BGM" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer"]
+layout_mode = 2
+vertical = true
+
+[node name="BGMLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/BGM"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_font_sizes/font_size = 20
+text = "Music"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/BGM"]
 layout_mode = 2
 
-[node name="RandBGMButton" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/FlowContainer/CenterContainer"]
+[node name="RandBGMButton" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/BGM/CenterContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 text = "Randomize BGM on restart"
 alignment = 1
 
-[node name="NextBGMButton" type="Button" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/FlowContainer"]
+[node name="NextBGMButton" type="Button" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/BGM"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Next BGM"
 
-[node name="VolumeLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
+[node name="Volume" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+vertical = true
+
+[node name="VolumeLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
 theme_override_font_sizes/font_size = 20
 text = "Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
+[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume"]
 layout_mode = 2
 text = "Master"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MasterVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound" instance=ExtResource("3_rgfyv")]
+[node name="MasterVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
 unique_name_in_owner = true
 layout_mode = 2
 bus_index = 0
 
-[node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
+[node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume"]
 layout_mode = 2
 text = "Music"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BGMVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound" instance=ExtResource("3_rgfyv")]
+[node name="BGMVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
 unique_name_in_owner = true
 layout_mode = 2
 bus_index = 1
 
-[node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
+[node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume"]
 layout_mode = 2
 text = "Sound Effects"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SFXVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound" instance=ExtResource("3_rgfyv")]
+[node name="SFXVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
 unique_name_in_owner = true
 layout_mode = 2
 bus_index = 2
@@ -287,7 +306,7 @@ theme = ExtResource("2_xbopw")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
-[connection signal="pressed" from="PanelContainer/BoxContainer/Settings/GridContainer/Sound/FlowContainer/NextBGMButton" to="." method="_on_next_bgm_button_pressed"]
+[connection signal="pressed" from="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/BGM/NextBGMButton" to="." method="_on_next_bgm_button_pressed"]
 [connection signal="toggled" from="PanelContainer/BoxContainer/Settings/GridContainer/API Settings/API Key/FlowContainer/KeyToggle" to="." method="_on_api_key_check_button_toggled"]
 [connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/API Settings/Geolocation/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="text_submitted" from="PanelContainer/BoxContainer/Settings/GridContainer/API Settings/Geolocation/FlowContainer/CityEdit/CityText" to="." method="geocode_request"]

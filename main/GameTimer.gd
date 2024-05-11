@@ -33,7 +33,6 @@ func set_time(t_seconds:int = total_seconds):
 	label_text = text
 
 func _on_timeout():
-	#print_debug("AAAAA")
 	total_seconds += 1
 	set_time()
 	# increment weather on interval

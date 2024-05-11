@@ -31,13 +31,14 @@ Sound Effects from Kirby Squeak Squad
 
 Music:
 
-- Cabbage Cavern (Kirby and the Amazing Mirror)
-- Rainbow Route (Kirby and the Amazing Mirror)
-- Candy Mountain (Kirby Super Star Ultra)
-- Peanut Plains (Kirby Super Star Ultra)
 - Aqua Star (Kirby 64)
-- Planet Popstar (Kirby 64)
+- Cabbage Cavern (Kirby and the Amazing Mirror)
+- Candy Mountain (Kirby Super Star Ultra)
+- Grass Land 1 (Kirby's Dream Land 3)
 - Great Cave Escape (Kirby and the Rainbow Curse)
-
+- Peanut Plains (Kirby Super Star Ultra)
+- Planet Popstar (Kirby 64)
+- Rainbow Route (Kirby and the Amazing Mirror)
+- Ripple Field 1 (Kirby's Dream Land 3)
 
 ##### Fonts: [Climate Crisis](https://fonts.google.com/specimen/Climate+Crisis)
