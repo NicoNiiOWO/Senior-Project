@@ -215,3 +215,9 @@ func update(i=index):
 				set_weather_stats()
 				#weather_changed.emit()
 			weather_updated.emit()
+
+func get_city():
+	if index == -1: return ""
+	
+	var city = api_response.city
+	return str(city.name, ", ", city.country)

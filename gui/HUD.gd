@@ -75,7 +75,7 @@ func set_weather_text():
 	
 	#set_timer_text()
 	weather_text = Weather.get_text()
-	weather_text += Weather.weather_stat_mod.text
+	weather_text += "\n" + Weather.weather_stat_mod.text
 	%WeatherText.text = weather_text
 	%Clock.text = timer.weather_clock
 

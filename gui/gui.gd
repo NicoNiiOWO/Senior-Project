@@ -93,6 +93,8 @@ func make_forecast():
 			var entry = %ForecastEntry.duplicate()
 			var weather = Weather.get_weather(i)
 			
+			%CityLabel.text = Weather.get_city()
+			
 			var icon = Weather.load_icon(weather.icon)
 			entry.get_child(0).set_texture(icon) # icon
 			
