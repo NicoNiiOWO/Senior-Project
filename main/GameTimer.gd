@@ -12,7 +12,7 @@ var minutes = 0
 var seconds = 0
 
 var text = "00:00"
-var label_text = ""
+var label_text = "00:00"
 var weather_clock = ""
 
 func _ready():
@@ -21,8 +21,9 @@ func _ready():
 func clear() -> void:
 	total_seconds = 0
 	text = "00:00"
-	label_text = ""
+	label_text = "00:00"
 	weather_clock = ""
+
 
 func set_time(t_seconds:int = total_seconds):
 	total_seconds = t_seconds

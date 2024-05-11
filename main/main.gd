@@ -99,8 +99,10 @@ func start(save_settings:bool = false):
 	spawn_timer.start()
 	
 	# start GUI and make pausable
-	game_start.emit()
 	Global.timer.start()
+	Global.timer.set_text()
+	game_start.emit()
+	
 	Global.game_ongoing = true
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 
