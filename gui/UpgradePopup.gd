@@ -50,6 +50,7 @@ func clear():
 	for n in %UpgradeSelect.get_children():
 		%UpgradeSelect.remove_child(n)
 		n.queue_free()
+	hide()
 
 func popup_pause(enable:bool=true):
 	get_tree().paused = enable

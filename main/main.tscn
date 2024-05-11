@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://v1608s5lvo0j"]
+[gd_scene load_steps=9 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_v6nxb"]
 [ext_resource type="AudioStream" uid="uid://dws0nlvvei51x" path="res://assets/sounds/bgm/Aqua Star - Kirby 64.wav" id="2_rew20"]
 [ext_resource type="TileSet" uid="uid://cextsrgifdaoi" path="res://assets/Map/background.tres" id="3_o07od"]
 [ext_resource type="Script" path="res://main/EnemySpawnPath.gd" id="3_wsknh"]
-[ext_resource type="PackedScene" uid="uid://c6ckirvpcwsi8" path="res://entity/item.tscn" id="5_2nl8k"]
 [ext_resource type="PackedScene" uid="uid://d8e3lfaeglcx" path="res://gui/gui.tscn" id="6_85ohw"]
 [ext_resource type="Script" path="res://main/BGMPlayer.gd" id="7_rviok"]
 [ext_resource type="AudioStream" uid="uid://c20xvw5x0bgqb" path="res://assets/sounds/hit_3.wav" id="9_7bs5o"]
@@ -14,7 +13,6 @@ bake_interval = 10.0
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
-debug = true
 metadata/_edit_horizontal_guides_ = [2560.0, -2504.0, 0.0, 0.0]
 metadata/_edit_vertical_guides_ = [2560.0, -2500.0]
 
@@ -30,6 +28,7 @@ script = ExtResource("7_rviok")
 [node name="CharDefeatSFX" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_7bs5o")
 volume_db = -15.0
+bus = &"SFX"
 
 [node name="Background" type="TileMap" parent="."]
 z_index = -1
@@ -70,29 +69,6 @@ autostart = true
 
 [node name="Entities" type="Node2D" parent="."]
 texture_filter = 1
-
-[node name="Item" parent="Entities" instance=ExtResource("5_2nl8k")]
-position = Vector2(15.1354, -145.677)
-ability = -1
-
-[node name="Item3" parent="Entities" instance=ExtResource("5_2nl8k")]
-position = Vector2(62.2521, -144.77)
-ability = -1
-
-[node name="Item2" parent="Entities" instance=ExtResource("5_2nl8k")]
-position = Vector2(-137.83, -145.495)
-
-[node name="Item4" parent="Entities" instance=ExtResource("5_2nl8k")]
-position = Vector2(-83.02, -147.161)
-ability = -1
-
-[node name="Item5" parent="Entities" instance=ExtResource("5_2nl8k")]
-position = Vector2(-28.8786, -145.96)
-ability = -1
-
-[node name="Item6" parent="Entities" instance=ExtResource("5_2nl8k")]
-position = Vector2(105.092, -143.599)
-ability = -1
 
 [connection signal="api_request_complete" from="." to="GUI" method="_on_main_api_request_complete"]
 [connection signal="restarted" from="." to="BGMPlayer" method="_on_main_restarted"]

@@ -106,7 +106,6 @@ func api_call():
 	if(Config.api_settings.key == null): return
 	var api_url = api_url_format.format(Config.api_settings)
 	
-	print_debug(api_url)
 	if $API.request(api_url) != OK: print_debug(":(")
 	api_called = true
 
@@ -226,7 +225,7 @@ func _input(event):
 	if debug and event.is_pressed():
 		if is_instance_of(event, InputEventKey):
 			var key = OS.get_keycode_string(event.keycode)
-			print(key)
+			#print(key)
 			
 			match key:
 				"Q":

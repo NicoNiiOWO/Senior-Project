@@ -194,7 +194,6 @@ func set_weather_stats():
 
 # return true if looped
 func increment() -> bool:
-	print(index)
 	if(index < api_response.cnt-1):
 		index += 1
 		return true

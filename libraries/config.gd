@@ -79,8 +79,10 @@ func set_volume_dict(vol:Dictionary):
 func apply_volume(enabled=true):
 	if not enabled: set_volume(0,0,0)
 	AudioServer.set_bus_volume_db(0, linear_to_db(volume.master))
-	AudioServer.set_bus_volume_db(1, linear_to_db(volume.bgm))
-	AudioServer.set_bus_volume_db(2, linear_to_db(volume.sfx))
+	
+	if AudioServer.bus_count == 3:
+		AudioServer.set_bus_volume_db(1, linear_to_db(volume.bgm))
+		AudioServer.set_bus_volume_db(2, linear_to_db(volume.sfx))
 
 func load_default():
 	set_api_settings(default_api.duplicate())

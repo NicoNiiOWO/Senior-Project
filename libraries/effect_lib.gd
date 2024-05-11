@@ -109,9 +109,7 @@ static func get_total_w(weather:Array) -> Dictionary:
 		if(i < weather_type.size()):
 			stats = effect_list[category.WEATHER][i]
 		
-		#print("aaa",stats)
 		for stat in stats:
-			#print("a",stat)
 			if(!total.has(stat)):
 				total[stat] = stats[stat]
 			else:

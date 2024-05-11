@@ -105,7 +105,6 @@ func geocode_request(text:String = %CityText.text):
 	
 	var url = geocode_url.format({City=text,Limit="5",Key=Config.api_settings.key})
 	
-	print_debug(url)
 	var request = $HTTPRequest.request(url)
 	if request != OK:
 		print_debug("geocode error")

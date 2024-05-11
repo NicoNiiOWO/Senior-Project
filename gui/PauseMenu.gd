@@ -5,7 +5,6 @@ signal unpaused()
 # if paused with key, disable unpausing until released
 var input_released : bool = true
 func _on_gui_pause(release:bool=true):
-	#print("eeeee")
 	pause()
 	if(!release):
 		input_released=false

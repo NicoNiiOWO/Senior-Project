@@ -42,7 +42,10 @@ func _on_main_api_request_complete():
 
 func open_title():
 	main.stop()
+	%GameOver.hide()
+	%UpgradePopup.clear()
 	$PauseMenu.unpause()
+	
 	$StartMenu.show()
 	%StartButton.grab_focus()
 
