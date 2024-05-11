@@ -34,6 +34,7 @@ func update_stats():
 
 # update weather info
 func weather_update(show_error=true):
+	if not Weather.api_ready: return
 	var response = Weather.api_response
 	
 	if show_error:

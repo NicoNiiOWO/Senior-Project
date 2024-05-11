@@ -61,6 +61,7 @@ vertical_alignment = 1
 [node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
 layout_mode = 2
 theme_override_constants/separation = 20
+vertical = true
 
 [node name="BGM" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer"]
 layout_mode = 2
@@ -89,6 +90,9 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Next BGM"
 
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer"]
+layout_mode = 2
+
 [node name="Volume" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -111,6 +115,7 @@ vertical_alignment = 1
 [node name="MasterVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
 unique_name_in_owner = true
 layout_mode = 2
+value = 0.5
 bus_index = 0
 
 [node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume"]
@@ -122,6 +127,7 @@ vertical_alignment = 1
 [node name="BGMVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
 unique_name_in_owner = true
 layout_mode = 2
+value = 0.5
 bus_index = 1
 
 [node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume"]
@@ -133,7 +139,11 @@ vertical_alignment = 1
 [node name="SFXVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
 unique_name_in_owner = true
 layout_mode = 2
+value = 0.5
 bus_index = 2
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
+layout_mode = 2
 
 [node name="API Settings" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
 layout_mode = 2

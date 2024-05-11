@@ -200,6 +200,7 @@ func increment() -> bool:
 
 # call when index changes
 func update(i=index):
+	if i == -1: return
 	index = i
 	if(prev_index != index): # call once per weather change
 		if index == -1: index = 0
@@ -209,8 +210,8 @@ func update(i=index):
 		
 		prev_index = index
 		
-		#Global.timer.set_text()
-		if(current_weather().typeChanged): 
-			set_weather_stats()
-			#weather_changed.emit()
-		weather_updated.emit()
+		if current_weather() != {}:
+			if(current_weather().typeChanged): 
+				set_weather_stats()
+				#weather_changed.emit()
+			weather_updated.emit()
