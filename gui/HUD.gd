@@ -6,7 +6,6 @@ var player : Player = null
 
 func _ready():
 	Weather.weather_updated.connect(weather_update)
-	Weather.weather_changed.connect(weather_change)
 	Global.timer.game_timeout.connect(_on_game_timer_timeout)
 
 func start():
@@ -35,19 +34,18 @@ func update_stats():
 
 # update weather info
 func weather_update(show_error=true):
-	#await timer.game_timeout
-	
 	var response = Weather.api_response
 	
 	if show_error:
 		if(response != null && response.message != null):
 			error(str("Error ",Weather.api_response_code, " ", response.message))
 	
+	# set icon and text if weather type changed
+	if Weather.current_weather() != null && Weather.current_weather().typeChanged:
+		%Icon.set_texture(Weather.get_icon())
+		set_weather_text()
+		
 	show_weather(Weather.api_success)
-
-func weather_change():
-	%Icon.set_texture(Weather.get_icon())
-	set_weather_text()
 
 func show_weather(success:bool):
 	if(success):

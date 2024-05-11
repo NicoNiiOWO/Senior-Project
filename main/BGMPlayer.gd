@@ -3,7 +3,6 @@ extends AudioStreamPlayer
 const file_path = "res://assets/sounds/bgm/"
 
 var bgm_list : Array = []
-var bmg_loop : Dictionary = {}
 var current_bgm : int = -1 : set = set_bgm # index of current bgm
 
 # load all bgm in folder to array
@@ -29,10 +28,16 @@ func random_bgm(allow_repeat:bool=true):
 		# change bgm if selected is different
 		if i != current_bgm: set_bgm(i)
 
+# next in array
+func next():
+	if current_bgm == bgm_list.size()-1:
+		current_bgm = 0
+	else: current_bgm += 1
+
 func set_bgm(i):
 	set_stream(bgm_list[i])
 	play()
 	current_bgm = i
 
 func _on_main_restarted():
-	random_bgm(false)
+	if Config.randomize_bgm: random_bgm(false)

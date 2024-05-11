@@ -27,19 +27,25 @@ func _ready():
 	for i in locations:
 		%OptionButton.add_item(i.city)
 	
-	if Config.api_settings.use_key:
-		selected.use_key = true
-		%KeyToggle.set_pressed(true)
-		
+	load_cfg()
+
+func load_cfg():
+	%RandBGMButton.button_pressed = Config.randomize_bgm
 	%MasterVolume.volume = Config.volume.master
 	%BGMVolume.volume = Config.volume.bgm
 	%SFXVolume.volume = Config.volume.sfx
-
-func open():
+	
 	if(Config.api_settings.latitude != null && Config.api_settings.longitude != null):
 		selected.latitude = Config.api_settings.latitude
 		selected.longitude = Config.api_settings.longitude
 		set_coords(selected.latitude, selected.longitude)
+	
+	if Config.api_settings.use_key:
+		selected.use_key = true
+		%KeyToggle.set_pressed(true)
+
+func open():
+	load_cfg()
 
 	visible = true
 	%CloseButton.grab_focus()
@@ -171,7 +177,10 @@ func save_settings():
 	var vol_master = %MasterVolume.value
 	var vol_bgm = %BGMVolume.value
 	var vol_sfx = %SFXVolume.value
+	var rand_bgm = %RandBGMButton.button_pressed
 	
+	print_debug(%RandBGMButton.button_pressed)
+	Config.randomize_bgm = rand_bgm
 	Config.set_volume(vol_master, vol_bgm, vol_sfx)
 	Config.set_api_settings(selected)
 	

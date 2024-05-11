@@ -45,47 +45,63 @@ layout_mode = 2
 layout_mode = 2
 columns = 3
 
-[node name="Volume" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
+[node name="Sound" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
 layout_mode = 2
 alignment = 1
 vertical = true
 
-[node name="VolumeLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Volume"]
+[node name="SoundLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
+text = "Sound"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
+layout_mode = 2
+
+[node name="RandBGMButton" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "Randomize BGM on restart"
+
+[node name="VolumeLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Volume"]
+[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
 layout_mode = 2
 text = "Master"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MasterVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Volume" instance=ExtResource("3_rgfyv")]
+[node name="MasterVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound" instance=ExtResource("3_rgfyv")]
 unique_name_in_owner = true
 layout_mode = 2
 bus_index = 0
 
-[node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Volume"]
+[node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
 layout_mode = 2
 text = "Music"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BGMVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Volume" instance=ExtResource("3_rgfyv")]
+[node name="BGMVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound" instance=ExtResource("3_rgfyv")]
 unique_name_in_owner = true
 layout_mode = 2
 bus_index = 1
 
-[node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Volume"]
+[node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
 layout_mode = 2
 text = "Sound Effects"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SFXVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Volume" instance=ExtResource("3_rgfyv")]
+[node name="SFXVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound" instance=ExtResource("3_rgfyv")]
 unique_name_in_owner = true
 layout_mode = 2
 bus_index = 2

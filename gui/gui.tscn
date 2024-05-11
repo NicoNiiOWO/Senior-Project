@@ -377,12 +377,24 @@ grow_vertical = 2
 theme_override_constants/v_separation = 60
 alignment = 1
 
-[node name="Text" type="Label" parent="GameOver/FlowContainer"]
+[node name="GameOverText" type="Label" parent="GameOver/FlowContainer"]
+unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 40
 text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WinText" type="Label" parent="GameOver/FlowContainer"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "You Win"
 horizontal_alignment = 1
 vertical_alignment = 1
 

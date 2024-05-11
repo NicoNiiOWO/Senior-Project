@@ -4,6 +4,7 @@
 resource_name = "Limiter"
 
 [resource]
+bus/0/volume_db = -10.9863
 bus/0/effect/0/effect = SubResource("AudioEffectLimiter_2dba1")
 bus/0/effect/0/enabled = true
 bus/1/name = &"BGM"

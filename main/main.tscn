@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://v1608s5lvo0j"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_v6nxb"]
+[ext_resource type="AudioStream" uid="uid://dws0nlvvei51x" path="res://assets/sounds/bgm/Aqua Star - Kirby 64.wav" id="2_rew20"]
 [ext_resource type="TileSet" uid="uid://cextsrgifdaoi" path="res://assets/Map/background.tres" id="3_o07od"]
 [ext_resource type="Script" path="res://main/EnemySpawnPath.gd" id="3_wsknh"]
 [ext_resource type="PackedScene" uid="uid://c6ckirvpcwsi8" path="res://entity/item.tscn" id="5_2nl8k"]
 [ext_resource type="PackedScene" uid="uid://d8e3lfaeglcx" path="res://gui/gui.tscn" id="6_85ohw"]
-[ext_resource type="AudioStream" uid="uid://dso5ascabpuri" path="res://assets/sounds/bgm/Peanut Plains.wav" id="6_mpt5k"]
 [ext_resource type="Script" path="res://main/BGMPlayer.gd" id="7_rviok"]
 [ext_resource type="AudioStream" uid="uid://c20xvw5x0bgqb" path="res://assets/sounds/hit_3.wav" id="9_7bs5o"]
 
@@ -14,6 +14,7 @@ bake_interval = 10.0
 
 [node name="Main" type="Node"]
 script = ExtResource("1_v6nxb")
+debug = true
 metadata/_edit_horizontal_guides_ = [2560.0, -2504.0, 0.0, 0.0]
 metadata/_edit_vertical_guides_ = [2560.0, -2500.0]
 
@@ -21,8 +22,9 @@ metadata/_edit_vertical_guides_ = [2560.0, -2500.0]
 
 [node name="BGMPlayer" type="AudioStreamPlayer" parent="." groups=["audio_player"]]
 process_mode = 3
-stream = ExtResource("6_mpt5k")
+stream = ExtResource("2_rew20")
 autoplay = true
+bus = &"BGM"
 script = ExtResource("7_rviok")
 
 [node name="CharDefeatSFX" type="AudioStreamPlayer2D" parent="."]
@@ -98,5 +100,4 @@ ability = -1
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]
 [connection signal="restart" from="GUI" to="." method="_on_restart"]
 [connection signal="time_update" from="GUI" to="." method="_on_gui_time_update"]
-[connection signal="weather_changed" from="GUI" to="." method="_on_gui_weather_changed"]
 [connection signal="timeout" from="EnemySpawnPath/SpawnTimer" to="." method="_on_spawn_timer_timeout"]

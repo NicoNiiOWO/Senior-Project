@@ -3,7 +3,6 @@ extends CanvasLayer
 
 signal restart()
 signal time_update() # called every second when game timer updates
-signal weather_changed()
 signal pause()
 signal popup(e)
 
@@ -58,8 +57,6 @@ func game_over():
 	$GameOver.set_visible(true)
 	main.stop()
 	%GORestartButton.grab_focus()
-
-
 
 # call restart 
 # reset settings and hide weather ui if changed

@@ -2,7 +2,7 @@ extends HSlider
 class_name VolumeSlider
 
 @export var bus_index = -1
-@export var volume = 0.8 : set=set_vol
+@export var volume = 0.5 : set=set_vol
 
 func _on_value_changed(val):
 	volume = val

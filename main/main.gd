@@ -85,6 +85,7 @@ func start(save_settings:bool = false):
 	# add new player
 	Global.new_player(player_level)
 	player = Global.player
+	player.defeated.connect(game_over)
 	
 	game.add_child(player)
 	gui.set_player(player)
@@ -113,7 +114,6 @@ func api_call():
 	api_called = true
 
 func _on_api_request_completed(_result, response_code, _headers, body):
-	#print_debug("API response ",response_code)
 	Weather.handle_response(response_code, body)
 	api_request_complete.emit()
 
@@ -173,6 +173,7 @@ func stop():
 	get_tree().call_group("items", "queue_free")
 	
 func game_over():
+	player.disable()
 	stop()
 	
 	gui.game_over()
@@ -226,7 +227,7 @@ func _input(event):
 	if debug and event.is_pressed():
 		if is_instance_of(event, InputEventKey):
 			var key = OS.get_keycode_string(event.keycode)
-			#print(key)
+			print(key)
 			
 			match key:
 				"Q":
@@ -250,7 +251,8 @@ func _input(event):
 				"F": addItem(player.position, -1)
 				"G": player.take_damage(1000)
 				"C": player.effects.new_ability(1)
-				"M": $BGMPlayer.random_bgm(true)
-				"+": Weather.increment()
+				"M": $BGMPlayer.next()
+				"Kp Add": 
+					Weather.increment()
 
 

@@ -1,5 +1,7 @@
 extends Node
 
+signal loaded
+
 # API variables
 const location_preset = [
 	{
@@ -36,6 +38,7 @@ const default_api = {
 	key=null,
 	use_key=false,
 }
+var randomize_bgm = true
 var volume = default_vol.duplicate()
 var api_settings = default_api.duplicate()
 
@@ -46,31 +49,6 @@ func clear_api() -> void:
 		key=null,
 		use_key=false,
 	}
-
-# load from file
-func load_config() -> Dictionary:
-	# set api settings from config
-	var config = ConfigFile.new()
-	
-	# load file
-	if config.load("res://config.cfg") != OK:
-		# if not loaded, load and save default
-		load_default()
-	else:
-		# set settings
-		for setting in config.get_section_keys("Volume"):
-			volume[setting] = config.get_value("Volume", setting)
-		for setting in config.get_section_keys("API"):
-			api_settings[setting] = config.get_value("API", setting)
-	
-	# set default api key if not in config
-	if (api_settings.key == null):
-		api_settings.key = load("res://api_key.gd").key
-	else:
-		api_settings.use_key = true
-	
-	
-	return api_settings
 
 func set_coords_dict(settings:Dictionary):
 	set_coords(settings.latitude, settings.longitude)
@@ -107,13 +85,41 @@ func apply_volume(enabled=true):
 func load_default():
 	set_api_settings(default_api.duplicate())
 	set_volume_dict(default_vol.duplicate())
+	randomize_bgm = true
 	save()
+
+# load from file
+func load_config() -> Dictionary:
+	# set api settings from config
+	var config = ConfigFile.new()
+	
+	# load file
+	if config.load("res://config.cfg") != OK:
+		# if not loaded, load and save default
+		load_default()
+	else:
+		# set settings
+		randomize_bgm = config.get_value("Sound", "random_bgm")
+		for setting in config.get_section_keys("Volume"):
+			volume[setting] = config.get_value("Volume", setting)
+		for setting in config.get_section_keys("API"):
+			api_settings[setting] = config.get_value("API", setting)
+	
+	# set default api key if not in config
+	if (api_settings.key == null):
+		api_settings.key = load("res://api_key.gd").key
+	else:
+		api_settings.use_key = true
+	
+	loaded.emit()
+	return api_settings
 
 # save loaded values
 func save() -> Error:
 	var config = ConfigFile.new()
 	config.load("res://config.cfg")
 	
+	config.set_value("Sound", "random_bgm", randomize_bgm)
 	for setting in volume:
 		config.set_value("Volume", setting, volume[setting])
 	

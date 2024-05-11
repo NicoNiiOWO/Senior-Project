@@ -1,7 +1,6 @@
 extends Node
 
-signal weather_updated()
-signal weather_changed() # if weather type changed
+signal weather_updated() # if weather changed
 
 enum weather_type {CLEAR, CLOUDS, RAIN, SNOW, STORM, WIND}
 
@@ -191,6 +190,7 @@ func set_weather_stats():
 
 # return true if looped
 func increment() -> bool:
+	print(index)
 	if(index < api_response.cnt-1):
 		index += 1
 		return true
@@ -198,18 +198,19 @@ func increment() -> bool:
 		index = 0
 		return false
 
+# call when index changes
 func update(i=index):
 	index = i
 	if(prev_index != index): # call once per weather change
 		if index == -1: index = 0
 		
 		# Load weather icon
-		load_icon(current_weather().icon)
+		#load_icon(current_weather().icon)
 		
 		prev_index = index
 		
 		#Global.timer.set_text()
 		if(current_weather().typeChanged): 
 			set_weather_stats()
-			weather_changed.emit()
+			#weather_changed.emit()
 		weather_updated.emit()

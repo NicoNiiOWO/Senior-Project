@@ -3,6 +3,8 @@ A Survivors-like game built in Godot that uses [OpenWeather API](https://openwea
 
 Project for CISC 4900, Spring 2024
 
+Can be [played/downloaded on itch.io](https://niconiiowo.itch.io/untitled-weather-game?secret=MlKjgfmhe9QjRn47uxUAeg)
+
 [Project management board](https://www.notion.so/samuel-estevez/Senior-Project-3e40376b6eb0407da8c40efecfb17035)
 
 ## Assets Used
@@ -27,7 +29,15 @@ Sprites from Kirby: Nightmare in Dream Land, Kirby and the Amazing Mirror, and K
 
 Sound Effects from Kirby Squeak Squad
 
-Music from Kirby and the Amazing Mirror, and Kirby Super Star Ultra
+Music:
+
+- Cabbage Cavern (Kirby and the Amazing Mirror)
+- Rainbow Route (Kirby and the Amazing Mirror)
+- Candy Mountain (Kirby Super Star Ultra)
+- Peanut Plains (Kirby Super Star Ultra)
+- Aqua Star (Kirby 64)
+- Planet Popstar (Kirby 64)
+- Great Cave Escape (Kirby and the Rainbow Curse)
 
 
 ##### Fonts: [Climate Crisis](https://fonts.google.com/specimen/Climate+Crisis)
