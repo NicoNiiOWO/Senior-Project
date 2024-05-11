@@ -93,9 +93,5 @@ func _on_attack(_x):
 func _on_animated_sprite_2d_animation_finished():
 	sprite.set_animation("idle")
 
-# return center of screen
-func get_screen_center() -> Vector2:
-	return $Camera2D.get_screen_center_position()
-
 func _on_damage_taken(_x,_y,playSound=true):
 	if playSound: %Hurt.play()

@@ -2,7 +2,6 @@ class_name GUI
 extends CanvasLayer
 
 signal restart()
-signal time_update() # called every second when game timer updates
 signal pause()
 signal popup(e)
 
@@ -34,11 +33,6 @@ func _on_start_button_pressed():
 	main.start(reload_settings)
 	reload_settings = false
 
-# start HUD
-func _on_main_game_start():
-	$HUD.start()
-	$StartMenu.hide()
-
 # Display player stats
 func update_stats():
 	$HUD.update_stats()
@@ -67,12 +61,6 @@ func _on_restart_button_pressed():
 	
 	if(reload_settings): $HUD/Weather.hide()
 	reload_settings = false
-
-
-# Call every second, update timer
-func _on_game_timer_timeout():
-	time_update.emit()
-	$HUD._on_game_timer_timeout()
 
 func weather_update():
 	# scroll to entry
@@ -118,12 +106,8 @@ func clear_forecast():
 func upgrade_popup(a:Array):
 	popup.emit(a)
 
-func _on_pause_menu_unpaused():
-	pass # Replace with function body.
-
 func _on_github_button_pressed():
 	OS.shell_open("https://github.com/NicoNiiOWO/Senior-Project/")
-
 
 func _on_settings_closed():
 	if $StartMenu.visible:

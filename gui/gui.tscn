@@ -147,10 +147,11 @@ offset_bottom = 93.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FlowContainer" type="FlowContainer" parent="PauseMenu/CenterContainer"]
+[node name="FlowContainer" type="BoxContainer" parent="PauseMenu/CenterContainer"]
 layout_mode = 2
-theme_override_constants/v_separation = 60
+theme_override_constants/separation = 60
 alignment = 1
+vertical = true
 
 [node name="Label" type="Label" parent="PauseMenu/CenterContainer/FlowContainer"]
 layout_mode = 2
@@ -159,10 +160,11 @@ text = "Paused"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Buttons" type="FlowContainer" parent="PauseMenu/CenterContainer/FlowContainer"]
+[node name="Buttons" type="BoxContainer" parent="PauseMenu/CenterContainer/FlowContainer"]
 layout_mode = 2
-theme_override_constants/v_separation = 15
+theme_override_constants/separation = 15
 alignment = 1
+vertical = true
 
 [node name="PauseRestartButton" type="Button" parent="PauseMenu/CenterContainer/FlowContainer/Buttons"]
 unique_name_in_owner = true
@@ -435,7 +437,6 @@ visible = false
 [connection signal="pressed" from="StartMenu/CenterContainer/FlowContainer/Buttons/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="StartMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="StartMenu/LinkButtons/LinkButtons/GithubButton" to="." method="_on_github_button_pressed"]
-[connection signal="unpaused" from="PauseMenu" to="." method="_on_pause_menu_unpaused"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/PauseRestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/PauseRestartButton" to="PauseMenu" method="_on_restart_button_pressed"]
 [connection signal="pressed" from="PauseMenu/CenterContainer/FlowContainer/Buttons/SettingsButton" to="PauseMenu" method="_on_settings_button_pressed"]

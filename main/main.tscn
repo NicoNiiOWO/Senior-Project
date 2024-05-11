@@ -94,9 +94,7 @@ position = Vector2(105.092, -143.599)
 ability = -1
 
 [connection signal="api_request_complete" from="." to="GUI" method="_on_main_api_request_complete"]
-[connection signal="game_start" from="." to="GUI" method="_on_main_game_start"]
 [connection signal="restarted" from="." to="BGMPlayer" method="_on_main_restarted"]
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]
 [connection signal="restart" from="GUI" to="." method="_on_restart"]
-[connection signal="time_update" from="GUI" to="." method="_on_gui_time_update"]
 [connection signal="timeout" from="EnemySpawnPath/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
