@@ -8,7 +8,9 @@ var current_bgm : int = -1 : set = set_bgm # index of current bgm
 # load all bgm in folder to array
 func _init():
 	for filename in DirAccess.get_files_at(file_path):
-		if filename.ends_with(".wav"):
+		var i = filename.find(".import")
+		if i != -1:
+			filename = filename.erase(i, ".import".length())
 			var file = load(file_path + filename)
 			bgm_list.append(file)
 
