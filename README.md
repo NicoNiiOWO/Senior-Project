@@ -3,7 +3,7 @@ A Survivors-like game built in Godot that uses [OpenWeather API](https://openwea
 
 Project for CISC 4900, Spring 2024
 
-Can be [played/downloaded on itch.io](https://niconiiowo.itch.io/untitled-weather-game?secret=MlKjgfmhe9QjRn47uxUAeg)
+[itch.io](https://niconiiowo.itch.io/untitled-weather-game)
 
 [Project management board](https://www.notion.so/samuel-estevez/Senior-Project-3e40376b6eb0407da8c40efecfb17035)
 
