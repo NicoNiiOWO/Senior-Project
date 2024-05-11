@@ -48,10 +48,12 @@ func restart():
 # timezone abbreviation
 func _init():
 	var abbrev = ""
-	for word in timezone.name.split(" "):
-		abbrev += word[0]
+	
+	if OS.get_name() != "Web":
+		for word in timezone.name.split(" "):
+			abbrev += word[0]
+	
 	timezone.abbrev = abbrev
-	#print_debug(timezone)
 
 func current_weather() -> Dictionary:
 	if index != -1: 
