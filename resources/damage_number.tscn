@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://resources/DamageNumber.gd" id="1_02f4p"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yfheu"]
-font_color = Color(1, 0.129412, 0.129412, 1)
+font_color = Color(1, 0.133333, 0.133333, 1)
 outline_size = 1
 outline_color = Color(0.839216, 0.839216, 0.839216, 1)
 

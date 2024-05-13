@@ -89,6 +89,7 @@ func load_default():
 	set_volume_dict(default_vol.duplicate())
 	randomize_bgm = true
 	save()
+	loaded.emit()
 
 # load from file
 func load_config() -> Dictionary:
@@ -96,7 +97,7 @@ func load_config() -> Dictionary:
 	var config = ConfigFile.new()
 	
 	# load file
-	if config.load("res://config.cfg") != OK:
+	if config.load("user://config.cfg") != OK:
 		# if not loaded, load and save default
 		load_default()
 	else:
@@ -119,7 +120,7 @@ func load_config() -> Dictionary:
 # save loaded values
 func save() -> Error:
 	var config = ConfigFile.new()
-	config.load("res://config.cfg")
+	config.load("user://config.cfg")
 	
 	config.set_value("Sound", "random_bgm", randomize_bgm)
 	for setting in volume:
@@ -133,4 +134,4 @@ func save() -> Error:
 	if api_settings.use_key:
 		config.set_value("API", "key", api_settings.key)
 	
-	return config.save("res://config.cfg")
+	return config.save("user://config.cfg")
