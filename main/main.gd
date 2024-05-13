@@ -43,6 +43,7 @@ func _init():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Weather.forecast_end.connect(win) # call win() at end of forecast
+	Weather.weather_updated.connect(_on_weather_updated)
 	
 	Weather.weather_interval = weather_interval
 	Global.set_bgm_node($BGMPlayer)
@@ -57,13 +58,11 @@ func _ready():
 	if use_api: api_call()
 	
 	if not load_title:
-		$GUI/StartMenu.hide()
 		start()
 	else:
 		$GUI.open_title()
 
-func get_gui():
-	return gui
+func get_gui(): return gui
 
 func load_config():
 	api_called = false # api not called with new settings
@@ -83,6 +82,8 @@ func start(save_settings:bool = false):
 	player.defeated.connect(game_over)
 	
 	game.add_child(player)
+	player.update_stats()
+	
 	gui.set_player(player)
 	
 	if(!api_called and use_api): api_call() # call api if not already called
@@ -130,10 +131,11 @@ func enemy_spawn(n:int, level:int, move:bool=true):
 				target = player
 			
 			# get/add enemy
-			var enemyInstance = make_node.new_enemy(level, position, target)
+			var enemyInstance = make_node.new_enemy(level, position, target) as Enemy
 			enemyInstance.enemy_defeated.connect(_on_enemy_defeated)
 			
 			game.add_child(enemyInstance)
+			enemyInstance.update_stats()
 
 func _on_timer_timeout(): # Call every second when timer is running
 	# Increase enemy level on interval
@@ -145,7 +147,7 @@ func _on_spawn_timer_timeout():
 	if(enable_spawn): enemy_spawn(enemy_spawn_count, enemy_level)
 
 # update stats when weather changes
-func _on_gui_weather_changed():
+func _on_weather_updated():
 	if(player != null):
 		player.update_stats()
 	get_tree().call_group("enemies", "update_stats")

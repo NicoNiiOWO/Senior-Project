@@ -71,9 +71,6 @@ static func get_effect(eff_category:int, eff_type:int, n:int=1, node:Node=null) 
 	return {type=new_type, has_stats=has_stats, stats=new_stats, count=n, node=node}
 
 static func get_weather(type:int):
-	if type not in weather_type:
-		type = 0
-
 	return get_effect(category.WEATHER, type)
 
 static func get_upgrade(stat:String):

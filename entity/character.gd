@@ -33,8 +33,6 @@ func init(char_type:int, ability:int=0):
 	stats_r.set_type(type, ability)
 	stats = stats_r.current
 	
-	# effects = char_lib.init_effects()
-	
 	stats_r.stats_updated.connect(_on_stats_updated)
 
 func _ready(): # set default

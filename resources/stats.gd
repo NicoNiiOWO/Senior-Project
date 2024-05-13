@@ -129,6 +129,7 @@ static func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) 
 		if !weather: text = "\n"
 		#print_debug(stats)
 		for stat in stats.keys():
+			
 			var mod = stats[stat]
 			
 			if(mod != 0):
@@ -139,7 +140,7 @@ static func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) 
 					mod*=100
 					text += txt_percent % mod
 				else:
-					if stat not in ["level","hp","max_exp","exp"]:
+					if stat not in ["level","hp","max_exp","exp","iframes"]:
 						text += stat.capitalize() + ": "
 						
 						var format = ""

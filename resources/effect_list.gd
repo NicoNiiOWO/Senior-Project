@@ -51,20 +51,20 @@ func add_ability(ability:Ability):
 		ability_list[ability.type] = ability
 		ability.set_parent(parent)
 
-# set weather effect from weather array
+func update_weather():
+	set_weather(Weather.current_weather().type)
+	
+# set weather effect from weather type array
 func set_weather(weather_arr:Array):
-	var new_weather = {}
+	var new_weather = []
 	for w in weather_arr:
 		var eff = Effect.new()
 		eff.set_weather(w)
-		new_weather[w] = eff
+		new_weather.append(eff)
 
 	weather_list = new_weather
-	update_total()
 
 func new_stat_upgrade(stat:String, _n:int=1):
-	#var type = effect_lib.get_upgrade(stat).type
-
 	var upgrade = Upgrade.new()
 	upgrade.set_stat_upgrade(stat)
 
@@ -83,6 +83,7 @@ func new_ability(ability_type:int):
 	add_upgrade(ability)
 
 func update_total():
+	update_weather()
 	total_mod = get_total_mod()
 
 func get_total_mod():
