@@ -52,7 +52,8 @@ func add_ability(ability:Ability):
 		ability.set_parent(parent)
 
 func update_weather():
-	set_weather(Weather.current_weather().type)
+	if Weather.api_ready:
+		set_weather(Weather.current_weather().type)
 	
 # set weather effect from weather type array
 func set_weather(weather_arr:Array):
@@ -86,11 +87,12 @@ func update_total():
 	update_weather()
 	total_mod = get_total_mod()
 
-func get_total_mod():
+func get_total_mod(include_weather=true):
 	var stat_list = []
 
-	for eff in weather_list:
-		stat_list.append(eff.stats)
+	if include_weather:
+		for eff in weather_list:
+			stat_list.append(eff.stats)
 	for eff in upgrade_stat_list:
 		stat_list.append(upgrade_stat_list[eff].stats)
 	
@@ -103,6 +105,7 @@ func get_total_mod():
 func print():
 	print_debug("Size: ", size, "\nWeather: ", weather_list, "\nStat Upgrade: ",upgrade_stat_list,"\nTotal: ", total_mod)
 
+	
 # if contains same upgrade type
 func has_upgrade(upg:Upgrade) -> bool:
 	if (upg is Ability) and (upg.type in ability_list): return true
@@ -124,6 +127,9 @@ func get_ability_txt() -> String:
 		txt += str(ability.name, " Lvl ", ability.level, "\n")
 	
 	return txt
+
+func get_upgrade_txt():
+	return Stats.get_stats_text(get_total_mod(false), false, true)
 
 # call each ability
 func physics_update(delta):

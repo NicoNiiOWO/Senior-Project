@@ -23,14 +23,12 @@ func update_stats():
 	%HPBar.value = stats.hp
 	%Level.text = str("Level: ", stats.level, " EXP: ", stats.exp, "/", stats.max_exp)
 	
-	
-	var text = Stats.get_stats_text(stats)
-	%PlayerStats.text = text
+	%PlayerStats.text = "\n" + Stats.get_stats_text(stats)
 	
 	var upgrade_text = ""
 	if player.effects.size > 0:
 		upgrade_text += "\nUpgrades:\n" + player.effects.get_ability_txt()
-		upgrade_text += Stats.get_stats_text(player.effects.total_mod,false,true)
+		upgrade_text += player.effects.get_upgrade_txt()
 	%PlayerUpgrades.text = upgrade_text
 
 # update weather info

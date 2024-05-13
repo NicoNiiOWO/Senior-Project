@@ -47,7 +47,7 @@ const effect_list : Dictionary = {
 			"atk_size": 0.05
 		},
 		stats_type.DMG_TAKEN: {
-			"dmg_taken": 0.05
+			"dmg_taken": -0.05
 		}
 	},
 	category.ABILITY_UPGRADE : {

@@ -59,6 +59,7 @@ func update(emit=true):
 	for stat in ["max_hp", "max_exp"]:
 		current[stat] = calc_mult(stat)
 	current["atk_size"] = calc_add("atk_size", 0.01)
+	current["dmg_taken"] = 1
 	
 	heal(current["max_hp"] - old_max_hp, false)
 	
@@ -126,7 +127,7 @@ const txt_float = "%0.2f\n"
 static func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) -> String:
 	if(stats.size() > 0):
 		var text = ""
-		if !weather: text = "\n"
+		
 		#print_debug(stats)
 		for stat in stats.keys():
 			
@@ -145,7 +146,8 @@ static func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) 
 						
 						var format = ""
 						
-						if upgrade: text += "x" + txt_float % (mod+1)
+						if upgrade: 
+							text += "x" + txt_float % (1+mod)
 						else:
 							match stat:
 								"speed": format = txt_decimal
