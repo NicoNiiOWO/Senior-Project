@@ -170,7 +170,7 @@ func _on_damage_taken(_x, isAbility:bool=false, playSound:bool=true):
 		if attack_trigger[0] == enemy_lib.attack_trigger.TAKEDAMAGE:
 			attack()
 		
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.1, false).timeout
 	
 	if playSound: $Sound/Hit.play()
 

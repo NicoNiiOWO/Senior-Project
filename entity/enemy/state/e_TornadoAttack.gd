@@ -29,13 +29,13 @@ func attack():
 	current_phase = phase.START
 	spd_mod = speed_mod[phase.START]
 	
-	await get_tree().create_timer(duration[phase.START]).timeout
+	await get_tree().create_timer(duration[phase.START], false).timeout
 	
 	# add attack
 	attack_start()
 	
 	# wait until attack ends
-	await get_tree().create_timer(duration[phase.ACTIVE]).timeout
+	await get_tree().create_timer(duration[phase.ACTIVE], false).timeout
 	attack_end()
 
 func attack_start():
@@ -65,7 +65,7 @@ func attack_end():
 	owner.sprite.speed_scale = 0.7
 	
 	# after delay, set back to normal
-	await get_tree().create_timer(duration[phase.END]).timeout
+	await get_tree().create_timer(duration[phase.END], false).timeout
 	current_phase = phase.NONE
 	owner.sprite.speed_scale = 1
 	owner.stats.dmg_taken -= dmg_mod[1]
