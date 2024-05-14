@@ -71,6 +71,7 @@ autostart = true
 texture_filter = 1
 
 [connection signal="api_request_complete" from="." to="GUI" method="_on_main_api_request_complete"]
+[connection signal="game_start" from="." to="GUI" method="_on_main_game_start"]
 [connection signal="restarted" from="." to="BGMPlayer" method="_on_main_restarted"]
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]
 [connection signal="restart" from="GUI" to="." method="_on_restart"]

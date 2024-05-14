@@ -32,6 +32,13 @@ func _on_start_button_pressed():
 	main.start(reload_settings)
 	reload_settings = false
 
+func _on_main_game_start():
+	$HUD.show()
+	$StartMenu.hide()
+	$GameOver.hide()
+	$UpgradePopup.hide()
+	$Settings.hide()
+
 # Display player stats
 func update_stats():
 	$HUD.update_stats()
@@ -52,15 +59,15 @@ func open_title():
 func game_over(win=false):
 	%GameOverText.visible = !win
 	%WinText.visible = win
-	
-	$GameOver.set_visible(true)
+	$GameOver.show()
 	%GORestartButton.grab_focus()
 
 # call restart 
 # reset settings and hide weather ui if changed
 func _on_restart_button_pressed():
-	$GameOver.set_visible(false)
 	$PauseMenu.unpause()
+	$GameOver.hide()
+	
 	restart.emit(reload_settings)
 	
 	if(reload_settings): $HUD/Weather.hide()
@@ -76,7 +83,6 @@ func weather_update():
 # When settings change, reload settings on next restart
 func _on_settings_changed():
 	reload_settings = true
-
 
 # make forecast ui for pause screen
 func make_forecast():
@@ -116,3 +122,5 @@ func _on_github_button_pressed():
 func _on_settings_closed():
 	if $StartMenu.visible:
 		%StartButton.grab_focus()
+
+

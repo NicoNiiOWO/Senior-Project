@@ -69,8 +69,6 @@ func load_config():
 	Config.load_config()
 
 func start(save_settings:bool = false):
-	$GUI/StartMenu.hide()
-	
 	if not debug: clear_entities()
 	if save_settings: reload_settings()
 	
@@ -173,9 +171,7 @@ func win():
 	game_over(true)
 	
 func game_over(w=false):
-	player.disable()
 	stop()
-	
 	gui.game_over(w)
 
 # title screen start button

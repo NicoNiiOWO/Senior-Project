@@ -124,6 +124,7 @@ func calc_mult(stat:String, round_to:float=1.0, base_stats:Dictionary=base, grow
 const txt_percent = "%d%%\n"
 const txt_decimal = "%d\n"
 const txt_float = "%0.2f\n"
+const txt_multi = "x%0.2f\n"
 static func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) -> String:
 	if(stats.size() > 0):
 		var text = ""
@@ -151,11 +152,9 @@ static func get_stats_text(stats:Dictionary, weather:bool=false, upgrade=false) 
 						else:
 							match stat:
 								"speed": format = txt_decimal
+								"dmg_taken": format = txt_multi
+								"atk_size": format = txt_multi
 								_: format = txt_float
 							text += format % mod
-						#else:							text += ": %d\n" % mod
-			#else: text+=stat+"\n"
-
-		#return text.left(text.length()-1) # remove last newline
 		return text
 	return ""
