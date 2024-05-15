@@ -63,10 +63,6 @@ points = PackedVector2Array(-113.191, 138.522, -50.8277, -33.4218)
 unique_name_in_owner = true
 rotation = -1.5708
 
-[node name="SpawnTimer" type="Timer" parent="EnemySpawnPath"]
-process_callback = 0
-autostart = true
-
 [node name="Entities" type="Node2D" parent="."]
 texture_filter = 1
 
@@ -75,4 +71,3 @@ texture_filter = 1
 [connection signal="restarted" from="." to="BGMPlayer" method="_on_main_restarted"]
 [connection signal="request_completed" from="API" to="." method="_on_api_request_completed"]
 [connection signal="restart" from="GUI" to="." method="_on_restart"]
-[connection signal="timeout" from="EnemySpawnPath/SpawnTimer" to="." method="_on_spawn_timer_timeout"]

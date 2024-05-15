@@ -31,7 +31,6 @@ const make_node : Resource = preload("res://libraries/make_node.gd")
 
 @onready var game : Node = $Entities
 @onready var gui : CanvasLayer = $GUI
-@onready var spawn_timer : Timer = $EnemySpawnPath/SpawnTimer
 @onready var window_size = $EnemySpawnPath.get_viewport_rect().size
 @onready var timer : GameTimer = Global.timer
 
@@ -86,10 +85,6 @@ func start(save_settings:bool = false):
 	
 	if(!api_called and use_api): api_call() # call api if not already called
 	
-
-	# set enemy spawn
-	spawn_timer.wait_time = enemy_spawn_time
-	spawn_timer.start()
 	
 	# start GUI and make pausable
 	Global.timer.start()
@@ -137,17 +132,19 @@ func enemy_spawn(n:int, level:int, move:bool=true, near_player:bool=false, abili
 			enemyInstance.can_move = move
 			game.add_child(enemyInstance)
 			
-			print_debug(enemyInstance.stats)
+			#print_debug(enemyInstance.stats)
 			enemyInstance.update_stats()
 
 func _on_timer_timeout(): # Call every second when timer is running
 	# Increase enemy level on interval
-	if(enable_spawn and timer.total_seconds != 0 and timer.total_seconds % enemy_level_interval == 0):
-		enemy_level += 1
-		print_debug("enemy level ", enemy_level)
-
-func _on_spawn_timer_timeout():
-	if(enable_spawn): enemy_spawn(enemy_spawn_count, enemy_level)
+	
+	if enable_spawn and timer.total_seconds != 0:
+		if(timer.total_seconds % enemy_level_interval == 0):
+			enemy_level += 1
+			print_debug("enemy level ", enemy_level)
+		
+		if timer.total_seconds % enemy_spawn_time == 0:
+			enemy_spawn(enemy_spawn_count, enemy_level)
 
 # update stats when weather changes
 func _on_weather_updated():
@@ -165,7 +162,6 @@ func addItem(position:Vector2, ability:int=0):
 
 func stop():
 	Global.game_ongoing = false
-	spawn_timer.stop()
 	timer.clear()
 	
 	# disable player and enemies, delete items
