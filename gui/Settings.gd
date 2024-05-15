@@ -27,14 +27,16 @@ func _ready():
 	for i in locations:
 		%OptionButton.add_item(i.city)
 	
+	load_vol()
 	load_cfg()
 
-func load_cfg():
+func load_vol():
 	%RandBGMButton.button_pressed = Config.randomize_bgm
 	%MasterVolume.volume = Config.volume.master
 	%BGMVolume.volume = Config.volume.bgm
 	%SFXVolume.volume = Config.volume.sfx
-	
+
+func load_cfg():
 	if(Config.api_settings.latitude != null && Config.api_settings.longitude != null):
 		selected.latitude = Config.api_settings.latitude
 		selected.longitude = Config.api_settings.longitude

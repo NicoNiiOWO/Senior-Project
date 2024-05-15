@@ -1,9 +1,17 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://ulm14td8xqou"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://ulm14td8xqou"]
 
 [ext_resource type="FontFile" uid="uid://c2x5jwl55wy1" path="res://resources/fonts/ClimateCrisis-Regular-VariableFont_YEAR.ttf" id="1_ag8s2"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c5wvw"]
+bg_color = Color(0.890196, 0.411765, 0.639216, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
 [resource]
 Button/font_sizes/font_size = 24
+Button/styles/focus = SubResource("StyleBoxFlat_c5wvw")
 FlowContainer/constants/v_separation = 50
 Label/colors/font_color = Color(0.121569, 0.121569, 0.121569, 1)
 Label/font_sizes/font_size = 64

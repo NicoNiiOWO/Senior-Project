@@ -22,15 +22,6 @@ func _input(event):
 	if Global.game_ongoing && event.is_action_pressed("pause"):
 		if not $UpgradePopup.popup_active:
 			pause.emit(false)
-	
-	# restart when pressing button
-	#var focus = get_viewport().gui_get_focus_owner()
-	#print(focus, " ", focus is Button)
-	#if event.is_action_released("attack"):
-		#if focus is Button:
-			#focus.pressed.emit()
-	#if $GameOver.visible && event.is_action_pressed("attack"):
-		#_on_restart_button_pressed()
 
 # title screen start button
 func _on_start_button_pressed():
