@@ -83,6 +83,9 @@ func set_coords(lat:float, lon:float):
 	selected.longitude = lon
 	%LatEdit.text = str(lat)
 	%LonEdit.text = str(lon)
+	
+	if Weather.api_ready:
+		%CityText.placeholder_text = Weather.get_city()
 
 # set use_key to toggle state, set key to input if not empty
 func set_key():
