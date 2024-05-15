@@ -113,7 +113,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 	api_request_complete.emit()
 
 # Spawn n enemies
-func enemy_spawn(n:int, level:int, move:bool=true): 
+func enemy_spawn(n:int, level:int, move:bool=true, near_player:bool=false, ability:int=-1): 
 	if(player != null):
 		for i in n:
 			
@@ -123,16 +123,21 @@ func enemy_spawn(n:int, level:int, move:bool=true):
 			# offset location based on camera
 			var position = spawn_location.position + player.get_screen_center()
 			
+			if near_player: position = player.get_screen_center() + Vector2(100, 0)
+			
 			var target = null
 			
-			if move:
-				target = player
+			target = player
+			
 			
 			# get/add enemy
-			var enemyInstance = make_node.new_enemy(level, position, target) as Enemy
+			var enemyInstance = make_node.new_enemy(level, position, target, ability) as Enemy
 			enemyInstance.enemy_defeated.connect(_on_enemy_defeated)
 			
+			enemyInstance.can_move = move
 			game.add_child(enemyInstance)
+			
+			print_debug(enemyInstance.stats)
 			enemyInstance.update_stats()
 
 func _on_timer_timeout(): # Call every second when timer is running
@@ -226,11 +231,15 @@ func _input(event):
 			#print(key)
 			
 			match key:
+				"1": enemy_spawn(1,enemy_level,false, true, 0)
+				"2": enemy_spawn(1,enemy_level,false, true, 1)
+				"3": enemy_spawn(1,enemy_level,false, true, 2)
+				"4": enemy_spawn(1,enemy_level,false, true, 3)
 				"Q":
 					get_tree().call_group("enemies", "_on_defeated")
 					print_debug("enemies cleared")
 				
-				"W": enemy_spawn(1,enemy_level,false)
+				"W": enemy_spawn(1,enemy_level,false, true)
 				"E":
 					enable_spawn = !enable_spawn
 					if enable_spawn: print_debug("spawn enabled")

@@ -16,9 +16,11 @@ static func new_item(type:int=-1):
 		item.popup = true
 	return item
 
-static func new_enemy(level:int, position:Vector2, target:Node2D=null, _type:int=0):
+static func new_enemy(level:int, position:Vector2, target:Node2D=null, ability:int=-1):
 	var enemy = enemy_scn.instantiate()
 	enemy.gain_level(level-1) # increase level
+	if ability != -1:
+		enemy.init_ability(ability)
 	
 	enemy.set_deferred("position", position)
 	enemy.set_target_node(target)

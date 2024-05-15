@@ -11,6 +11,8 @@ var ability=0 # current ability
 var can_flip : bool = true 		# if sprite can flip
 var flip : bool = false 		# flip sprite
 
+var can_move : bool = true
+
 @export var target_node : Node2D = null # node to move towards
 var target = null # target coordinate
 var direction : Vector2 	# direction moving towards
@@ -31,15 +33,16 @@ var attacking = false	# if attacking
 func _init():
 	# set ability type based on current weather
 	# default to cloudy
-	var a = [1]
+	var a = 0
 	if(Weather.api_ready):
 		a = enemy_lib.random_enemy_type(Weather.current_weather().type)
 	else:
 		a = enemy_lib.random_enemy_type([0])
+	init_ability(a)
+
+func init_ability(a:int):
 	ability = a
-	
-	init(Global.char_type.ENEMY, ability) # initialize stats
-	attack_trigger = enemy_lib.get_attack_trigger(ability)
+	init(Global.char_type.ENEMY, a) # initialize stats
 
 
 # set current state (walk/attack)
@@ -62,6 +65,9 @@ func set_player(x:Character):
 # load ability and sprites
 func load_ability(a:int):
 	ability = a
+	
+	attack_trigger = enemy_lib.get_attack_trigger(ability)
+	
 	sprite.set_sprite_frames(enemy_lib.get_sprite(ability))
 	
 	var script = enemy_lib.get_attack_script(ability)
@@ -130,6 +136,7 @@ func move(spd_mod:float = 1, max_turn:float = 1):
 
 # move towards node, can curve
 func move_towards(node:Vector2, spd_mod:float = 1, max_turn:float = 1):
+		
 	var target_direction = global_position.direction_to(node)
 	
 	# turn towards target by max_turn
@@ -138,7 +145,10 @@ func move_towards(node:Vector2, spd_mod:float = 1, max_turn:float = 1):
 		direction.x = move_toward(direction.x, target_direction.x, max_turn)
 		direction.y = move_toward(direction.y, target_direction.y, max_turn)
 	
-	velocity = direction * stats.speed*spd_mod
+	if !can_move: 
+		velocity = Vector2.ZERO
+	else:
+		velocity = direction * stats.speed*spd_mod
 
 # On collision, checks if touching player
 func handle_collision():

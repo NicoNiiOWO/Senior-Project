@@ -2,6 +2,7 @@
 extends Node2D
 
 @export var reset = false : set = _reset
+@export var fade:bool = false
 
 @export var dmg = 0 : set = set_dmg
 
@@ -10,7 +11,7 @@ extends Node2D
 
 @export var duration = .5 # time before fade starts
 @export var fade_time = 0.1
-@export var fade:bool = false
+
 
 func _reset(_x=null):
 	set_modulate(Color(1,1,1,1))
