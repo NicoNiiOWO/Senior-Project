@@ -17,7 +17,7 @@ func physics_process():
 		owner.sprite.speed_scale += 0.05
 	
 	if current_phase == phase.ACTIVE:
-		owner.move(spd_mod, 0.03)
+		owner.move(spd_mod, 0.02)
 	else:
 		owner.move(spd_mod)
 

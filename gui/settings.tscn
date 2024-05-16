@@ -214,6 +214,7 @@ layout_mode = 2
 tooltip_text = "Enter city, state, and/or country code, separated by commas."
 placeholder_text = "Brooklyn, New York, US"
 alignment = 1
+max_length = 100
 caret_blink = true
 
 [node name="RequestButton" type="Button" parent="PanelContainer/BoxContainer/Settings/GridContainer/API Settings/Geolocation/FlowContainer/CityEdit"]

@@ -36,7 +36,8 @@ window/stretch/aspect="ignore"
 
 [editor]
 
-movie_writer/movie_file="D:/uwu/Documents/GitHub/a.avi"
+movie_writer/movie_file="D:/uwu/Documents/GitHub/export.avi"
+movie_writer/fps=30
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 

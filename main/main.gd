@@ -68,7 +68,7 @@ func load_config():
 	Config.load_config()
 
 func start(save_settings:bool = false):
-	if not debug: clear_entities()
+	clear_entities()
 	if save_settings: reload_settings()
 	
 	Weather.weather_interval = weather_interval
@@ -87,8 +87,8 @@ func start(save_settings:bool = false):
 	
 	
 	# start GUI and make pausable
+	Global.timer.reset()
 	Global.timer.start()
-	Global.timer.set_text()
 	game_start.emit()
 	
 	Global.game_ongoing = true
@@ -177,13 +177,11 @@ func game_over(w=false):
 
 # title screen start button
 func _on_gui_game_start():
-	clear_entities()
 	start()
 
 # restart button
 func _on_restart(save_settings:bool = false):
-	stop()
-	clear_entities()
+	#clear_entities()
 	
 	player_level = 1
 	enemy_level = 1
@@ -198,6 +196,7 @@ func _on_restart(save_settings:bool = false):
 	start()
 
 func clear_entities():
+	stop()
 	# delete characters and items
 	get_tree().call_group("character", "queue_free")
 	get_tree().call_group("items", "queue_free")
@@ -254,7 +253,6 @@ func _input(event):
 				"C": player.effects.new_ability(1)
 				"H": player.heal(5)
 				"M": $BGMPlayer.next()
-				"Kp Add": 
-					Weather.increment()
+				#"Kp Add": Weather.increment()
 
 

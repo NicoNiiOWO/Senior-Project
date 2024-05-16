@@ -25,6 +25,9 @@ func clear() -> void:
 	label_text = "00:00"
 	weather_clock = ""
 
+func reset():
+	clear()
+	set_text()
 
 func set_time(t_seconds:int = total_seconds):
 	total_seconds = t_seconds

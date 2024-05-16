@@ -29,6 +29,7 @@ func _on_start_button_pressed():
 	reload_settings = false
 
 func _on_main_game_start():
+	$HUD.set_timer_text()
 	$HUD.show()
 	$StartMenu.hide()
 	$GameOver.hide()
@@ -47,7 +48,7 @@ func open_title():
 	main.stop()
 	%GameOver.hide()
 	%UpgradePopup.clear()
-	$PauseMenu.unpause()
+	if get_tree().paused: $PauseMenu.unpause()
 	
 	$StartMenu.show()
 	%StartButton.grab_focus()
