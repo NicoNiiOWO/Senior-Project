@@ -11,6 +11,8 @@ Project for CISC 4900, Spring 2024
 
 ##### Addons:
 
+[Godot Git Plugin](https://github.com/godotengine/godot-git-plugin)
+
 [Godot Virtual Joystick](https://github.com/MarcoFazioRandom/Virtual-Joystick-Godot)
 
 

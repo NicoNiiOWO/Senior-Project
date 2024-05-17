@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.2", "Forward Plus")
 
 [audio]
 
-buses/default_bus_layout=""
+buses/default_bus_layout="res://resources/audio_layout.tres"
 
 [autoload]
 
@@ -109,3 +109,4 @@ pause={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_etc2_astc=true
