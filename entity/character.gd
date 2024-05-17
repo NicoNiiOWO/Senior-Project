@@ -87,7 +87,8 @@ func _on_stats_updated():
 	
 	if(isPlayer):
 		#Global.player_stats = stats
-		gui.update_stats()
+		if gui != null:
+			gui.update_stats()
 
 
 func update_effects():

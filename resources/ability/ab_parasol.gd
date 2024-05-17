@@ -16,7 +16,7 @@ func on_level_changed():
 		attack.isAbility = true
 		update_attack()
 		attack.color = Color.ROYAL_BLUE
-		parent.add_child(attack)
+		parent.call_deferred("add_child", attack)
 		attack.position = Vector2.ZERO
 	else:
 		update_attack()

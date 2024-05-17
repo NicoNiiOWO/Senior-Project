@@ -3,6 +3,8 @@ extends Ability
 const attack_scn = preload("res://entity/attacks/proj_tornado.tscn")
 var radius = 120
 
+var max_count = 4
+
 var projectiles : Array = [] # store current attack nodes
 
 func _init(): name = "Tornado"
@@ -14,6 +16,7 @@ func on_level_changed():
 func add_attack(count:int=1):
 	clear()
 	if count == 0: count=1
+	if count > max_count: count = max_count
 	
 	var rotation = 2*PI/count
 	
@@ -26,7 +29,7 @@ func add_attack(count:int=1):
 		atk.position = atk.position.rotated(i*rotation)
 		
 		projectiles.append(atk)
-		parent.add_child(atk)
+		parent.call_deferred("add_child", atk)
 
 func clear():
 	for proj in projectiles:

@@ -16,6 +16,7 @@ func _init():
 # Gain exp and levels
 func gain_exp(n:float):
 	stats_r.gain_exp(n)
+	update_stats()
 
 func heal(n:int):
 	stats_r.heal(n)

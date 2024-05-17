@@ -34,7 +34,7 @@ func set_direction(dir:Vector2, rotate_sprite:bool=true):
 # start animation and timer
 func start():
 	#timer.timeout.connect(_on_timer_timeout)
-	sprite.play()
+	if sprite != null: sprite.play()
 	if duration != -1:
 		timer.wait_time = duration
 		timer.start()

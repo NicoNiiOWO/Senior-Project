@@ -250,6 +250,6 @@ func _input(event):
 				"C": player.effects.new_ability(1)
 				"H": player.heal(5)
 				"M": $BGMPlayer.next()
-				#"Kp Add": Weather.increment()
+				"Kp Add": Weather.increment()
 
 

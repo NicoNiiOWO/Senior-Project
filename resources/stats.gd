@@ -61,7 +61,8 @@ func update(emit=true):
 	current["atk_size"] = calc_add("atk_size", 0.01)
 	current["dmg_taken"] = 1
 	
-	heal(current["max_hp"] - old_max_hp, false)
+	#print_debug(current["max_hp"], " - ", old_max_hp)
+	#heal(current["max_hp"] - old_max_hp, false)
 	
 	if emit: stats_updated.emit()
 	

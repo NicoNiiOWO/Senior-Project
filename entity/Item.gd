@@ -17,18 +17,15 @@ func set_ability(abi:int=0):
 	
 	upgrades = []
 	
-	if Config.auto_upgrade: # add 1
-		add_upgrade(ability)
+	if ability == -1: # add each ability
+		add_upgrade(-1)
+		add_upgrade(0, 5)
 	else:
-		match ability:
-			-1: # add each ability
-				add_upgrade(-1)
-				add_upgrade(0, 5)
-			0:
-				add_upgrade(0, 3)
-			_:
-				add_upgrade(ability)
-				add_upgrade(0, 2)
+		if Config.auto_upgrade:
+			add_upgrade(ability)
+		else:
+			add_upgrade(ability)
+			add_upgrade(0, 2)
 
 func add_upgrade(ability_type=0, count=1):
 	upgrades.append_array(upgrade_lib.random_upgrade(ability_type,count))
@@ -55,7 +52,7 @@ func _ready():
 func _on_body_entered(body):
 	if(is_instance_of(body, Player)):
 		if upgrades.size() > 0:
-			if Config.auto_upgrade:
+			if Config.auto_upgrade and ability != -1:
 				body.add_upgrade(upgrades[0])
 			else: if gui != null : gui.upgrade_popup(upgrades)
 			

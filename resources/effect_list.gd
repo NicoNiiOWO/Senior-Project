@@ -57,13 +57,14 @@ func update_weather():
 	
 # set weather effect from weather type array
 func set_weather(weather_arr:Array):
-	var new_weather = []
-	for w in weather_arr:
-		var eff = Effect.new()
-		eff.set_weather(w)
-		new_weather.append(eff)
+	if weather_list == [] or Weather.current_weather().typeChanged:
+		var new_weather = []
+		for w in weather_arr:
+			var eff = Effect.new()
+			eff.set_weather(w)
+			new_weather.append(eff)
 
-	weather_list = new_weather
+		weather_list = new_weather
 
 func new_stat_upgrade(stat:String, _n:int=1):
 	var upgrade = Upgrade.new()
@@ -103,7 +104,7 @@ func get_total_mod(include_weather=true):
 	return total
 
 func print():
-	print_debug("Size: ", size, "\nWeather: ", weather_list, "\nStat Upgrade: ",upgrade_stat_list,"\nTotal: ", total_mod)
+	print_debug("Size: ", size, "\nWeather: ", weather_list, "\nStat Upgrade: ",upgrade_stat_list,"\nAbility: ", ability_list, "\nTotal: ", total_mod)
 
 	
 # if contains same upgrade type
