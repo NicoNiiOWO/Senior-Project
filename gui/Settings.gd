@@ -208,3 +208,8 @@ func _on_api_key_button_pressed():
 
 func _on_next_bgm_button_pressed():
 	Global.bgm.next()
+
+
+func _on_scale_option_item_selected(index):
+	print(index, " ", %ScaleOption.get_item_text(index), " ", ProjectSettings.has_setting("display/window/stretch/mode"))
+	ProjectSettings.set_setting("display/window/stretch/mode", %ScaleOption.get_item_text(index))

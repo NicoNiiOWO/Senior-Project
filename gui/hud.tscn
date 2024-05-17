@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://nvw5boobsjx6"]
+[gd_scene load_steps=6 format=3 uid="uid://nvw5boobsjx6"]
 
 [ext_resource type="Theme" uid="uid://dk6smdysfa556" path="res://resources/theme/hud.tres" id="1_2gcxn"]
 [ext_resource type="Script" path="res://gui/HUD.gd" id="1_euh7k"]
 [ext_resource type="Texture2D" uid="uid://dwus57414541e" path="res://assets/Icons/Weather/01d@2x.png" id="2_spkcv"]
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="4_fe5hq"]
+[ext_resource type="Texture2D" uid="uid://cmg3w750otk6x" path="res://assets/circle.png" id="5_u8rdn"]
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -26,30 +28,33 @@ grow_horizontal = 2
 text = "00:00"
 horizontal_alignment = 1
 
-[node name="Player" type="BoxContainer" parent="."]
+[node name="Player" type="FlowContainer" parent="."]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 108.0
 offset_bottom = 93.0
-vertical = true
+theme_override_constants/v_separation = 20
 
-[node name="FlowContainer" type="FlowContainer" parent="Player"]
+[node name="BoxContainer" type="BoxContainer" parent="Player"]
 layout_mode = 2
 alignment = 1
 vertical = true
 
-[node name="Label" type="Label" parent="Player/FlowContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="Player/BoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Player/BoxContainer/BoxContainer"]
 layout_mode = 2
 text = "HP:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="Player/FlowContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="Player/BoxContainer/BoxContainer"]
 custom_minimum_size = Vector2(100, 24)
 layout_mode = 2
 
-[node name="HPBar" type="ProgressBar" parent="Player/FlowContainer/CenterContainer"]
+[node name="HPBar" type="ProgressBar" parent="Player/BoxContainer/BoxContainer/CenterContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(140, 24)
 layout_mode = 2
@@ -57,24 +62,24 @@ size_flags_vertical = 3
 value = 50.0
 show_percentage = false
 
-[node name="HP" type="Label" parent="Player/FlowContainer/CenterContainer"]
+[node name="HP" type="Label" parent="Player/BoxContainer/BoxContainer/CenterContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "100/100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Level" type="Label" parent="Player"]
+[node name="Level" type="Label" parent="Player/BoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "AAA"
 
-[node name="PlayerStats" type="Label" parent="Player"]
+[node name="PlayerStats" type="Label" parent="Player/BoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "wwwwww"
 
-[node name="PlayerUpgrades" type="Label" parent="Player"]
+[node name="PlayerUpgrades" type="Label" parent="Player/BoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -113,3 +118,50 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 100)
 layout_mode = 2
+
+[node name="TouchControls" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -352.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Virtual Joystick" parent="TouchControls" instance=ExtResource("4_fe5hq")]
+modulate = Color(1, 0.470588, 0.686275, 0.631373)
+layout_mode = 1
+offset_left = 40.0
+offset_top = -240.0
+offset_right = 240.0
+offset_bottom = -40.0
+joystick_mode = 1
+visibility_mode = 1
+action_left = "move_left"
+action_right = "move_right"
+action_up = "move_up"
+action_down = "move_down"
+
+[node name="Marker2D" type="Marker2D" parent="TouchControls"]
+position = Vector2(140.5, 212)
+
+[node name="Control" type="Control" parent="TouchControls"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="AttackButton" type="TouchScreenButton" parent="TouchControls/Control"]
+unique_name_in_owner = true
+modulate = Color(1, 0.470588, 0.686275, 0.631373)
+position = Vector2(-200, -200)
+texture_normal = ExtResource("5_u8rdn")
+action = "attack"
+visibility_mode = 1

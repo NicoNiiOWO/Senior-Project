@@ -47,9 +47,10 @@ func _physics_process(delta):
 	
 	# Update direction facing when moving
 	if(velocity.x != 0 || velocity.y != 0):
-		var x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
-		var y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
+		var x = snappedi(velocity.normalized().x, 1)
+		var y = snappedi(velocity.normalized().y, 1)
 		
+		#print(x, " ", y, " ", velocity.normalized())
 		if(x != 0 || y != 0): direction = Vector2(x,y)
 	
 	velocity = velocity * stats.speed

@@ -16,10 +16,17 @@ func set_player(p:Player):
 
 func _ready():
 	Weather.weather_updated.connect(weather_update)
+	
+	if DisplayServer.is_touchscreen_available():
+		$PauseButton.show()
+	else: $PauseButton.hide()
 
 func _input(event):
+	if event.is_action_pressed("pause"): pause_game()
+
+func pause_game():
 	# pause game when running
-	if Global.game_ongoing && event.is_action_pressed("pause"):
+	if Global.game_ongoing:
 		if not $UpgradePopup.popup_active:
 			pause.emit(false)
 
@@ -121,3 +128,16 @@ func _on_settings_closed():
 		%StartButton.grab_focus()
 
 
+
+
+func _on_pause_button_pressed():
+	print("a")
+	if not get_tree().paused:
+		pause_game()
+	
+	var release = InputEventAction.new()
+	release.action = "pause"
+	release.pressed = false
+	Input.parse_input_event(release)
+	#if get_tree().paused: $PauseMenu._input(press)
+	#else: _input(press)

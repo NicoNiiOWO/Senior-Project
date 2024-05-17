@@ -9,6 +9,10 @@ Project for CISC 4900, Spring 2024
 
 ## Assets Used
 
+##### Addons:
+
+[Godot Virtual Joystick](https://github.com/MarcoFazioRandom/Virtual-Joystick-Godot)
+
 
 ##### Textures:
 
