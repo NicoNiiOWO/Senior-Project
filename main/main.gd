@@ -26,10 +26,12 @@ const make_node : Resource = preload("res://libraries/make_node.gd")
 
 # Enemy variables
 
+@export var enemy_max_count : int = 50
 @export var enemy_spawn_time : int = 2	## Time between enemy spawns (s)
 @export var enemy_spawn_count : int = 1	## Amount spawned
+var enemy_count = 0
 
-@export var enemy_count_interval : int = 60 ## Increment spawn count (s)
+@export var enemy_count_interval : int = 100 ## Increment spawn count (s)
 @export var enemy_level_interval : int = 15 ## Time between incrementing enemy level (s)
 
 @export_range(0, 1, .01) var item_chance : float = 0.50 ## item drop chance
@@ -112,7 +114,7 @@ func _on_api_request_completed(_result, response_code, _headers, body):
 
 # Spawn n enemies
 func enemy_spawn(n:int, level:int, move:bool=true, near_player:bool=false, ability:int=-1): 
-	if(player != null):
+	if(player != null and enemy_count < enemy_max_count):
 		for i in n:
 			
 			var spawn_location = %EnemySpawnLocation
@@ -137,6 +139,8 @@ func enemy_spawn(n:int, level:int, move:bool=true, near_player:bool=false, abili
 			
 			#print_debug(enemyInstance.stats)
 			enemyInstance.update_stats()
+			
+			enemy_count += 1
 
 func _on_timer_timeout(): # Call every second when timer is running
 	# Increase enemy level on interval
@@ -209,6 +213,8 @@ func clear_entities():
 	get_tree().call_group("items", "queue_free")
 	for child in game.get_children(): # delete remaining nodes
 		child.queue_free()
+	
+	enemy_count = 0
 
 # clear forecast and load config file
 func reload_settings():
@@ -234,6 +240,8 @@ func _on_enemy_defeated(position, ability, xp):
 		else: item_pity[ability] = 1
 	
 	player.gain_exp(xp)
+	
+	enemy_count -= 1
 	
 	$CharDefeatSFX.global_position = position
 	$CharDefeatSFX.play()

@@ -257,6 +257,11 @@ func _on_default_button_pressed():
 func _on_zoom_slider_value_changed(value):
 	Config.set_zoom(value)
 	%ZoomValue.text = \"x%.02f\" % value
+
+
+
+func _on_debug_button_toggled(toggled_on):
+	get_node(\"/root/Main\").debug = toggled_on
 "
 
 [node name="Settings" type="Control"]
@@ -326,6 +331,11 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Auto Upgrade"
+
+[node name="DebugButton" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Gameplay/BoxContainer/BoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Debug"
 
 [node name="Display" type="PanelContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
 layout_mode = 2
@@ -699,6 +709,7 @@ theme = ExtResource("2_xbopw")
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [connection signal="toggled" from="PanelContainer/BoxContainer/Settings/GridContainer/Gameplay/BoxContainer/BoxContainer/AutoUpgradeButton" to="." method="_on_auto_upgrade_button_toggled"]
+[connection signal="toggled" from="PanelContainer/BoxContainer/Settings/GridContainer/Gameplay/BoxContainer/BoxContainer/DebugButton" to="." method="_on_debug_button_toggled"]
 [connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale/ScaleOption" to="." method="_on_scale_option_item_selected"]
 [connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale/AspectOption" to="." method="_on_aspect_option_item_selected"]
 [connection signal="value_changed" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale/FilterOption" to="." method="_on_filter_option_value_changed"]

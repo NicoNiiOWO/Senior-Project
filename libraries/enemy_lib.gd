@@ -80,8 +80,8 @@ static var base_stats = {
 }
 static var growth_stats = {
 	-1 : { # default
-		max_hp = 1.2,
-		atk = 4,
+		max_hp = 1.15,
+		atk = 3,
 		max_exp = 1.15,
 		speed = 2,
 		atk_size = 0
@@ -90,7 +90,7 @@ static var growth_stats = {
 		
 	},
 	ability_type.SWORD : {
-		atk_size = .01
+		atk_size = .0075
 	},
 	ability_type.TORNADO : {
 		atk_size = .01

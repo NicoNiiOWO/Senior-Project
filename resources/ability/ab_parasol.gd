@@ -8,7 +8,6 @@ var attack : Node2D = null # current attack
 
 func _init(): name = "Parasol"
 func on_level_changed():
-	
 	super.on_level_changed()
 	
 	if attack == null:
@@ -20,7 +19,6 @@ func on_level_changed():
 		attack.position = Vector2.ZERO
 	else:
 		update_attack()
-	print_debug(attack.position)
 
 func update_attack():
 	atk_update_damage(attack)

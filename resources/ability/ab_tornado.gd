@@ -19,19 +19,20 @@ func add_attack(count:int=1):
 		count = max_count
 		update_attacks()
 	else:
-		clear()
-		var rotation = 2*PI/count
-		
-		for i in range(count):
-			var atk = init_attack(attack_scn) as Projectile
+		if projectiles.size() < count:
+			clear()
+			var rotation = 2*PI/count
 			
-			atk.isAbility = true
-			
-			atk.orbit(radius)
-			atk.position = atk.position.rotated(i*rotation)
-			
-			projectiles.append(atk)
-			parent.call_deferred("add_child", atk)
+			for i in range(count):
+				var atk = init_attack(attack_scn) as Projectile
+				
+				atk.isAbility = true
+				
+				atk.orbit(radius)
+				atk.position = atk.position.rotated(i*rotation)
+				
+				projectiles.append(atk)
+				parent.call_deferred("add_child", atk)
 
 func update_attacks():
 	for atk in projectiles:
