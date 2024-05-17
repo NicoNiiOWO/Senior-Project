@@ -103,9 +103,9 @@ func disable():
 	visible = false
 	set_process_mode(PROCESS_MODE_DISABLED)
 
-func add_upgrade(upgrade:Upgrade):
+func add_upgrade(upgrade:Upgrade, secondary:Upgrade = null):
 	# char_lib.add_upgrade(effects, upgrade)
-	effects.add_upgrade(upgrade)
+	effects.add_upgrade(upgrade, secondary)
 	update_stats()
 
 func has_upgrade(upgrade:Upgrade) -> bool:

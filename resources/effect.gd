@@ -14,9 +14,15 @@ var hasStats
 @export var stat_base : Dictionary = {}
 var stats : Dictionary = {} # base * count
 
+@export var max_lvl = -1
+
 # get from effect_lib
 func set_effect(eff_data:Dictionary):
 	type = eff_data.type
+	
+	if type == Vector2(1,4): # dmg taken
+		max_lvl = 10
+	
 	isWeather = (type.x == category_list.WEATHER)
 
 	hasStats = eff_data.has_stats
@@ -35,10 +41,20 @@ func set_stats(base_stats:Dictionary, n:int=1):
 func set_weather(weatherType:int):
 	set_effect(effect_lib.get_weather(weatherType))
 
-func add_level(n:int = 1):
-	level += n
-	stat_multiply(level)
-	level_changed.emit()
+func is_max_level() -> bool:
+	if max_lvl > 0:
+		return level == max_lvl
+	return false
+	
+# return if level is added
+func add_level(n:int = 1) -> bool:
+	if is_max_level():
+		return false
+	else:
+		level += n
+		stat_multiply(level)
+		level_changed.emit()
+		return true
 
 # set base stats * number
 func stat_multiply(n:int=level):

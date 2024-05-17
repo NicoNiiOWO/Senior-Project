@@ -16,6 +16,7 @@ func popup(upgrade_list:Array):
 
 # make list of selectable upgrades
 func make_list(upgrade_list:Array):
+	upgrades = upgrade_list
 	
 	player = owner.player
 	#upgrades = upgrade_lib.random_upgrade(count)
@@ -60,7 +61,7 @@ func _on_gui_popup(upgrade_list:Array=[]):
 	
 
 func _on_upgrade_button_pressed(upgrade:Upgrade):
-	owner.player.add_upgrade(upgrade)
+	owner.player.add_upgrade(upgrade, upgrades[0])
 	
 	_on_close_button_pressed()
 

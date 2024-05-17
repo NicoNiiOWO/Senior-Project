@@ -22,9 +22,7 @@ func clear_weather():
 	weather_list = []
 
 # add to lists based on type. if duplicate, increment
-func add_upgrade(upgrade:Upgrade):
-	#print_debug("AA", upgrade.type.x == category_type.UPGRADE)
-	#print_debug(typeof(upgrade.type.x)," ", typeof(category_type.UPGRADE))
+func add_upgrade(upgrade:Upgrade, secondary:Upgrade = null):
 	if upgrade is Ability:
 		add_ability(upgrade)
 	else:
@@ -33,13 +31,14 @@ func add_upgrade(upgrade:Upgrade):
 				set_weather([upgrade])
 
 			category_type.STAT_UPGRADE:
-				print_debug("AAAAAAAAAAAAAAAAAA")
 				if has_upgrade(upgrade):
-					upgrade_stat_list[upgrade.type].add_level()
+					if not upgrade_stat_list[upgrade.type].add_level():
+						# if level is max, add secondary instead
+						if secondary != null:
+							add_upgrade(secondary)
 				else:
 					upgrade_stat_list[upgrade.type] = upgrade
 			_: 
-				#print_debug(upgrade.type.x, category_type, category_type.STAT_UPGRADE, upgrade.type.x=category_type.STAT_UPGRADE)
 				return
 		update_total()
 	size+=1
@@ -113,6 +112,13 @@ func has_upgrade(upg:Upgrade) -> bool:
 	if upg.type in upgrade_stat_list: return true
 	
 	return false
+
+func has_max_upgrade(upg:Upgrade) -> bool:
+	var upgrade:Upgrade = get_upgrade(upg)
+	if upgrade == null:
+		return false
+	else:
+		return upgrade.is_max_level()
 
 # if has same type, return upgrade
 func get_upgrade(upg:Upgrade) -> Upgrade:

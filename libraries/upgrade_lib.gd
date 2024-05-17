@@ -93,7 +93,13 @@ static func random_upgrade(ability=0, count:int=1, x:int=1) -> Array:
 			var stats = rand_stats(count)
 			
 			for stat in stats:
-				upgrades.append(make_stat_upgrade(stat,x))
+				var upg = make_stat_upgrade(stat,x)
+				
+				if Global.player != null:
+					if not Global.player.effects.has_max_upgrade(upg):
+						upgrades.append(upg)
+				else:
+					upgrades.append(upg)
 		_:
 			for i in range(count):
 				upgrades.append(make_ability(ability))
