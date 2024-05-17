@@ -95,6 +95,10 @@ func init_attack(scn:PackedScene) -> Attack:
 	
 	return atk
 
+func atk_update_stats(atk:Attack):
+	atk.size = ability_stats.size
+	atk_update_damage(atk)
+	
 func atk_update_damage(atk:Attack):
 	atk.damage = parent.stats.atk * ability_stats.atk_scale
 

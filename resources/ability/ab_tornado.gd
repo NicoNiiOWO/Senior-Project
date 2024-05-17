@@ -14,22 +14,28 @@ func on_level_changed():
 
 # add attacks rotated evenly
 func add_attack(count:int=1):
-	clear()
 	if count == 0: count=1
-	if count > max_count: count = max_count
-	
-	var rotation = 2*PI/count
-	
-	for i in range(count):
-		var atk = init_attack(attack_scn) as Projectile
+	if count > max_count: 
+		count = max_count
+		update_attacks()
+	else:
+		clear()
+		var rotation = 2*PI/count
 		
-		atk.isAbility = true
-		
-		atk.orbit(radius)
-		atk.position = atk.position.rotated(i*rotation)
-		
-		projectiles.append(atk)
-		parent.call_deferred("add_child", atk)
+		for i in range(count):
+			var atk = init_attack(attack_scn) as Projectile
+			
+			atk.isAbility = true
+			
+			atk.orbit(radius)
+			atk.position = atk.position.rotated(i*rotation)
+			
+			projectiles.append(atk)
+			parent.call_deferred("add_child", atk)
+
+func update_attacks():
+	for atk in projectiles:
+		atk_update_stats(atk)
 
 func clear():
 	for proj in projectiles:

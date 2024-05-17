@@ -57,6 +57,11 @@ func load_cfg():
 	%ScaleOption.selected = Config.display.scale_mode
 	%AspectOption.selected = Config.display.scale_aspect
 	%AutoUpgradeButton.button_pressed = Config.auto_upgrade
+	
+	get_tree().root.content_scale_mode = Config.display.scale_mode
+	get_tree().root.content_scale_aspect = Config.display.scale_aspect
+	
+	%ZoomSlider.value = Config.display.zoom
 
 func open():
 	load_cfg()
@@ -229,9 +234,11 @@ func _on_scale_option_item_selected(index):
 	#print(index, \" \", %ScaleOption.get_item_text(index), \" \", ProjectSettings.has_setting(\"display/window/stretch/mode\"))
 	#print()
 	get_tree().root.content_scale_mode = index
+	Config.display.scale_mode = index
 
 func _on_aspect_option_item_selected(index):
 	get_tree().root.content_scale_aspect = index
+	Config.display.scale_aspect = index
 
 
 func _on_filter_option_value_changed(value):
@@ -245,6 +252,11 @@ func _on_auto_upgrade_button_toggled(toggled_on):
 func _on_default_button_pressed():
 	show_save_text(Config.load_default())
 	load_cfg()
+
+
+func _on_zoom_slider_value_changed(value):
+	Config.set_zoom(value)
+	%ZoomValue.text = \"x%.02f\" % value
 "
 
 [node name="Settings" type="Control"]
@@ -331,15 +343,15 @@ text = "Display"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer"]
+[node name="Scale" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
+[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale"]
 layout_mode = 2
 text = "Scale Mode"
 
-[node name="ScaleOption" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
+[node name="ScaleOption" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale"]
 unique_name_in_owner = true
 layout_mode = 2
 item_count = 3
@@ -351,11 +363,11 @@ popup/item_1/id = 1
 popup/item_2/text = "viewport"
 popup/item_2/id = 2
 
-[node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
+[node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale"]
 layout_mode = 2
 text = "Aspect"
 
-[node name="AspectOption" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
+[node name="AspectOption" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale"]
 unique_name_in_owner = true
 layout_mode = 2
 item_count = 5
@@ -371,15 +383,40 @@ popup/item_3/id = 3
 popup/item_4/text = "expand"
 popup/item_4/id = 4
 
-[node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
+[node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale"]
 visible = false
 layout_mode = 2
 text = "Filter"
 
-[node name="FilterOption" type="SpinBox" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
+[node name="FilterOption" type="SpinBox" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale"]
 visible = false
 layout_mode = 2
 max_value = 6.0
+
+[node name="Zoom" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Zoom"]
+layout_mode = 2
+text = "Zoom"
+
+[node name="ZoomSlider" type="HSlider" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Zoom"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 0.5
+max_value = 3.0
+step = 0.1
+value = 1.0
+
+[node name="ZoomValue" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Zoom"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "x1.00"
+text_overrun_behavior = 1
 
 [node name="Sound" type="PanelContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
 layout_mode = 2
@@ -662,9 +699,10 @@ theme = ExtResource("2_xbopw")
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [connection signal="toggled" from="PanelContainer/BoxContainer/Settings/GridContainer/Gameplay/BoxContainer/BoxContainer/AutoUpgradeButton" to="." method="_on_auto_upgrade_button_toggled"]
-[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer/ScaleOption" to="." method="_on_scale_option_item_selected"]
-[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer/AspectOption" to="." method="_on_aspect_option_item_selected"]
-[connection signal="value_changed" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer/FilterOption" to="." method="_on_filter_option_value_changed"]
+[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale/ScaleOption" to="." method="_on_scale_option_item_selected"]
+[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale/AspectOption" to="." method="_on_aspect_option_item_selected"]
+[connection signal="value_changed" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Scale/FilterOption" to="." method="_on_filter_option_value_changed"]
+[connection signal="value_changed" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/Zoom/ZoomSlider" to="." method="_on_zoom_slider_value_changed"]
 [connection signal="pressed" from="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/BGM/NextBGMButton" to="." method="_on_next_bgm_button_pressed"]
 [connection signal="toggled" from="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/API Key/FlowContainer/KeyToggle" to="." method="_on_api_key_check_button_toggled"]
 [connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation/OptionButton" to="." method="_on_option_button_item_selected"]

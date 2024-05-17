@@ -18,12 +18,18 @@ func gain_exp(n:float):
 	stats_r.gain_exp(n)
 	update_stats()
 
+func set_zoom(x:float):
+	if is_node_ready():
+		$Camera2D.zoom = Vector2(x,x)
+
 func heal(n:int):
 	stats_r.heal(n)
 	update_stats()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_zoom(Config.display.zoom)
+	
 	# Set camera limit
 	var map_size = Global.map_size
 	$Camera2D.set("limit_top", -map_size/2.0)

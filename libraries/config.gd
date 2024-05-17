@@ -40,7 +40,8 @@ const default_api = {
 }
 const default_display = {
 	scale_mode = 1,
-	scale_aspect = 4
+	scale_aspect = 4,
+	zoom = 1,
 }
 var randomize_bgm = true
 var volume = default_vol.duplicate()
@@ -71,6 +72,11 @@ func clear_api() -> void:
 		key=null,
 		use_key=false,
 	}
+
+func set_zoom(x):
+	display.zoom = x
+	if Global.player != null:
+		Global.player.set_zoom(x)
 
 func set_coords_dict(settings:Dictionary):
 	set_coords(settings.latitude, settings.longitude)
@@ -118,6 +124,8 @@ func load_default() -> Error:
 	set_api_settings(default_api.duplicate())
 	set_volume_dict(default_vol.duplicate())
 	display = default_display.duplicate()
+	set_zoom(1)
+	
 	randomize_bgm = true
 	auto_upgrade = true
 	
@@ -144,7 +152,7 @@ func load_config() -> Dictionary:
 		
 		auto_upgrade = config.get_value("Gameplay", "auto_upgrade", false)
 		for setting in config.get_section_keys("Display"):
-			display[setting] = config.get_value("Display", "scale_mode")
+			display[setting] = config.get_value("Display", setting)
 	
 	# set default api key if not in config
 	if (api_settings.key == null):
