@@ -12,8 +12,6 @@ static func new_item(type:int=-1):
 	if type == -1: # set random type
 		type = randi_range(0,1)
 		item.item_type = type
-	if type == item_types.UPGRADE:
-		item.popup = true
 	return item
 
 static func new_enemy(level:int, position:Vector2, target:Node2D=null, ability:int=-1):

@@ -38,9 +38,31 @@ const default_api = {
 	key=null,
 	use_key=false,
 }
+const default_display = {
+	scale_mode = 1,
+	scale_aspect = 4
+}
 var randomize_bgm = true
 var volume = default_vol.duplicate()
 var api_settings = default_api.duplicate()
+var display = default_display.duplicate()
+
+var auto_upgrade : bool = true : 
+	set(x):
+		auto_upgrade = x
+		settings.Gameplay.auto_upgrade = x
+
+var settings = {
+	Sound = {
+		volume = self.volume,
+		randomize_bgm = self.randomize_bgm,
+	},
+	API = self.api_settings,
+	Gameplay = {
+		auto_upgrade = true,
+	},
+	Display = self.display
+}
 
 func clear_api() -> void:
 	api_settings = {
@@ -73,6 +95,14 @@ func set_volume(master=0.8, bgm=0.8, sfx=0.8):
 	volume.sfx = sfx
 	apply_volume()
 
+func set_display(mode, aspect, apply=false):
+	settings.Display.scale_mode = mode
+	settings.Display.scale_aspect = aspect
+	
+	#if apply:
+		#get_tree().root.content_scale_mode = mode
+		#get_tree().root.content_scale_aspect = aspect
+
 func set_volume_dict(vol:Dictionary):
 	set_volume(vol.master, vol.bgm, vol.sfx)
 
@@ -84,12 +114,16 @@ func apply_volume(enabled=true):
 		AudioServer.set_bus_volume_db(1, linear_to_db(volume.bgm))
 		AudioServer.set_bus_volume_db(2, linear_to_db(volume.sfx))
 
-func load_default():
+func load_default() -> Error:
 	set_api_settings(default_api.duplicate())
 	set_volume_dict(default_vol.duplicate())
+	display = default_display.duplicate()
 	randomize_bgm = true
-	save()
+	auto_upgrade = true
+	
+	
 	loaded.emit()
+	return save()
 
 # load from file
 func load_config() -> Dictionary:
@@ -102,11 +136,15 @@ func load_config() -> Dictionary:
 		load_default()
 	else:
 		# set settings
-		randomize_bgm = config.get_value("Sound", "random_bgm")
+		randomize_bgm = config.get_value("Sound", "random_bgm", true)
 		for setting in config.get_section_keys("Volume"):
-			volume[setting] = config.get_value("Volume", setting)
+			volume[setting] = config.get_value("Volume", setting, .5)
 		for setting in config.get_section_keys("API"):
 			api_settings[setting] = config.get_value("API", setting)
+		
+		auto_upgrade = config.get_value("Gameplay", "auto_upgrade", false)
+		for setting in config.get_section_keys("Display"):
+			display[setting] = config.get_value("Display", "scale_mode")
 	
 	# set default api key if not in config
 	if (api_settings.key == null):
@@ -133,5 +171,12 @@ func save() -> Error:
 	config.set_value("API", "use_key", api_settings.use_key)
 	if api_settings.use_key:
 		config.set_value("API", "key", api_settings.key)
+		
+	
+	for setting in settings.Display:
+		config.set_value("Display", setting, settings.Display[setting])
+	
+	for setting in settings.Gameplay:
+		config.set_value("Gameplay", setting, settings.Gameplay[setting])
 	
 	return config.save("user://config.cfg")

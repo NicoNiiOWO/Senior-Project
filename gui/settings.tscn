@@ -52,6 +52,11 @@ func load_cfg():
 	if Config.api_settings.use_key:
 		selected.use_key = true
 		%KeyToggle.set_pressed(true)
+	
+	%RandBGMButton.button_pressed = Config.randomize_bgm
+	%ScaleOption.selected = Config.display.scale_mode
+	%AspectOption.selected = Config.display.scale_aspect
+	%AutoUpgradeButton.button_pressed = Config.auto_upgrade
 
 func open():
 	load_cfg()
@@ -195,7 +200,10 @@ func save_settings():
 	Config.set_volume(vol_master, vol_bgm, vol_sfx)
 	Config.set_api_settings(selected)
 	
-	if Config.save() != OK:
+	show_save_text(Config.save())
+
+func show_save_text(a:Error):
+	if a != OK:
 		%SaveText.text = \"Save error\"
 		print_debug(\"save error\")
 	else: 
@@ -221,8 +229,6 @@ func _on_scale_option_item_selected(index):
 	#print(index, \" \", %ScaleOption.get_item_text(index), \" \", ProjectSettings.has_setting(\"display/window/stretch/mode\"))
 	#print()
 	get_tree().root.content_scale_mode = index
-	
-
 
 func _on_aspect_option_item_selected(index):
 	get_tree().root.content_scale_aspect = index
@@ -230,6 +236,15 @@ func _on_aspect_option_item_selected(index):
 
 func _on_filter_option_value_changed(value):
 	texture_filter = value
+
+
+func _on_auto_upgrade_button_toggled(toggled_on):
+	Config.auto_upgrade = toggled_on
+
+
+func _on_default_button_pressed():
+	show_save_text(Config.load_default())
+	load_cfg()
 "
 
 [node name="Settings" type="Control"]
@@ -275,265 +290,56 @@ theme_override_constants/h_separation = 30
 theme_override_constants/v_separation = 30
 columns = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
+[node name="Gameplay" type="PanelContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
 layout_mode = 2
 theme = ExtResource("3_1jdw6")
 
-[node name="Sound" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Gameplay"]
 layout_mode = 2
 alignment = 1
 vertical = true
 
-[node name="SoundLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound"]
+[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Gameplay/BoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Sound"
+text = "Gameplay"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound"]
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Gameplay/BoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 20
-vertical = true
-
-[node name="BGM" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer"]
-layout_mode = 2
-vertical = true
-
-[node name="BGMLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/BGM"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
-theme_override_font_sizes/font_size = 20
-text = "Music"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/BGM"]
-layout_mode = 2
-
-[node name="RandBGMButton" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/BGM/CenterContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-button_pressed = true
-text = "Randomize BGM on restart"
 alignment = 1
 
-[node name="NextBGMButton" type="Button" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/BGM"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Next BGM"
-
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer"]
-layout_mode = 2
-
-[node name="Volume" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-vertical = true
-
-[node name="VolumeLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/Volume"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
-theme_override_font_sizes/font_size = 20
-text = "Volume"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/Volume"]
-layout_mode = 2
-text = "Master"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MasterVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
+[node name="AutoUpgradeButton" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Gameplay/BoxContainer/BoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-value = 0.5
-bus_index = 0
+text = "Auto Upgrade"
 
-[node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/Volume"]
-layout_mode = 2
-text = "Music"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="BGMVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
-unique_name_in_owner = true
-layout_mode = 2
-value = 0.5
-bus_index = 1
-
-[node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/Volume"]
-layout_mode = 2
-text = "Sound Effects"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="SFXVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
-unique_name_in_owner = true
-layout_mode = 2
-value = 0.5
-bus_index = 2
-
-[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
+[node name="Display" type="PanelContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
 layout_mode = 2
 theme = ExtResource("3_1jdw6")
 
-[node name="API Settings" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2"]
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display"]
 layout_mode = 2
 alignment = 1
 vertical = true
 
-[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings"]
+[node name="UILabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Location"
+text = "Display"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="API Key" type="CenterContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings"]
-layout_mode = 2
-
-[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/API Key"]
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="KeyToggle" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/API Key/FlowContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Custom API Key"
-
-[node name="KeyEdit" type="LineEdit" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/API Key/FlowContainer"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(180, 0)
-layout_mode = 2
-placeholder_text = "Enter API Key"
-caret_blink = true
-
-[node name="Geolocation" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings"]
-layout_mode = 2
-alignment = 1
-vertical = true
-
-[node name="OptionButton" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-alignment = 1
-item_count = 3
-selected = 0
-popup/item_0/text = "Enter City"
-popup/item_0/id = 0
-popup/item_1/text = "Manual"
-popup/item_1/id = 1
-popup/item_2/text = ""
-popup/item_2/id = 2
-popup/item_2/disabled = true
-popup/item_2/separator = true
-
-[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation"]
-layout_mode = 2
-alignment = 1
-
-[node name="CityEdit" type="VFlowContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation/FlowContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 1
-
-[node name="CityText" type="LineEdit" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation/FlowContainer/CityEdit"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(190, 0)
-layout_mode = 2
-tooltip_text = "Enter city, state, and/or country code, separated by commas."
-placeholder_text = "Brooklyn, New York, US"
-alignment = 1
-max_length = 100
-caret_blink = true
-
-[node name="RequestButton" type="Button" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation/FlowContainer/CityEdit"]
-layout_mode = 2
-text = "Enter"
-
-[node name="CityList" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-item_count = 1
-fit_to_longest_item = false
-popup/item_0/text = "Select"
-popup/item_0/id = 0
-popup/item_0/disabled = true
-
-[node name="APIErrorText" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-text = "aaaaaaaaaaaaaaaaaaaaaaaa"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Coordinates" type="GridContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/h_separation = 20
-columns = 2
-
-[node name="Latitude" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Coordinates"]
-layout_mode = 2
-text = "Latitude"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LatEdit" type="LineEdit" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Coordinates"]
-unique_name_in_owner = true
-layout_mode = 2
-placeholder_text = "eeee"
-alignment = 1
-editable = false
-
-[node name="Longitude" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Coordinates"]
-layout_mode = 2
-text = "Longitude"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LonEdit" type="LineEdit" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Coordinates"]
-unique_name_in_owner = true
-layout_mode = 2
-placeholder_text = "aaaaaaa"
-alignment = 1
-editable = false
-caret_blink = true
-
-[node name="PanelContainer3" type="PanelContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
-layout_mode = 2
-theme = ExtResource("3_1jdw6")
-
-[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3"]
-layout_mode = 2
-alignment = 1
-vertical = true
-
-[node name="UILabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "UI"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer/BoxContainer"]
+[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
 layout_mode = 2
 text = "Scale Mode"
 
-[node name="ScaleOption" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer/BoxContainer"]
+[node name="ScaleOption" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 item_count = 3
@@ -545,11 +351,11 @@ popup/item_1/id = 1
 popup/item_2/text = "viewport"
 popup/item_2/id = 2
 
-[node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer/BoxContainer"]
+[node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
 layout_mode = 2
 text = "Aspect"
 
-[node name="AspectOption" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer/BoxContainer"]
+[node name="AspectOption" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 item_count = 5
@@ -565,15 +371,249 @@ popup/item_3/id = 3
 popup/item_4/text = "expand"
 popup/item_4/id = 4
 
-[node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer/BoxContainer"]
+[node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
 visible = false
 layout_mode = 2
 text = "Filter"
 
-[node name="FilterOption" type="SpinBox" parent="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer/BoxContainer"]
+[node name="FilterOption" type="SpinBox" parent="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer"]
 visible = false
 layout_mode = 2
 max_value = 6.0
+
+[node name="Sound" type="PanelContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
+layout_mode = 2
+theme = ExtResource("3_1jdw6")
+
+[node name="Sound" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound"]
+layout_mode = 2
+alignment = 1
+vertical = true
+
+[node name="SoundLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Sound"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound"]
+layout_mode = 2
+theme_override_constants/separation = 20
+vertical = true
+
+[node name="BGM" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer"]
+layout_mode = 2
+vertical = true
+
+[node name="BGMLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/BGM"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_font_sizes/font_size = 20
+text = "Music"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/BGM"]
+layout_mode = 2
+
+[node name="RandBGMButton" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/BGM/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "Randomize BGM on restart"
+alignment = 1
+
+[node name="NextBGMButton" type="Button" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/BGM"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Next BGM"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer"]
+layout_mode = 2
+
+[node name="Volume" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+vertical = true
+
+[node name="VolumeLabel" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/Volume"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_font_sizes/font_size = 20
+text = "Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/Volume"]
+layout_mode = 2
+text = "Master"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
+unique_name_in_owner = true
+layout_mode = 2
+value = 0.5
+bus_index = 0
+
+[node name="Label2" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/Volume"]
+layout_mode = 2
+text = "Music"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BGMVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
+unique_name_in_owner = true
+layout_mode = 2
+value = 0.5
+bus_index = 1
+
+[node name="Label3" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/Volume"]
+layout_mode = 2
+text = "Sound Effects"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SFXVolume" parent="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/Volume" instance=ExtResource("3_rgfyv")]
+unique_name_in_owner = true
+layout_mode = 2
+value = 0.5
+bus_index = 2
+
+[node name="API" type="PanelContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer"]
+layout_mode = 2
+theme = ExtResource("3_1jdw6")
+
+[node name="API Settings" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/API"]
+layout_mode = 2
+alignment = 1
+vertical = true
+
+[node name="Label" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Location"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="API Key" type="CenterContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings"]
+layout_mode = 2
+
+[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/API Key"]
+layout_mode = 2
+alignment = 1
+
+[node name="KeyToggle" type="CheckButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/API Key/FlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Custom API Key"
+
+[node name="KeyEdit" type="LineEdit" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/API Key/FlowContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+placeholder_text = "Enter API Key"
+caret_blink = true
+
+[node name="Geolocation" type="BoxContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings"]
+layout_mode = 2
+alignment = 1
+vertical = true
+
+[node name="OptionButton" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+item_count = 3
+selected = 0
+popup/item_0/text = "Enter City"
+popup/item_0/id = 0
+popup/item_1/text = "Manual"
+popup/item_1/id = 1
+popup/item_2/text = ""
+popup/item_2/id = 2
+popup/item_2/disabled = true
+popup/item_2/separator = true
+
+[node name="FlowContainer" type="FlowContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation"]
+layout_mode = 2
+alignment = 1
+
+[node name="CityEdit" type="VFlowContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation/FlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="CityText" type="LineEdit" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation/FlowContainer/CityEdit"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+tooltip_text = "Enter city, state, and/or country code, separated by commas."
+placeholder_text = "Brooklyn, New York, US"
+alignment = 1
+max_length = 100
+caret_blink = true
+
+[node name="RequestButton" type="Button" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation/FlowContainer/CityEdit"]
+layout_mode = 2
+text = "Enter"
+
+[node name="CityList" type="OptionButton" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+item_count = 1
+fit_to_longest_item = false
+popup/item_0/text = "Select"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+
+[node name="APIErrorText" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "aaaaaaaaaaaaaaaaaaaaaaaa"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Coordinates" type="GridContainer" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 20
+columns = 2
+
+[node name="Latitude" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Coordinates"]
+layout_mode = 2
+text = "Latitude"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LatEdit" type="LineEdit" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Coordinates"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "eeee"
+alignment = 1
+editable = false
+
+[node name="Longitude" type="Label" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Coordinates"]
+layout_mode = 2
+text = "Longitude"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LonEdit" type="LineEdit" parent="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Coordinates"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "aaaaaaa"
+alignment = 1
+editable = false
+caret_blink = true
 
 [node name="Buttons" type="CenterContainer" parent="PanelContainer/BoxContainer"]
 custom_minimum_size = Vector2(300, 50)
@@ -606,6 +646,10 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Save"
 
+[node name="DefaultButton" type="Button" parent="PanelContainer/BoxContainer/Buttons/BoxContainer/FlowContainer"]
+layout_mode = 2
+text = "Load Default"
+
 [node name="TabContainer" type="TabContainer" parent="."]
 visible = false
 layout_mode = 2
@@ -617,15 +661,17 @@ theme = ExtResource("2_xbopw")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
-[connection signal="pressed" from="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer/Sound/BoxContainer/BGM/NextBGMButton" to="." method="_on_next_bgm_button_pressed"]
-[connection signal="toggled" from="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/API Key/FlowContainer/KeyToggle" to="." method="_on_api_key_check_button_toggled"]
-[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation/OptionButton" to="." method="_on_option_button_item_selected"]
-[connection signal="text_submitted" from="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation/FlowContainer/CityEdit/CityText" to="." method="geocode_request"]
-[connection signal="pressed" from="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation/FlowContainer/CityEdit/RequestButton" to="." method="geocode_request"]
-[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer2/API Settings/Geolocation/CityList" to="." method="_on_city_list_item_selected"]
-[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer/BoxContainer/ScaleOption" to="." method="_on_scale_option_item_selected"]
-[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer/BoxContainer/AspectOption" to="." method="_on_aspect_option_item_selected"]
-[connection signal="value_changed" from="PanelContainer/BoxContainer/Settings/GridContainer/PanelContainer3/BoxContainer/BoxContainer/FilterOption" to="." method="_on_filter_option_value_changed"]
+[connection signal="toggled" from="PanelContainer/BoxContainer/Settings/GridContainer/Gameplay/BoxContainer/BoxContainer/AutoUpgradeButton" to="." method="_on_auto_upgrade_button_toggled"]
+[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer/ScaleOption" to="." method="_on_scale_option_item_selected"]
+[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer/AspectOption" to="." method="_on_aspect_option_item_selected"]
+[connection signal="value_changed" from="PanelContainer/BoxContainer/Settings/GridContainer/Display/BoxContainer/BoxContainer/FilterOption" to="." method="_on_filter_option_value_changed"]
+[connection signal="pressed" from="PanelContainer/BoxContainer/Settings/GridContainer/Sound/Sound/BoxContainer/BGM/NextBGMButton" to="." method="_on_next_bgm_button_pressed"]
+[connection signal="toggled" from="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/API Key/FlowContainer/KeyToggle" to="." method="_on_api_key_check_button_toggled"]
+[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="text_submitted" from="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation/FlowContainer/CityEdit/CityText" to="." method="geocode_request"]
+[connection signal="pressed" from="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation/FlowContainer/CityEdit/RequestButton" to="." method="geocode_request"]
+[connection signal="item_selected" from="PanelContainer/BoxContainer/Settings/GridContainer/API/API Settings/Geolocation/CityList" to="." method="_on_city_list_item_selected"]
 [connection signal="pressed" from="PanelContainer/BoxContainer/Buttons/BoxContainer/FlowContainer/CloseButton" to="." method="_on_close_button_pressed"]
 [connection signal="pressed" from="PanelContainer/BoxContainer/Buttons/BoxContainer/FlowContainer/ApplyButton" to="." method="save_settings"]
+[connection signal="pressed" from="PanelContainer/BoxContainer/Buttons/BoxContainer/FlowContainer/DefaultButton" to="." method="_on_default_button_pressed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
