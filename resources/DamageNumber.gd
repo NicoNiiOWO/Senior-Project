@@ -28,6 +28,7 @@ func _init():
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	fade = false
 	set_dmg(dmg)
 	position+=offset
 	randomize_position()

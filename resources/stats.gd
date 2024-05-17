@@ -52,17 +52,12 @@ func set_type(char_type:int, ability_type:int=0):
 
 # update stats based on level
 func update(emit=true):
-	var old_max_hp = current["max_hp"]
-	
 	for stat in ["atk", "speed"]:
 		current[stat] = calc_add(stat)
 	for stat in ["max_hp", "max_exp"]:
 		current[stat] = calc_mult(stat)
 	current["atk_size"] = calc_add("atk_size", 0.01)
 	current["dmg_taken"] = 1
-	
-	#print_debug(current["max_hp"], " - ", old_max_hp)
-	#heal(current["max_hp"] - old_max_hp, false)
 	
 	if emit: stats_updated.emit()
 	
@@ -93,8 +88,13 @@ func take_damage(n:float) -> float:
 		
 # Add levels 
 func gain_level(n:int=1):
+	var old_max_hp = current.max_hp
+	
 	current.level += n;
 	update()
+	
+	if current.max_hp > old_max_hp:
+		heal(current.max_hp - old_max_hp, false)
 	
 # Gain exp and levels
 func gain_exp(n:float):
@@ -109,7 +109,8 @@ func gain_exp(n:float):
 	gain_level(levels)
 
 func heal(n:int, update_stats:bool=true):
-	current.hp += n;
+	if n > 0:
+		current.hp += n;
 	if(current.hp > current.max_hp):
 		current.hp = current.max_hp
 	if update_stats: update()

@@ -27,6 +27,8 @@ const make_node : Resource = preload("res://libraries/make_node.gd")
 # Enemy variables
 @export var enemy_spawn_time : int = 2	# Time between enemy spawns (s)
 @export var enemy_spawn_count : int = 1	# Amount spawned
+
+@export var enemy_count_interval : int = 20
 @export var enemy_level_interval : int = 15	# Time between incrementing enemy level (s)
 
 @onready var game : Node = $Entities
@@ -140,6 +142,9 @@ func _on_timer_timeout(): # Call every second when timer is running
 			enemy_level += 1
 			print_debug("enemy level ", enemy_level)
 		
+		if timer.total_seconds % enemy_count_interval == 0:
+			enemy_spawn_count += 1
+		
 		if timer.total_seconds % enemy_spawn_time == 0:
 			enemy_spawn(enemy_spawn_count, enemy_level)
 
@@ -182,6 +187,7 @@ func _on_restart(save_settings:bool = false):
 	
 	player_level = 1
 	enemy_level = 1
+	enemy_spawn_count = 1
 	
 	# clear api response and reload settings
 	if save_settings: 

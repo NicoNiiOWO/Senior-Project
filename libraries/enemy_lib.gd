@@ -80,10 +80,10 @@ static var base_stats = {
 }
 static var growth_stats = {
 	-1 : { # default
-		max_hp = 1.1,
-		atk = 2,
+		max_hp = 1.2,
+		atk = 4,
 		max_exp = 1.15,
-		speed = 1,
+		speed = 2,
 		atk_size = 0
 	},
 	ability_type.NORMAL : {
