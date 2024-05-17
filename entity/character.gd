@@ -78,12 +78,7 @@ func update_stats():
 	# update stats
 	for stat in effects.total_mod.keys():
 		stats[stat] *= 1+effects.total_mod[stat]
-	
-	print_debug(stats.max_hp - current_max_hp)
-	#if stats.max_hp > current_max_hp:
-		#
-		#stats_r.heal(stats.max_hp - current_max_hp)
-	
+		
 	_on_stats_updated()
 
 func _on_stats_updated():

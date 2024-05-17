@@ -435,12 +435,11 @@ visible = false
 
 [node name="PauseButton" type="Button" parent="."]
 process_mode = 3
-visible = false
 custom_minimum_size = Vector2(50, 50)
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 66.0
-offset_bottom = 66.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 104.0
 
 [connection signal="pause" from="." to="PauseMenu" method="_on_gui_pause"]
 [connection signal="popup" from="." to="UpgradePopup" method="_on_gui_popup"]

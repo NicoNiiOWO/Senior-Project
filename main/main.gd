@@ -12,7 +12,7 @@ signal api_request_complete
 
 
 # API variables
-@export var weather_interval : int = 10 # time between weather change in seconds
+@export var weather_interval : int = 10 ## time between weather change in seconds
 
 const api_url_format : String = "https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}"
 var api_called: bool = false # if api has been called with current settings
@@ -25,11 +25,15 @@ const make_node : Resource = preload("res://libraries/make_node.gd")
 @export var enemy_level : int = 1
 
 # Enemy variables
-@export var enemy_spawn_time : int = 2	# Time between enemy spawns (s)
-@export var enemy_spawn_count : int = 1	# Amount spawned
 
-@export var enemy_count_interval : int = 20
-@export var enemy_level_interval : int = 15	# Time between incrementing enemy level (s)
+@export var enemy_spawn_time : int = 2	## Time between enemy spawns (s)
+@export var enemy_spawn_count : int = 1	## Amount spawned
+
+@export var enemy_count_interval : int = 60 ## Increment spawn count (s)
+@export var enemy_level_interval : int = 15 ## Time between incrementing enemy level (s)
+
+@export_range(0, 1, .01) var item_chance : float = 0.50 ## item drop chance
+@export var item_pity_max : int = 2 ## max times enemies dont drop item
 
 @onready var game : Node = $Entities
 @onready var gui : CanvasLayer = $GUI
@@ -212,9 +216,23 @@ func reload_settings():
 	gui.clear_forecast()
 	load_config()
 
-# add item, give player xp, play sound at position
+var item_pity = {} # ability: count
+
+## add item, give player xp, play sound at position
 func _on_enemy_defeated(position, ability, xp):
-	addItem(position, ability)
+	if randf() < item_pity_max:
+		addItem(position, ability)
+		
+		item_pity[ability] = 0
+	else: 
+		if item_pity.has(ability):
+			if item_pity[ability] == item_pity_max:
+				addItem(position, ability)
+				item_pity[ability] = 0
+			else:
+				item_pity[ability] += 1
+		else: item_pity[ability] = 1
+	
 	player.gain_exp(xp)
 	
 	$CharDefeatSFX.global_position = position

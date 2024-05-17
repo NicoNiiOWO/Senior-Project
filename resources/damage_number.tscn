@@ -10,7 +10,6 @@ outline_color = Color(0.839216, 0.839216, 0.839216, 1)
 [node name="DamageNumber" type="Node2D"]
 modulate = Color(1, 1, 1, 5.60519e-45)
 z_index = 1
-position = Vector2(-2.36221, -44.1489)
 script = ExtResource("1_02f4p")
 fade = true
 dmg = 5
